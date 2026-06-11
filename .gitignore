@@ -147,3 +147,6 @@ enos/modules/*/*.tfvars
 
 # local license files
 *.hclic
+
+dist.zip
+newui/dist.zip
