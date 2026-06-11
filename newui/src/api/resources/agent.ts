@@ -1,5 +1,5 @@
 import { getNomadClient } from '../client';
-import type { AgentSelf, AgentMember, AgentServer, AgentHealth } from '../types/agent';
+import type { AgentSelf, AgentMembersResponse, AgentServer, AgentHealth } from '../types/agent';
 import type { QueryParams } from '../types/common';
 
 export function getAgentSelf(params?: QueryParams) {
@@ -7,7 +7,7 @@ export function getAgentSelf(params?: QueryParams) {
 }
 
 export function getAgentMembers(params?: QueryParams) {
-  return getNomadClient().get<AgentMember[]>('/v1/agent/members', params as Record<string, string>);
+  return getNomadClient().get<AgentMembersResponse>('/v1/agent/members', params as Record<string, string>);
 }
 
 export function getAgentServers(params?: QueryParams) {

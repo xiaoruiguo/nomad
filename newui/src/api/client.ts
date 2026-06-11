@@ -33,7 +33,8 @@ export class NomadClient {
   }
 
   private buildURL(path: string, params?: Record<string, string>): string {
-    const url = new URL(`${this.baseURL}${path}`);
+    const base = this.baseURL || (typeof window !== 'undefined' ? window.location.origin : '')
+    const url = new URL(`${base}${path}`);
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
