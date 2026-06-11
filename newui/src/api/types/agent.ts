@@ -38,13 +38,6 @@ export interface AgentMember {
   DelegateCur: number;
 }
 
-export interface AgentMembersResponse {
-  ServerName: string;
-  ServerRegion: string;
-  ServerDC: string;
-  Members: AgentMember[];
-}
-
 export interface AgentServer {
   ID: string;
   RPCMinPort: number;
@@ -63,9 +56,24 @@ export interface AgentServer {
 }
 
 export interface AgentHealth {
-  Server: { ok: boolean; message: string };
-  Serf?: { ok: boolean; message: string } | null;
-  Raft?: { ok: boolean; message: string } | null;
+  Server: AgentServerHealth;
+  Serf: AgentSerfHealth;
+  Raft: AgentRaftHealth;
+}
+
+export interface AgentServerHealth {
+  Healthy: boolean;
+  Message: string;
+}
+
+export interface AgentSerfHealth {
+  Healthy: boolean;
+  Message: string;
+}
+
+export interface AgentRaftHealth {
+  Healthy: boolean;
+  Message: string;
 }
 
 export interface AgentSelf {

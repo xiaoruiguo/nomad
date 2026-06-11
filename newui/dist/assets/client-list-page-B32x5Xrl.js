@@ -1,0 +1,2 @@
+import{j as t}from"./query-Co1lJV3I.js";function a(){return t.jsxs("div",{className:"space-y-4",children:[t.jsx("h1",{className:"text-xl font-semibold text-neutral-900 dark:text-neutral-100",children:"Clients"}),t.jsx("p",{className:"text-sm text-neutral-500 dark:text-neutral-400",children:"Manage and monitor Nomad client nodes."})]})}export{a as ClientListPage};
+//# sourceMappingURL=client-list-page-B32x5Xrl.js.map
