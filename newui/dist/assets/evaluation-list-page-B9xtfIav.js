@@ -1,0 +1,2 @@
+import{j as t}from"./query-Co1lJV3I.js";function a(){return t.jsxs("div",{className:"space-y-4",children:[t.jsx("h1",{className:"text-xl font-semibold text-neutral-900 dark:text-neutral-100",children:"Evaluations"}),t.jsx("p",{className:"text-sm text-neutral-500 dark:text-neutral-400",children:"View and monitor cluster evaluations."})]})}export{a as EvaluationListPage};
+//# sourceMappingURL=evaluation-list-page-B9xtfIav.js.map

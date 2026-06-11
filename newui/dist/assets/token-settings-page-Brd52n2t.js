@@ -1,0 +1,2 @@
+import{j as t}from"./query-Co1lJV3I.js";function n(){return t.jsxs("div",{className:"space-y-4",children:[t.jsx("h1",{className:"text-xl font-semibold text-neutral-900 dark:text-neutral-100",children:"Token Settings"}),t.jsx("p",{className:"text-sm text-neutral-500 dark:text-neutral-400",children:"Configure your authentication token."})]})}export{n as TokenSettingsPage};
+//# sourceMappingURL=token-settings-page-Brd52n2t.js.map
