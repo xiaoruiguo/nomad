@@ -38,6 +38,9 @@ importers:
       '@babel/plugin-proposal-decorators':
         specifier: ^7.29.0
         version: 7.29.0(@babel/core@7.29.0)
+      '@babel/plugin-proposal-object-rest-spread':
+        specifier: ^7.20.7
+        version: 7.20.7(@babel/core@7.29.0)
       '@ember-data/store':
         specifier: ~4.12.8
         version: 4.12.8(@babel/core@7.29.0)(@ember-data/graph@4.12.8)(@ember-data/json-api@4.12.8)(@ember-data/legacy-compat@4.12.8)(@ember-data/model@4.12.8)(@ember-data/tracking@4.12.8(@babel/core@7.29.0)(@glint/template@1.7.7))(@ember/string@4.0.1)(@glimmer/tracking@1.1.2)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
@@ -83,6 +86,9 @@ importers:
       '@hashicorp/design-system-components':
         specifier: 4.13.0
         version: 4.13.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glimmer/component@2.1.1)(@glimmer/tracking@1.1.2)(@glint/template@1.7.7)(ember-basic-dropdown@8.11.0(@babel/core@7.29.0)(@ember/string@4.0.1)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)))(ember-concurrency@4.0.6(@babel/core@7.29.0)(@glint/template@1.7.7))(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
+      '@hashicorp/design-system-tokens':
+        specifier: ^5.0.0
+        version: 5.0.0
       '@nullvoxpopuli/ember-composable-helpers':
         specifier: ^5.3.1
         version: 5.3.1(@babel/core@7.29.0)
@@ -593,6 +599,13 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
+  '@babel/plugin-proposal-object-rest-spread@7.20.7':
+    resolution: {integrity: sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==}
+    engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
   '@babel/plugin-proposal-optional-chaining@7.21.0':
     resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
     engines: {node: '>=6.9.0'}
@@ -640,6 +653,11 @@ packages:
 
   '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3':
     resolution: {integrity: sha512-aSff4zPII1u2QD7y+F8oDsz19ew4IGEJg9SVW+bqwpwtfFleiQDMdzA/R+UlWDzfnHFCxxleFT0PMIrR36XLNQ==}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-syntax-object-rest-spread@7.8.3':
+    resolution: {integrity: sha512-XoqMijGZb9y3y2XskN+P1wUGiVwWZ5JmoDRwx5+3GmEplNyVM2s2Dg8ILFQm8rWM48orGy5YpI5Bl8U1y7ydlA==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -1384,6 +1402,9 @@ packages:
 
   '@hashicorp/design-system-tokens@2.3.0':
     resolution: {integrity: sha512-T2XhcgUeiGkNqvPu73yittDghEccUpIZc7Fh/g4PG7KEvJwbXItFWTRWoHSGR8T6r6LpOP5E6CC4hSVwGRugRg==}
+
+  '@hashicorp/design-system-tokens@5.0.0':
+    resolution: {integrity: sha512-4taxSrUW79N8Xoepa9xrYitCws3JyecCX1zPDeMiOub2DeOIaId0UWhcL+w15jyWQhbJqy5bwAp3eToyGz3Yaw==}
 
   '@hashicorp/flight-icons@3.12.0':
     resolution: {integrity: sha512-Jry7lCZi03YXdDlfihAJxUNV7ci/2amfAFGlqvRfqxoBti7/nT1r/gYuZxWx4X1v6bz+OSI0q90TLsP+UcKFjw==}
@@ -7116,6 +7137,15 @@ snapshots:
       '@babel/helper-plugin-utils': 7.28.6
       '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@7.29.0)
 
+  '@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.29.0)':
+    dependencies:
+      '@babel/compat-data': 7.29.0
+      '@babel/core': 7.29.0
+      '@babel/helper-compilation-targets': 7.28.6
+      '@babel/helper-plugin-utils': 7.28.6
+      '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@7.29.0)
+      '@babel/plugin-transform-parameters': 7.27.7(@babel/core@7.29.0)
+
   '@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
@@ -7163,6 +7193,11 @@ snapshots:
       '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.29.0)':
+    dependencies:
+      '@babel/core': 7.29.0
+      '@babel/helper-plugin-utils': 7.28.6
+
+  '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/helper-plugin-utils': 7.28.6
@@ -8301,6 +8336,8 @@ snapshots:
       - supports-color
 
   '@hashicorp/design-system-tokens@2.3.0': {}
+
+  '@hashicorp/design-system-tokens@5.0.0': {}
 
   '@hashicorp/flight-icons@3.12.0': {}
 

@@ -1,2 +1,0 @@
-import{j as e}from"./query-Co1lJV3I.js";function r(){return e.jsxs("div",{className:"space-y-4",children:[e.jsx("h1",{className:"text-xl font-semibold text-neutral-900 dark:text-neutral-100",children:"Servers"}),e.jsx("p",{className:"text-sm text-neutral-500 dark:text-neutral-400",children:"Monitor Nomad server nodes and Raft status."})]})}export{r as ServerListPage};
-//# sourceMappingURL=server-list-page-CDp_hn_d.js.map

@@ -1,7 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { createNomadClient } from '@/api/client'
 import { App } from '@/app'
 import '@/index.css'
+
+createNomadClient('')
 
 const root = document.getElementById('root')
 

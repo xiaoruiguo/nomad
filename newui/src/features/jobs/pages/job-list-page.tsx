@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useJobList } from '@/api/hooks';
+import { useNodePools } from '@/api/hooks';
 import { useJobFilters } from '../hooks/use-job-filters';
 import { useSystemStore } from '@/stores/system-store';
 import { useSettingsStore } from '@/stores/settings-store';
 import { JobFilterBar } from '../components/job-filter-bar';
 import { JobTable } from '../components/job-table';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/form';
-import { EmptyState } from '@/components/ui/empty-state';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export function JobListPage() {
@@ -33,11 +32,15 @@ export function JobListPage() {
     liveUpdate ? apiParams : { ...apiParams, wait: undefined }
   );
 
+  const { data: nodePoolsRaw } = useNodePools();
+
   const nodePools = useMemo(() => {
-    if (!jobs) return [];
-    const pools = new Set(jobs.map((j) => j.NodePool || 'default'));
-    return Array.from(pools).sort();
-  }, [jobs]);
+    const apiPools = (nodePoolsRaw || []).map((p) => p.Name);
+    if (apiPools.length > 0) return apiPools.sort();
+    if (!jobs || jobs.length === 0) return [];
+    const derivedPools = new Set(jobs.map((j) => j.NodePool || 'default'));
+    return Array.from(derivedPools).sort();
+  }, [nodePoolsRaw, jobs]);
 
   if (error) {
     return (
@@ -49,58 +52,156 @@ export function JobListPage() {
     );
   }
 
-  return (
-    <div className="flex flex-col gap-4 p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">Jobs</h1>
-          <p className="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400">
-            Manage and monitor Nomad jobs
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Switch
-            label="Live update"
-            checked={liveUpdate}
-            onChange={setLiveUpdate}
+  if (isLoading && !jobs) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!jobs || jobs.length === 0) {
+    return (
+      <div className="p-6">
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          <JobFilterBar
+            filters={filters}
+            onSearchChange={setSearch}
+            onToggleStatus={toggleStatus}
+            onToggleType={toggleType}
+            onNamespaceChange={setNamespace}
+            onNodePoolChange={setNodePool}
+            onClearAll={clearAll}
+            hasActiveFilters={hasActiveFilters}
+            namespaces={namespaces}
+            nodePools={nodePools}
           />
+          <div className="ml-auto">
+            <Button variant="primary" onClick={() => navigate('/jobs/run')}>
+              Run Job
+            </Button>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-8 dark:border-neutral-800 dark:bg-neutral-900">
+          {hasActiveFilters ? (
+            <>
+              <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">No Matches</h3>
+              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                No jobs match your current filter selection; (NodePool == &quot;all&quot; or NodePool
+                == &quot;default&quot;).
+              </p>
+              <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+                Did you know: you can try using filter expressions to search through your
+                jobs. Try{' '}
+                <button
+                  type="button"
+                  onClick={() => { setSearch('(dc1 in Datacenters)'); }}
+                  className="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+                >
+                  (dc1 in Datacenters)
+                </button>{' '}
+                or{' '}
+                <button
+                  type="button"
+                  onClick={() => { setSearch('(dc2 in Datacenters)'); }}
+                  className="inline-flex items-center gap-0.5 font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+                >
+                  (dc2 in Datacenters)
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-6">
+                <button
+                  type="button"
+                  onClick={clearAll}
+                  className="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Reset Filters
+                </button>
+                <a
+                  href="https://developer.hashicorp.com/nomad/api-docs#creating-expressions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+                >
+                  Learn more about Filter Expressions
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => navigate('/jobs/run')}
+                  className="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+                >
+                  Run a New Job
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">No Jobs</h3>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                No jobs found.
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate('/jobs/run')}
+                className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+              >
+                Run a New Job
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4 p-6">
+      <div className="flex flex-wrap items-center gap-2">
+        <JobFilterBar
+          filters={filters}
+          onSearchChange={setSearch}
+          onToggleStatus={toggleStatus}
+          onToggleType={toggleType}
+          onNamespaceChange={setNamespace}
+          onNodePoolChange={setNodePool}
+          onClearAll={clearAll}
+          hasActiveFilters={hasActiveFilters}
+          namespaces={namespaces}
+          nodePools={nodePools}
+        />
+        <div className="ml-auto flex items-center gap-2">
+          <label className="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            <input
+              type="checkbox"
+              checked={liveUpdate}
+              onChange={(e) => setLiveUpdate(e.target.checked)}
+              className="h-3.5 w-3.5 rounded border-neutral-300 text-primary-600 focus:ring-primary-500 dark:border-neutral-600"
+            />
+            Live Update
+          </label>
           <Button variant="primary" onClick={() => navigate('/jobs/run')}>
             Run Job
           </Button>
         </div>
       </div>
 
-      <JobFilterBar
-        filters={filters}
-        onSearchChange={setSearch}
-        onToggleStatus={toggleStatus}
-        onToggleType={toggleType}
-        onNamespaceChange={setNamespace}
-        onNodePoolChange={setNodePool}
-        onClearAll={clearAll}
-        hasActiveFilters={hasActiveFilters}
-        namespaces={namespaces}
-        nodePools={nodePools}
-      />
-
-      {isLoading && !jobs ? (
-        <div className="flex items-center justify-center py-12">
-          <LoadingSpinner size="lg" />
-        </div>
-      ) : jobs && jobs.length === 0 && !hasActiveFilters ? (
-        <EmptyState
-          icon={
-            <svg className="h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-          }
-          title="No jobs found"
-          description="Get started by running your first job"
-          action={{ label: 'Run Job', onClick: () => navigate('/jobs/run') }}
-        />
-      ) : (
-        <JobTable jobs={jobs ?? []} loading={isLoading} />
-      )}
+      <JobTable jobs={jobs} loading={isLoading} />
     </div>
   );
 }

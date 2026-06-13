@@ -161,7 +161,13 @@ export function useJobFilters() {
     }
 
     if (filters.nodePool) {
-      filterParts.push(`NodePool == "${filters.nodePool}"`);
+      const pools = filters.nodePool.split(',').filter(Boolean);
+      if (pools.length > 1) {
+        const npFilter = pools.map((p) => `NodePool == "${p}"`).join(' or ');
+        filterParts.push(`(${npFilter})`);
+      } else {
+        filterParts.push(`NodePool == "${pools[0]}"`);
+      }
     }
 
     if (filterParts.length > 0) {

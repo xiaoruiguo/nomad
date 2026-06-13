@@ -73,10 +73,10 @@ export function NodeMonitor({ nodeId }: NodeMonitorProps) {
           <div className="mt-1">
             {healthLoading ? (
               <span className="text-xs text-neutral-400">Loading...</span>
-            ) : serverHealth?.Healthy ? (
+            ) : serverHealth?.ok ? (
               <Badge variant="success" size="sm">Healthy</Badge>
             ) : (
-              <Badge variant="danger" size="sm">{serverHealth?.Message || 'Unhealthy'}</Badge>
+              <Badge variant="danger" size="sm">{serverHealth?.message || 'Unhealthy'}</Badge>
             )}
           </div>
         </div>
@@ -85,10 +85,10 @@ export function NodeMonitor({ nodeId }: NodeMonitorProps) {
           <div className="mt-1">
             {healthLoading ? (
               <span className="text-xs text-neutral-400">Loading...</span>
-            ) : serfHealth?.Healthy ? (
+            ) : serfHealth?.ok ? (
               <Badge variant="success" size="sm">Healthy</Badge>
             ) : (
-              <Badge variant="danger" size="sm">{serfHealth?.Message || 'Unhealthy'}</Badge>
+              <Badge variant="danger" size="sm">{serfHealth?.message || 'Unhealthy'}</Badge>
             )}
           </div>
         </div>
@@ -97,10 +97,10 @@ export function NodeMonitor({ nodeId }: NodeMonitorProps) {
           <div className="mt-1">
             {healthLoading ? (
               <span className="text-xs text-neutral-400">Loading...</span>
-            ) : raftHealth?.Healthy ? (
+            ) : raftHealth?.ok ? (
               <Badge variant="success" size="sm">Healthy</Badge>
             ) : (
-              <Badge variant="danger" size="sm">{raftHealth?.Message || 'Unhealthy'}</Badge>
+              <Badge variant="danger" size="sm">{raftHealth?.message || 'Unhealthy'}</Badge>
             )}
           </div>
         </div>

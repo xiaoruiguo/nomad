@@ -11,3 +11,4 @@ export * from './use-agent';
 export * from './use-scaling';
 export * from './use-csi';
 export * from './use-events';
+export * from './use-node-pools';

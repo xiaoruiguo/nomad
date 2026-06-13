@@ -1,6 +1,7 @@
 export * from './jobs';
 export * from './allocations';
 export * from './nodes';
+export * from './node-pools';
 export * from './evaluations';
 export * from './deployments';
 export * from './acl';

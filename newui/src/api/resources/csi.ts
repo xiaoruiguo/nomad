@@ -1,5 +1,5 @@
 import { getNomadClient } from '../client';
-import type { CSIVolume, CSIPlugin, CSISnapshot, CSIExternalVolume } from '../types/csi';
+import type { CSIVolume, CSIPlugin, CSISnapshot, CSIExternalVolume, DynamicHostVolume } from '../types/csi';
 import type { QueryParams } from '../types/common';
 
 export function getVolumes(params?: QueryParams) {
@@ -32,4 +32,8 @@ export function getPlugins(params?: QueryParams) {
 
 export function getPlugin(id: string, params?: QueryParams) {
   return getNomadClient().get<CSIPlugin>(`/v1/plugin/${id}`, params as Record<string, string>);
+}
+
+export function getDynamicHostVolumes(params?: QueryParams) {
+  return getNomadClient().get<DynamicHostVolume[]>('/v1/dynamic-host-volumes', params as Record<string, string>);
 }

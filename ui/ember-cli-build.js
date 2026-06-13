@@ -35,6 +35,8 @@ module.exports = function (defaults) {
         './node_modules/@hashicorp/design-system-components/dist/styles',
         './node_modules/ember-basic-dropdown/vendor',
         './node_modules/ember-power-select/vendor',
+        './node_modules/xterm/css',
+        './node_modules/codemirror/lib',
       ],
     },
   });

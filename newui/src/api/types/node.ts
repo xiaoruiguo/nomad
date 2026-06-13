@@ -129,3 +129,9 @@ export interface NodeEligibilityRequest {
   NodeID: string;
   Eligibility: string;
 }
+
+export interface NodePool {
+  Name: string;
+  Description: string;
+  Meta: Record<string, string>;
+}

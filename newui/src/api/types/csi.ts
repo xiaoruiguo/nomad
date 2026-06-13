@@ -36,6 +36,11 @@ export interface CSIVolume {
   Schedulable: boolean;
   Health: string;
   Status: string;
+  nodesHealthy: number;
+  nodesExpected: number;
+  CurrentWriters: number;
+  CurrentReaders: number;
+  plainId: string;
 }
 
 export interface CSIControllerInfo {
@@ -53,15 +58,53 @@ export interface CSINodeInfo {
   AccessibleTopology: CSITopology;
 }
 
+export interface CSIInfo {
+  PluginID: string;
+  AllocID: string;
+  Healthy: boolean;
+  HealthDescription: string;
+  UpdateTime: string;
+  Provider: string;
+  ProviderVersion: string;
+  RequiresControllerPlugin: boolean;
+  RequiresTopologies: boolean;
+  ControllerInfo?: CSIControllerInfo;
+  NodeInfo?: CSINodeInfo;
+}
+
+export interface AllocListStub {
+  ID: string;
+  EvalID: string;
+  Name: string;
+  Namespace: string;
+  NodeID: string;
+  NodeName: string;
+  JobID: string;
+  JobType: string;
+  JobVersion: number;
+  TaskGroup: string;
+  DesiredStatus: string;
+  ClientStatus: string;
+  CreateTime: number;
+  ModifyTime: number;
+}
+
 export interface CSIPlugin {
   ID: string;
   Provider: string;
-  ProviderVersion: string;
-  ControllerInfo: CSIControllerInfo;
-  NodeInfo: CSINodeInfo[];
-  Allocations: unknown[];
+  Version: string;
+  ControllerRequired: boolean;
+  Controllers: Record<string, CSIInfo>;
+  Nodes: Record<string, CSIInfo>;
+  Allocations: AllocListStub[];
+  ControllersHealthy: number;
+  ControllersExpected: number;
+  NodesHealthy: number;
+  NodesExpected: number;
   CreateIndex: number;
   ModifyIndex: number;
+  CreateTime: number;
+  ModifyTime: number;
 }
 
 export interface CSISnapshot {
@@ -84,4 +127,16 @@ export interface CSIExternalVolume {
   StorageProvider: string;
   ProviderID: string;
   PluginID: string;
+}
+
+export interface DynamicHostVolume {
+  ID: string;
+  Name: string;
+  Namespace: string;
+  plainId: string;
+  idWithNamespace: string;
+  node: { ID: string; Name: string };
+  pluginID: string;
+  state: string;
+  modifyTime: number;
 }

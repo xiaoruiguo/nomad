@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/auth-store'
 const LoginPage = lazy(() => import('@/features/auth/pages/login-page').then((m) => ({ default: m.LoginPage })))
 const JobListPage = lazy(() => import('@/features/jobs/pages/job-list-page').then((m) => ({ default: m.JobListPage })))
 const JobRunPage = lazy(() => import('@/features/jobs/pages/job-run-page').then((m) => ({ default: m.JobRunPage })))
+const TemplateSelectPage = lazy(() => import('@/features/jobs/pages/template-select-page').then((m) => ({ default: m.TemplateSelectPage })))
 const JobDetailPage = lazy(() => import('@/features/jobs/pages/job-detail-page').then((m) => ({ default: m.JobDetailPage })))
 const JobDefinitionPage = lazy(() => import('@/features/jobs/pages/job-definition-page').then((m) => ({ default: m.JobDefinitionPage })))
 const ClientListPage = lazy(() => import('@/features/clients/pages/client-list-page').then((m) => ({ default: m.ClientListPage })))
@@ -17,7 +18,6 @@ const ServerDetailPage = lazy(() => import('@/features/servers/pages/server-deta
 const TopologyPage = lazy(() => import('@/features/topology/pages/topology-page').then((m) => ({ default: m.TopologyPage })))
 const VolumeListPage = lazy(() => import('@/features/storage/pages/volume-list-page').then((m) => ({ default: m.VolumeListPage })))
 const VolumeDetailPage = lazy(() => import('@/features/storage/pages/volume-detail-page').then((m) => ({ default: m.VolumeDetailPage })))
-const PluginListPage = lazy(() => import('@/features/storage/pages/plugin-list-page').then((m) => ({ default: m.PluginListPage })))
 const PluginDetailPage = lazy(() => import('@/features/storage/pages/plugin-detail-page').then((m) => ({ default: m.PluginDetailPage })))
 const AllocationDetailPage = lazy(() => import('@/features/allocations/pages/allocation-detail-page').then((m) => ({ default: m.AllocationDetailPage })))
 const EvaluationListPage = lazy(() => import('@/features/evaluations/pages/evaluation-list-page').then((m) => ({ default: m.EvaluationListPage })))
@@ -79,6 +79,7 @@ const protectedRoutes: RouteObject[] = [
       { index: true, element: <Navigate to="/jobs" replace /> },
       { path: 'jobs', element: withLazy(JobListPage) },
       { path: 'jobs/run', element: withLazy(JobRunPage) },
+      { path: 'jobs/run/templates', element: withLazy(TemplateSelectPage) },
       { path: 'jobs/:jobId', element: withLazy(JobDetailPage) },
       { path: 'jobs/:jobId/definition', element: withLazy(JobDefinitionPage) },
       { path: 'clients', element: withLazy(ClientListPage) },
@@ -86,15 +87,17 @@ const protectedRoutes: RouteObject[] = [
       { path: 'servers', element: withLazy(ServerListPage) },
       { path: 'servers/:serverId', element: withLazy(ServerDetailPage) },
       { path: 'topology', element: withLazy(TopologyPage) },
-      { path: 'storage/volumes', element: withLazy(VolumeListPage) },
+      { path: 'storage', element: withLazy(VolumeListPage) },
+      { path: 'storage/volumes', element: <Navigate to="/storage" replace /> },
       { path: 'storage/volumes/:volumeId', element: withLazy(VolumeDetailPage) },
-      { path: 'storage/plugins', element: withLazy(PluginListPage) },
+      { path: 'storage/plugins', element: <Navigate to="/storage?tab=plugins" replace /> },
       { path: 'storage/plugins/:pluginId', element: withLazy(PluginDetailPage) },
       { path: 'allocations/:allocId', element: withLazy(AllocationDetailPage) },
       { path: 'evaluations', element: withLazy(EvaluationListPage) },
       { path: 'variables', element: withLazy(VariableListPage) },
       { path: 'variables/:path', element: withLazy(VariableEditorPage) },
       { path: 'variables/new', element: withLazy(VariableEditorPage) },
+      { path: 'administration', element: <Navigate to="/administration/policies" replace /> },
       { path: 'administration/policies', element: withLazy(PoliciesPage) },
       { path: 'administration/roles', element: withLazy(RolesPage) },
       { path: 'administration/tokens', element: withLazy(TokensPage) },
@@ -121,5 +124,5 @@ export const router = createBrowserRouter([
     children: protectedRoutes,
   },
 ], {
-  basename: '/ui',
+  basename: '/newui',
 })

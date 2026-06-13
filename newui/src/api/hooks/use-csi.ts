@@ -8,6 +8,7 @@ import {
   getSnapshots,
   createVolume,
   deleteVolume,
+  getDynamicHostVolumes,
 } from '@/api/resources/csi';
 import type { QueryParams } from '@/api/types/common';
 import type { CSIVolume } from '@/api/types/csi';
@@ -71,5 +72,12 @@ export function useDeleteVolume() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['csi', 'volumes'] });
     },
+  });
+}
+
+export function useDynamicHostVolumes(params?: QueryParams) {
+  return useQuery({
+    queryKey: ['csi', 'dynamic-host-volumes', params],
+    queryFn: () => getDynamicHostVolumes(params),
   });
 }
