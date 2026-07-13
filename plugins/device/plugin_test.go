@@ -12,6 +12,7 @@ import (
 	pb "github.com/golang/protobuf/proto"
 	plugin "github.com/hashicorp/go-plugin"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/plugins/base"
 	"github.com/hashicorp/nomad/plugins/shared/hclspec"
@@ -197,7 +198,7 @@ func TestDevicePlugin_Fingerprint(t *testing.T) {
 			Name:   "foo",
 			Attributes: map[string]*psstructs.Attribute{
 				"memory": {
-					Int:  new(int64(4)),
+					Int:  pointer.Of(int64(4)),
 					Unit: "GiB",
 				},
 			},
@@ -478,8 +479,8 @@ func TestDevicePlugin_Stats(t *testing.T) {
 			InstanceStats: map[string]*DeviceStats{
 				"1": {
 					Summary: &psstructs.StatValue{
-						IntNumeratorVal:   new(int64(10)),
-						IntDenominatorVal: new(int64(20)),
+						IntNumeratorVal:   pointer.Of(int64(10)),
+						IntDenominatorVal: pointer.Of(int64(20)),
 						Unit:              "MB",
 						Desc:              "Unit test",
 					},
@@ -495,8 +496,8 @@ func TestDevicePlugin_Stats(t *testing.T) {
 			InstanceStats: map[string]*DeviceStats{
 				"1": {
 					Summary: &psstructs.StatValue{
-						FloatNumeratorVal:   new(float64(10.0)),
-						FloatDenominatorVal: new(float64(20.0)),
+						FloatNumeratorVal:   pointer.Of(float64(10.0)),
+						FloatDenominatorVal: pointer.Of(float64(20.0)),
 						Unit:                "MB",
 						Desc:                "Unit test",
 					},
@@ -510,7 +511,7 @@ func TestDevicePlugin_Stats(t *testing.T) {
 			InstanceStats: map[string]*DeviceStats{
 				"1": {
 					Summary: &psstructs.StatValue{
-						StringVal: new("foo"),
+						StringVal: pointer.Of("foo"),
 						Unit:      "MB",
 						Desc:      "Unit test",
 					},
@@ -524,7 +525,7 @@ func TestDevicePlugin_Stats(t *testing.T) {
 			InstanceStats: map[string]*DeviceStats{
 				"1": {
 					Summary: &psstructs.StatValue{
-						BoolVal: new(true),
+						BoolVal: pointer.Of(true),
 						Unit:    "MB",
 						Desc:    "Unit test",
 					},

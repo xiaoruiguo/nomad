@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package taskrunner
@@ -23,6 +23,7 @@ import (
 	"github.com/hashicorp/nomad/client/config"
 	cstructs "github.com/hashicorp/nomad/client/structs"
 	"github.com/hashicorp/nomad/client/taskenv"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
@@ -182,7 +183,7 @@ func TestTemplateHook_Prestart_Vault(t *testing.T) {
 	clientConfig.VaultConfigs = map[string]*structsc.VaultConfig{
 		structs.VaultDefaultCluster: {
 			Name:    structs.VaultDefaultCluster,
-			Enabled: new(true),
+			Enabled: pointer.Of(true),
 			Addr:    defaultVaultServer.URL,
 		},
 	}

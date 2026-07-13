@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package command
@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/command/agent"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 )
 
@@ -71,7 +72,7 @@ func TestSetupVaultCommand_Run(t *testing.T) {
 	srv, client, url := testServer(t, true, func(c *agent.Config) {
 		c.DevMode = true
 		c.Vaults[0].Name = "default"
-		c.Vaults[0].Enabled = new(true)
+		c.Vaults[0].Enabled = pointer.Of(true)
 	})
 	defer srv.Shutdown()
 

@@ -26,6 +26,7 @@ import (
 	msgpackrpc "github.com/hashicorp/net-rpc-msgpackrpc/v2"
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/helper"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/auth"
@@ -937,7 +938,7 @@ func TestEncrypter_TransitConfigFallback(t *testing.T) {
 				TLSCaPath:     "/etc/certs/ca",
 				TLSCertFile:   "/var/certs/vault.crt",
 				TLSKeyFile:    "/var/certs/vault.key",
-				TLSSkipVerify: new(true),
+				TLSSkipVerify: pointer.Of(true),
 				TLSServerName: "foo",
 				Token:         "vault-token",
 			}},

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -6,6 +6,8 @@ package config
 import (
 	"slices"
 	"time"
+
+	"github.com/hashicorp/nomad/helper/pointer"
 )
 
 // AuditConfig is the configuration specific to Audit Logging
@@ -85,7 +87,7 @@ func (a *AuditConfig) Copy() *AuditConfig {
 
 	// Copy bool pointers
 	if a.Enabled != nil {
-		nc.Enabled = new(*a.Enabled)
+		nc.Enabled = pointer.Of(*a.Enabled)
 	}
 
 	// Copy Sinks and Filters
@@ -100,7 +102,7 @@ func (a *AuditConfig) Merge(b *AuditConfig) *AuditConfig {
 	result := a.Copy()
 
 	if b.Enabled != nil {
-		result.Enabled = new(*b.Enabled)
+		result.Enabled = pointer.Of(*b.Enabled)
 	}
 
 	// Merge Sinks

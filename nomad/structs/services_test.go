@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package structs
@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 	"github.com/stretchr/testify/require"
 )
@@ -657,7 +658,7 @@ func TestConsulConnect_GatewayProxy_CopyEqual(t *testing.T) {
 	ci.Parallel(t)
 
 	c := &ConsulGatewayProxy{
-		ConnectTimeout:                  new(1 * time.Second),
+		ConnectTimeout:                  pointer.Of(1 * time.Second),
 		EnvoyGatewayBindTaggedAddresses: false,
 		EnvoyGatewayBindAddresses:       make(map[string]*ConsulGatewayBindAddress),
 	}
@@ -691,11 +692,11 @@ func TestSidecarTask_MergeIntoTask(t *testing.T) {
 		Meta: map[string]string{
 			"abc": "123",
 		},
-		KillTimeout: new(15 * time.Second),
+		KillTimeout: pointer.Of(15 * time.Second),
 		LogConfig: &LogConfig{
 			MaxFiles: 3,
 		},
-		ShutdownDelay: new(5 * time.Second),
+		ShutdownDelay: pointer.Of(5 * time.Second),
 		KillSignal:    "SIGABRT",
 	}
 
@@ -748,12 +749,12 @@ func TestSidecarTask_Equal(t *testing.T) {
 			TTL:          1337 * time.Minute,
 		}},
 		Meta:        map[string]string{"index": "1"},
-		KillTimeout: new(2 * time.Second),
+		KillTimeout: pointer.Of(2 * time.Second),
 		LogConfig: &LogConfig{
 			MaxFiles:      2,
 			MaxFileSizeMB: 300,
 		},
-		ShutdownDelay: new(10 * time.Second),
+		ShutdownDelay: pointer.Of(10 * time.Second),
 		KillSignal:    "SIGTERM",
 	}
 
@@ -804,7 +805,7 @@ func TestSidecarTask_Equal(t *testing.T) {
 	})
 
 	t.Run("mod kill timeout", func(t *testing.T) {
-		try(t, func(s *st) { s.KillTimeout = new(3 * time.Second) })
+		try(t, func(s *st) { s.KillTimeout = pointer.Of(3 * time.Second) })
 	})
 
 	t.Run("mod log config", func(t *testing.T) {
@@ -812,7 +813,7 @@ func TestSidecarTask_Equal(t *testing.T) {
 	})
 
 	t.Run("mod shutdown delay", func(t *testing.T) {
-		try(t, func(s *st) { s.ShutdownDelay = new(20 * time.Second) })
+		try(t, func(s *st) { s.ShutdownDelay = pointer.Of(20 * time.Second) })
 	})
 
 	t.Run("mod kill signal", func(t *testing.T) {
@@ -1037,7 +1038,7 @@ func TestConsulSidecarService_Copy(t *testing.T) {
 var (
 	consulIngressGateway1 = &ConsulGateway{
 		Proxy: &ConsulGatewayProxy{
-			ConnectTimeout:                  new(1 * time.Second),
+			ConnectTimeout:                  pointer.Of(1 * time.Second),
 			EnvoyGatewayBindTaggedAddresses: true,
 			EnvoyGatewayBindAddresses: map[string]*ConsulGatewayBindAddress{
 				"listener1": {Address: "10.0.0.1", Port: 2001},
@@ -1074,7 +1075,7 @@ var (
 
 	consulTerminatingGateway1 = &ConsulGateway{
 		Proxy: &ConsulGatewayProxy{
-			ConnectTimeout:            new(1 * time.Second),
+			ConnectTimeout:            pointer.Of(1 * time.Second),
 			EnvoyDNSDiscoveryType:     "STRICT_DNS",
 			EnvoyGatewayBindAddresses: nil,
 		},
@@ -1093,7 +1094,7 @@ var (
 
 	consulMeshGateway1 = &ConsulGateway{
 		Proxy: &ConsulGatewayProxy{
-			ConnectTimeout: new(1 * time.Second),
+			ConnectTimeout: pointer.Of(1 * time.Second),
 		},
 		Mesh: &ConsulMeshConfigEntry{
 			// nothing
@@ -1198,7 +1199,7 @@ func TestConsulGateway_Equal_ingress(t *testing.T) {
 	// proxy block equality checks
 
 	t.Run("mod gateway timeout", func(t *testing.T) {
-		try(t, func(g *cg) { g.Proxy.ConnectTimeout = new(9 * time.Second) })
+		try(t, func(g *cg) { g.Proxy.ConnectTimeout = pointer.Of(9 * time.Second) })
 	})
 
 	t.Run("mod gateway envoy_gateway_bind_tagged_addresses", func(t *testing.T) {
@@ -1480,7 +1481,7 @@ func TestConsulGatewayProxy_Validate(t *testing.T) {
 
 	t.Run("invalid bind address", func(t *testing.T) {
 		err := (&ConsulGatewayProxy{
-			ConnectTimeout: new(1 * time.Second),
+			ConnectTimeout: pointer.Of(1 * time.Second),
 			EnvoyGatewayBindAddresses: map[string]*ConsulGatewayBindAddress{
 				"service1": {
 					Address: "10.0.0.1",
@@ -1492,7 +1493,7 @@ func TestConsulGatewayProxy_Validate(t *testing.T) {
 
 	t.Run("invalid dns discovery type", func(t *testing.T) {
 		err := (&ConsulGatewayProxy{
-			ConnectTimeout:        new(1 * time.Second),
+			ConnectTimeout:        pointer.Of(1 * time.Second),
 			EnvoyDNSDiscoveryType: "RANDOM_DNS",
 		}).Validate()
 		require.EqualError(t, err, "Consul Gateway Proxy Envoy DNS Discovery type must be STRICT_DNS or LOGICAL_DNS")
@@ -1500,14 +1501,14 @@ func TestConsulGatewayProxy_Validate(t *testing.T) {
 
 	t.Run("ok with nothing set", func(t *testing.T) {
 		err := (&ConsulGatewayProxy{
-			ConnectTimeout: new(1 * time.Second),
+			ConnectTimeout: pointer.Of(1 * time.Second),
 		}).Validate()
 		require.NoError(t, err)
 	})
 
 	t.Run("ok with everything set", func(t *testing.T) {
 		err := (&ConsulGatewayProxy{
-			ConnectTimeout: new(1 * time.Second),
+			ConnectTimeout: pointer.Of(1 * time.Second),
 			EnvoyGatewayBindAddresses: map[string]*ConsulGatewayBindAddress{
 				"service1": {
 					Address: "10.0.0.1",

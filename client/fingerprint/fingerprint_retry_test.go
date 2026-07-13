@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/client/config"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/shoenig/test/must"
@@ -78,7 +79,7 @@ func TestRetryWrapper_Fingerprint(t *testing.T) {
 			errorSequence: []error{probeError},
 			fpConfig: &config.Fingerprint{
 				Name:          "test",
-				ExitOnFailure: new(true),
+				ExitOnFailure: pointer.Of(true),
 			},
 			expectedErr:       probeError,
 			expectedCallCount: 1,
@@ -88,7 +89,7 @@ func TestRetryWrapper_Fingerprint(t *testing.T) {
 			errorSequence: []error{probeError},
 			fpConfig: &config.Fingerprint{
 				Name:          "test",
-				ExitOnFailure: new(false),
+				ExitOnFailure: pointer.Of(false),
 			},
 			expectedErr:       nil,
 			expectedCallCount: 1,
@@ -290,7 +291,7 @@ func Test_shouldSkipEnvFingerprinter(t *testing.T) {
 		{
 			name: "exit on failure false and initial error",
 			inputCfg: &config.Fingerprint{
-				ExitOnFailure: new(false),
+				ExitOnFailure: pointer.Of(false),
 			},
 			inputError:     wrapProbeError(errors.New("initial error")),
 			expectedOutput: true,
@@ -298,7 +299,7 @@ func Test_shouldSkipEnvFingerprinter(t *testing.T) {
 		{
 			name: "exit on failure true and initial error",
 			inputCfg: &config.Fingerprint{
-				ExitOnFailure: new(true),
+				ExitOnFailure: pointer.Of(true),
 			},
 			inputError:     wrapProbeError(errors.New("initial error")),
 			expectedOutput: false,
@@ -306,7 +307,7 @@ func Test_shouldSkipEnvFingerprinter(t *testing.T) {
 		{
 			name: "exit on failure false and non-initial error",
 			inputCfg: &config.Fingerprint{
-				ExitOnFailure: new(false),
+				ExitOnFailure: pointer.Of(false),
 			},
 			inputError:     errors.New("initial error"),
 			expectedOutput: true,
@@ -314,7 +315,7 @@ func Test_shouldSkipEnvFingerprinter(t *testing.T) {
 		{
 			name: "exit on failure true and non-initial error",
 			inputCfg: &config.Fingerprint{
-				ExitOnFailure: new(true),
+				ExitOnFailure: pointer.Of(true),
 			},
 			inputError:     errors.New("initial error"),
 			expectedOutput: false,

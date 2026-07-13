@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package nomad
@@ -14,6 +14,7 @@ import (
 	log "github.com/hashicorp/go-hclog"
 	metrics "github.com/hashicorp/go-metrics/compat"
 	cstructs "github.com/hashicorp/nomad/client/structs"
+	"github.com/hashicorp/nomad/helper/pointer"
 
 	"github.com/hashicorp/go-msgpack/v2/codec"
 	"github.com/hashicorp/nomad/acl"
@@ -68,7 +69,7 @@ func forwardRegionStreamingRpc(fsrv *Server, conn io.ReadWriteCloser,
 	}
 
 	if allocResp.Alloc == nil {
-		handleStreamResultError(structs.NewErrUnknownAllocation(allocID), new(int64(404)), encoder)
+		handleStreamResultError(structs.NewErrUnknownAllocation(allocID), pointer.Of(int64(404)), encoder)
 		return
 	}
 
@@ -77,7 +78,7 @@ func forwardRegionStreamingRpc(fsrv *Server, conn io.ReadWriteCloser,
 	if err != nil {
 		var code *int64
 		if structs.IsErrNoNodeConn(err) {
-			code = new(int64(404))
+			code = pointer.Of(int64(404))
 		}
 		handleStreamResultError(err, code, encoder)
 		return
@@ -231,7 +232,7 @@ func (f *FileSystem) stream(conn io.ReadWriteCloser) {
 	encoder := codec.NewEncoder(conn, structs.MsgpackHandle)
 
 	if err := decoder.Decode(&args); err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 
@@ -251,7 +252,7 @@ func (f *FileSystem) stream(conn io.ReadWriteCloser) {
 
 	// Verify the arguments.
 	if args.AllocID == "" {
-		handleStreamResultError(errors.New("missing AllocID"), new(int64(400)), encoder)
+		handleStreamResultError(errors.New("missing AllocID"), pointer.Of(int64(400)), encoder)
 		return
 	}
 
@@ -264,7 +265,7 @@ func (f *FileSystem) stream(conn io.ReadWriteCloser) {
 
 	alloc, err := getAlloc(snap, args.AllocID)
 	if structs.IsErrUnknownAllocation(err) {
-		handleStreamResultError(structs.NewErrUnknownAllocation(args.AllocID), new(int64(404)), encoder)
+		handleStreamResultError(structs.NewErrUnknownAllocation(args.AllocID), pointer.Of(int64(404)), encoder)
 		return
 	}
 	if err != nil {
@@ -286,18 +287,18 @@ func (f *FileSystem) stream(conn io.ReadWriteCloser) {
 	// Make sure Node is valid and new enough to support RPC
 	node, err := snap.NodeByID(nil, nodeID)
 	if err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 
 	if node == nil {
 		err := fmt.Errorf("Unknown node %q", nodeID)
-		handleStreamResultError(err, new(int64(400)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(400)), encoder)
 		return
 	}
 
 	if err := nodeSupportsRpc(node); err != nil {
-		handleStreamResultError(err, new(int64(400)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(400)), encoder)
 		return
 	}
 
@@ -311,7 +312,7 @@ func (f *FileSystem) stream(conn io.ReadWriteCloser) {
 		if err != nil {
 			var code *int64
 			if structs.IsErrNoNodeConn(err) {
-				code = new(int64(404))
+				code = pointer.Of(int64(404))
 			}
 			handleStreamResultError(err, code, encoder)
 			return
@@ -356,7 +357,7 @@ func (f *FileSystem) logs(conn io.ReadWriteCloser) {
 	encoder := codec.NewEncoder(conn, structs.MsgpackHandle)
 
 	if err := decoder.Decode(&args); err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 
@@ -376,7 +377,7 @@ func (f *FileSystem) logs(conn io.ReadWriteCloser) {
 
 	// Verify the arguments.
 	if args.AllocID == "" {
-		handleStreamResultError(structs.ErrMissingAllocID, new(int64(400)), encoder)
+		handleStreamResultError(structs.ErrMissingAllocID, pointer.Of(int64(400)), encoder)
 		return
 	}
 
@@ -389,7 +390,7 @@ func (f *FileSystem) logs(conn io.ReadWriteCloser) {
 
 	alloc, err := getAlloc(snap, args.AllocID)
 	if structs.IsErrUnknownAllocation(err) {
-		handleStreamResultError(structs.NewErrUnknownAllocation(args.AllocID), new(int64(404)), encoder)
+		handleStreamResultError(structs.NewErrUnknownAllocation(args.AllocID), pointer.Of(int64(404)), encoder)
 		return
 	}
 	if err != nil {
@@ -414,18 +415,18 @@ func (f *FileSystem) logs(conn io.ReadWriteCloser) {
 	// Make sure Node is valid and new enough to support RPC
 	node, err := snap.NodeByID(nil, nodeID)
 	if err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 
 	if node == nil {
 		err := fmt.Errorf("Unknown node %q", nodeID)
-		handleStreamResultError(err, new(int64(400)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(400)), encoder)
 		return
 	}
 
 	if err := nodeSupportsRpc(node); err != nil {
-		handleStreamResultError(err, new(int64(400)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(400)), encoder)
 		return
 	}
 
@@ -439,7 +440,7 @@ func (f *FileSystem) logs(conn io.ReadWriteCloser) {
 		if err != nil {
 			var code *int64
 			if structs.IsErrNoNodeConn(err) {
-				code = new(int64(404))
+				code = pointer.Of(int64(404))
 			}
 			handleStreamResultError(err, code, encoder)
 			return

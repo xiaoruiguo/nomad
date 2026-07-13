@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package command
@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/cli"
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/testutil"
 )
 
@@ -66,9 +67,9 @@ func TestScalingPolicyInfoCommand_Run(t *testing.T) {
 
 	// Generate an example scaling policy.
 	job.TaskGroups[0].Scaling = &api.ScalingPolicy{
-		Enabled: new(true),
-		Min:     new(int64(1)),
-		Max:     new(int64(1)),
+		Enabled: pointer.Of(true),
+		Min:     pointer.Of(int64(1)),
+		Max:     pointer.Of(int64(1)),
 	}
 
 	// Register the job.

@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/helper"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -563,7 +564,7 @@ func TestSysBatch_NodeDown(t *testing.T) {
 	alloc.JobID = job.ID
 	alloc.NodeID = node.ID
 	alloc.Name = "my-sysbatch.pinger[0]"
-	alloc.DesiredTransition.Migrate = new(true)
+	alloc.DesiredTransition.Migrate = pointer.Of(true)
 	must.NoError(t, h.State.UpsertAllocs(structs.MsgTypeTestSetup, h.NextIndex(), []*structs.Allocation{alloc}))
 
 	// Create a mock evaluation to deal with drain
@@ -677,7 +678,7 @@ func TestSysBatch_NodeDrain(t *testing.T) {
 	alloc.JobID = job.ID
 	alloc.NodeID = node.ID
 	alloc.Name = "my-sysbatch.pinger[0]"
-	alloc.DesiredTransition.Migrate = new(true)
+	alloc.DesiredTransition.Migrate = pointer.Of(true)
 	must.NoError(t, h.State.UpsertAllocs(structs.MsgTypeTestSetup, h.NextIndex(), []*structs.Allocation{alloc}))
 
 	// Create a mock evaluation to deal with drain
@@ -1442,7 +1443,7 @@ func TestSysBatch_PlanWithDrainedNode(t *testing.T) {
 	alloc.JobID = job.ID
 	alloc.NodeID = node.ID
 	alloc.Name = "my-sysbatch.pinger[0]"
-	alloc.DesiredTransition.Migrate = new(true)
+	alloc.DesiredTransition.Migrate = pointer.Of(true)
 	alloc.TaskGroup = "pinger"
 
 	alloc2 := mock.SysBatchAlloc()

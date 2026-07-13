@@ -12,6 +12,7 @@ import (
 	"github.com/shoenig/test/must"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -330,7 +331,7 @@ func TestDiffSystemAllocsForNode_DrainingNode(t *testing.T) {
 			Name:   "my-job.web[0]",
 			Job:    oldJob,
 			DesiredTransition: structs.DesiredTransition{
-				Migrate: new(true),
+				Migrate: pointer.Of(true),
 			},
 		},
 		{ // allocs not marked for drain should be ignored
@@ -583,7 +584,7 @@ func TestDiffSystemAllocs(t *testing.T) {
 			Name:   "my-job.web[0]",
 			Job:    oldJob,
 			DesiredTransition: structs.DesiredTransition{
-				Migrate: new(true),
+				Migrate: pointer.Of(true),
 			},
 		},
 		// Mark as lost on a dead node

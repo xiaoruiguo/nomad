@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package command
@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 )
 
@@ -22,18 +23,18 @@ func TestNodeMeta_parseMapFromArgs(t *testing.T) {
 			name:  "EmptyEquals",
 			input: []string{"key1=val1", "key2=val2", "key3="},
 			exp: map[string]*string{
-				"key1": new("val1"),
-				"key2": new("val2"),
-				"key3": new(""),
+				"key1": pointer.Of("val1"),
+				"key2": pointer.Of("val2"),
+				"key3": pointer.Of(""),
 			},
 		},
 		{
 			name:  "EmptyNoEquals",
 			input: []string{"key1=val1", "key2=val2", "key4"},
 			exp: map[string]*string{
-				"key1": new("val1"),
-				"key2": new("val2"),
-				"key4": new(""),
+				"key1": pointer.Of("val1"),
+				"key2": pointer.Of("val2"),
+				"key4": pointer.Of(""),
 			},
 		},
 		{
@@ -50,23 +51,23 @@ func TestNodeMeta_parseMapFromArgs(t *testing.T) {
 			name:  "EmptyArg",
 			input: []string{""},
 			exp: map[string]*string{
-				"": new(""),
+				"": pointer.Of(""),
 			},
 		},
 		{
 			name:  "WeirdArgs",
 			input: []string{"=", "foo==bar"},
 			exp: map[string]*string{
-				"":    new(""),
-				"foo": new("=bar"),
+				"":    pointer.Of(""),
+				"foo": pointer.Of("=bar"),
 			},
 		},
 		{
 			name:  "WeirderArgs",
 			input: []string{"=foo=bar", "\x00=\x01"},
 			exp: map[string]*string{
-				"":     new("foo=bar"),
-				"\x00": new("\x01"),
+				"":     pointer.Of("foo=bar"),
+				"\x00": pointer.Of("\x01"),
 			},
 		},
 	}
@@ -92,30 +93,30 @@ func TestNodeMeta_applyNodeMetaUnset(t *testing.T) {
 			name:  "CommaParty",
 			unset: ",,,",
 			meta: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 			exp: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 		},
 		{
 			name:  "Empty",
 			unset: "",
 			meta: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 			exp: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 		},
 		{
 			name:  "UnsetNew",
 			unset: "unset",
 			meta: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 			exp: map[string]*string{
-				"foo":   new("bar"),
+				"foo":   pointer.Of("bar"),
 				"unset": nil,
 			},
 		},
@@ -123,7 +124,7 @@ func TestNodeMeta_applyNodeMetaUnset(t *testing.T) {
 			name:  "UnsetExisting",
 			unset: "foo",
 			meta: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 			exp: map[string]*string{
 				"foo": nil,
@@ -133,7 +134,7 @@ func TestNodeMeta_applyNodeMetaUnset(t *testing.T) {
 			name:  "UnsetBoth",
 			unset: ",foo,unset,",
 			meta: map[string]*string{
-				"foo": new("bar"),
+				"foo": pointer.Of("bar"),
 			},
 			exp: map[string]*string{
 				"foo":   nil,

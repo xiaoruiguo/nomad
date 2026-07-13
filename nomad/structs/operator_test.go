@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 )
 
@@ -84,7 +85,7 @@ func TestSchedulerConfiguration_WithNodePool(t *testing.T) {
 			},
 			pool: &NodePool{
 				SchedulerConfiguration: &NodePoolSchedulerConfiguration{
-					MemoryOversubscriptionEnabled: new(true),
+					MemoryOversubscriptionEnabled: pointer.Of(true),
 				},
 			},
 			expected: &SchedulerConfiguration{

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package allocrunner
@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/nomad/client/allocrunner/state"
 	"github.com/hashicorp/nomad/client/pluginmanager/csimanager"
 	cstructs "github.com/hashicorp/nomad/client/structs"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -316,8 +317,8 @@ func TestCSIHook(t *testing.T) {
 				alloc:            alloc,
 				ns:               tc.rpcNS,
 				callCounts:       callCounts,
-				hasExistingClaim: new(tc.startsWithClaims),
-				schedulable:      new(!tc.startsUnschedulable),
+				hasExistingClaim: pointer.Of(tc.startsWithClaims),
+				schedulable:      pointer.Of(!tc.startsUnschedulable),
 			}
 			ar := mockAllocRunner{
 				res: &cstructs.AllocHookResources{},
@@ -459,8 +460,8 @@ func TestCSIHook_Prerun_Validation(t *testing.T) {
 			rpcer := mockRPCer{
 				alloc:            alloc,
 				callCounts:       testutil.NewCallCounter(),
-				hasExistingClaim: new(false),
-				schedulable:      new(true),
+				hasExistingClaim: pointer.Of(false),
+				schedulable:      pointer.Of(true),
 			}
 
 			ar := mockAllocRunner{

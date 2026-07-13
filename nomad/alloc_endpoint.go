@@ -14,6 +14,7 @@ import (
 	metrics "github.com/hashicorp/go-metrics/compat"
 
 	"github.com/hashicorp/nomad/acl"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/state"
 	"github.com/hashicorp/nomad/nomad/state/paginator"
@@ -320,9 +321,9 @@ func (a *Alloc) Stop(args *structs.AllocStopRequest, reply *structs.AllocStopRes
 		Evals: []*structs.Evaluation{eval},
 		Allocs: map[string]*structs.DesiredTransition{
 			args.AllocID: {
-				Migrate:         new(true),
-				NoShutdownDelay: new(args.NoShutdownDelay),
-				Reschedule:      new(args.Reschedule),
+				Migrate:         pointer.Of(true),
+				NoShutdownDelay: pointer.Of(args.NoShutdownDelay),
+				Reschedule:      pointer.Of(args.Reschedule),
 			},
 		},
 	}

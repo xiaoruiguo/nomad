@@ -11,6 +11,7 @@ import (
 	msgpackrpc "github.com/hashicorp/net-rpc-msgpackrpc/v2"
 	"github.com/hashicorp/nomad/acl"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -518,7 +519,7 @@ func TestDeploymentEndpoint_Promote(t *testing.T) {
 	d.TaskGroups[a.TaskGroup].PlacedCanaries = []string{a.ID}
 	a.DeploymentID = d.ID
 	a.DeploymentStatus = &structs.AllocDeploymentStatus{
-		Healthy: new(true),
+		Healthy: pointer.Of(true),
 	}
 
 	state := s1.fsm.State()
@@ -583,7 +584,7 @@ func TestDeploymentEndpoint_Promote_ACL(t *testing.T) {
 	d.TaskGroups[a.TaskGroup].PlacedCanaries = []string{a.ID}
 	a.DeploymentID = d.ID
 	a.DeploymentStatus = &structs.AllocDeploymentStatus{
-		Healthy: new(true),
+		Healthy: pointer.Of(true),
 	}
 
 	state := s1.fsm.State()

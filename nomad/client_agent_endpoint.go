@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package nomad
@@ -19,6 +19,7 @@ import (
 	"github.com/hashicorp/nomad/command/agent/host"
 	"github.com/hashicorp/nomad/command/agent/monitor"
 	"github.com/hashicorp/nomad/command/agent/pprof"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/peers"
 	"github.com/hashicorp/nomad/nomad/structs"
 )
@@ -136,7 +137,7 @@ func (a *Agent) monitor(conn io.ReadWriteCloser) {
 	encoder := codec.NewEncoder(conn, structs.MsgpackHandle)
 
 	if err := decoder.Decode(&args); err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 	authErr := a.srv.Authenticate(nil, &args)
@@ -151,7 +152,7 @@ func (a *Agent) monitor(conn io.ReadWriteCloser) {
 		handleStreamResultError(err, nil, encoder)
 		return
 	} else if !aclObj.AllowAgentRead() {
-		handleStreamResultError(structs.ErrPermissionDenied, new(int64(403)), encoder)
+		handleStreamResultError(structs.ErrPermissionDenied, pointer.Of(int64(403)), encoder)
 		return
 	}
 
@@ -161,7 +162,7 @@ func (a *Agent) monitor(conn io.ReadWriteCloser) {
 	}
 
 	if logLevel == log.NoLevel {
-		handleStreamResultError(errors.New("Unknown log level"), new(int64(400)), encoder)
+		handleStreamResultError(errors.New("Unknown log level"), pointer.Of(int64(400)), encoder)
 		return
 	}
 
@@ -174,7 +175,7 @@ func (a *Agent) monitor(conn io.ReadWriteCloser) {
 
 	region := args.RequestRegion()
 	if region == "" {
-		handleStreamResultError(fmt.Errorf("missing target region"), new(int64(400)), encoder)
+		handleStreamResultError(fmt.Errorf("missing target region"), pointer.Of(int64(400)), encoder)
 		return
 	}
 	if region != a.srv.Region() {
@@ -186,7 +187,7 @@ func (a *Agent) monitor(conn io.ReadWriteCloser) {
 	if args.ServerID != "" {
 		serverToFwd, err := a.forwardFor(args.ServerID, region)
 		if err != nil {
-			handleStreamResultError(err, new(int64(400)), encoder)
+			handleStreamResultError(err, pointer.Of(int64(400)), encoder)
 			return
 		}
 		if serverToFwd != nil {
@@ -252,7 +253,7 @@ func (a *Agent) monitor(conn io.ReadWriteCloser) {
 	streamEncoder := monitor.NewStreamEncoder(&buf, conn, encoder, frameCodec, args.PlainText)
 	streamErr := streamEncoder.EncodeStream(frames, errCh, ctx, framer, false)
 	if streamErr != nil {
-		handleStreamResultError(streamErr, new(int64(500)), encoder)
+		handleStreamResultError(streamErr, pointer.Of(int64(500)), encoder)
 		return
 	}
 }
@@ -265,7 +266,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 	encoder := codec.NewEncoder(conn, structs.MsgpackHandle)
 
 	if err := decoder.Decode(&args); err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 	authErr := a.srv.Authenticate(nil, &args)
@@ -280,7 +281,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 		handleStreamResultError(err, nil, encoder)
 		return
 	} else if !aclObj.AllowAgentRead() {
-		handleStreamResultError(structs.ErrPermissionDenied, new(int64(403)), encoder)
+		handleStreamResultError(structs.ErrPermissionDenied, pointer.Of(int64(403)), encoder)
 		return
 	}
 
@@ -293,7 +294,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 
 	region := args.RequestRegion()
 	if region == "" {
-		handleStreamResultError(fmt.Errorf("missing target region"), new(int64(400)), encoder)
+		handleStreamResultError(fmt.Errorf("missing target region"), pointer.Of(int64(400)), encoder)
 		return
 	}
 	if region != a.srv.Region() {
@@ -305,7 +306,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 	if args.ServerID != "" {
 		serverToFwd, err := a.forwardFor(args.ServerID, region)
 		if err != nil {
-			handleStreamResultError(err, new(int64(400)), encoder)
+			handleStreamResultError(err, pointer.Of(int64(400)), encoder)
 			return
 		}
 		if serverToFwd != nil {
@@ -318,7 +319,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 
 	nomadLogPath := a.srv.GetConfig().LogFile
 	if args.OnDisk && nomadLogPath == "" {
-		handleStreamResultError(errors.New("No nomad log file defined"), new(int64(400)), encoder)
+		handleStreamResultError(errors.New("No nomad log file defined"), pointer.Of(int64(400)), encoder)
 	}
 	// NodeID was empty, ServerID was equal to this server,  monitor this server
 	ctx, cancel := context.WithCancel(context.Background())
@@ -354,7 +355,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 	}()
 	m, err := monitor.NewExportMonitor(opts)
 	if err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 
@@ -379,7 +380,7 @@ func (a *Agent) monitorExport(conn io.ReadWriteCloser) {
 
 	streamErr := streamEncoder.EncodeStream(frames, errCh, ctx, framer, true)
 	if streamErr != nil {
-		handleStreamResultError(streamErr, new(int64(500)), encoder)
+		handleStreamResultError(streamErr, pointer.Of(int64(500)), encoder)
 		return
 	}
 }
@@ -427,7 +428,7 @@ func (a *Agent) forwardMonitorClient(conn io.ReadWriteCloser, args any, encoder 
 	// or creating direct stream
 	state, srv, err := a.findClientConn(nodeID)
 	if err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 
@@ -464,7 +465,7 @@ func (a *Agent) forwardMonitorClient(conn io.ReadWriteCloser, args any, encoder 
 func (a *Agent) forwardMonitorServer(conn io.ReadWriteCloser, server *peers.Parts, args any, encoder *codec.Encoder, decoder *codec.Decoder, endpoint string) {
 	serverConn, err := a.srv.streamingRpc(server, "Agent.Monitor")
 	if err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 	defer serverConn.Close()
@@ -472,7 +473,7 @@ func (a *Agent) forwardMonitorServer(conn io.ReadWriteCloser, server *peers.Part
 	// Send the Request
 	outEncoder := codec.NewEncoder(serverConn, structs.MsgpackHandle)
 	if err := outEncoder.Encode(args); err != nil {
-		handleStreamResultError(err, new(int64(500)), encoder)
+		handleStreamResultError(err, pointer.Of(int64(500)), encoder)
 		return
 	}
 

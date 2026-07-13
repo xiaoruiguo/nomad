@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package structs
@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 )
 
@@ -54,7 +55,7 @@ func TestNodePool_Copy(t *testing.T) {
 		Meta:        map[string]string{"original": "true"},
 		SchedulerConfiguration: &NodePoolSchedulerConfiguration{
 			SchedulerAlgorithm:            SchedulerAlgorithmSpread,
-			MemoryOversubscriptionEnabled: new(false),
+			MemoryOversubscriptionEnabled: pointer.Of(false),
 		},
 	}
 	poolCopy := pool.Copy()
@@ -63,7 +64,7 @@ func TestNodePool_Copy(t *testing.T) {
 	poolCopy.Meta["original"] = "false"
 	poolCopy.Meta["new_key"] = "true"
 	poolCopy.SchedulerConfiguration.SchedulerAlgorithm = SchedulerAlgorithmBinpack
-	poolCopy.SchedulerConfiguration.MemoryOversubscriptionEnabled = new(true)
+	poolCopy.SchedulerConfiguration.MemoryOversubscriptionEnabled = pointer.Of(true)
 
 	must.NotEq(t, pool, poolCopy)
 	must.NotEq(t, pool.Meta, poolCopy.Meta)
@@ -200,7 +201,7 @@ func TestNodePool_MemoryOversubscriptionEnabled(t *testing.T) {
 			name: "pool overrides global if it defines memory oversub",
 			pool: &NodePool{
 				SchedulerConfiguration: &NodePoolSchedulerConfiguration{
-					MemoryOversubscriptionEnabled: new(false),
+					MemoryOversubscriptionEnabled: pointer.Of(false),
 				},
 			},
 			global: &SchedulerConfiguration{
@@ -212,7 +213,7 @@ func TestNodePool_MemoryOversubscriptionEnabled(t *testing.T) {
 			name: "pool used if global is nil",
 			pool: &NodePool{
 				SchedulerConfiguration: &NodePoolSchedulerConfiguration{
-					MemoryOversubscriptionEnabled: new(true),
+					MemoryOversubscriptionEnabled: pointer.Of(true),
 				},
 			},
 			global:   nil,

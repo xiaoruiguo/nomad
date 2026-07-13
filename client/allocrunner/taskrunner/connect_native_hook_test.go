@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package taskrunner
@@ -18,6 +18,7 @@ import (
 	"github.com/hashicorp/nomad/client/taskenv"
 	"github.com/hashicorp/nomad/client/testutil"
 	agentconsul "github.com/hashicorp/nomad/command/agent/consul"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
@@ -474,8 +475,8 @@ func TestTaskRunner_ConnectNativeHook_shareTLS(t *testing.T) {
 
 			// TLS config consumed by native application
 			ShareSSL:  shareSSL,
-			EnableSSL: new(true),
-			VerifySSL: new(true),
+			EnableSSL: pointer.Of(true),
+			VerifySSL: pointer.Of(true),
 			CAFile:    fakeCert,
 			CertFile:  fakeCert,
 			KeyFile:   fakeCert,
@@ -521,7 +522,7 @@ func TestTaskRunner_ConnectNativeHook_shareTLS(t *testing.T) {
 	// so make sure an unset value turns the feature on.
 
 	t.Run("share_ssl is true", func(t *testing.T) {
-		try(t, new(true))
+		try(t, pointer.Of(true))
 	})
 
 	t.Run("share_ssl is nil", func(t *testing.T) {
@@ -589,9 +590,9 @@ func TestTaskRunner_ConnectNativeHook_shareTLS_override(t *testing.T) {
 		Addr: consulConfig.Address,
 
 		// TLS config consumed by native application
-		ShareSSL:  new(true),
-		EnableSSL: new(true),
-		VerifySSL: new(true),
+		ShareSSL:  pointer.Of(true),
+		EnableSSL: pointer.Of(true),
+		VerifySSL: pointer.Of(true),
 		CAFile:    fakeCert,
 		CertFile:  fakeCert,
 		KeyFile:   fakeCert,

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package nomad
@@ -14,6 +14,7 @@ import (
 	log "github.com/hashicorp/go-hclog"
 	memdb "github.com/hashicorp/go-memdb"
 	version "github.com/hashicorp/go-version"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/state"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -93,7 +94,7 @@ func (c *CoreScheduler) Process(eval *structs.Evaluation) error {
 // forceGC is used to garbage collect all eligible objects.
 func (c *CoreScheduler) forceGC(eval *structs.Evaluation) error {
 	// set a minimal threshold for all objects to make force GC possible
-	force := new(time.Millisecond)
+	force := pointer.Of(time.Millisecond)
 
 	if err := c.jobGC(eval, force); err != nil {
 		return err

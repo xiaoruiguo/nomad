@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 //go:build linux
@@ -7,6 +7,8 @@ package cgroupslib
 
 import (
 	"sync"
+
+	"github.com/hashicorp/nomad/helper/pointer"
 )
 
 var (
@@ -29,10 +31,10 @@ func detectMemorySwap() *uint64 {
 	case CG1:
 		err := WriteNomadCG1("memory", "memory.swappiness", "0")
 		if err == nil {
-			return new(uint64(0))
+			return pointer.Of[uint64](0)
 		}
 		return nil
 	default:
-		return new(uint64(0))
+		return pointer.Of[uint64](0)
 	}
 }

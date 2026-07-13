@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package structs
@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"golang.org/x/crypto/blake2b"
 )
 
@@ -263,7 +264,7 @@ func (n *NodePoolSchedulerConfiguration) Copy() *NodePoolSchedulerConfiguration 
 	*nc = *n
 
 	if n.MemoryOversubscriptionEnabled != nil {
-		nc.MemoryOversubscriptionEnabled = new(*n.MemoryOversubscriptionEnabled)
+		nc.MemoryOversubscriptionEnabled = pointer.Of(*n.MemoryOversubscriptionEnabled)
 	}
 
 	return nc

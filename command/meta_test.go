@@ -19,6 +19,7 @@ import (
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/command/agent"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 )
 
@@ -188,7 +189,7 @@ func TestMeta_JobByPrefix(t *testing.T) {
 	}
 	for _, j := range jobs {
 		job := testJob(j.id)
-		job.Namespace = new(j.namespace)
+		job.Namespace = pointer.Of(j.namespace)
 
 		_, err := client.Namespaces().Register(&api.Namespace{Name: j.namespace}, nil)
 		must.NoError(t, err)
@@ -295,7 +296,7 @@ func TestMeta_ShowUIPath(t *testing.T) {
 
 	// Create a test server with UI enabled but CLI URL links disabled
 	server, client, url := testServer(t, true, func(c *agent.Config) {
-		c.UI.ShowCLIHints = new(true)
+		c.UI.ShowCLIHints = pointer.Of(true)
 	})
 	defer server.Shutdown()
 	waitForNodes(t, client)
@@ -493,7 +494,7 @@ func TestMeta_ShowUIPath_ShowCLIHintsEnabled(t *testing.T) {
 
 	// Create a test server with UI enabled and CLI URL links enabled
 	server, client, url := testServer(t, true, func(c *agent.Config) {
-		c.UI.ShowCLIHints = new(true)
+		c.UI.ShowCLIHints = pointer.Of(true)
 	})
 	defer server.Shutdown()
 	waitForNodes(t, client)
@@ -516,7 +517,7 @@ func TestMeta_ShowUIPath_ShowCLIHintsDisabled(t *testing.T) {
 
 	// Create a test server with UI enabled and CLI URL links disabled
 	server, client, url := testServer(t, true, func(c *agent.Config) {
-		c.UI.ShowCLIHints = new(false)
+		c.UI.ShowCLIHints = pointer.Of(false)
 	})
 	defer server.Shutdown()
 	waitForNodes(t, client)
@@ -579,7 +580,7 @@ func TestMeta_ShowUIPath_EnvVarOverride(t *testing.T) {
 
 			// Create a test server with UI enabled and CLI hints as per test case
 			server, client, url := testServer(t, true, func(c *agent.Config) {
-				c.UI.ShowCLIHints = new(tc.serverEnabled)
+				c.UI.ShowCLIHints = pointer.Of(tc.serverEnabled)
 			})
 			defer server.Shutdown()
 			waitForNodes(t, client)
@@ -608,7 +609,7 @@ func TestMeta_ShowUIPath_BrowserOpening(t *testing.T) {
 	ci.Parallel(t)
 
 	server, client, url := testServer(t, true, func(c *agent.Config) {
-		c.UI.ShowCLIHints = new(true)
+		c.UI.ShowCLIHints = pointer.Of(true)
 	})
 	defer server.Shutdown()
 	waitForNodes(t, client)

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 //go:build ent
@@ -102,7 +102,7 @@ func testQuotaSpec() *api.QuotaSpec {
 			{
 				Region: "global",
 				RegionLimit: &api.QuotaResources{
-					CPU: new(100),
+					CPU: pointer.Of(100),
 				},
 			},
 		},

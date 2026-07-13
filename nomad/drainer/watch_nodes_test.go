@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package drainer
@@ -12,6 +12,7 @@ import (
 	"github.com/shoenig/test/wait"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/state"
@@ -43,7 +44,7 @@ func TestNodeDrainWatcher_AddNodes(t *testing.T) {
 	alloc1.Job = job
 	alloc1.TaskGroup = job.TaskGroups[0].Name
 	alloc1.NodeID = n1.ID
-	alloc1.DeploymentStatus = &structs.AllocDeploymentStatus{Healthy: new(true)}
+	alloc1.DeploymentStatus = &structs.AllocDeploymentStatus{Healthy: pointer.Of(true)}
 	alloc2 := alloc1.Copy()
 	alloc2.ID = uuid.Generate()
 	alloc2.NodeID = n2.ID
@@ -224,7 +225,7 @@ func testNodeDrainWatcherSetup(
 	alloc.Job = job
 	alloc.TaskGroup = job.TaskGroups[0].Name
 	alloc.NodeID = node.ID
-	alloc.DeploymentStatus = &structs.AllocDeploymentStatus{Healthy: new(true)}
+	alloc.DeploymentStatus = &structs.AllocDeploymentStatus{Healthy: pointer.Of(true)}
 	index++
 	must.NoError(t, store.UpsertAllocs(
 		structs.MsgTypeTestSetup, index, []*structs.Allocation{alloc}))

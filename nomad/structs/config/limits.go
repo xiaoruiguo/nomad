@@ -1,7 +1,9 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
+
+import "github.com/hashicorp/nomad/helper/pointer"
 
 const (
 	// LimitsNonStreamingConnsPerClient is the number of connections per
@@ -48,9 +50,9 @@ type Limits struct {
 func DefaultLimits() Limits {
 	return Limits{
 		HTTPSHandshakeTimeout: "5s",
-		HTTPMaxConnsPerClient: new(100),
+		HTTPMaxConnsPerClient: pointer.Of(100),
 		RPCHandshakeTimeout:   "5s",
-		RPCMaxConnsPerClient:  new(100),
+		RPCMaxConnsPerClient:  pointer.Of(100),
 	}
 }
 
@@ -63,13 +65,13 @@ func (l *Limits) Merge(o Limits) Limits {
 		m.HTTPSHandshakeTimeout = o.HTTPSHandshakeTimeout
 	}
 	if o.HTTPMaxConnsPerClient != nil {
-		m.HTTPMaxConnsPerClient = new(*o.HTTPMaxConnsPerClient)
+		m.HTTPMaxConnsPerClient = pointer.Of(*o.HTTPMaxConnsPerClient)
 	}
 	if o.RPCHandshakeTimeout != "" {
 		m.RPCHandshakeTimeout = o.RPCHandshakeTimeout
 	}
 	if o.RPCMaxConnsPerClient != nil {
-		m.RPCMaxConnsPerClient = new(*o.RPCMaxConnsPerClient)
+		m.RPCMaxConnsPerClient = pointer.Of(*o.RPCMaxConnsPerClient)
 	}
 
 	return m
@@ -79,10 +81,10 @@ func (l *Limits) Merge(o Limits) Limits {
 func (l *Limits) Copy() Limits {
 	c := *l
 	if l.HTTPMaxConnsPerClient != nil {
-		c.HTTPMaxConnsPerClient = new(*l.HTTPMaxConnsPerClient)
+		c.HTTPMaxConnsPerClient = pointer.Of(*l.HTTPMaxConnsPerClient)
 	}
 	if l.RPCMaxConnsPerClient != nil {
-		c.RPCMaxConnsPerClient = new(*l.RPCMaxConnsPerClient)
+		c.RPCMaxConnsPerClient = pointer.Of(*l.RPCMaxConnsPerClient)
 	}
 	return c
 }

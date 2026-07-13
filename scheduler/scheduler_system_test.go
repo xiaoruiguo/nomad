@@ -14,6 +14,7 @@ import (
 	memdb "github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/helper"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -1004,7 +1005,7 @@ func TestSystemSched_NodeDown(t *testing.T) {
 	alloc.JobID = job.ID
 	alloc.NodeID = node.ID
 	alloc.Name = "my-job.web[0]"
-	alloc.DesiredTransition.Migrate = new(true)
+	alloc.DesiredTransition.Migrate = pointer.Of(true)
 	must.NoError(t, h.State.UpsertAllocs(structs.MsgTypeTestSetup, h.NextIndex(), []*structs.Allocation{alloc}))
 
 	// Create a mock evaluation to deal with drain
@@ -1118,7 +1119,7 @@ func TestSystemSched_NodeDrain(t *testing.T) {
 	alloc.JobID = job.ID
 	alloc.NodeID = node.ID
 	alloc.Name = "my-job.web[0]"
-	alloc.DesiredTransition.Migrate = new(true)
+	alloc.DesiredTransition.Migrate = pointer.Of(true)
 	must.NoError(t, h.State.UpsertAllocs(structs.MsgTypeTestSetup, h.NextIndex(), []*structs.Allocation{alloc}))
 
 	// Create a mock evaluation to deal with drain
@@ -1915,7 +1916,7 @@ func TestSystemSched_PlanWithDrainedNode(t *testing.T) {
 	alloc.JobID = job.ID
 	alloc.NodeID = node.ID
 	alloc.Name = "my-job.web[0]"
-	alloc.DesiredTransition.Migrate = new(true)
+	alloc.DesiredTransition.Migrate = pointer.Of(true)
 	alloc.TaskGroup = "web"
 
 	alloc2 := mock.Alloc()
@@ -3067,7 +3068,7 @@ func TestSystemSched_NodeDisconnected(t *testing.T) {
 			alloc.TaskGroup = job.TaskGroups[0].Name
 			alloc.ClientStatus = tc.clientStatus
 			alloc.DesiredStatus = tc.desiredStatus
-			alloc.DesiredTransition.Migrate = new(tc.migrate)
+			alloc.DesiredTransition.Migrate = pointer.Of(tc.migrate)
 			alloc.AllocStates = tc.allocState
 			alloc.TaskStates = tc.taskState
 
@@ -4053,7 +4054,7 @@ func TestSystemSched_UpdateBlock(t *testing.T) {
 					for _, canaryNodeIdx := range tc.existingCanary[tg] {
 						if nodeIdx == canaryNodeIdx {
 							alloc.DeploymentStatus = &structs.AllocDeploymentStatus{
-								Healthy:     new(true),
+								Healthy:     pointer.Of(true),
 								Timestamp:   time.Time{},
 								Canary:      true,
 								ModifyIndex: 0,
@@ -4082,7 +4083,7 @@ func TestSystemSched_UpdateBlock(t *testing.T) {
 					for _, canaryNodeIdx := range tc.existingCanary[tg] {
 						if nodeIdx == canaryNodeIdx {
 							alloc.DeploymentStatus = &structs.AllocDeploymentStatus{
-								Healthy:     new(false),
+								Healthy:     pointer.Of(false),
 								Timestamp:   time.Time{},
 								Canary:      true,
 								ModifyIndex: 0,

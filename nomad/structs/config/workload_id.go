@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -57,13 +57,13 @@ func (wi *WorkloadIdentityConfig) Copy() *WorkloadIdentityConfig {
 	nwi.Audience = slices.Clone(wi.Audience)
 
 	if wi.Env != nil {
-		nwi.Env = new(*wi.Env)
+		nwi.Env = pointer.Of(*wi.Env)
 	}
 	if wi.File != nil {
-		nwi.File = new(*wi.File)
+		nwi.File = pointer.Of(*wi.File)
 	}
 	if wi.TTL != nil {
-		nwi.TTL = new(*wi.TTL)
+		nwi.TTL = pointer.Of(*wi.TTL)
 	}
 	nwi.ExtraClaims = maps.Clone(wi.ExtraClaims)
 

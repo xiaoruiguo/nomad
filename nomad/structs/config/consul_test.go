@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -17,6 +17,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 )
 
 func TestMain(m *testing.M) {
@@ -93,9 +94,9 @@ func TestConsulConfig_Merge(t *testing.T) {
 		ServiceIdentity: &WorkloadIdentityConfig{
 			Name:     "test",
 			Audience: []string{"consul.io", "nomad.dev"},
-			Env:      new(false),
-			File:     new(true),
-			TTL:      new(2 * time.Hour),
+			Env:      pointer.Of(false),
+			File:     pointer.Of(true),
+			TTL:      pointer.Of(2 * time.Hour),
 		},
 		ExtraKeysHCL: []string{"b", "2"},
 	}
@@ -127,9 +128,9 @@ func TestConsulConfig_Merge(t *testing.T) {
 		ServiceIdentity: &WorkloadIdentityConfig{
 			Name:     "test",
 			Audience: []string{"consul.io", "nomad.dev"},
-			Env:      new(false),
-			File:     new(true),
-			TTL:      new(2 * time.Hour),
+			Env:      pointer.Of(false),
+			File:     pointer.Of(true),
+			TTL:      pointer.Of(2 * time.Hour),
 		},
 		ExtraKeysHCL: []string{"a", "1"}, // not merged
 	}

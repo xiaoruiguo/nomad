@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package integration
@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -315,7 +316,7 @@ func TestSpreadPanicDowngrade(t *testing.T) {
 		alloc.JobID = job1.ID
 		alloc.NodeID = nodes[i].ID
 		alloc.DeploymentStatus = &structs.AllocDeploymentStatus{
-			Healthy:     new(true),
+			Healthy:     pointer.Of(true),
 			Timestamp:   time.Now(),
 			Canary:      false,
 			ModifyIndex: h.NextIndex(),

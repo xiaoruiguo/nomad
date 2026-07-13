@@ -52,6 +52,7 @@ ui/dist/
 
 *.swp
 *.iml
+*.exe
 
 website/.bundle
 website/vendor

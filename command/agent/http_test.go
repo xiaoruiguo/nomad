@@ -26,6 +26,7 @@ import (
 	"github.com/hashicorp/nomad/acl"
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/nomad"
 	"github.com/hashicorp/nomad/nomad/mock"
@@ -599,11 +600,11 @@ func TestParseBool(t *testing.T) {
 		},
 		{
 			Input:    "true",
-			Expected: new(true),
+			Expected: pointer.Of(true),
 		},
 		{
 			Input:    "false",
-			Expected: new(false),
+			Expected: pointer.Of(false),
 		},
 		{
 			Input: "1234",
@@ -646,11 +647,11 @@ func Test_parseInt(t *testing.T) {
 		},
 		{
 			Input:    "13",
-			Expected: new(13),
+			Expected: pointer.Of(13),
 		},
 		{
 			Input:    "99",
-			Expected: new(99),
+			Expected: pointer.Of(99),
 		},
 		{
 			Input: "ten",
@@ -1088,13 +1089,13 @@ func TestHTTPServer_Limits_Error(t *testing.T) {
 		{
 			tls:         true,
 			timeout:     "5s",
-			limit:       new(-1),
+			limit:       pointer.Of(-1),
 			expectedErr: "http_max_conns_per_client must be >= 0",
 		},
 		{
 			tls:         false,
 			timeout:     "5s",
-			limit:       new(-1),
+			limit:       pointer.Of(-1),
 			expectedErr: "http_max_conns_per_client must be >= 0",
 		},
 	}
@@ -1191,28 +1192,28 @@ func TestHTTPServer_Limits_OK(t *testing.T) {
 		{
 			tls:           false,
 			timeout:       "0",
-			limit:         new(2),
+			limit:         pointer.Of(2),
 			assertTimeout: false,
 			assertLimit:   true,
 		},
 		{
 			tls:           true,
 			timeout:       "0",
-			limit:         new(2),
+			limit:         pointer.Of(2),
 			assertTimeout: false,
 			assertLimit:   true,
 		},
 		{
 			tls:           false,
 			timeout:       "5s",
-			limit:         new(2),
+			limit:         pointer.Of(2),
 			assertTimeout: false,
 			assertLimit:   true,
 		},
 		{
 			tls:           true,
 			timeout:       "5s",
-			limit:         new(2),
+			limit:         pointer.Of(2),
 			assertTimeout: true,
 			assertLimit:   true,
 		},

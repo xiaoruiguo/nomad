@@ -39,6 +39,7 @@ import (
 	"github.com/hashicorp/nomad/client/taskenv"
 	"github.com/hashicorp/nomad/client/vaultclient"
 	"github.com/hashicorp/nomad/client/widmgr"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/users/dynamic"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/plugins/device"
@@ -888,7 +889,7 @@ func (ar *allocRunner) clientAlloc(taskStates map[string]*structs.TaskState) *st
 		if a.ClientStatus == structs.AllocClientStatusFailed &&
 			alloc.DeploymentID != "" && !a.DeploymentStatus.HasHealth() {
 			a.DeploymentStatus = &structs.AllocDeploymentStatus{
-				Healthy: new(false),
+				Healthy: pointer.Of(false),
 			}
 		}
 

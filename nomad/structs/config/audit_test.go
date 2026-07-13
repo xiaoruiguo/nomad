@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/stretchr/testify/require"
 )
 
@@ -15,7 +16,7 @@ func TestAuditConfig_Merge(t *testing.T) {
 	ci.Parallel(t)
 
 	c1 := &AuditConfig{
-		Enabled: new(true),
+		Enabled: pointer.Of(true),
 		Sinks: []*AuditSink{
 			{
 				DeliveryGuarantee: "enforced",
@@ -73,7 +74,7 @@ func TestAuditConfig_Merge(t *testing.T) {
 	}
 
 	e := &AuditConfig{
-		Enabled: new(true),
+		Enabled: pointer.Of(true),
 		Sinks: []*AuditSink{
 			{
 				DeliveryGuarantee: "best-effort",

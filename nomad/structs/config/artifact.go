@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -258,47 +258,47 @@ func DefaultArtifactConfig() *ArtifactConfig {
 	return &ArtifactConfig{
 		// Read timeout for HTTP operations. Must be long enough to
 		// accommodate large/slow downloads.
-		HTTPReadTimeout: new("30m"),
+		HTTPReadTimeout: pointer.Of("30m"),
 
 		// Maximum download size. Must be large enough to accommodate
 		// large downloads.
-		HTTPMaxSize: new("100GB"),
+		HTTPMaxSize: pointer.Of("100GB"),
 
 		// Timeout for GCS operations. Must be long enough to
 		// accommodate large/slow downloads.
-		GCSTimeout: new("30m"),
+		GCSTimeout: pointer.Of("30m"),
 
 		// Timeout for Git operations. Must be long enough to
 		// accommodate large/slow clones.
-		GitTimeout: new("30m"),
+		GitTimeout: pointer.Of("30m"),
 
 		// Timeout for Hg operations. Must be long enough to
 		// accommodate large/slow clones.
-		HgTimeout: new("30m"),
+		HgTimeout: pointer.Of("30m"),
 
 		// Timeout for S3 operations. Must be long enough to
 		// accommodate large/slow downloads.
-		S3Timeout: new("30m"),
+		S3Timeout: pointer.Of("30m"),
 
 		// DecompressionFileCountLimit limits the number of files decompressed
 		// for a single artifact. Must be large enough for payloads with lots
 		// of files.
-		DecompressionFileCountLimit: new(4096),
+		DecompressionFileCountLimit: pointer.Of(4096),
 
 		// DecompressionSizeLimit limits the amount of data decompressed for
 		// a single artifact. Must be large enough to accommodate large payloads.
-		DecompressionSizeLimit: new("100GB"),
+		DecompressionSizeLimit: pointer.Of("100GB"),
 
 		// Toggle for disabling artifact inspection
-		DisableArtifactInspection: new(false),
+		DisableArtifactInspection: pointer.Of(false),
 
 		// Toggle for disabling filesystem isolation, where available.
-		DisableFilesystemIsolation: new(false),
+		DisableFilesystemIsolation: pointer.Of(false),
 
 		// No Filesystem Isolation Extra Locations by default
 		FilesystemIsolationExtraPaths: nil,
 
 		// No environment variables are inherited from Client by default.
-		SetEnvironmentVariables: new(""),
+		SetEnvironmentVariables: pointer.Of(""),
 	}
 }

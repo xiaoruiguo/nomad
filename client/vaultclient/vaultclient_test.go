@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package vaultclient
@@ -20,6 +20,7 @@ import (
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/client/widmgr"
 	"github.com/hashicorp/nomad/helper"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/helper/useragent"
 	"github.com/hashicorp/nomad/helper/uuid"
@@ -442,7 +443,7 @@ func TestVaultClient_SetUserAgent(t *testing.T) {
 	ci.Parallel(t)
 
 	conf := structsc.DefaultVaultConfig()
-	conf.Enabled = new(true)
+	conf.Enabled = pointer.Of(true)
 	logger := testlog.HCLogger(t)
 	c, err := NewVaultClient(conf, logger)
 	must.NoError(t, err)
@@ -487,7 +488,7 @@ func TestVaultClient_RenewalConcurrent(t *testing.T) {
 	// Start Vault client.
 	conf := structsc.DefaultVaultConfig()
 	conf.Addr = ts.URL
-	conf.Enabled = new(true)
+	conf.Enabled = pointer.Of(true)
 
 	vc, err := NewVaultClient(conf, testlog.HCLogger(t))
 	must.NoError(t, err)
@@ -543,7 +544,7 @@ func TestVaultClient_NamespaceReset(t *testing.T) {
 
 	conf := structsc.DefaultVaultConfig()
 	conf.Addr = ts.URL
-	conf.Enabled = new(true)
+	conf.Enabled = pointer.Of(true)
 
 	for _, ns := range []string{"", "foo"} {
 		conf.Namespace = ns

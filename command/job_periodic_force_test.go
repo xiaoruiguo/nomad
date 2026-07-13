@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package command
@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/command/agent"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/testutil"
@@ -139,10 +140,10 @@ func TestJobPeriodicForceCommand_SuccessfulPeriodicForceDetach(t *testing.T) {
 	// Register a job
 	j := testJob("job1_is_periodic")
 	j.Periodic = &api.PeriodicConfig{
-		SpecType:        new(api.PeriodicSpecCron),
-		Spec:            new("*/15 * * * * *"),
-		ProhibitOverlap: new(true),
-		TimeZone:        new("Europe/Minsk"),
+		SpecType:        pointer.Of(api.PeriodicSpecCron),
+		Spec:            pointer.Of("*/15 * * * * *"),
+		ProhibitOverlap: pointer.Of(true),
+		TimeZone:        pointer.Of("Europe/Minsk"),
 	}
 
 	ui := cli.NewMockUi()
@@ -181,10 +182,10 @@ func TestJobPeriodicForceCommand_SuccessfulPeriodicForce(t *testing.T) {
 	// Register a job
 	j := testJob("job2_is_periodic")
 	j.Periodic = &api.PeriodicConfig{
-		SpecType:        new(api.PeriodicSpecCron),
-		Spec:            new("*/15 * * * * *"),
-		ProhibitOverlap: new(true),
-		TimeZone:        new("Europe/Minsk"),
+		SpecType:        pointer.Of(api.PeriodicSpecCron),
+		Spec:            pointer.Of("*/15 * * * * *"),
+		ProhibitOverlap: pointer.Of(true),
+		TimeZone:        pointer.Of("Europe/Minsk"),
 	}
 
 	ui := cli.NewMockUi()
@@ -222,17 +223,17 @@ func TestJobPeriodicForceCommand_SuccessfulIfJobIDEqualsPrefix(t *testing.T) {
 
 	j1 := testJob("periodic-prefix")
 	j1.Periodic = &api.PeriodicConfig{
-		SpecType:        new(api.PeriodicSpecCron),
-		Spec:            new("*/15 * * * * *"),
-		ProhibitOverlap: new(true),
-		TimeZone:        new("Europe/Minsk"),
+		SpecType:        pointer.Of(api.PeriodicSpecCron),
+		Spec:            pointer.Of("*/15 * * * * *"),
+		ProhibitOverlap: pointer.Of(true),
+		TimeZone:        pointer.Of("Europe/Minsk"),
 	}
 	j2 := testJob("periodic-prefix-another-job")
 	j2.Periodic = &api.PeriodicConfig{
-		SpecType:        new(api.PeriodicSpecCron),
-		Spec:            new("*/15 * * * * *"),
-		ProhibitOverlap: new(true),
-		TimeZone:        new("Europe/Minsk"),
+		SpecType:        pointer.Of(api.PeriodicSpecCron),
+		Spec:            pointer.Of("*/15 * * * * *"),
+		ProhibitOverlap: pointer.Of(true),
+		TimeZone:        pointer.Of("Europe/Minsk"),
 	}
 
 	ui := cli.NewMockUi()
@@ -264,8 +265,8 @@ func TestJobPeriodicForceCommand_ACL(t *testing.T) {
 	jobID := "test_job_periodic_force_acl"
 	job := testJob(jobID)
 	job.Periodic = &api.PeriodicConfig{
-		SpecType: new(api.PeriodicSpecCron),
-		Spec:     new("*/15 * * * * *"),
+		SpecType: pointer.Of(api.PeriodicSpecCron),
+		Spec:     pointer.Of("*/15 * * * * *"),
 	}
 
 	rootTokenOpts := &api.WriteOptions{

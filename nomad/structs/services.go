@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package structs
@@ -1544,11 +1544,11 @@ func (t *SidecarTask) Copy() *SidecarTask {
 	}
 
 	if t.KillTimeout != nil {
-		nt.KillTimeout = new(*t.KillTimeout)
+		nt.KillTimeout = pointer.Of(*t.KillTimeout)
 	}
 
 	if t.ShutdownDelay != nil {
-		nt.ShutdownDelay = new(*t.ShutdownDelay)
+		nt.ShutdownDelay = pointer.Of(*t.ShutdownDelay)
 	}
 
 	nt.VolumeMounts = CopySliceVolumeMount(t.VolumeMounts)
@@ -2059,7 +2059,7 @@ func (p *ConsulGatewayProxy) Copy() *ConsulGatewayProxy {
 	}
 
 	return &ConsulGatewayProxy{
-		ConnectTimeout:                  new(*p.ConnectTimeout),
+		ConnectTimeout:                  pointer.Of(*p.ConnectTimeout),
 		EnvoyGatewayBindTaggedAddresses: p.EnvoyGatewayBindTaggedAddresses,
 		EnvoyGatewayBindAddresses:       p.copyBindAddresses(),
 		EnvoyGatewayNoDefaultBind:       p.EnvoyGatewayNoDefaultBind,

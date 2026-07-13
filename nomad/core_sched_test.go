@@ -14,6 +14,7 @@ import (
 	version "github.com/hashicorp/go-version"
 	msgpackrpc "github.com/hashicorp/net-rpc-msgpackrpc/v2"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/state"
@@ -531,7 +532,7 @@ func TestCoreScheduler_EvalGC_Batch(t *testing.T) {
 
 	// set a shorter GC threshold this time
 	gc = s1.coreJobEval(structs.CoreJobEvalGC, jobModifyIdx*2)
-	core.(*CoreScheduler).customThresholdForObject[structs.CoreJobEvalGC] = new(time.Minute)
+	core.(*CoreScheduler).customThresholdForObject[structs.CoreJobEvalGC] = pointer.Of(time.Minute)
 	must.NoError(t, core.Process(gc))
 
 	// We expect the following:
@@ -3018,17 +3019,17 @@ func TestCoreScheduler_ExpiredACLTokenGC(t *testing.T) {
 	// expired, one is not.
 	expiredGlobal := mock.ACLToken()
 	expiredGlobal.Global = true
-	expiredGlobal.ExpirationTime = new(now.Add(-2 * time.Hour))
+	expiredGlobal.ExpirationTime = pointer.Of(now.Add(-2 * time.Hour))
 
 	unexpiredGlobal := mock.ACLToken()
 	unexpiredGlobal.Global = true
-	unexpiredGlobal.ExpirationTime = new(now.Add(2 * time.Hour))
+	unexpiredGlobal.ExpirationTime = pointer.Of(now.Add(2 * time.Hour))
 
 	expiredLocal := mock.ACLToken()
-	expiredLocal.ExpirationTime = new(now.Add(-2 * time.Hour))
+	expiredLocal.ExpirationTime = pointer.Of(now.Add(-2 * time.Hour))
 
 	unexpiredLocal := mock.ACLToken()
-	unexpiredLocal.ExpirationTime = new(now.Add(2 * time.Hour))
+	unexpiredLocal.ExpirationTime = pointer.Of(now.Add(2 * time.Hour))
 
 	// Set creation time in the past for all the tokens, otherwise GC won't trigger
 	for _, token := range []*structs.ACLToken{expiredGlobal, unexpiredGlobal, expiredLocal, unexpiredLocal} {
@@ -3097,10 +3098,10 @@ func TestCoreScheduler_ExpiredACLTokenGC_Force(t *testing.T) {
 		mockedToken.CreateTime = time.Now().Add(-10 * time.Hour)
 		if i%2 == 0 {
 			expiredGlobalTokens = append(expiredGlobalTokens, mockedToken)
-			mockedToken.ExpirationTime = new(expiryTimeThreshold.Add(-24 * time.Hour))
+			mockedToken.ExpirationTime = pointer.Of(expiryTimeThreshold.Add(-24 * time.Hour))
 		} else {
 			nonExpiredGlobalTokens = append(nonExpiredGlobalTokens, mockedToken)
-			mockedToken.ExpirationTime = new(expiryTimeThreshold.Add(24 * time.Hour))
+			mockedToken.ExpirationTime = pointer.Of(expiryTimeThreshold.Add(24 * time.Hour))
 		}
 	}
 
@@ -3112,10 +3113,10 @@ func TestCoreScheduler_ExpiredACLTokenGC_Force(t *testing.T) {
 		mockedToken.CreateTime = time.Now().Add(-10 * time.Hour)
 		if i%2 == 0 {
 			expiredLocalTokens = append(expiredLocalTokens, mockedToken)
-			mockedToken.ExpirationTime = new(expiryTimeThreshold.Add(-24 * time.Hour))
+			mockedToken.ExpirationTime = pointer.Of(expiryTimeThreshold.Add(-24 * time.Hour))
 		} else {
 			nonExpiredLocalTokens = append(nonExpiredLocalTokens, mockedToken)
-			mockedToken.ExpirationTime = new(expiryTimeThreshold.Add(24 * time.Hour))
+			mockedToken.ExpirationTime = pointer.Of(expiryTimeThreshold.Add(24 * time.Hour))
 		}
 	}
 

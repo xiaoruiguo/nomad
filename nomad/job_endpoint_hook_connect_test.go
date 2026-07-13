@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package nomad
@@ -10,6 +10,7 @@ import (
 
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/helper"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/testutil"
@@ -933,7 +934,7 @@ func TestJobEndpointConnect_gatewayProxyIsDefault(t *testing.T) {
 
 	t.Run("unrelated fields set", func(t *testing.T) {
 		result := gatewayProxyIsDefault(&structs.ConsulGatewayProxy{
-			ConnectTimeout: new(2 * time.Second),
+			ConnectTimeout: pointer.Of(2 * time.Second),
 			Config:         map[string]interface{}{"foo": 1},
 		})
 		require.True(t, result)
@@ -1054,7 +1055,7 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 			},
 		}, "bridge")
 		require.Equal(t, &structs.ConsulGatewayProxy{
-			ConnectTimeout:                  new(defaultConnectTimeout),
+			ConnectTimeout:                  pointer.Of(defaultConnectTimeout),
 			EnvoyGatewayNoDefaultBind:       true,
 			EnvoyGatewayBindTaggedAddresses: false,
 			EnvoyGatewayBindAddresses: map[string]*structs.ConsulGatewayBindAddress{
@@ -1068,7 +1069,7 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 	t.Run("ingress set defaults", func(t *testing.T) {
 		result := gatewayProxy(&structs.ConsulGateway{
 			Proxy: &structs.ConsulGatewayProxy{
-				ConnectTimeout: new(2 * time.Second),
+				ConnectTimeout: pointer.Of(2 * time.Second),
 				Config:         map[string]interface{}{"foo": 1},
 			},
 			Ingress: &structs.ConsulIngressConfigEntry{
@@ -1082,7 +1083,7 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 			},
 		}, "bridge")
 		require.Equal(t, &structs.ConsulGatewayProxy{
-			ConnectTimeout:                  new(2 * time.Second),
+			ConnectTimeout:                  pointer.Of(2 * time.Second),
 			Config:                          map[string]interface{}{"foo": 1},
 			EnvoyGatewayNoDefaultBind:       true,
 			EnvoyGatewayBindTaggedAddresses: false,
@@ -1122,7 +1123,7 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 	t.Run("terminating set defaults", func(t *testing.T) {
 		result := gatewayProxy(&structs.ConsulGateway{
 			Proxy: &structs.ConsulGatewayProxy{
-				ConnectTimeout:        new(2 * time.Second),
+				ConnectTimeout:        pointer.Of(2 * time.Second),
 				EnvoyDNSDiscoveryType: "STRICT_DNS",
 			},
 			Terminating: &structs.ConsulTerminatingConfigEntry{
@@ -1136,7 +1137,7 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 			},
 		}, "bridge")
 		require.Equal(t, &structs.ConsulGatewayProxy{
-			ConnectTimeout:                  new(2 * time.Second),
+			ConnectTimeout:                  pointer.Of(2 * time.Second),
 			EnvoyGatewayNoDefaultBind:       true,
 			EnvoyGatewayBindTaggedAddresses: false,
 			EnvoyDNSDiscoveryType:           "STRICT_DNS",
@@ -1173,14 +1174,14 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 	t.Run("mesh set defaults in bridge", func(t *testing.T) {
 		result := gatewayProxy(&structs.ConsulGateway{
 			Proxy: &structs.ConsulGatewayProxy{
-				ConnectTimeout: new(2 * time.Second),
+				ConnectTimeout: pointer.Of(2 * time.Second),
 			},
 			Mesh: &structs.ConsulMeshConfigEntry{
 				// nothing
 			},
 		}, "bridge")
 		require.Equal(t, &structs.ConsulGatewayProxy{
-			ConnectTimeout:                  new(2 * time.Second),
+			ConnectTimeout:                  pointer.Of(2 * time.Second),
 			EnvoyGatewayNoDefaultBind:       true,
 			EnvoyGatewayBindTaggedAddresses: false,
 			EnvoyGatewayBindAddresses: map[string]*structs.ConsulGatewayBindAddress{
@@ -1199,14 +1200,14 @@ func TestJobEndpointConnect_gatewayProxy(t *testing.T) {
 	t.Run("mesh set defaults in host", func(t *testing.T) {
 		result := gatewayProxy(&structs.ConsulGateway{
 			Proxy: &structs.ConsulGatewayProxy{
-				ConnectTimeout: new(2 * time.Second),
+				ConnectTimeout: pointer.Of(2 * time.Second),
 			},
 			Mesh: &structs.ConsulMeshConfigEntry{
 				// nothing
 			},
 		}, "host")
 		require.Equal(t, &structs.ConsulGatewayProxy{
-			ConnectTimeout: new(2 * time.Second),
+			ConnectTimeout: pointer.Of(2 * time.Second),
 		}, result)
 	})
 

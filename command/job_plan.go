@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/api"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/scheduler"
 	"github.com/mitchellh/colorstring"
 	"github.com/posener/complete"
@@ -194,7 +195,7 @@ func (c *JobPlanCommand) Run(args []string) int {
 
 	//  Set the vault namespace.
 	if vaultNamespace != "" {
-		job.VaultNamespace = new(vaultNamespace)
+		job.VaultNamespace = pointer.Of(vaultNamespace)
 	}
 
 	// Setup the options

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 //go:build !windows
@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/nomad/ci"
 	"github.com/hashicorp/nomad/client/taskenv"
 	clienttestutil "github.com/hashicorp/nomad/client/testutil"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/testutil"
@@ -36,8 +37,8 @@ func TestTaskTemplateManager_Permissions(t *testing.T) {
 		DestPath:     file,
 		ChangeMode:   structs.TemplateChangeModeNoop,
 		Perms:        "777",
-		Uid:          new(503),
-		Gid:          new(20),
+		Uid:          pointer.Of(503),
+		Gid:          pointer.Of(20),
 	}
 
 	harness := newTestHarness(t, []*structs.Template{template}, false, false)
@@ -58,8 +59,8 @@ func TestTaskTemplateManager_Permissions(t *testing.T) {
 	must.Eq(t, os.ModePerm, fi.Mode())
 
 	sys := fi.Sys()
-	uid := new(int(sys.(*syscall.Stat_t).Uid))
-	gid := new(int(sys.(*syscall.Stat_t).Gid))
+	uid := pointer.Of(int(sys.(*syscall.Stat_t).Uid))
+	gid := pointer.Of(int(sys.(*syscall.Stat_t).Gid))
 
 	must.Eq(t, template.Uid, uid)
 	must.Eq(t, template.Gid, gid)

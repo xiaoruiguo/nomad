@@ -57,6 +57,7 @@ import (
 	"github.com/hashicorp/nomad/helper/escapingfs"
 	"github.com/hashicorp/nomad/helper/goruntime"
 	"github.com/hashicorp/nomad/helper/group"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/pool"
 	"github.com/hashicorp/nomad/helper/tlsutil"
 	"github.com/hashicorp/nomad/helper/users/dynamic"
@@ -2841,7 +2842,7 @@ func makeFailedAlloc(add *structs.Allocation, err error) *structs.Allocation {
 		stripped.DeploymentStatus = add.DeploymentStatus.Copy()
 	} else {
 		stripped.DeploymentStatus = &structs.AllocDeploymentStatus{
-			Healthy:   new(false),
+			Healthy:   pointer.Of(false),
 			Timestamp: failTime,
 		}
 	}

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package nomad
@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/go-set/v3"
 	"github.com/hashicorp/nomad/client/taskenv"
 	"github.com/hashicorp/nomad/helper/envoy"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/structs"
 )
@@ -441,7 +442,7 @@ func gatewayProxy(gateway *structs.ConsulGateway, mode string) *structs.ConsulGa
 
 	// set default connect timeout if not set
 	if proxy.ConnectTimeout == nil {
-		proxy.ConnectTimeout = new(defaultConnectTimeout)
+		proxy.ConnectTimeout = pointer.Of(defaultConnectTimeout)
 	}
 
 	if mode == "bridge" || strings.HasPrefix(mode, "cni/") {

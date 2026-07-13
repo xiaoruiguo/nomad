@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package command
@@ -12,6 +12,7 @@ import (
 
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/command/agent"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/testutil"
 	"github.com/shoenig/test/must"
@@ -25,7 +26,7 @@ func testServer(t *testing.T, runClient bool, cb func(*agent.Config)) (*agent.Te
 		config.Client.Enabled = runClient
 
 		// Disable UI hints in test by default
-		config.UI.ShowCLIHints = new(false)
+		config.UI.ShowCLIHints = pointer.Of(false)
 
 		if cb != nil {
 			cb(config)
@@ -61,22 +62,22 @@ func testJob(jobID string) *api.Job {
 		SetConfig("run_for", "5s").
 		SetConfig("exit_code", 0).
 		Require(&api.Resources{
-			MemoryMB: new(256),
-			CPU:      new(100),
+			MemoryMB: pointer.Of(256),
+			CPU:      pointer.Of(100),
 		}).
 		SetLogConfig(&api.LogConfig{
-			MaxFiles:      new(1),
-			MaxFileSizeMB: new(2),
+			MaxFiles:      pointer.Of(1),
+			MaxFileSizeMB: pointer.Of(2),
 		})
 
 	group := api.NewTaskGroup("group1", 1).
 		AddTask(task).
 		RequireDisk(&api.EphemeralDisk{
-			SizeMB: new(20),
+			SizeMB: pointer.Of(20),
 		}).ScalingPolicy(&api.ScalingPolicy{
-		Min:     new(int64(1)),
-		Max:     new(int64(5)),
-		Enabled: new(true),
+		Min:     pointer.Of(int64(1)),
+		Max:     pointer.Of(int64(5)),
+		Enabled: pointer.Of(true),
 	})
 
 	job := api.NewBatchJob(jobID, jobID, "global", 1).
@@ -108,18 +109,18 @@ func testServiceJob(jobID string) *api.Job {
 	task := api.NewTask("task1", "mock_driver").
 		SetConfig("exit_code", 0).
 		Require(&api.Resources{
-			MemoryMB: new(256),
-			CPU:      new(100),
+			MemoryMB: pointer.Of(256),
+			CPU:      pointer.Of(100),
 		}).
 		SetLogConfig(&api.LogConfig{
-			MaxFiles:      new(1),
-			MaxFileSizeMB: new(2),
+			MaxFiles:      pointer.Of(1),
+			MaxFileSizeMB: pointer.Of(2),
 		})
 
 	group := api.NewTaskGroup("group1", 1).
 		AddTask(task).
 		RequireDisk(&api.EphemeralDisk{
-			SizeMB: new(20),
+			SizeMB: pointer.Of(20),
 		})
 
 	job := api.NewServiceJob(jobID, jobID, "global", 1).
@@ -134,18 +135,18 @@ func testMultiRegionJob(jobID, region, datacenter string) *api.Job {
 		SetConfig("run_for", "15s").
 		SetConfig("exit_code", 0).
 		Require(&api.Resources{
-			MemoryMB: new(256),
-			CPU:      new(100),
+			MemoryMB: pointer.Of(256),
+			CPU:      pointer.Of(100),
 		}).
 		SetLogConfig(&api.LogConfig{
-			MaxFiles:      new(1),
-			MaxFileSizeMB: new(2),
+			MaxFiles:      pointer.Of(1),
+			MaxFileSizeMB: pointer.Of(2),
 		})
 
 	group := api.NewTaskGroup("group1", 1).
 		AddTask(task).
 		RequireDisk(&api.EphemeralDisk{
-			SizeMB: new(20),
+			SizeMB: pointer.Of(20),
 		})
 
 	job := api.NewServiceJob(jobID, jobID, region, 1).AddDatacenter(datacenter).AddTaskGroup(group)

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/shoenig/test/must"
 )
 
@@ -16,7 +17,7 @@ func TestVaultConfig_Merge(t *testing.T) {
 	ci.Parallel(t)
 
 	c1 := &VaultConfig{
-		Enabled:            new(false),
+		Enabled:            pointer.Of(false),
 		Role:               "1",
 		Addr:               "1",
 		JWTAuthBackendPath: "jwt",
@@ -24,13 +25,13 @@ func TestVaultConfig_Merge(t *testing.T) {
 		TLSCaPath:          "1",
 		TLSCertFile:        "1",
 		TLSKeyFile:         "1",
-		TLSSkipVerify:      new(true),
+		TLSSkipVerify:      pointer.Of(true),
 		TLSServerName:      "1",
 		DefaultIdentity:    nil,
 	}
 
 	c2 := &VaultConfig{
-		Enabled:            new(true),
+		Enabled:            pointer.Of(true),
 		Role:               "2",
 		Addr:               "2",
 		JWTAuthBackendPath: "jwt2",
@@ -42,13 +43,13 @@ func TestVaultConfig_Merge(t *testing.T) {
 		TLSServerName:      "2",
 		DefaultIdentity: &WorkloadIdentityConfig{
 			Audience: []string{"vault.dev"},
-			Env:      new(true),
-			File:     new(false),
+			Env:      pointer.Of(true),
+			File:     pointer.Of(false),
 		},
 	}
 
 	e := &VaultConfig{
-		Enabled:            new(true),
+		Enabled:            pointer.Of(true),
 		Role:               "2",
 		Addr:               "2",
 		JWTAuthBackendPath: "jwt2",
@@ -56,12 +57,12 @@ func TestVaultConfig_Merge(t *testing.T) {
 		TLSCaPath:          "2",
 		TLSCertFile:        "2",
 		TLSKeyFile:         "2",
-		TLSSkipVerify:      new(true),
+		TLSSkipVerify:      pointer.Of(true),
 		TLSServerName:      "2",
 		DefaultIdentity: &WorkloadIdentityConfig{
 			Audience: []string{"vault.dev"},
-			Env:      new(true),
-			File:     new(false),
+			Env:      pointer.Of(true),
+			File:     pointer.Of(false),
 		},
 	}
 
@@ -75,7 +76,7 @@ func TestVaultConfig_Equals(t *testing.T) {
 	ci.Parallel(t)
 
 	c1 := &VaultConfig{
-		Enabled:             new(false),
+		Enabled:             pointer.Of(false),
 		Role:                "1",
 		Namespace:           "1",
 		Addr:                "1",
@@ -85,17 +86,17 @@ func TestVaultConfig_Equals(t *testing.T) {
 		TLSCaPath:           "1",
 		TLSCertFile:         "1",
 		TLSKeyFile:          "1",
-		TLSSkipVerify:       new(true),
+		TLSSkipVerify:       pointer.Of(true),
 		TLSServerName:       "1",
 		DefaultIdentity: &WorkloadIdentityConfig{
 			Audience: []string{"vault.dev"},
-			Env:      new(true),
-			File:     new(false),
+			Env:      pointer.Of(true),
+			File:     pointer.Of(false),
 		},
 	}
 
 	c2 := &VaultConfig{
-		Enabled:             new(false),
+		Enabled:             pointer.Of(false),
 		Role:                "1",
 		Namespace:           "1",
 		Addr:                "1",
@@ -105,19 +106,19 @@ func TestVaultConfig_Equals(t *testing.T) {
 		TLSCaPath:           "1",
 		TLSCertFile:         "1",
 		TLSKeyFile:          "1",
-		TLSSkipVerify:       new(true),
+		TLSSkipVerify:       pointer.Of(true),
 		TLSServerName:       "1",
 		DefaultIdentity: &WorkloadIdentityConfig{
 			Audience: []string{"vault.dev"},
-			Env:      new(true),
-			File:     new(false),
+			Env:      pointer.Of(true),
+			File:     pointer.Of(false),
 		},
 	}
 
 	must.Equal(t, c1, c2)
 
 	c3 := &VaultConfig{
-		Enabled:             new(true),
+		Enabled:             pointer.Of(true),
 		Role:                "1",
 		Namespace:           "1",
 		Addr:                "1",
@@ -126,17 +127,17 @@ func TestVaultConfig_Equals(t *testing.T) {
 		TLSCaPath:           "1",
 		TLSCertFile:         "1",
 		TLSKeyFile:          "1",
-		TLSSkipVerify:       new(true),
+		TLSSkipVerify:       pointer.Of(true),
 		TLSServerName:       "1",
 		DefaultIdentity: &WorkloadIdentityConfig{
 			Audience: []string{"vault.dev"},
-			Env:      new(true),
-			File:     new(false),
+			Env:      pointer.Of(true),
+			File:     pointer.Of(false),
 		},
 	}
 
 	c4 := &VaultConfig{
-		Enabled:             new(false),
+		Enabled:             pointer.Of(false),
 		Role:                "1",
 		Namespace:           "1",
 		Addr:                "1",
@@ -145,12 +146,12 @@ func TestVaultConfig_Equals(t *testing.T) {
 		TLSCaPath:           "1",
 		TLSCertFile:         "1",
 		TLSKeyFile:          "1",
-		TLSSkipVerify:       new(true),
+		TLSSkipVerify:       pointer.Of(true),
 		TLSServerName:       "1",
 		DefaultIdentity: &WorkloadIdentityConfig{
 			Audience: []string{"vault.io"},
-			Env:      new(false),
-			File:     new(true),
+			Env:      pointer.Of(false),
+			File:     pointer.Of(true),
 		},
 	}
 

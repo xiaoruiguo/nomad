@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -25,12 +26,12 @@ func TestScheduler_JobRegister_MemoryMaxHonored(t *testing.T) {
 
 	poolWithMemOversub := mock.NodePool()
 	poolWithMemOversub.SchedulerConfiguration = &structs.NodePoolSchedulerConfiguration{
-		MemoryOversubscriptionEnabled: new(true),
+		MemoryOversubscriptionEnabled: pointer.Of(true),
 	}
 
 	poolNoMemOversub := mock.NodePool()
 	poolNoMemOversub.SchedulerConfiguration = &structs.NodePoolSchedulerConfiguration{
-		MemoryOversubscriptionEnabled: new(false),
+		MemoryOversubscriptionEnabled: pointer.Of(false),
 	}
 
 	cases := []struct {

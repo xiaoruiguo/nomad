@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"slices"
 	"strings"
+
+	"github.com/hashicorp/nomad/helper/pointer"
 )
 
 // UIConfig contains the operator configuration of the web UI
@@ -145,7 +147,7 @@ func DefaultUIConfig() *UIConfig {
 		Vault:                 &VaultUIConfig{},
 		Label:                 &LabelUIConfig{},
 		ContentSecurityPolicy: DefaultCSPConfig(),
-		ShowCLIHints:          new(true),
+		ShowCLIHints:          pointer.Of(true),
 	}
 }
 

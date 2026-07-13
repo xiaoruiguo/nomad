@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/structs/config"
 	"github.com/shoenig/test/must"
 )
@@ -38,72 +39,72 @@ func TestArtifactConfigFromAgent(t *testing.T) {
 		{
 			name: "invalid http read timeout",
 			config: &config.ArtifactConfig{
-				HTTPReadTimeout: new("invalid"),
-				HTTPMaxSize:     new("100GB"),
-				GCSTimeout:      new("30m"),
-				GitTimeout:      new("30m"),
-				HgTimeout:       new("30m"),
-				S3Timeout:       new("30m"),
+				HTTPReadTimeout: pointer.Of("invalid"),
+				HTTPMaxSize:     pointer.Of("100GB"),
+				GCSTimeout:      pointer.Of("30m"),
+				GitTimeout:      pointer.Of("30m"),
+				HgTimeout:       pointer.Of("30m"),
+				S3Timeout:       pointer.Of("30m"),
 			},
 			expErr: "error parsing HTTPReadTimeout",
 		},
 		{
 			name: "invalid http max size",
 			config: &config.ArtifactConfig{
-				HTTPReadTimeout: new("30m"),
-				HTTPMaxSize:     new("invalid"),
-				GCSTimeout:      new("30m"),
-				GitTimeout:      new("30m"),
-				HgTimeout:       new("30m"),
-				S3Timeout:       new("30m"),
+				HTTPReadTimeout: pointer.Of("30m"),
+				HTTPMaxSize:     pointer.Of("invalid"),
+				GCSTimeout:      pointer.Of("30m"),
+				GitTimeout:      pointer.Of("30m"),
+				HgTimeout:       pointer.Of("30m"),
+				S3Timeout:       pointer.Of("30m"),
 			},
 			expErr: "error parsing HTTPMaxSize",
 		},
 		{
 			name: "invalid gcs timeout",
 			config: &config.ArtifactConfig{
-				HTTPReadTimeout: new("30m"),
-				HTTPMaxSize:     new("100GB"),
-				GCSTimeout:      new("invalid"),
-				GitTimeout:      new("30m"),
-				HgTimeout:       new("30m"),
-				S3Timeout:       new("30m"),
+				HTTPReadTimeout: pointer.Of("30m"),
+				HTTPMaxSize:     pointer.Of("100GB"),
+				GCSTimeout:      pointer.Of("invalid"),
+				GitTimeout:      pointer.Of("30m"),
+				HgTimeout:       pointer.Of("30m"),
+				S3Timeout:       pointer.Of("30m"),
 			},
 			expErr: "error parsing GCSTimeout",
 		},
 		{
 			name: "invalid git timeout",
 			config: &config.ArtifactConfig{
-				HTTPReadTimeout: new("30m"),
-				HTTPMaxSize:     new("100GB"),
-				GCSTimeout:      new("30m"),
-				GitTimeout:      new("invalid"),
-				HgTimeout:       new("30m"),
-				S3Timeout:       new("30m"),
+				HTTPReadTimeout: pointer.Of("30m"),
+				HTTPMaxSize:     pointer.Of("100GB"),
+				GCSTimeout:      pointer.Of("30m"),
+				GitTimeout:      pointer.Of("invalid"),
+				HgTimeout:       pointer.Of("30m"),
+				S3Timeout:       pointer.Of("30m"),
 			},
 			expErr: "error parsing GitTimeout",
 		},
 		{
 			name: "invalid hg timeout",
 			config: &config.ArtifactConfig{
-				HTTPReadTimeout: new("30m"),
-				HTTPMaxSize:     new("100GB"),
-				GCSTimeout:      new("30m"),
-				GitTimeout:      new("30m"),
-				HgTimeout:       new("invalid"),
-				S3Timeout:       new("30m"),
+				HTTPReadTimeout: pointer.Of("30m"),
+				HTTPMaxSize:     pointer.Of("100GB"),
+				GCSTimeout:      pointer.Of("30m"),
+				GitTimeout:      pointer.Of("30m"),
+				HgTimeout:       pointer.Of("invalid"),
+				S3Timeout:       pointer.Of("30m"),
 			},
 			expErr: "error parsing HgTimeout",
 		},
 		{
 			name: "invalid s3 timeout",
 			config: &config.ArtifactConfig{
-				HTTPReadTimeout: new("30m"),
-				HTTPMaxSize:     new("100GB"),
-				GCSTimeout:      new("30m"),
-				GitTimeout:      new("30m"),
-				HgTimeout:       new("30m"),
-				S3Timeout:       new("invalid"),
+				HTTPReadTimeout: pointer.Of("30m"),
+				HTTPMaxSize:     pointer.Of("100GB"),
+				GCSTimeout:      pointer.Of("30m"),
+				GitTimeout:      pointer.Of("30m"),
+				HgTimeout:       pointer.Of("30m"),
+				S3Timeout:       pointer.Of("invalid"),
 			},
 			expErr: "error parsing S3Timeout",
 		},

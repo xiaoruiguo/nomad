@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/nomad/acl"
 	api "github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/shoenig/test/must"
@@ -658,8 +659,8 @@ func TestHTTP_jobUpdate_systemScaling(t *testing.T) {
 	httpTest(t, nil, func(s *TestAgent) {
 		// Create the job
 		job := MockJob()
-		job.Type = new("system")
-		job.TaskGroups[0].Scaling = &api.ScalingPolicy{Enabled: new(true)}
+		job.Type = pointer.Of("system")
+		job.TaskGroups[0].Scaling = &api.ScalingPolicy{Enabled: pointer.Of(true)}
 		args := api.JobRegisterRequest{
 			Job: job,
 			WriteRequest: api.WriteRequest{
@@ -1167,7 +1168,7 @@ func TestHTTP_Job_ScaleTaskGroup(t *testing.T) {
 
 		newCount := job.TaskGroups[0].Count + 1
 		scaleReq := &api.ScalingRequest{
-			Count:   new(int64(newCount)),
+			Count:   pointer.Of(int64(newCount)),
 			Message: "testing",
 			Target: map[string]string{
 				"Job":   job.ID,
@@ -2373,7 +2374,7 @@ func TestJobs_ParsingWriteRequest(t *testing.T) {
 			srv.agent = &Agent{config: &Config{Region: agentRegion}}
 
 			job := &api.Job{
-				Region:      new(tc.jobRegion),
+				Region:      pointer.Of(tc.jobRegion),
 				Multiregion: tc.multiregion,
 			}
 
@@ -2497,7 +2498,7 @@ func TestJobs_RegionForJob(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			job := &api.Job{
-				Region:      new(tc.jobRegion),
+				Region:      pointer.Of(tc.jobRegion),
 				Multiregion: tc.multiregion,
 			}
 			requestRegion, jobRegion := regionForJob(
@@ -2691,15 +2692,15 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 	ci.Parallel(t)
 
 	apiJob := &api.Job{
-		Stop:        new(true),
-		Region:      new("global"),
-		Namespace:   new("foo"),
-		ID:          new("foo"),
-		ParentID:    new("lol"),
-		Name:        new("name"),
-		Type:        new("service"),
-		Priority:    new(50),
-		AllAtOnce:   new(true),
+		Stop:        pointer.Of(true),
+		Region:      pointer.Of("global"),
+		Namespace:   pointer.Of("foo"),
+		ID:          pointer.Of("foo"),
+		ParentID:    pointer.Of("lol"),
+		Name:        pointer.Of("name"),
+		Type:        pointer.Of("service"),
+		Priority:    pointer.Of(50),
+		AllAtOnce:   pointer.Of(true),
 		Datacenters: []string{"dc1", "dc2"},
 		Constraints: []*api.Constraint{
 			{
@@ -2713,23 +2714,23 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 				LTarget: "a",
 				RTarget: "b",
 				Operand: "c",
-				Weight:  new(int8(50)),
+				Weight:  pointer.Of(int8(50)),
 			},
 		},
 		Update: &api.UpdateStrategy{
-			Stagger:          new(1 * time.Second),
-			MaxParallel:      new(5),
-			HealthCheck:      new(structs.UpdateStrategyHealthCheck_Manual),
-			MinHealthyTime:   new(1 * time.Minute),
-			HealthyDeadline:  new(3 * time.Minute),
-			ProgressDeadline: new(3 * time.Minute),
-			AutoRevert:       new(false),
-			Canary:           new(1),
+			Stagger:          pointer.Of(1 * time.Second),
+			MaxParallel:      pointer.Of(5),
+			HealthCheck:      pointer.Of(structs.UpdateStrategyHealthCheck_Manual),
+			MinHealthyTime:   pointer.Of(1 * time.Minute),
+			HealthyDeadline:  pointer.Of(3 * time.Minute),
+			ProgressDeadline: pointer.Of(3 * time.Minute),
+			AutoRevert:       pointer.Of(false),
+			Canary:           pointer.Of(1),
 		},
 		Spreads: []*api.Spread{
 			{
 				Attribute: "${meta.rack}",
-				Weight:    new(int8(100)),
+				Weight:    pointer.Of(int8(100)),
 				SpreadTarget: []*api.SpreadTarget{
 					{
 						Value:   "r1",
@@ -2739,12 +2740,12 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 			},
 		},
 		Periodic: &api.PeriodicConfig{
-			Enabled:         new(true),
-			Spec:            new("spec"),
+			Enabled:         pointer.Of(true),
+			Spec:            pointer.Of("spec"),
 			Specs:           []string{"spec"},
-			SpecType:        new("cron"),
-			ProhibitOverlap: new(true),
-			TimeZone:        new("test zone"),
+			SpecType:        pointer.Of("cron"),
+			ProhibitOverlap: pointer.Of(true),
+			TimeZone:        pointer.Of("test zone"),
 		},
 		ParameterizedJob: &api.ParameterizedJobConfig{
 			Payload:      "payload",
@@ -2757,13 +2758,13 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 		},
 		Multiregion: &api.Multiregion{
 			Strategy: &api.MultiregionStrategy{
-				MaxParallel: new(2),
-				OnFailure:   new("fail_all"),
+				MaxParallel: pointer.Of(2),
+				OnFailure:   pointer.Of("fail_all"),
 			},
 			Regions: []*api.MultiregionRegion{
 				{
 					Name:        "west",
-					Count:       new(1),
+					Count:       pointer.Of(1),
 					Datacenters: []string{"dc1", "dc2"},
 					Meta:        map[string]string{"region_code": "W"},
 				},
@@ -2771,8 +2772,8 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 		},
 		TaskGroups: []*api.TaskGroup{
 			{
-				Name:  new("group1"),
-				Count: new(5),
+				Name:  pointer.Of("group1"),
+				Count: pointer.Of(5),
 				Constraints: []*api.Constraint{
 					{
 						LTarget: "x",
@@ -2785,34 +2786,34 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 						LTarget: "x",
 						RTarget: "y",
 						Operand: "z",
-						Weight:  new(int8(100)),
+						Weight:  pointer.Of(int8(100)),
 					},
 				},
 				RestartPolicy: &api.RestartPolicy{
-					Interval:        new(1 * time.Second),
-					Attempts:        new(5),
-					Delay:           new(10 * time.Second),
-					Mode:            new("delay"),
-					RenderTemplates: new(false),
+					Interval:        pointer.Of(1 * time.Second),
+					Attempts:        pointer.Of(5),
+					Delay:           pointer.Of(10 * time.Second),
+					Mode:            pointer.Of("delay"),
+					RenderTemplates: pointer.Of(false),
 				},
 				ReschedulePolicy: &api.ReschedulePolicy{
-					Interval:      new(12 * time.Hour),
-					Attempts:      new(5),
-					DelayFunction: new("constant"),
-					Delay:         new(30 * time.Second),
-					Unlimited:     new(true),
-					MaxDelay:      new(20 * time.Minute),
+					Interval:      pointer.Of(12 * time.Hour),
+					Attempts:      pointer.Of(5),
+					DelayFunction: pointer.Of("constant"),
+					Delay:         pointer.Of(30 * time.Second),
+					Unlimited:     pointer.Of(true),
+					MaxDelay:      pointer.Of(20 * time.Minute),
 				},
 				Migrate: &api.MigrateStrategy{
-					MaxParallel:     new(12),
-					HealthCheck:     new("task_events"),
-					MinHealthyTime:  new(12 * time.Hour),
-					HealthyDeadline: new(12 * time.Hour),
+					MaxParallel:     pointer.Of(12),
+					HealthCheck:     pointer.Of("task_events"),
+					MinHealthyTime:  pointer.Of(12 * time.Hour),
+					HealthyDeadline: pointer.Of(12 * time.Hour),
 				},
 				Spreads: []*api.Spread{
 					{
 						Attribute: "${node.datacenter}",
-						Weight:    new(int8(100)),
+						Weight:    pointer.Of(int8(100)),
 						SpreadTarget: []*api.SpreadTarget{
 							{
 								Value:   "dc1",
@@ -2822,18 +2823,18 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 					},
 				},
 				EphemeralDisk: &api.EphemeralDisk{
-					SizeMB:  new(100),
-					Sticky:  new(true),
-					Migrate: new(true),
+					SizeMB:  pointer.Of(100),
+					Sticky:  pointer.Of(true),
+					Migrate: pointer.Of(true),
 				},
 				Update: &api.UpdateStrategy{
-					HealthCheck:      new(structs.UpdateStrategyHealthCheck_Checks),
-					MinHealthyTime:   new(2 * time.Minute),
-					HealthyDeadline:  new(5 * time.Minute),
-					ProgressDeadline: new(5 * time.Minute),
-					AutoRevert:       new(true),
+					HealthCheck:      pointer.Of(structs.UpdateStrategyHealthCheck_Checks),
+					MinHealthyTime:   pointer.Of(2 * time.Minute),
+					HealthyDeadline:  pointer.Of(5 * time.Minute),
+					ProgressDeadline: pointer.Of(5 * time.Minute),
+					AutoRevert:       pointer.Of(true),
 				},
-				MaxRunDuration: new(10 * time.Second),
+				MaxRunDuration: pointer.Of(10 * time.Second),
 				Meta: map[string]string{
 					"key": "value",
 				},
@@ -2860,7 +2861,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 						},
 						CheckRestart: &api.CheckRestart{
 							Limit: 4,
-							Grace: new(11 * time.Second),
+							Grace: pointer.Of(11 * time.Second),
 						},
 						Checks: []api.ServiceCheck{
 							{
@@ -2905,7 +2906,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 					},
 				},
 				Disconnect: &api.DisconnectStrategy{
-					LostAfter: new(30 * time.Second),
+					LostAfter: pointer.Of(30 * time.Second),
 				},
 				Tasks: []*api.Task{
 					{
@@ -2931,7 +2932,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 								LTarget: "a",
 								RTarget: "b",
 								Operand: "c",
-								Weight:  new(int8(50)),
+								Weight:  pointer.Of(int8(50)),
 							},
 						},
 						Identities: []*api.WorkloadIdentity{
@@ -2946,18 +2947,18 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 						},
 						VolumeMounts: []*api.VolumeMount{
 							{
-								Volume:          new("vol"),
-								Destination:     new("dest"),
-								ReadOnly:        new(false),
-								PropagationMode: new("a"),
+								Volume:          pointer.Of("vol"),
+								Destination:     pointer.Of("dest"),
+								ReadOnly:        pointer.Of(false),
+								PropagationMode: pointer.Of("a"),
 							},
 						},
 						RestartPolicy: &api.RestartPolicy{
-							Interval:        new(2 * time.Second),
-							Attempts:        new(10),
-							Delay:           new(20 * time.Second),
-							Mode:            new("delay"),
-							RenderTemplates: new(false),
+							Interval:        pointer.Of(2 * time.Second),
+							Attempts:        pointer.Of(10),
+							Delay:           pointer.Of(20 * time.Second),
+							Mode:            pointer.Of("delay"),
+							RenderTemplates: pointer.Of(false),
 						},
 						Services: []*api.Service{
 							{
@@ -2976,7 +2977,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 								},
 								CheckRestart: &api.CheckRestart{
 									Limit: 4,
-									Grace: new(11 * time.Second),
+									Grace: pointer.Of(11 * time.Second),
 								},
 								Checks: []api.ServiceCheck{
 									{
@@ -3013,12 +3014,12 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 							},
 						},
 						Resources: &api.Resources{
-							CPU:      new(100),
-							MemoryMB: new(10),
+							CPU:      pointer.Of(100),
+							MemoryMB: pointer.Of(10),
 							Networks: []*api.NetworkResource{
 								{
 									IP:       "10.10.11.1",
-									MBits:    new(10),
+									MBits:    pointer.Of(10),
 									Hostname: "foobar",
 									ReservedPorts: []api.Port{
 										{
@@ -3037,7 +3038,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 							Devices: []*api.RequestedDevice{
 								{
 									Name:  "nvidia/gpu",
-									Count: new(uint64(4)),
+									Count: pointer.Of(uint64(4)),
 									Constraints: []*api.Constraint{
 										{
 											LTarget: "x",
@@ -3050,7 +3051,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 											LTarget: "a",
 											RTarget: "b",
 											Operand: "c",
-											Weight:  new(int8(50)),
+											Weight:  pointer.Of(int8(50)),
 										},
 									},
 								},
@@ -3063,58 +3064,58 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 						Meta: map[string]string{
 							"lol": "code",
 						},
-						KillTimeout: new(10 * time.Second),
+						KillTimeout: pointer.Of(10 * time.Second),
 						KillSignal:  "SIGQUIT",
 						LogConfig: &api.LogConfig{
-							Disabled:      new(true),
-							MaxFiles:      new(10),
-							MaxFileSizeMB: new(100),
+							Disabled:      pointer.Of(true),
+							MaxFiles:      pointer.Of(10),
+							MaxFileSizeMB: pointer.Of(100),
 						},
 						Artifacts: []*api.TaskArtifact{
 							{
-								GetterSource: new("source"),
+								GetterSource: pointer.Of("source"),
 								GetterOptions: map[string]string{
 									"a": "b",
 								},
-								GetterMode:   new("dir"),
-								RelativeDest: new("dest"),
+								GetterMode:   pointer.Of("dir"),
+								RelativeDest: pointer.Of("dest"),
 								Chown:        true,
 							},
 						},
 						Vault: &api.Vault{
 							Role:         "nomad-task",
-							Namespace:    new("ns1"),
+							Namespace:    pointer.Of("ns1"),
 							Policies:     []string{"a", "b", "c"},
-							Env:          new(true),
-							DisableFile:  new(false),
-							ChangeMode:   new("c"),
-							ChangeSignal: new("sighup"),
+							Env:          pointer.Of(true),
+							DisableFile:  pointer.Of(false),
+							ChangeMode:   pointer.Of("c"),
+							ChangeSignal: pointer.Of("sighup"),
 						},
 						Templates: []*api.Template{
 							{
-								SourcePath:   new("source"),
-								DestPath:     new("dest"),
-								EmbeddedTmpl: new("embedded"),
-								ChangeMode:   new("change"),
-								ChangeSignal: new("signal"),
+								SourcePath:   pointer.Of("source"),
+								DestPath:     pointer.Of("dest"),
+								EmbeddedTmpl: pointer.Of("embedded"),
+								ChangeMode:   pointer.Of("change"),
+								ChangeSignal: pointer.Of("signal"),
 								ChangeScript: &api.ChangeScript{
-									Command:     new("/bin/foo"),
+									Command:     pointer.Of("/bin/foo"),
 									Args:        []string{"-h"},
-									Timeout:     new(5 * time.Second),
-									FailOnError: new(false),
+									Timeout:     pointer.Of(5 * time.Second),
+									FailOnError: pointer.Of(false),
 								},
-								Splay:      new(1 * time.Minute),
-								Perms:      new("666"),
-								Uid:        new(1000),
-								Gid:        new(1000),
-								LeftDelim:  new("abc"),
-								RightDelim: new("def"),
-								Envvars:    new(true),
+								Splay:      pointer.Of(1 * time.Minute),
+								Perms:      pointer.Of("666"),
+								Uid:        pointer.Of(1000),
+								Gid:        pointer.Of(1000),
+								LeftDelim:  pointer.Of("abc"),
+								RightDelim: pointer.Of("def"),
+								Envvars:    pointer.Of(true),
 								Wait: &api.WaitConfig{
-									Min: new(5 * time.Second),
-									Max: new(10 * time.Second),
+									Min: pointer.Of(5 * time.Second),
+									Max: pointer.Of(10 * time.Second),
 								},
-								ErrMissingKey: new(true),
+								ErrMissingKey: pointer.Of(true),
 							},
 						},
 						DispatchPayload: &api.DispatchPayloadConfig{
@@ -3124,13 +3125,13 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 				},
 			},
 		},
-		VaultNamespace:    new("ghi789"),
-		Status:            new("status"),
-		StatusDescription: new("status_desc"),
-		Version:           new(uint64(10)),
-		CreateIndex:       new(uint64(1)),
-		ModifyIndex:       new(uint64(3)),
-		JobModifyIndex:    new(uint64(5)),
+		VaultNamespace:    pointer.Of("ghi789"),
+		Status:            pointer.Of("status"),
+		StatusDescription: pointer.Of("status_desc"),
+		Version:           pointer.Of(uint64(10)),
+		CreateIndex:       pointer.Of(uint64(1)),
+		ModifyIndex:       pointer.Of(uint64(3)),
+		JobModifyIndex:    pointer.Of(uint64(5)),
 	}
 
 	expected := &structs.Job{
@@ -3275,7 +3276,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 					AutoPromote:      false,
 					Canary:           1,
 				},
-				MaxRunDuration: new(10 * time.Second),
+				MaxRunDuration: pointer.Of(10 * time.Second),
 				Meta: map[string]string{
 					"key": "value",
 				},
@@ -3351,7 +3352,7 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 				},
 				Disconnect: &structs.DisconnectStrategy{
 					LostAfter: 30 * time.Second,
-					Replace:   new(true),
+					Replace:   pointer.Of(true),
 					Reconcile: structs.ReconcileOptionBestScore,
 				},
 				Tasks: []*structs.Task{
@@ -3560,14 +3561,14 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 								},
 								Splay:      1 * time.Minute,
 								Perms:      "666",
-								Uid:        new(1000),
-								Gid:        new(1000),
+								Uid:        pointer.Of(1000),
+								Gid:        pointer.Of(1000),
 								LeftDelim:  "abc",
 								RightDelim: "def",
 								Envvars:    true,
 								Wait: &structs.WaitConfig{
-									Min: new(5 * time.Second),
-									Max: new(10 * time.Second),
+									Min: pointer.Of(5 * time.Second),
+									Max: pointer.Of(10 * time.Second),
 								},
 								ErrMissingKey: true,
 							},
@@ -3587,17 +3588,17 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 	must.Eq(t, expected, structsJob)
 
 	systemAPIJob := &api.Job{
-		Stop:        new(true),
-		Region:      new("global"),
-		Namespace:   new("foo"),
-		ID:          new("foo"),
-		ParentID:    new("lol"),
-		Name:        new("name"),
-		Type:        new("system"),
-		Priority:    new(50),
-		AllAtOnce:   new(true),
+		Stop:        pointer.Of(true),
+		Region:      pointer.Of("global"),
+		Namespace:   pointer.Of("foo"),
+		ID:          pointer.Of("foo"),
+		ParentID:    pointer.Of("lol"),
+		Name:        pointer.Of("name"),
+		Type:        pointer.Of("system"),
+		Priority:    pointer.Of(50),
+		AllAtOnce:   pointer.Of(true),
 		Datacenters: []string{"dc1", "dc2"},
-		NodePool:    new("default"),
+		NodePool:    pointer.Of("default"),
 		Constraints: []*api.Constraint{
 			{
 				LTarget: "a",
@@ -3607,8 +3608,8 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 		},
 		TaskGroups: []*api.TaskGroup{
 			{
-				Name:  new("group1"),
-				Count: new(5),
+				Name:  pointer.Of("group1"),
+				Count: pointer.Of(5),
 				Constraints: []*api.Constraint{
 					{
 						LTarget: "x",
@@ -3617,16 +3618,16 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 					},
 				},
 				RestartPolicy: &api.RestartPolicy{
-					Interval:        new(1 * time.Second),
-					Attempts:        new(5),
-					Delay:           new(10 * time.Second),
-					Mode:            new("delay"),
-					RenderTemplates: new(false),
+					Interval:        pointer.Of(1 * time.Second),
+					Attempts:        pointer.Of(5),
+					Delay:           pointer.Of(10 * time.Second),
+					Mode:            pointer.Of("delay"),
+					RenderTemplates: pointer.Of(false),
 				},
 				EphemeralDisk: &api.EphemeralDisk{
-					SizeMB:  new(100),
-					Sticky:  new(true),
-					Migrate: new(true),
+					SizeMB:  pointer.Of(100),
+					Sticky:  pointer.Of(true),
+					Migrate: pointer.Of(true),
 				},
 				Meta: map[string]string{
 					"key": "value",
@@ -3654,12 +3655,12 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 							},
 						},
 						Resources: &api.Resources{
-							CPU:      new(100),
-							MemoryMB: new(10),
+							CPU:      pointer.Of(100),
+							MemoryMB: pointer.Of(10),
 							Networks: []*api.NetworkResource{
 								{
 									IP:    "10.10.11.1",
-									MBits: new(10),
+									MBits: pointer.Of(10),
 									ReservedPorts: []api.Port{
 										{
 											Label: "http",
@@ -3678,20 +3679,20 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 						Meta: map[string]string{
 							"lol": "code",
 						},
-						KillTimeout: new(10 * time.Second),
+						KillTimeout: pointer.Of(10 * time.Second),
 						KillSignal:  "SIGQUIT",
 						LogConfig: &api.LogConfig{
-							Disabled:      new(true),
-							MaxFiles:      new(10),
-							MaxFileSizeMB: new(100),
+							Disabled:      pointer.Of(true),
+							MaxFiles:      pointer.Of(10),
+							MaxFileSizeMB: pointer.Of(100),
 						},
 						Artifacts: []*api.TaskArtifact{
 							{
-								GetterSource:  new("source"),
+								GetterSource:  pointer.Of("source"),
 								GetterOptions: map[string]string{"a": "b"},
 								GetterHeaders: map[string]string{"User-Agent": "nomad"},
-								GetterMode:    new("dir"),
-								RelativeDest:  new("dest"),
+								GetterMode:    pointer.Of("dir"),
+								RelativeDest:  pointer.Of("dest"),
 							},
 						},
 						DispatchPayload: &api.DispatchPayloadConfig{
@@ -3701,12 +3702,12 @@ func TestJobs_ApiJobToStructsJob(t *testing.T) {
 				},
 			},
 		},
-		Status:            new("status"),
-		StatusDescription: new("status_desc"),
-		Version:           new(uint64(10)),
-		CreateIndex:       new(uint64(1)),
-		ModifyIndex:       new(uint64(3)),
-		JobModifyIndex:    new(uint64(5)),
+		Status:            pointer.Of("status"),
+		StatusDescription: pointer.Of("status_desc"),
+		Version:           pointer.Of(uint64(10)),
+		CreateIndex:       pointer.Of(uint64(1)),
+		ModifyIndex:       pointer.Of(uint64(3)),
+		JobModifyIndex:    pointer.Of(uint64(5)),
 	}
 
 	expectedSystemJob := &structs.Job{
@@ -3858,26 +3859,26 @@ func TestJobs_ApiJobToStructsJobUpdate(t *testing.T) {
 
 	apiJob := &api.Job{
 		Update: &api.UpdateStrategy{
-			Stagger:          new(1 * time.Second),
-			MaxParallel:      new(5),
-			HealthCheck:      new(structs.UpdateStrategyHealthCheck_Manual),
-			MinHealthyTime:   new(1 * time.Minute),
-			HealthyDeadline:  new(3 * time.Minute),
-			ProgressDeadline: new(3 * time.Minute),
-			AutoRevert:       new(false),
+			Stagger:          pointer.Of(1 * time.Second),
+			MaxParallel:      pointer.Of(5),
+			HealthCheck:      pointer.Of(structs.UpdateStrategyHealthCheck_Manual),
+			MinHealthyTime:   pointer.Of(1 * time.Minute),
+			HealthyDeadline:  pointer.Of(3 * time.Minute),
+			ProgressDeadline: pointer.Of(3 * time.Minute),
+			AutoRevert:       pointer.Of(false),
 			AutoPromote:      nil,
-			Canary:           new(1),
+			Canary:           pointer.Of(1),
 		},
 		TaskGroups: []*api.TaskGroup{
 			{
 				Update: &api.UpdateStrategy{
-					Canary:     new(2),
-					AutoRevert: new(true),
+					Canary:     pointer.Of(2),
+					AutoRevert: pointer.Of(true),
 				},
 			}, {
 				Update: &api.UpdateStrategy{
-					Canary:      new(3),
-					AutoPromote: new(true),
+					Canary:      pointer.Of(3),
+					AutoPromote: pointer.Of(true),
 				},
 			},
 		},
@@ -3953,16 +3954,16 @@ func TestHTTP_JobValidate_SystemMigrate(t *testing.T) {
 	httpTest(t, nil, func(s *TestAgent) {
 		// Create the job
 		job := &api.Job{
-			Region:      new("global"),
+			Region:      pointer.Of("global"),
 			Datacenters: []string{"dc1"},
-			ID:          new("systemmigrate"),
-			Name:        new("systemmigrate"),
+			ID:          pointer.Of("systemmigrate"),
+			Name:        pointer.Of("systemmigrate"),
 			TaskGroups: []*api.TaskGroup{
-				{Name: new("web")},
+				{Name: pointer.Of("web")},
 			},
 
 			// System job...
-			Type: new("system"),
+			Type: pointer.Of("system"),
 
 			// ...with an empty migrate block
 			Migrate: &api.MigrateStrategy{},
@@ -3993,7 +3994,7 @@ func TestHTTP_JobValidate_SystemMigrate(t *testing.T) {
 func TestConversion_dereferenceInt(t *testing.T) {
 	ci.Parallel(t)
 	require.Equal(t, 0, dereferenceInt(nil))
-	require.Equal(t, 42, dereferenceInt(new(42)))
+	require.Equal(t, 42, dereferenceInt(pointer.Of(42)))
 }
 
 func TestConversion_apiLogConfigToStructs(t *testing.T) {
@@ -4004,31 +4005,31 @@ func TestConversion_apiLogConfigToStructs(t *testing.T) {
 		MaxFiles:      2,
 		MaxFileSizeMB: 8,
 	}, apiLogConfigToStructs(&api.LogConfig{
-		Disabled:      new(true),
-		MaxFiles:      new(2),
-		MaxFileSizeMB: new(8),
+		Disabled:      pointer.Of(true),
+		MaxFiles:      pointer.Of(2),
+		MaxFileSizeMB: pointer.Of(8),
 	}))
 
 	// COMPAT(1.6.0): verify backwards compatibility fixes
 	// Note: we're intentionally ignoring the Enabled: false case
 	must.Eq(t, &structs.LogConfig{Disabled: false},
 		apiLogConfigToStructs(&api.LogConfig{
-			Enabled: new(false),
+			Enabled: pointer.Of(false),
 		}))
 	must.Eq(t, &structs.LogConfig{Disabled: false},
 		apiLogConfigToStructs(&api.LogConfig{
-			Enabled: new(true),
+			Enabled: pointer.Of(true),
 		}))
 	must.Eq(t, &structs.LogConfig{Disabled: false},
 		apiLogConfigToStructs(&api.LogConfig{}))
 	must.Eq(t, &structs.LogConfig{Disabled: false},
 		apiLogConfigToStructs(&api.LogConfig{
-			Disabled: new(false),
+			Disabled: pointer.Of(false),
 		}))
 	must.Eq(t, &structs.LogConfig{Disabled: false},
 		apiLogConfigToStructs(&api.LogConfig{
-			Enabled:  new(false),
-			Disabled: new(false),
+			Enabled:  pointer.Of(false),
+			Disabled: pointer.Of(false),
 		}))
 
 }
@@ -4049,8 +4050,8 @@ func TestConversion_apiResourcesToStructs(t *testing.T) {
 		{
 			"plain",
 			&api.Resources{
-				CPU:      new(100),
-				MemoryMB: new(200),
+				CPU:      pointer.Of(100),
+				MemoryMB: pointer.Of(200),
 			},
 			&structs.Resources{
 				CPU:      100,
@@ -4060,9 +4061,9 @@ func TestConversion_apiResourcesToStructs(t *testing.T) {
 		{
 			"with memory max",
 			&api.Resources{
-				CPU:         new(100),
-				MemoryMB:    new(200),
-				MemoryMaxMB: new(300),
+				CPU:         pointer.Of(100),
+				MemoryMB:    pointer.Of(200),
+				MemoryMaxMB: pointer.Of(300),
 			},
 			&structs.Resources{
 				CPU:         100,
@@ -4073,8 +4074,8 @@ func TestConversion_apiResourcesToStructs(t *testing.T) {
 		{
 			"with numa",
 			&api.Resources{
-				CPU:      new(100),
-				MemoryMB: new(200),
+				CPU:      pointer.Of(100),
+				MemoryMB: pointer.Of(200),
 				NUMA: &api.NUMAResource{
 					Affinity: "prefer",
 				},
@@ -4175,8 +4176,8 @@ func TestConversion_apiConnectSidecarTaskToStructs(t *testing.T) {
 		Config: config,
 		Env:    env,
 		Resources: &api.Resources{
-			CPU:      new(1),
-			MemoryMB: new(128),
+			CPU:      pointer.Of(1),
+			MemoryMB: pointer.Of(128),
 		},
 		Identities: []*api.WorkloadIdentity{{
 			Name:         "myname",
@@ -4192,19 +4193,19 @@ func TestConversion_apiConnectSidecarTaskToStructs(t *testing.T) {
 		Meta:        meta,
 		KillTimeout: &timeout,
 		LogConfig: &api.LogConfig{
-			Disabled:      new(true),
-			MaxFiles:      new(2),
-			MaxFileSizeMB: new(8),
+			Disabled:      pointer.Of(true),
+			MaxFiles:      pointer.Of(2),
+			MaxFileSizeMB: pointer.Of(8),
 		},
 		ShutdownDelay: &delay,
 		KillSignal:    "SIGTERM",
 		VolumeMounts: []*api.VolumeMount{
 			{
-				Volume:          new("vol0"),
-				Destination:     new("/local/foo"),
-				ReadOnly:        new(true),
-				PropagationMode: new("private"),
-				SELinuxLabel:    new("Z"),
+				Volume:          pointer.Of("vol0"),
+				Destination:     pointer.Of("/local/foo"),
+				ReadOnly:        pointer.Of(true),
+				PropagationMode: pointer.Of("private"),
+				SELinuxLabel:    pointer.Of("Z"),
 			},
 		},
 	}))
@@ -4223,11 +4224,11 @@ func TestConversion_apiVolumeMountsToStructs(t *testing.T) {
 		},
 	}, apiVolumeMountsToStructs([]*api.VolumeMount{
 		{
-			Volume:          new("vol0"),
-			Destination:     new("/local/foo"),
-			ReadOnly:        new(true),
-			PropagationMode: new("private"),
-			SELinuxLabel:    new("Z"),
+			Volume:          pointer.Of("vol0"),
+			Destination:     pointer.Of("/local/foo"),
+			ReadOnly:        pointer.Of(true),
+			PropagationMode: pointer.Of("private"),
+			SELinuxLabel:    pointer.Of("Z"),
 		},
 	}))
 }
@@ -4373,7 +4374,7 @@ func TestConversion_ApiConsulConnectToStructs(t *testing.T) {
 		require.Equal(t, &structs.ConsulConnect{
 			Gateway: &structs.ConsulGateway{
 				Proxy: &structs.ConsulGatewayProxy{
-					ConnectTimeout:                  new(3 * time.Second),
+					ConnectTimeout:                  pointer.Of(3 * time.Second),
 					EnvoyGatewayBindTaggedAddresses: true,
 					EnvoyGatewayBindAddresses: map[string]*structs.ConsulGatewayBindAddress{
 						"service": {
@@ -4390,7 +4391,7 @@ func TestConversion_ApiConsulConnectToStructs(t *testing.T) {
 		}, ApiConsulConnectToStructs(&api.ConsulConnect{
 			Gateway: &api.ConsulGateway{
 				Proxy: &api.ConsulGatewayProxy{
-					ConnectTimeout:                  new(3 * time.Second),
+					ConnectTimeout:                  pointer.Of(3 * time.Second),
 					EnvoyGatewayBindTaggedAddresses: true,
 					EnvoyGatewayBindAddresses: map[string]*api.ConsulGatewayBindAddress{
 						"service": {
@@ -4448,9 +4449,9 @@ func TestConversion_ApiConsulConnectToStructs(t *testing.T) {
 								},
 								Remove: []string{"test2"},
 							},
-							MaxConnections:        new(uint32(5120)),
-							MaxPendingRequests:    new(uint32(512)),
-							MaxConcurrentRequests: new(uint32(2048)),
+							MaxConnections:        pointer.Of(uint32(5120)),
+							MaxPendingRequests:    pointer.Of(uint32(512)),
+							MaxConcurrentRequests: pointer.Of(uint32(2048)),
 						}},
 					}},
 				},
@@ -4495,9 +4496,9 @@ func TestConversion_ApiConsulConnectToStructs(t *testing.T) {
 									},
 									Remove: []string{"test2"},
 								},
-								MaxConnections:        new(uint32(5120)),
-								MaxPendingRequests:    new(uint32(512)),
-								MaxConcurrentRequests: new(uint32(2048)),
+								MaxConnections:        pointer.Of(uint32(5120)),
+								MaxPendingRequests:    pointer.Of(uint32(512)),
+								MaxConcurrentRequests: pointer.Of(uint32(2048)),
 							}},
 						}},
 					},

@@ -16,6 +16,7 @@ import (
 	"github.com/shoenig/test/wait"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/drainer"
 	"github.com/hashicorp/nomad/nomad/mock"
@@ -62,7 +63,7 @@ func allocClientStateSimulator(t *testing.T, errCh chan<- error, ctx context.Con
 				}
 				newAlloc := alloc.Copy()
 				newAlloc.DeploymentStatus = &structs.AllocDeploymentStatus{
-					Healthy:   new(true),
+					Healthy:   pointer.Of(true),
 					Timestamp: now,
 				}
 				updates = append(updates, newAlloc)

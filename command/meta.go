@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/cap/util"
 	"github.com/hashicorp/cli"
 	"github.com/hashicorp/nomad/api"
+	"github.com/hashicorp/nomad/helper/pointer"
 	colorable "github.com/mattn/go-colorable"
 	"github.com/mitchellh/colorstring"
 	"github.com/posener/complete"
@@ -294,7 +295,7 @@ func (m *Meta) SetupUi(args []string) {
 	showCLIHints := os.Getenv(EnvNomadCLIShowHints)
 	if showCLIHints != "" {
 		if show, err := strconv.ParseBool(showCLIHints); err == nil {
-			m.showCLIHints = new(show)
+			m.showCLIHints = pointer.Of(show)
 		} else {
 			m.Ui.Warn(fmt.Sprintf("Invalid value %q for %s: %v", showCLIHints, EnvNomadCLIShowHints, err))
 		}
@@ -334,7 +335,7 @@ func (m *Meta) JobByPrefix(client *api.Client, prefix string) (*api.Job, error) 
 	if err != nil {
 		return nil, fmt.Errorf("Error querying job %q: %s", jobID, err)
 	}
-	job.Namespace = new(namespace)
+	job.Namespace = pointer.Of(namespace)
 
 	return job, nil
 }

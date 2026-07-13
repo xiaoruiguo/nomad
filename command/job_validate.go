@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package command
@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/command/agent"
 	"github.com/hashicorp/nomad/helper"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/posener/complete"
 )
 
@@ -134,7 +135,7 @@ func (c *JobValidateCommand) Run(args []string) int {
 	}
 
 	if vaultNamespace != "" {
-		job.VaultNamespace = new(vaultNamespace)
+		job.VaultNamespace = pointer.Of(vaultNamespace)
 	}
 
 	// Check that the job is valid

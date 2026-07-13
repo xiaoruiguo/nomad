@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package mock
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/helper/envoy"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/structs"
 )
@@ -67,7 +68,7 @@ func ConnectIngressGatewayJob(mode string, inject bool) *structs.Job {
 		Connect: &structs.ConsulConnect{
 			Gateway: &structs.ConsulGateway{
 				Proxy: &structs.ConsulGatewayProxy{
-					ConnectTimeout:            new(3 * time.Second),
+					ConnectTimeout:            pointer.Of(3 * time.Second),
 					EnvoyGatewayBindAddresses: make(map[string]*structs.ConsulGatewayBindAddress),
 				},
 				Ingress: &structs.ConsulIngressConfigEntry{
@@ -118,7 +119,7 @@ func ConnectTerminatingGatewayJob(mode string, inject bool) *structs.Job {
 		Connect: &structs.ConsulConnect{
 			Gateway: &structs.ConsulGateway{
 				Proxy: &structs.ConsulGatewayProxy{
-					ConnectTimeout:            new(3 * time.Second),
+					ConnectTimeout:            pointer.Of(3 * time.Second),
 					EnvoyGatewayBindAddresses: make(map[string]*structs.ConsulGatewayBindAddress),
 				},
 				Terminating: &structs.ConsulTerminatingConfigEntry{
@@ -169,7 +170,7 @@ func ConnectMeshGatewayJob(mode string, inject bool) *structs.Job {
 		Connect: &structs.ConsulConnect{
 			Gateway: &structs.ConsulGateway{
 				Proxy: &structs.ConsulGatewayProxy{
-					ConnectTimeout:            new(3 * time.Second),
+					ConnectTimeout:            pointer.Of(3 * time.Second),
 					EnvoyGatewayBindAddresses: make(map[string]*structs.ConsulGatewayBindAddress),
 				},
 				Mesh: &structs.ConsulMeshConfigEntry{

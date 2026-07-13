@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package structs
@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/hashicorp/nomad/helper/pointer"
 )
 
 const (
@@ -32,7 +33,7 @@ var (
 
 func NewDefaultDisconnectStrategy() *DisconnectStrategy {
 	return &DisconnectStrategy{
-		Replace:   new(true),
+		Replace:   pointer.Of(true),
 		Reconcile: ReconcileOptionBestScore,
 	}
 }
@@ -107,11 +108,11 @@ func (ds *DisconnectStrategy) Copy() *DisconnectStrategy {
 	*nds = *ds
 
 	if ds.StopOnClientAfter != nil {
-		nds.StopOnClientAfter = new(*ds.StopOnClientAfter)
+		nds.StopOnClientAfter = pointer.Of(*ds.StopOnClientAfter)
 	}
 
 	if ds.Replace != nil {
-		nds.Replace = new(*ds.Replace)
+		nds.Replace = pointer.Of(*ds.Replace)
 	}
 
 	return nds
@@ -119,7 +120,7 @@ func (ds *DisconnectStrategy) Copy() *DisconnectStrategy {
 
 func (ds *DisconnectStrategy) Canonicalize() {
 	if ds.Replace == nil {
-		ds.Replace = new(true)
+		ds.Replace = pointer.Of(true)
 	}
 
 	if ds.Reconcile == "" {

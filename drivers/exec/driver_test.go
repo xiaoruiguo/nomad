@@ -35,7 +35,6 @@ import (
 	"github.com/hashicorp/nomad/testutil"
 	"github.com/shoenig/test/must"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/sys/unix"
 )
 
 type mockIDValidator struct{}
@@ -397,7 +396,7 @@ func TestExecDriver_NoOrphanedExecutor(t *testing.T) {
 	must.Error(t, err)
 	defer harness.DestroyTask(task.ID, true)
 
-	testPid := unix.Getpid()
+	testPid := os.Getpid()
 	tids, err := os.ReadDir(fmt.Sprintf("/proc/%d/task", testPid))
 	must.NoError(t, err)
 	for _, tid := range tids {

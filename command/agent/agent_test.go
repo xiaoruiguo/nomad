@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/nomad/ci"
 	clientconfig "github.com/hashicorp/nomad/client/config"
 	cstructs "github.com/hashicorp/nomad/client/structs"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/nomad"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -266,7 +267,7 @@ func TestAgent_ServerConfig_Limits_Error(t *testing.T) {
 			expectedErr: "rpc_handshake_timeout must be >= 0",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "-5s",
-				RPCMaxConnsPerClient: new(100),
+				RPCMaxConnsPerClient: pointer.Of(100),
 			},
 		},
 		{
@@ -274,7 +275,7 @@ func TestAgent_ServerConfig_Limits_Error(t *testing.T) {
 			expectedErr: "error parsing rpc_handshake_timeout",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "s",
-				RPCMaxConnsPerClient: new(100),
+				RPCMaxConnsPerClient: pointer.Of(100),
 			},
 		},
 		{
@@ -282,7 +283,7 @@ func TestAgent_ServerConfig_Limits_Error(t *testing.T) {
 			expectedErr: "error parsing rpc_handshake_timeout",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "",
-				RPCMaxConnsPerClient: new(100),
+				RPCMaxConnsPerClient: pointer.Of(100),
 			},
 		},
 		{
@@ -290,7 +291,7 @@ func TestAgent_ServerConfig_Limits_Error(t *testing.T) {
 			expectedErr: "rpc_max_conns_per_client must be > 25; found: -100",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "5s",
-				RPCMaxConnsPerClient: new(-100),
+				RPCMaxConnsPerClient: pointer.Of(-100),
 			},
 		},
 		{
@@ -298,7 +299,7 @@ func TestAgent_ServerConfig_Limits_Error(t *testing.T) {
 			expectedErr: "rpc_max_conns_per_client must be > 25; found: 20",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "5s",
-				RPCMaxConnsPerClient: new(config.LimitsNonStreamingConnsPerClient),
+				RPCMaxConnsPerClient: pointer.Of(config.LimitsNonStreamingConnsPerClient),
 			},
 		},
 	}
@@ -342,21 +343,21 @@ func TestAgent_ServerConfig_Limits_OK(t *testing.T) {
 			name: "Zeros are valid",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "0s",
-				RPCMaxConnsPerClient: new(0),
+				RPCMaxConnsPerClient: pointer.Of(0),
 			},
 		},
 		{
 			name: "Low limits are valid",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "1ms",
-				RPCMaxConnsPerClient: new(26),
+				RPCMaxConnsPerClient: pointer.Of(26),
 			},
 		},
 		{
 			name: "High limits are valid",
 			limits: config.Limits{
 				RPCHandshakeTimeout:  "5h",
-				RPCMaxConnsPerClient: new(100000),
+				RPCMaxConnsPerClient: pointer.Of(100000),
 			},
 		},
 	}
@@ -396,12 +397,12 @@ func TestAgent_ServerConfig_PlanRejectionTracker(t *testing.T) {
 		{
 			name: "valid config",
 			trackerConfig: &PlanRejectionTracker{
-				Enabled:       new(true),
+				Enabled:       pointer.Of(true),
 				NodeThreshold: 123,
 				NodeWindow:    17 * time.Minute,
 			},
 			expectedConfig: &PlanRejectionTracker{
-				Enabled:       new(true),
+				Enabled:       pointer.Of(true),
 				NodeThreshold: 123,
 				NodeWindow:    17 * time.Minute,
 			},
@@ -473,7 +474,7 @@ func TestAgent_ServerConfig_RaftMultiplier_Ok(t *testing.T) {
 		},
 
 		{
-			multiplier: new(0),
+			multiplier: pointer.Of(0),
 
 			electionTimout:     1 * time.Second,
 			heartbeatTimeout:   1 * time.Second,
@@ -481,7 +482,7 @@ func TestAgent_ServerConfig_RaftMultiplier_Ok(t *testing.T) {
 			commitTimeout:      50 * time.Millisecond,
 		},
 		{
-			multiplier: new(1),
+			multiplier: pointer.Of(1),
 
 			electionTimout:     1 * time.Second,
 			heartbeatTimeout:   1 * time.Second,
@@ -489,7 +490,7 @@ func TestAgent_ServerConfig_RaftMultiplier_Ok(t *testing.T) {
 			commitTimeout:      50 * time.Millisecond,
 		},
 		{
-			multiplier: new(5),
+			multiplier: pointer.Of(5),
 
 			electionTimout:     5 * time.Second,
 			heartbeatTimeout:   5 * time.Second,
@@ -497,7 +498,7 @@ func TestAgent_ServerConfig_RaftMultiplier_Ok(t *testing.T) {
 			commitTimeout:      250 * time.Millisecond,
 		},
 		{
-			multiplier: new(6),
+			multiplier: pointer.Of(6),
 
 			electionTimout:     6 * time.Second,
 			heartbeatTimeout:   6 * time.Second,
@@ -505,7 +506,7 @@ func TestAgent_ServerConfig_RaftMultiplier_Ok(t *testing.T) {
 			commitTimeout:      300 * time.Millisecond,
 		},
 		{
-			multiplier: new(10),
+			multiplier: pointer.Of(10),
 
 			electionTimout:     10 * time.Second,
 			heartbeatTimeout:   10 * time.Second,
@@ -569,13 +570,13 @@ func TestAgent_ServerConfig_RaftTrailingLogs(t *testing.T) {
 	}{
 		{
 			name:   "bad",
-			value:  new(int(-1)),
+			value:  pointer.Of(int(-1)),
 			isErr:  true,
 			expect: "raft_trailing_logs must be non-negative",
 		},
 		{
 			name:   "good",
-			value:  new(int(10)),
+			value:  pointer.Of(int(10)),
 			expect: uint64(10),
 		},
 		{
@@ -618,13 +619,13 @@ func TestAgent_ServerConfig_RaftSnapshotThreshold(t *testing.T) {
 	}{
 		{
 			name:   "bad",
-			value:  new(int(-1)),
+			value:  pointer.Of(int(-1)),
 			isErr:  true,
 			expect: "raft_snapshot_threshold must be non-negative",
 		},
 		{
 			name:   "good",
-			value:  new(int(10)),
+			value:  pointer.Of(int(10)),
 			expect: uint64(10),
 		},
 		{
@@ -704,21 +705,21 @@ func Test_convertServerConfig_errors(t *testing.T) {
 		{
 			name: "num schedulers too big",
 			inputConfig: overlayDefaultFunc(func(config *Config) {
-				config.Server.NumSchedulers = new(1<<63 - 1)
+				config.Server.NumSchedulers = pointer.Of(1<<63 - 1)
 			}),
 			expectErr: true,
 		},
 		{
 			name: "num schedulers negative",
 			inputConfig: overlayDefaultFunc(func(config *Config) {
-				config.Server.NumSchedulers = new(-100)
+				config.Server.NumSchedulers = pointer.Of(-100)
 			}),
 			expectErr: true,
 		},
 		{
 			name: "valid",
 			inputConfig: overlayDefaultFunc(func(config *Config) {
-				config.Server.NumSchedulers = new(runtime.NumCPU())
+				config.Server.NumSchedulers = pointer.Of(runtime.NumCPU())
 			}),
 			expectErr: false,
 		},
@@ -801,7 +802,7 @@ func TestConvertClientConfig(t *testing.T) {
 		{
 			name: "hook metrics enabled (default value)",
 			modConfig: func(c *Config) {
-				c.Telemetry.DisableAllocationHookMetrics = new(false)
+				c.Telemetry.DisableAllocationHookMetrics = pointer.Of(false)
 			},
 			assert: func(t *testing.T, cc *clientconfig.Config) {
 				must.False(t, cc.DisableAllocationHookMetrics)
@@ -810,7 +811,7 @@ func TestConvertClientConfig(t *testing.T) {
 		{
 			name: "hook metrics disabled",
 			modConfig: func(c *Config) {
-				c.Telemetry.DisableAllocationHookMetrics = new(true)
+				c.Telemetry.DisableAllocationHookMetrics = pointer.Of(true)
 			},
 			assert: func(t *testing.T, cc *clientconfig.Config) {
 				must.True(t, cc.DisableAllocationHookMetrics)
@@ -942,7 +943,7 @@ func TestAgent_ClientConfig_discovery(t *testing.T) {
 	// Test the default, and then custom setting of the client service
 	// discovery boolean.
 	require.True(t, c.NomadServiceDiscovery)
-	conf.Client.NomadServiceDiscovery = new(false)
+	conf.Client.NomadServiceDiscovery = pointer.Of(false)
 	c, err = a.clientConfig()
 	require.NoError(t, err)
 	require.False(t, c.NomadServiceDiscovery)
@@ -952,7 +953,7 @@ func TestAgent_ClientConfig_JobMaxSourceSize(t *testing.T) {
 	ci.Parallel(t)
 
 	conf := DevConfig(nil)
-	must.Eq(t, conf.Server.JobMaxSourceSize, new("1M"))
+	must.Eq(t, conf.Server.JobMaxSourceSize, pointer.Of("1M"))
 	must.NoError(t, conf.normalizeAddrs())
 
 	// config conversion ensures value is set
@@ -995,7 +996,7 @@ func TestAgent_HTTPCheck(t *testing.T) {
 				normalizedAddrs: &NormalizedAddrs{HTTP: []string{"normalized:4646"}},
 				Consuls: []*config.ConsulConfig{{
 					Name:                         "default",
-					ChecksUseAdvertise:           new(false),
+					ChecksUseAdvertise:           pointer.Of(false),
 					ClientFailuresBeforeCritical: 2,
 					ClientFailuresBeforeWarning:  1,
 				}},
@@ -1032,7 +1033,7 @@ func TestAgent_HTTPCheck(t *testing.T) {
 
 	t.Run("Plain HTTP + ChecksUseAdvertise", func(t *testing.T) {
 		a := agent()
-		a.config.Consuls[0].ChecksUseAdvertise = new(true)
+		a.config.Consuls[0].ChecksUseAdvertise = pointer.Of(true)
 		check := a.agentHTTPCheck(false)
 		if check == nil {
 			t.Fatalf("expected non-nil check")
@@ -1456,10 +1457,10 @@ func TestServer_Reload_VaultConfig(t *testing.T) {
 	ci.Parallel(t)
 
 	agent := NewTestAgent(t, t.Name(), func(c *Config) {
-		c.Server.NumSchedulers = new(0)
+		c.Server.NumSchedulers = pointer.Of(0)
 		c.Vaults[0] = &config.VaultConfig{
 			Name:      "default",
-			Enabled:   new(true),
+			Enabled:   pointer.Of(true),
 			Namespace: "vault-namespace",
 			Addr:      "https://vault.consul:8200",
 		}
@@ -1469,7 +1470,7 @@ func TestServer_Reload_VaultConfig(t *testing.T) {
 	newConfig := agent.GetConfig().Copy()
 	newConfig.Vaults[0] = &config.VaultConfig{
 		Name:      "default",
-		Enabled:   new(true),
+		Enabled:   pointer.Of(true),
 		Namespace: "another-namespace",
 		Addr:      "https://vault.consul:8200",
 	}
@@ -1907,19 +1908,19 @@ func TestAgent_ServerConfig_JobMaxPriority_Ok(t *testing.T) {
 		},
 
 		{
-			maxPriority:    new(0),
+			maxPriority:    pointer.Of(0),
 			jobMaxPriority: 100,
 		},
 		{
-			maxPriority:    new(100),
+			maxPriority:    pointer.Of(100),
 			jobMaxPriority: 100,
 		},
 		{
-			maxPriority:    new(200),
+			maxPriority:    pointer.Of(200),
 			jobMaxPriority: 200,
 		},
 		{
-			maxPriority:    new(32766),
+			maxPriority:    pointer.Of(32766),
 			jobMaxPriority: 32766,
 		},
 	}
@@ -1977,19 +1978,19 @@ func TestAgent_ServerConfig_JobDefaultPriority_Ok(t *testing.T) {
 		},
 
 		{
-			defaultPriority:    new(0),
+			defaultPriority:    pointer.Of(0),
 			jobDefaultPriority: 50,
 		},
 		{
-			defaultPriority:    new(50),
+			defaultPriority:    pointer.Of(50),
 			jobDefaultPriority: 50,
 		},
 		{
-			defaultPriority:    new(60),
+			defaultPriority:    pointer.Of(60),
 			jobDefaultPriority: 60,
 		},
 		{
-			defaultPriority:    new(99),
+			defaultPriority:    pointer.Of(99),
 			jobDefaultPriority: 99,
 		},
 	}
@@ -2049,32 +2050,32 @@ func TestAgent_ServerConfig_JobMaxCount(t *testing.T) {
 			expectedErr: "",
 		},
 		{
-			configured:  new(1),
+			configured:  pointer.Of(1),
 			expected:    1,
 			expectedErr: "",
 		},
 		{
-			configured:  new(0),
+			configured:  pointer.Of(0),
 			expected:    0,
 			expectedErr: "",
 		},
 		{
-			configured:  new(structs.JobDefaultMaxCount),
+			configured:  pointer.Of(structs.JobDefaultMaxCount),
 			expected:    structs.JobDefaultMaxCount,
 			expectedErr: "",
 		},
 		{
-			configured:  new(2 * structs.JobDefaultMaxCount),
+			configured:  pointer.Of(2 * structs.JobDefaultMaxCount),
 			expected:    2 * structs.JobDefaultMaxCount,
 			expectedErr: "",
 		},
 		{
-			configured:  new(-1),
+			configured:  pointer.Of(-1),
 			expected:    0,
 			expectedErr: "job_max_count (-1) cannot be negative",
 		},
 		{
-			configured:  new(-3),
+			configured:  pointer.Of(-3),
 			expected:    0,
 			expectedErr: "job_max_count (-3) cannot be negative",
 		},

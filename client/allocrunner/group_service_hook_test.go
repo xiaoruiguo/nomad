@@ -15,6 +15,7 @@ import (
 	cstructs "github.com/hashicorp/nomad/client/structs"
 	"github.com/hashicorp/nomad/client/taskenv"
 	agentconsul "github.com/hashicorp/nomad/command/agent/consul"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -72,7 +73,7 @@ func TestGroupServiceHook_ShutdownDelayUpdate(t *testing.T) {
 	ci.Parallel(t)
 
 	alloc := mock.Alloc()
-	alloc.Job.TaskGroups[0].ShutdownDelay = new(10 * time.Second)
+	alloc.Job.TaskGroups[0].ShutdownDelay = pointer.Of(10 * time.Second)
 
 	logger := testlog.HCLogger(t)
 	consulMockClient := regMock.NewServiceRegistrationHandler(logger)
@@ -94,7 +95,7 @@ func TestGroupServiceHook_ShutdownDelayUpdate(t *testing.T) {
 	must.NoError(t, h.Prerun(env))
 
 	// Incease shutdown Delay
-	alloc.Job.TaskGroups[0].ShutdownDelay = new(15 * time.Second)
+	alloc.Job.TaskGroups[0].ShutdownDelay = pointer.Of(15 * time.Second)
 	req := &interfaces.RunnerUpdateRequest{Alloc: alloc, AllocEnv: env}
 	must.NoError(t, h.Update(req))
 

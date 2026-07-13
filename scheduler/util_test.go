@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/nomad/ci"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/testlog"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
@@ -340,8 +341,8 @@ func TestTasksUpdated(t *testing.T) {
 	j22.TaskGroups[0].Tasks[0].Templates = []*structs.Template{
 		{
 			Wait: &structs.WaitConfig{
-				Min: new(5 * time.Second),
-				Max: new(5 * time.Second),
+				Min: pointer.Of(5 * time.Second),
+				Max: pointer.Of(5 * time.Second),
 			},
 		},
 	}
@@ -349,14 +350,14 @@ func TestTasksUpdated(t *testing.T) {
 	j23.TaskGroups[0].Tasks[0].Templates = []*structs.Template{
 		{
 			Wait: &structs.WaitConfig{
-				Min: new(5 * time.Second),
-				Max: new(5 * time.Second),
+				Min: pointer.Of(5 * time.Second),
+				Max: pointer.Of(5 * time.Second),
 			},
 		},
 	}
 	must.False(t, tasksUpdated(j22, j23, name).modified)
 	// Compare changed Template wait configs
-	j23.TaskGroups[0].Tasks[0].Templates[0].Wait.Max = new(10 * time.Second)
+	j23.TaskGroups[0].Tasks[0].Templates[0].Wait.Max = pointer.Of(10 * time.Second)
 	must.True(t, tasksUpdated(j22, j23, name).modified)
 
 	// Add a volume

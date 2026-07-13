@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package config
@@ -42,10 +42,10 @@ func (d *DrainConfig) Merge(o *DrainConfig) *DrainConfig {
 			nd.Deadline = pointer.Copy(o.Deadline)
 		}
 		if o.IgnoreSystemJobs != nil && *o.IgnoreSystemJobs {
-			nd.IgnoreSystemJobs = new(true)
+			nd.IgnoreSystemJobs = pointer.Of(true)
 		}
 		if o.Force != nil && *o.Force {
-			nd.Force = new(true)
+			nd.Force = pointer.Of(true)
 		}
 		return nd
 	}

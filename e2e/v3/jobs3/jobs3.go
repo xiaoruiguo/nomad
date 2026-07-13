@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2015, 2026
+// Copyright IBM Corp. 2015, 2025
 // SPDX-License-Identifier: BUSL-1.1
 
 package jobs3
@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/go-set/v3"
 	nomadapi "github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/e2e/v3/util3"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/jobspec2"
 	"github.com/shoenig/test"
 	"github.com/shoenig/test/must"
@@ -332,7 +333,7 @@ func (sub *Submission) run() {
 	must.NotNil(sub.t, job)
 
 	if job.Type == nil {
-		job.Type = new("service")
+		job.Type = pointer.Of("service")
 	}
 
 	registerOpts := &nomadapi.RegisterOptions{

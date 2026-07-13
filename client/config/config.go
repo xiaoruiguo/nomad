@@ -498,26 +498,26 @@ func DefaultTemplateConfig() *ClientTemplateConfig {
 	return &ClientTemplateConfig{
 		FunctionDenylist:   DefaultTemplateFunctionDenylist,
 		DisableSandbox:     false,
-		BlockQueryWaitTime: new(5 * time.Minute),         // match Consul default
-		MaxStale:           new(DefaultTemplateMaxStale), // match Consul default
+		BlockQueryWaitTime: pointer.Of(5 * time.Minute),         // match Consul default
+		MaxStale:           pointer.Of(DefaultTemplateMaxStale), // match Consul default
 		Wait: &WaitConfig{
-			Min: new(5 * time.Second),
-			Max: new(4 * time.Minute),
+			Min: pointer.Of(5 * time.Second),
+			Max: pointer.Of(4 * time.Minute),
 		},
 		ConsulRetry: &RetryConfig{
-			Attempts:   new(12),
-			Backoff:    new(time.Millisecond * 250),
-			MaxBackoff: new(time.Minute),
+			Attempts:   pointer.Of(12),
+			Backoff:    pointer.Of(time.Millisecond * 250),
+			MaxBackoff: pointer.Of(time.Minute),
 		},
 		VaultRetry: &RetryConfig{
-			Attempts:   new(12),
-			Backoff:    new(time.Millisecond * 250),
-			MaxBackoff: new(time.Minute),
+			Attempts:   pointer.Of(12),
+			Backoff:    pointer.Of(time.Millisecond * 250),
+			MaxBackoff: pointer.Of(time.Minute),
 		},
 		NomadRetry: &RetryConfig{
-			Attempts:   new(12),
-			Backoff:    new(time.Millisecond * 250),
-			MaxBackoff: new(time.Minute),
+			Attempts:   pointer.Of(12),
+			Backoff:    pointer.Of(time.Millisecond * 250),
+			MaxBackoff: pointer.Of(time.Minute),
 		},
 		UseClientConsulToken: false,
 	}
@@ -741,7 +741,7 @@ func (wc *WaitConfig) ToConsulTemplate() (*config.WaitConfig, error) {
 	}
 
 	enabled := wc.Min == nil || *wc.Min != 0 || wc.Max == nil || *wc.Max != 0
-	result := &config.WaitConfig{Enabled: new(enabled)}
+	result := &config.WaitConfig{Enabled: pointer.Of(enabled)}
 
 	if wc.Min != nil {
 		result.Min = wc.Min
@@ -884,7 +884,7 @@ func (rc *RetryConfig) ToConsulTemplate() (*config.RetryConfig, error) {
 		return nil, err
 	}
 
-	result := &config.RetryConfig{Enabled: new(true)}
+	result := &config.RetryConfig{Enabled: pointer.Of(true)}
 
 	if rc.Attempts != nil {
 		result.Attempts = rc.Attempts

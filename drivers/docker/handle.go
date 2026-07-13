@@ -18,6 +18,7 @@ import (
 	"github.com/hashicorp/go-plugin"
 	"github.com/hashicorp/nomad/client/lib/cgroupslib"
 	"github.com/hashicorp/nomad/drivers/docker/docklog"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/plugins/drivers"
 	pstructs "github.com/hashicorp/nomad/plugins/shared/structs"
 	"github.com/moby/moby/api/pkg/stdcopy"
@@ -171,7 +172,7 @@ func (h *taskHandle) Kill(killTimeout time.Duration, signal string) error {
 		ctx, cancel := context.WithTimeout(context.Background(), graciousTimeout)
 		defer cancel()
 		apiTimeout := int(killTimeout.Seconds())
-		_, err = h.infinityClient.ContainerStop(ctx, h.containerID, mclient.ContainerStopOptions{Timeout: new(apiTimeout)})
+		_, err = h.infinityClient.ContainerStop(ctx, h.containerID, mclient.ContainerStopOptions{Timeout: pointer.Of(apiTimeout)})
 	} else {
 		_, parseErr := parseSignal(runtime.GOOS, signal)
 		if parseErr != nil {
@@ -204,7 +205,7 @@ func (h *taskHandle) Kill(killTimeout time.Duration, signal string) error {
 		}
 
 		// Stop the container forcefully.
-		_, err = h.dockerClient.ContainerStop(context.Background(), h.containerID, mclient.ContainerStopOptions{Timeout: new(0)})
+		_, err = h.dockerClient.ContainerStop(context.Background(), h.containerID, mclient.ContainerStopOptions{Timeout: pointer.Of(0)})
 	}
 
 	if err != nil {
@@ -333,7 +334,7 @@ func (h *taskHandle) run() {
 	ctx, stopCancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer stopCancel()
 	if _, err := h.dockerClient.ContainerStop(ctx, h.containerID, mclient.ContainerStopOptions{
-		Timeout: new(0),
+		Timeout: pointer.Of(0),
 	}); err != nil {
 		if !errdefs.IsNotModified(err) && !errdefs.IsNotFound(err) {
 			h.logger.Error("error stopping container", "error", err)

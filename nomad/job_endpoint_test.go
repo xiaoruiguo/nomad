@@ -21,6 +21,7 @@ import (
 	"github.com/hashicorp/nomad/client/lib/idset"
 	"github.com/hashicorp/nomad/client/lib/numalib"
 	"github.com/hashicorp/nomad/client/lib/numalib/hw"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/helper/uuid"
 	"github.com/hashicorp/nomad/nomad/mock"
 	"github.com/hashicorp/nomad/nomad/structs"
@@ -621,7 +622,7 @@ func TestJobEndpoint_Register_ConnectIngressGateway_full(t *testing.T) {
 	job.TaskGroups[0].Services[0].Connect = &structs.ConsulConnect{
 		Gateway: &structs.ConsulGateway{
 			Proxy: &structs.ConsulGatewayProxy{
-				ConnectTimeout:                  new(1 * time.Second),
+				ConnectTimeout:                  pointer.Of(1 * time.Second),
 				EnvoyGatewayBindTaggedAddresses: true,
 				EnvoyGatewayBindAddresses: map[string]*structs.ConsulGatewayBindAddress{
 					"service1": {
@@ -1728,7 +1729,7 @@ func TestJobEndpoint_Register_Vault_MultiNamespaces(t *testing.T) {
 	testutil.WaitForLeader(t, s1.RPC)
 
 	// Enable vault
-	s1.config.GetDefaultVault().Enabled = new(true)
+	s1.config.GetDefaultVault().Enabled = pointer.Of(true)
 
 	// Create the register request with a job asking for a vault policy but
 	// don't send a Vault token
@@ -2023,12 +2024,12 @@ func TestJobEndpoint_Register_ValidateMemoryMax_NodePool(t *testing.T) {
 
 	withMemOversub := mock.NodePool()
 	withMemOversub.SchedulerConfiguration = &structs.NodePoolSchedulerConfiguration{
-		MemoryOversubscriptionEnabled: new(true),
+		MemoryOversubscriptionEnabled: pointer.Of(true),
 	}
 
 	noMemOversub := mock.NodePool()
 	noMemOversub.SchedulerConfiguration = &structs.NodePoolSchedulerConfiguration{
-		MemoryOversubscriptionEnabled: new(false),
+		MemoryOversubscriptionEnabled: pointer.Of(false),
 	}
 
 	s.State().UpsertNodePools(structs.MsgTypeTestSetup, 100, []*structs.NodePool{
@@ -2457,7 +2458,7 @@ func TestJobEndpoint_Revert(t *testing.T) {
 	revertReq := &structs.JobRevertRequest{
 		JobID:               job.ID,
 		JobVersion:          0,
-		EnforcePriorVersion: new(uint64(10)),
+		EnforcePriorVersion: pointer.Of(uint64(10)),
 		WriteRequest: structs.WriteRequest{
 			Region:    "global",
 			Namespace: job.Namespace,
@@ -2490,7 +2491,7 @@ func TestJobEndpoint_Revert(t *testing.T) {
 	revertReq = &structs.JobRevertRequest{
 		JobID:               job.ID,
 		JobVersion:          0,
-		EnforcePriorVersion: new(uint64(1)),
+		EnforcePriorVersion: pointer.Of(uint64(1)),
 		WriteRequest: structs.WriteRequest{
 			Region:    "global",
 			Namespace: job.Namespace,
@@ -6407,7 +6408,7 @@ func TestJobEndpoint_ImplicitConstraints_Vault(t *testing.T) {
 	testutil.WaitForLeader(t, s1.RPC)
 
 	// Enable vault
-	s1.config.GetDefaultVault().Enabled = new(true)
+	s1.config.GetDefaultVault().Enabled = pointer.Of(true)
 
 	// Create the register request with a job using Vault.
 	job := mock.Job()
@@ -7387,7 +7388,7 @@ func TestJobEndpoint_Scale(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: groupName,
 		},
-		Count:   new(int64(originalCount + 1)),
+		Count:   pointer.Of(int64(originalCount + 1)),
 		Message: "because of the load",
 		Meta: map[string]interface{}{
 			"metrics": map[string]string{
@@ -7472,7 +7473,7 @@ func TestJobEndpoint_Scale_DeploymentBlocking(t *testing.T) {
 			},
 			Meta:    scalingMetadata,
 			Message: scalingMessage,
-			Count:   new(newCount),
+			Count:   pointer.Of(newCount),
 			WriteRequest: structs.WriteRequest{
 				Region:    "global",
 				Namespace: job.Namespace,
@@ -7512,7 +7513,7 @@ func TestJobEndpoint_ScaleEnforceIndex(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: groupName,
 		},
-		Count:   new(int64(originalCount + 1)),
+		Count:   pointer.Of(int64(originalCount + 1)),
 		Message: "because of the load",
 		Meta: map[string]interface{}{
 			"metrics": map[string]string{
@@ -7810,7 +7811,7 @@ func TestJobEndpoint_Scale_Invalid(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: job.TaskGroups[0].Name,
 		},
-		Count:   new(int64(count) + 1),
+		Count:   pointer.Of(int64(count) + 1),
 		Message: "this should fail",
 		Meta: map[string]interface{}{
 			"metrics": map[string]string{
@@ -7834,7 +7835,7 @@ func TestJobEndpoint_Scale_Invalid(t *testing.T) {
 	err = state.UpsertJob(structs.MsgTypeTestSetup, 1000, nil, job)
 	require.Nil(err)
 
-	scale.Count = new(int64(10))
+	scale.Count = pointer.Of(int64(10))
 	scale.Message = "error message"
 	scale.Error = true
 	err = msgpackrpc.CallWithCodec(codec, "Job.Scale", scale, &resp)
@@ -7867,7 +7868,7 @@ func TestJobEndpoint_Scale_TaskGroupOutOfBounds(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: job.TaskGroups[0].Name,
 		},
-		Count:          new(pol.Max + 1),
+		Count:          pointer.Of(pol.Max + 1),
 		Message:        "out of bounds",
 		PolicyOverride: false,
 		WriteRequest: structs.WriteRequest{
@@ -7879,7 +7880,7 @@ func TestJobEndpoint_Scale_TaskGroupOutOfBounds(t *testing.T) {
 	require.Error(err)
 	require.Contains(err.Error(), "group count was greater than scaling policy maximum: 11 > 10")
 
-	scale.Count = new(int64(2))
+	scale.Count = pointer.Of(int64(2))
 	err = msgpackrpc.CallWithCodec(codec, "Job.Scale", scale, &resp)
 	require.Error(err)
 	require.Contains(err.Error(), "group count was less than scaling policy minimum: 2 < 3")
@@ -7910,7 +7911,7 @@ func TestJobEndpoint_Scale_JobOutOfBounds(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: job.TaskGroups[0].Name,
 		},
-		Count:          new(int64(requestedCount)),
+		Count:          pointer.Of(int64(requestedCount)),
 		Message:        "count too high",
 		PolicyOverride: false,
 		WriteRequest: structs.WriteRequest{
@@ -8011,7 +8012,7 @@ func TestJobEndpoint_Scale_Priority(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: groupName,
 		},
-		Count:          new(int64(originalCount + 1)),
+		Count:          pointer.Of(int64(originalCount + 1)),
 		Message:        "scotty, we need more power",
 		PolicyOverride: false,
 		WriteRequest: structs.WriteRequest{
@@ -8056,7 +8057,7 @@ func TestJobEndpoint_Scale_SystemJob(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: mockSystemJob.TaskGroups[0].Name,
 		},
-		Count: new(int64(0)),
+		Count: pointer.Of(int64(0)),
 		WriteRequest: structs.WriteRequest{
 			Region:    DefaultRegion,
 			Namespace: mockSystemJob.Namespace,
@@ -8068,21 +8069,21 @@ func TestJobEndpoint_Scale_SystemJob(t *testing.T) {
 	must.NoError(t, err)
 
 	// Scale to a negative number
-	scaleReq.Count = new(int64(-5))
+	scaleReq.Count = pointer.Of(int64(-5))
 
 	resp = structs.JobRegisterResponse{}
 	must.ErrorContains(t, msgpackrpc.CallWithCodec(codec, "Job.Scale", scaleReq, &resp),
 		`400,scaling action count can't be negative`)
 
 	// Scale back to 1
-	scaleReq.Count = new(int64(1))
+	scaleReq.Count = pointer.Of(int64(1))
 
 	resp = structs.JobRegisterResponse{}
 	err = msgpackrpc.CallWithCodec(codec, "Job.Scale", scaleReq, &resp)
 	must.NoError(t, err)
 
 	// Scale beyond 1
-	scaleReq.Count = new(int64(13))
+	scaleReq.Count = pointer.Of(int64(13))
 
 	resp = structs.JobRegisterResponse{}
 	must.ErrorContains(t, msgpackrpc.CallWithCodec(codec, "Job.Scale", scaleReq, &resp),
@@ -8106,7 +8107,7 @@ func TestJobEndpoint_Scale_BatchJob(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: mockBatchJob.TaskGroups[0].Name,
 		},
-		Count: new(int64(13)),
+		Count: pointer.Of(int64(13)),
 		WriteRequest: structs.WriteRequest{
 			Region:    DefaultRegion,
 			Namespace: mockBatchJob.Namespace,
@@ -8146,7 +8147,7 @@ func TestJobEndpoint_InvalidCount(t *testing.T) {
 		Target: map[string]string{
 			structs.ScalingTargetGroup: job.TaskGroups[0].Name,
 		},
-		Count: new(int64(-1)),
+		Count: pointer.Of(int64(-1)),
 		WriteRequest: structs.WriteRequest{
 			Region:    "global",
 			Namespace: job.Namespace,
@@ -8264,7 +8265,7 @@ func TestJobEndpoint_GetScaleStatus(t *testing.T) {
 	a1.ClientStatus = structs.AllocClientStatusRunning
 	// healthy
 	a1.DeploymentStatus = &structs.AllocDeploymentStatus{
-		Healthy: new(true),
+		Healthy: pointer.Of(true),
 	}
 	a2 := mock.Alloc()
 	a2.Job = jobV2
@@ -8273,7 +8274,7 @@ func TestJobEndpoint_GetScaleStatus(t *testing.T) {
 	a2.ClientStatus = structs.AllocClientStatusPending
 	// unhealthy
 	a2.DeploymentStatus = &structs.AllocDeploymentStatus{
-		Healthy: new(false),
+		Healthy: pointer.Of(false),
 	}
 	a3 := mock.Alloc()
 	a3.Job = jobV2
@@ -8282,7 +8283,7 @@ func TestJobEndpoint_GetScaleStatus(t *testing.T) {
 	a3.ClientStatus = structs.AllocClientStatusRunning
 	// canary
 	a3.DeploymentStatus = &structs.AllocDeploymentStatus{
-		Healthy: new(true),
+		Healthy: pointer.Of(true),
 		Canary:  true,
 	}
 	// no health
@@ -8296,7 +8297,7 @@ func TestJobEndpoint_GetScaleStatus(t *testing.T) {
 
 	event := &structs.ScalingEvent{
 		Time:    time.Now().Unix(),
-		Count:   new(int64(5)),
+		Count:   pointer.Of(int64(5)),
 		Message: "message",
 		Error:   false,
 		Meta: map[string]interface{}{
@@ -8859,12 +8860,12 @@ func TestIntegration_SystemDeploymentHealth(t *testing.T) {
 			NodeID:       alloc.NodeID,
 			ClientStatus: structs.AllocClientStatusRunning,
 			DeploymentStatus: &structs.AllocDeploymentStatus{
-				Healthy: new(true),
+				Healthy: pointer.Of(true),
 				Canary:  isCanary,
 			},
 		}
 		if healthyYet {
-			stripped.DeploymentStatus.Healthy = new(true)
+			stripped.DeploymentStatus.Healthy = pointer.Of(true)
 		}
 
 		nodeSecretID := nodes[alloc.NodeID].SecretID

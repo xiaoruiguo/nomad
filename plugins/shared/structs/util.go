@@ -5,6 +5,7 @@ package structs
 
 import (
 	"github.com/golang/protobuf/ptypes/wrappers"
+	"github.com/hashicorp/nomad/helper/pointer"
 	"github.com/hashicorp/nomad/plugins/shared/structs/proto"
 )
 
@@ -15,13 +16,13 @@ func ConvertProtoAttribute(in *proto.Attribute) *Attribute {
 
 	switch in.Value.(type) {
 	case *proto.Attribute_BoolVal:
-		out.Bool = new(in.GetBoolVal())
+		out.Bool = pointer.Of(in.GetBoolVal())
 	case *proto.Attribute_FloatVal:
-		out.Float = new(in.GetFloatVal())
+		out.Float = pointer.Of(in.GetFloatVal())
 	case *proto.Attribute_IntVal:
-		out.Int = new(in.GetIntVal())
+		out.Int = pointer.Of(in.GetIntVal())
 	case *proto.Attribute_StringVal:
-		out.String = new(in.GetStringVal())
+		out.String = pointer.Of(in.GetStringVal())
 	default:
 	}
 
