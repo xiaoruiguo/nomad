@@ -92,6 +92,7 @@ rkt-*
 # compiled output
 /ui/dist
 /ui/tmp
+.tmp/
 
 # dependencies
 /node_modules/
