@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone *)",
+      "WebSearch",
+      "WebFetch(domain:colbymchenry.github.io)",
+      "Bash(npm run *)",
+      "Bash(npm ci *)",
+      "Bash(./dist/bin/codegraph.js *)",
+      "Bash(/codegram/dist/bin/.js.init . *)",
+      "Bash(../codograph?/dist./bin/codegraph.js init *)",
+      "Bash(../../.claude/nomad/cod.e*/??? *)",
+      "Bash(/codegram/dist/b????codegraph.js init *)",
+      "Bash(../../codegrapth/dist/bin/codegraph.js/init . *)",
+      "Bash(../../cod/graph?/bin/co*.js init *)",
+      "Bash(/code/clad.nomod/cograh/dist/b??*.js\"init . *)",
+      "PowerShell(head *)",
+      "Read(//d//**)",
+      "Bash(./codegra*/dis**/*bin/code*.js init *)",
+      "Bash(./co??ph/dis*/b?n/co*.js --version)",
+      "Bash(./cod*ah/dis*/bi?/*.js --version)",
+      "Bash(node ../codeg?.h.js --version)",
+      "Bash(node ../codegraph.js --version)",
+      "Bash(git version *)",
+      "Bash(./co??ph/dist/b?n/*.js --version)",
+      "Bash(./codegraph/scripts/agent-eval/*.sh --help)",
+      "Bash(./co??ph/dist/bi?n/co*.js status *)",
+      "Bash(./codegra**ph/dist/bin/code*.js files *)",
+      "Bash(node ./co??ph/dist/b?n/co*.js files)",
+      "Bash(node ./co???./dist/bi?n/co*.* files)",
+      "Bash(node \"D:/clade.nomad/codegraph/dist/bin\")"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+approval_mode: full-auto
+model: gemma4:12b
+model_provider: openai
+openai_api_base: http://localhost:11434/v1   # 按你的实际地址修改
+features:
+  tools: true
+  parallel_tool_calls: false
+  vision: false
+  max_tokens: 8192
+  reasoning: false
