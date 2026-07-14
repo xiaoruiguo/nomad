@@ -82,6 +82,7 @@ func main() {
 	os.Exit(Run(os.Args[1:]))
 }
 
+// Run executes the Nomad CLI with the given arguments.
 func Run(args []string) int {
 	metaPtr := new(command.Meta)
 	metaPtr.SetupUi(args)
@@ -117,6 +118,7 @@ func Run(args []string) int {
 	return exitCode
 }
 
+// groupedHelpFunc groups the help output into common commands and other commands.
 func groupedHelpFunc(f cli.HelpFunc) cli.HelpFunc {
 	return func(commands map[string]cli.CommandFactory) string {
 		var b bytes.Buffer
@@ -165,6 +167,7 @@ func groupedHelpFunc(f cli.HelpFunc) cli.HelpFunc {
 	}
 }
 
+// printCommand prints a command's name and synopsis to the given writer.
 func printCommand(w io.Writer, name string, cmdFn cli.CommandFactory) {
 	cmd, err := cmdFn()
 	if err != nil {
