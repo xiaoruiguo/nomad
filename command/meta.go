@@ -40,6 +40,7 @@ const (
 // Meta contains the meta-options and functionality that nearly every
 // Nomad command inherits.
 type Meta struct {
+	// Ui is the interface used to display output and prompt for input.
 	Ui cli.Ui
 
 	// These are set by the command line flags.
