@@ -18,9 +18,12 @@
 
 **定义位置**：[L25](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L25)
 
+**中文说明**：containerReconciler 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type containerReconciler struct {
 	ctx context.Context
 	config *ContainerGCConfig
 	logger hclog.Logger
@@ -29,7 +32,21 @@
 	trackedContainers func(...)
 	isNomadContainer func(...)
 	once sync.Once
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `config` | `*ContainerGCConfig` | 配置 |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `getClient` | `func(...)` | — |
+| `isDriverHealthy` | `func(...)` | — |
+| `trackedContainers` | `func(...)` | — |
+| `isNomadContainer` | `func(...)` | — |
+| `once` | `sync.Once` | — |
 
 **关联方法**（5 个）：`Start`, `removeDanglingContainersGoroutine`, `removeDanglingContainersIteration`, `untrackedContainers`, `dockerAPIQueryContext`
 
@@ -37,24 +54,24 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `nomadContainerNamePattern` | `regexp.MustCompile(`\/.*-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]...` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `nomadContainerNamePattern` | `—` | `regexp.MustCompile(`\/.*-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]...` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `newReconciler` | - | `d *Driver` | `*containerReconciler` | [L38](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L38) |
-| `Start` | `r *containerReconciler` | - | - | [L51](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L51) |
-| `removeDanglingContainersGoroutine` | `r *containerReconciler` | - | - | [L62](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L62) |
-| `removeDanglingContainersIteration` | `r *containerReconciler` | - | `error` | [L96](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L96) |
+| `Start` | `r *containerReconciler` | `` | `` | [L51](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L51) |
+| `removeDanglingContainersGoroutine` | `r *containerReconciler` | `` | `` | [L62](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L62) |
+| `removeDanglingContainersIteration` | `r *containerReconciler` | `` | `error` | [L96](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L96) |
 | `untrackedContainers` | `r *containerReconciler` | `tracked set.Collection[string], cutoffTime time.Time` | `*set.Set[string], error` | [L134](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L134) |
-| `dockerAPIQueryContext` | `r *containerReconciler` | - | `context.Context, context.CancelFunc` | [L176](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L176) |
+| `dockerAPIQueryContext` | `r *containerReconciler` | `` | `context.Context, context.CancelFunc` | [L176](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L176) |
 | `isNomadContainer` | - | `c container.Summary` | `bool` | [L187](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L187) |
 | `hasMount` | - | `c container.Summary, p string` | `bool` | [L205](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L205) |
 | `hasNomadName` | - | `c container.Summary` | `bool` | [L217](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L217) |
-| `trackedContainers` | `d *Driver` | - | `set.Collection[string]` | [L229](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L229) |
+| `trackedContainers` | `d *Driver` | `` | `set.Collection[string]` | [L229](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L229) |
 
 ## 5. 核心方法详解
 
@@ -63,6 +80,8 @@
 **签名**：`func (r *containerReconciler) Start() `
 
 **位置**：[L51](file:///d:/claude/nomad/drivers/docker/reconcile_dangling.go#L51)
+
+**中文说明**：启动对象。
 
 ## 6. 依赖关系
 
@@ -92,4 +111,9 @@
 | 文件 | 关系 |
 |------|------|
 | [reconcile_dangling_test.go](file:///d:/claude/nomad/drivers/docker/reconcile_dangling_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

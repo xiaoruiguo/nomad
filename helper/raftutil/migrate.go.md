@@ -1,6 +1,6 @@
 # migrate.go 代码说明文档
 
-> 文件路径：[raftutil/migrate.go](file:///d:/claude/nomad/helper/raftutil/migrate.go)
+> 文件路径：[helper/raftutil/migrate.go](file:///d:/claude/nomad/helper/raftutil/migrate.go)
 > 总行数：345 行
 > 所属包：`raftutil`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Raft 工具子包**（`helper/raftutil`），提供 Raft 相关的工具函数，包括 FSM 快照管理、日志消息类型定义、状态迁移、快照归档等，用于 Raft 状态的离线检查和恢复。
+该文件属于 **Raft 工具子包**（`helper/raftutil`），提供 Raft 相关的辅助工具，包括传输层实现和存储后端配置。
 
 ## 2. 类型定义
 
@@ -20,24 +20,26 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `migrateBatchBytes` | `64 * 1024 * 1024` |
-| `migrationMarkerFile` | `".migration-in-progress"` |
-| `minRequiredSpace` | `512 * 1024 * 1024` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `migrateBatchBytes` | `—` | `64 * 1024 * 1024` | — |
+| `migrationMarkerFile` | `—` | `".migration-in-progress"` | — |
+| `minRequiredSpace` | `—` | `512 * 1024 * 1024` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `MigrateToWAL` | - | `ctx context.Context, raftDir string, progress chan string` | `error` | [L48](file:///d:/claude/nomad/helper/raftutil/migrate.go#L48) |
-| `sendProgress` | - | `progress chan string, msg string` | - | [L156](file:///d:/claude/nomad/helper/raftutil/migrate.go#L156) |
-| `drainProgress` | - | `sub chan string, parent chan string, wg *sync.WaitGroup` | - | [L166](file:///d:/claude/nomad/helper/raftutil/migrate.go#L166) |
+| `MigrateToWAL` | - | `ctx context.Context, raftDir string, progress chan<- string` | `error` | [L48](file:///d:/claude/nomad/helper/raftutil/migrate.go#L48) |
+| `sendProgress` | - | `progress chan<- string, msg string` | `` | [L156](file:///d:/claude/nomad/helper/raftutil/migrate.go#L156) |
+| `drainProgress` | - | `sub <-chan string, parent chan<- string, wg *sync.WaitGroup` | `` | [L166](file:///d:/claude/nomad/helper/raftutil/migrate.go#L166) |
 | `preflightChecks` | - | `boltPath string, walDir string, raftDir string` | `error` | [L182](file:///d:/claude/nomad/helper/raftutil/migrate.go#L182) |
-| `cleanupWAL` | - | `walDir string` | - | [L227](file:///d:/claude/nomad/helper/raftutil/migrate.go#L227) |
+| `cleanupWAL` | - | `walDir string` | `` | [L227](file:///d:/claude/nomad/helper/raftutil/migrate.go#L227) |
 | `verifyMigration` | - | `src interface{}, dst interface{}` | `error` | [L244](file:///d:/claude/nomad/helper/raftutil/migrate.go#L244) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -70,4 +72,9 @@
 | 文件 | 关系 |
 |------|------|
 | [migrate_test.go](file:///d:/claude/nomad/helper/raftutil/migrate_test.go) | 对应测试文件 |
+| [fsm.go](file:///d:/claude/nomad/helper/raftutil/fsm.go) | 同目录源文件 |
+| [fsm_ce.go](file:///d:/claude/nomad/helper/raftutil/fsm_ce.go) | 同目录源文件 |
+| [generate.go](file:///d:/claude/nomad/helper/raftutil/generate.go) | 同目录源文件 |
+| [migrate_test_helpers.go](file:///d:/claude/nomad/helper/raftutil/migrate_test_helpers.go) | 同目录源文件 |
+| [msgpack.go](file:///d:/claude/nomad/helper/raftutil/msgpack.go) | 同目录源文件 |
 

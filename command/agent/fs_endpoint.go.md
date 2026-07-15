@@ -1,6 +1,6 @@
 # fs_endpoint.go 代码说明文档
 
-> 文件路径：[fs_endpoint.go](file:///d:/claude/nomad/command/agent/fs_endpoint.go)
+> 文件路径：[command/agent/fs_endpoint.go](file:///d:/claude/nomad/command/agent/fs_endpoint.go)
 > 总行数：435 行
 > 所属包：`agent`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 **HTTP API 端点实现**，负责 `fs` 相关的 HTTP 请求处理，包括请求解析、ACL 鉴权、调用 Server/Client RPC、响应格式化等。端点通过 `http.go` 中的路由注册表挂载到 HTTP 服务器。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -20,14 +20,14 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `allocIDNotPresentErr` | `*ast.CallExpr` |
-| `fileNameNotPresentErr` | `*ast.CallExpr` |
-| `taskNotPresentErr` | `*ast.CallExpr` |
-| `logTypeNotPresentErr` | `*ast.CallExpr` |
-| `clientNotRunning` | `*ast.CallExpr` |
-| `invalidOrigin` | `*ast.CallExpr` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `allocIDNotPresentErr` | `—` | `CodedError(400, "must provide a valid alloc id")` | — |
+| `fileNameNotPresentErr` | `—` | `CodedError(400, "must provide a file name")` | — |
+| `taskNotPresentErr` | `—` | `CodedError(400, "must provide task name")` | — |
+| `logTypeNotPresentErr` | `—` | `CodedError(400, "must provide log type (stdout/stderr)")` | — |
+| `clientNotRunning` | `—` | `CodedError(400, "node is not running a Nomad Client")` | — |
+| `invalidOrigin` | `—` | `CodedError(400, "origin must be start or end")` | — |
 
 ## 4. 方法与函数
 
@@ -40,9 +40,11 @@
 | `FileCatRequest` | `s *HTTPServer` | `resp http.ResponseWriter, req *http.Request` | `interface{}, error` | [L176](file:///d:/claude/nomad/command/agent/fs_endpoint.go#L176) |
 | `Stream` | `s *HTTPServer` | `resp http.ResponseWriter, req *http.Request` | `interface{}, error` | [L208](file:///d:/claude/nomad/command/agent/fs_endpoint.go#L208) |
 | `Logs` | `s *HTTPServer` | `resp http.ResponseWriter, req *http.Request` | `interface{}, error` | [L267](file:///d:/claude/nomad/command/agent/fs_endpoint.go#L267) |
-| `fsStreamImpl` | `s *HTTPServer` | `resp http.ResponseWriter, req *http.Request, method string, args interface{}...` | `interface{}, error` | [L345](file:///d:/claude/nomad/command/agent/fs_endpoint.go#L345) |
+| `fsStreamImpl` | `s *HTTPServer` | `resp http.ResponseWriter, req *http.Request, method string, args interface{},...` | `interface{}, error` | [L345](file:///d:/claude/nomad/command/agent/fs_endpoint.go#L345) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -66,13 +68,17 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HTTP 服务**：提供 HTTP API 端点或客户端
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [fs_endpoint_test.go](file:///d:/claude/nomad/command/agent/fs_endpoint_test.go) | 对应测试文件 |
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [acl_endpoint.go](file:///d:/claude/nomad/command/agent/acl_endpoint.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | 同目录源文件 |
+| [agent_ce.go](file:///d:/claude/nomad/command/agent/agent_ce.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/command/agent/agent_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go) | 同目录源文件 |
 

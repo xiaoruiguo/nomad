@@ -24,7 +24,7 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `SelectorData` | - | `am *structs.ACLAuthMethod, idClaims map[string]interface{}, userClaims map[s...` | `*structs.ACLAuthClaims, error` | [L18](file:///d:/claude/nomad/lib/auth/claims.go#L18) |
+| `SelectorData` | - | `am *structs.ACLAuthMethod, idClaims map[string]interface{}, userClaims map[st...` | `*structs.ACLAuthClaims, error` | [L18](file:///d:/claude/nomad/lib/auth/claims.go#L18) |
 | `extractClaims` | - | `am *structs.ACLAuthMethod, all map[string]interface{}` | `*structs.ACLAuthClaims, error` | [L45](file:///d:/claude/nomad/lib/auth/claims.go#L45) |
 | `extractMappings` | - | `all map[string]interface{}, mapping map[string]string` | `map[string]string, error` | [L65](file:///d:/claude/nomad/lib/auth/claims.go#L65) |
 | `extractListMappings` | - | `all map[string]interface{}, mappings map[string]string` | `map[string][]string, error` | [L96](file:///d:/claude/nomad/lib/auth/claims.go#L96) |
@@ -33,6 +33,8 @@
 | `normalizeList` | - | `raw interface{}` | `[]interface{}, bool` | [L219](file:///d:/claude/nomad/lib/auth/claims.go#L219) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -56,4 +58,6 @@
 | 文件 | 关系 |
 |------|------|
 | [claims_test.go](file:///d:/claude/nomad/lib/auth/claims_test.go) | 对应测试文件 |
+| [binder.go](file:///d:/claude/nomad/lib/auth/binder.go) | 同目录源文件 |
+| [identity.go](file:///d:/claude/nomad/lib/auth/identity.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # job_endpoint_hook_consul_ce.go 代码说明文档
 
-> 文件路径：[job_endpoint_hook_consul_ce.go](file:///d:/claude/nomad/nomad/job_endpoint_hook_consul_ce.go)
+> 文件路径：[nomad/job_endpoint_hook_consul_ce.go](file:///d:/claude/nomad/nomad/job_endpoint_hook_consul_ce.go)
 > 总行数：73 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **Consul 作业钩子**，为作业注入 Consul 服务发现配置和 ACL 令牌。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `job_endpoint_hook_consul_ce.go` 提供相关功能实现。
 
 **构建标签**：`!ent`
 
@@ -39,6 +39,21 @@
 
 **位置**：[L15](file:///d:/claude/nomad/nomad/job_endpoint_hook_consul_ce.go#L15)
 
+**中文说明**：验证对象的有效性。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `job` | `*structs.Job` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `[]error` | 列表 |
+| `error` | 错误信息 |
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -57,4 +72,9 @@
 | 文件 | 关系 |
 |------|------|
 | [job_endpoint_hook_consul_ce_test.go](file:///d:/claude/nomad/nomad/job_endpoint_hook_consul_ce_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

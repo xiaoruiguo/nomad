@@ -20,27 +20,29 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `HCLSpecLiteral` | ``["AUDIT_WRITE","CHOWN","DAC_OVERRIDE","FOWNER","FSETID",...` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `HCLSpecLiteral` | `—` | ``["AUDIT_WRITE","CHOWN","DAC_OVERRIDE","FOWNER","FSETID",...` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `extractLiteral` | `regexp.MustCompile(`([\w]+)`)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `extractLiteral` | `—` | `regexp.MustCompile(`([\w]+)`)` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `NomadDefaults` | - | - | `*Set` | [L29](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L29) |
-| `Supported` | - | - | `*Set` | [L41](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L41) |
-| `LegacySupported` | - | - | `*Set` | [L72](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L72) |
+| `NomadDefaults` | - | `` | `*Set` | [L29](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L29) |
+| `Supported` | - | `` | `*Set` | [L41](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L41) |
+| `LegacySupported` | - | `` | `*Set` | [L72](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L72) |
 | `Calculate` | - | `basis *Set, allowCaps []string, capAdd []string, capDrop []string` | `[]string, error` | [L139](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L139) |
 | `Delta` | - | `basis *Set, allowCaps []string, capAdd []string, capDrop []string` | `[]string, []string, error` | [L171](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go#L171) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -62,4 +64,7 @@
 | 文件 | 关系 |
 |------|------|
 | [defaults_test.go](file:///d:/claude/nomad/drivers/shared/capabilities/defaults_test.go) | 对应测试文件 |
+| [defaults_default.go](file:///d:/claude/nomad/drivers/shared/capabilities/defaults_default.go) | 同目录源文件 |
+| [defaults_windows.go](file:///d:/claude/nomad/drivers/shared/capabilities/defaults_windows.go) | 同目录源文件 |
+| [set.go](file:///d:/claude/nomad/drivers/shared/capabilities/set.go) | 同目录源文件 |
 

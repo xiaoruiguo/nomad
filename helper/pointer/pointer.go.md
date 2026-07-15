@@ -1,6 +1,6 @@
 # pointer.go 代码说明文档
 
-> 文件路径：[pointer/pointer.go](file:///d:/claude/nomad/helper/pointer/pointer.go)
+> 文件路径：[helper/pointer/pointer.go](file:///d:/claude/nomad/helper/pointer/pointer.go)
 > 总行数：48 行
 > 所属包：`pointer`
 > 版权：Copyright IBM Corp. 2015, 2025
@@ -10,7 +10,11 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **指针工具子包**（`helper/pointer`），提供泛型指针操作工具函数（如 Of、Value），简化指针的创建和解引用。
+该文件属于 **工具包子包**（`helper/pointer`），提供 Nomad 使用的通用工具函数和数据结构。
+
+**包注释**：
+
+Package pointer provides helper functions related to Go pointers.
 
 ## 2. 类型定义
 
@@ -18,11 +22,21 @@
 
 **定义位置**：[L11](file:///d:/claude/nomad/helper/pointer/pointer.go#L11)
 
+**中文说明**：Primitive 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	cmp.Ordered | bool
+type Primitive interface {
+	cmp.Ordered | bool cmp.Ordered | bool
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `cmp.Ordered | bool` | `cmp.Ordered | bool` | — |
 
 ## 3. 常量与变量
 
@@ -44,6 +58,20 @@
 **签名**：`func Copy(a *A) *A`
 
 **位置**：[L21](file:///d:/claude/nomad/helper/pointer/pointer.go#L21)
+
+**中文说明**：创建对象的副本。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `a` | `*A` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*A` | — |
 
 ## 6. 依赖关系
 

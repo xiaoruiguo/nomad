@@ -1,6 +1,6 @@
 # partition_linux.go 代码说明文档
 
-> 文件路径：[lib/cgroupslib/partition_linux.go](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go)
+> 文件路径：[client/lib/cgroupslib/partition_linux.go](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go)
 > 总行数：121 行
 > 所属包：`cgroupslib`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **cgroups 库子包**（`client/lib/cgroupslib`），封装 Linux cgroups 操作，用于资源限制和隔离。
+该文件属于 **客户端库子包**（`client/lib`），提供客户端使用的通用库函数和数据结构。
 
 **平台特定实现**：此文件为 **Linux** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -21,9 +21,12 @@
 
 **定义位置**：[L55](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L55)
 
+**中文说明**：partition 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type partition struct {
 	log hclog.Logger
 	sharePath string
 	reservePath string
@@ -31,7 +34,20 @@
 	lock sync.Mutex
 	share *idset.Set[hw.CoreID]
 	reserve *idset.Set[hw.CoreID]
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `log` | `hclog.Logger` | 日志记录器 |
+| `sharePath` | `string` | 字符串 |
+| `reservePath` | `string` | 字符串 |
+| `usableCores` | `*idset.Set[hw.CoreID]` | — |
+| `lock` | `sync.Mutex` | 互斥锁，保护并发访问 |
+| `share` | `*idset.Set[hw.CoreID]` | — |
+| `reserve` | `*idset.Set[hw.CoreID]` | — |
 
 **关联方法**（4 个）：`Restore`, `Reserve`, `Release`, `write`
 
@@ -45,18 +61,47 @@
 |------|--------|------|--------|------|
 | `GetPartition` | - | `log hclog.Logger, cores *idset.Set[hw.CoreID]` | `Partition` | [L21](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L21) |
 | `NewPartition` | - | `log hclog.Logger, cores *idset.Set[hw.CoreID]` | `Partition` | [L28](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L28) |
-| `Restore` | `p *partition` | `cores *idset.Set[hw.CoreID]` | - | [L66](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L66) |
+| `Restore` | `p *partition` | `cores *idset.Set[hw.CoreID]` | `` | [L66](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L66) |
 | `Reserve` | `p *partition` | `cores *idset.Set[hw.CoreID]` | `error` | [L77](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L77) |
 | `Release` | `p *partition` | `cores *idset.Set[hw.CoreID]` | `error` | [L97](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L97) |
-| `write` | `p *partition` | - | `error` | [L109](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L109) |
+| `write` | `p *partition` | `` | `error` | [L109](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L109) |
 
 ## 5. 核心方法详解
 
-### GetPartition()
+### NewPartition()
 
-**签名**：`func GetPartition(log hclog.Logger, cores *idset.Set[hw.CoreID]) Partition`
+**签名**：`func NewPartition(log hclog.Logger, cores *idset.Set[hw.CoreID]) Partition`
 
-**位置**：[L21](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L21)
+**位置**：[L28](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L28)
+
+**中文说明**：创建并返回一个新的 Partition 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `log` | `hclog.Logger` | 日志记录器 |
+| `cores` | `*idset.Set[hw.CoreID]` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Partition` | — |
+
+### Restore()
+
+**签名**：`func (p *partition) Restore(cores *idset.Set[hw.CoreID]) `
+
+**位置**：[L66](file:///d:/claude/nomad/client/lib/cgroupslib/partition_linux.go#L66)
+
+**中文说明**：从快照恢复对象的状态。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `cores` | `*idset.Set[hw.CoreID]` | — |
 
 ## 6. 依赖关系
 
@@ -75,11 +120,19 @@
 ## 7. 设计模式与技术特点
 
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **平台特定实现**：通过 build tag 机制实现 Linux 平台支持
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [default.go](file:///d:/claude/nomad/client/lib/cgroupslib/default.go) | 同目录源文件 |
+| [editor.go](file:///d:/claude/nomad/client/lib/cgroupslib/editor.go) | 同目录源文件 |
+| [init.go](file:///d:/claude/nomad/client/lib/cgroupslib/init.go) | 同目录源文件 |
+| [init_default.go](file:///d:/claude/nomad/client/lib/cgroupslib/init_default.go) | 同目录源文件 |
+| [memory.go](file:///d:/claude/nomad/client/lib/cgroupslib/memory.go) | 同目录源文件 |
 

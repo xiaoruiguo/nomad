@@ -21,13 +21,13 @@
 
 **定义位置**：[L77](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L77)
 
-**类型定义**：`func(...)`
+**类型定义**：`type runningFunc func(...)`
 
 ### cleanupFunc
 
 **定义位置**：[L83](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L83)
 
-**类型定义**：`func(...)`
+**类型定义**：`type cleanupFunc func(...)`
 
 ## 3. 常量与变量
 
@@ -38,17 +38,19 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `setSubCmdCgroup` | `e *UniversalExecutor` | `cmd *exec.Cmd, cgroup string` | `func(...), error` | [L26](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L26) |
-| `ListProcesses` | `e *UniversalExecutor` | - | `set.Collection[procstats.ProcessID]` | [L55](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L55) |
+| `ListProcesses` | `e *UniversalExecutor` | `` | `set.Collection[procstats.ProcessID]` | [L55](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L55) |
 | `statCG` | `e *UniversalExecutor` | `cgroup string` | `int, func(...), error` | [L65](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L65) |
 | `configureResourceContainer` | `e *UniversalExecutor` | `command *ExecCommand, pid int` | `runningFunc, cleanupFunc, error` | [L89](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L89) |
 | `enterCG1` | `e *UniversalExecutor` | `statsCgroup string, cpusetCgroup string` | `runningFunc, cleanupFunc` | [L143](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L143) |
 | `configureCG1` | `e *UniversalExecutor` | `cgroup string, command *ExecCommand` | `error` | [L181](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L181) |
-| `configureCG2` | `e *UniversalExecutor` | `cgroup string, command *ExecCommand` | - | [L233](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L233) |
+| `configureCG2` | `e *UniversalExecutor` | `cgroup string, command *ExecCommand` | `` | [L233](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L233) |
 | `setOomAdj` | `e *UniversalExecutor` | `oomScore int32` | `error` | [L270](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L270) |
 | `computeCPU` | ` *UniversalExecutor` | `command *ExecCommand` | `uint64` | [L276](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L276) |
 | `withNetworkIsolation` | - | `f func(...), spec *drivers.NetworkIsolationSpec` | `error` | [L283](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux.go#L283) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -81,4 +83,9 @@
 | 文件 | 关系 |
 |------|------|
 | [executor_universal_linux_test.go](file:///d:/claude/nomad/drivers/shared/executor/executor_universal_linux_test.go) | 对应测试文件 |
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

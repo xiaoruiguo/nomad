@@ -25,9 +25,11 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `ShortID` | - | `prefix string` | `string` | [L13](file:///d:/claude/nomad/e2e/v3/util3/util3.go#L13) |
-| `Log3` | - | `t *testing.T, verbose bool, msg string, args ...any` | - | [L21](file:///d:/claude/nomad/e2e/v3/util3/util3.go#L21) |
+| `Log3` | - | `t *testing.T, verbose bool, msg string, args ...any` | `` | [L21](file:///d:/claude/nomad/e2e/v3/util3/util3.go#L21) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

@@ -1,6 +1,6 @@
 # leader_ce.go 代码说明文档
 
-> 文件路径：[leader_ce.go](file:///d:/claude/nomad/nomad/leader_ce.go)
+> 文件路径：[nomad/leader_ce.go](file:///d:/claude/nomad/nomad/leader_ce.go)
 > 总行数：20 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **Leader 选举后的初始化逻辑**，当 Server 成为 Raft Leader 时执行leader 选举后的设置工作，包括评估队列恢复、部署监视器启动、周期性调度器启动等。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `leader_ce.go` 提供相关功能实现。
 
 **构建标签**：`!ent`
 
@@ -28,9 +28,11 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `establishEnterpriseLeadership` | `s *Server` | `stopCh chan struct{...}, clusterMD structs.ClusterMetadata` | `error` | [L12](file:///d:/claude/nomad/nomad/leader_ce.go#L12) |
-| `revokeEnterpriseLeadership` | `s *Server` | - | `error` | [L17](file:///d:/claude/nomad/nomad/leader_ce.go#L17) |
+| `revokeEnterpriseLeadership` | `s *Server` | `` | `error` | [L17](file:///d:/claude/nomad/nomad/leader_ce.go#L17) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -48,4 +50,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

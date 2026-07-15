@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **资产子包**（`command/asset`），管理 Nomad CLI 编译时嵌入的静态资产（如 Web UI 资源），通过 `go:embed` 或 `bindata` 机制打包。
+该文件属于 **CLI 命令包**（`command/`），实现 Nomad 命令行工具的子命令，通过 API 客户端与 Server 交互。
 
 ## 2. 类型定义
 
@@ -20,24 +20,26 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `JobExample` | `` |
-| `JobExampleShort` | `` |
-| `JobConnect` | `` |
-| `JobConnectShort` | `` |
-| `NodePoolSpec` | `` |
-| `NodePoolSpecJSON` | `` |
-| `CSIVolumeSpecHCL` | `` |
-| `CSIVolumeSpecJSON` | `` |
-| `HostVolumeSpecHCL` | `` |
-| `HostVolumeSpecJSON` | `` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `JobExample` | `[]byte` | `` | — |
+| `JobExampleShort` | `[]byte` | `` | — |
+| `JobConnect` | `[]byte` | `` | — |
+| `JobConnectShort` | `[]byte` | `` | — |
+| `NodePoolSpec` | `[]byte` | `` | — |
+| `NodePoolSpecJSON` | `[]byte` | `` | — |
+| `CSIVolumeSpecHCL` | `[]byte` | `` | — |
+| `CSIVolumeSpecJSON` | `[]byte` | `` | — |
+| `HostVolumeSpecHCL` | `[]byte` | `` | — |
+| `HostVolumeSpecJSON` | `[]byte` | `` | — |
 
 ## 4. 方法与函数
 
 该文件未定义方法。
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

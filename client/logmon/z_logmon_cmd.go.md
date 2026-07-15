@@ -1,6 +1,6 @@
 # z_logmon_cmd.go 代码说明文档
 
-> 文件路径：[logmon/z_logmon_cmd.go](file:///d:/claude/nomad/client/logmon/z_logmon_cmd.go)
+> 文件路径：[client/logmon/z_logmon_cmd.go](file:///d:/claude/nomad/client/logmon/z_logmon_cmd.go)
 > 总行数：37 行
 > 所属包：`logmon`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **日志监控子包**（`client/logmon`），监控任务的日志输出并进行轮转。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 ## 2. 类型定义
 
@@ -24,9 +24,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L19](file:///d:/claude/nomad/client/logmon/z_logmon_cmd.go#L19) |
+| `init` | - | `` | `` | [L19](file:///d:/claude/nomad/client/logmon/z_logmon_cmd.go#L19) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -41,11 +43,17 @@
 
 ## 7. 设计模式与技术特点
 
-- **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **IO 操作**：涉及文件或数据流的读写操作
 - **插件架构**：使用 `go-plugin` 框架实现插件化扩展
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
+- **结构化日志**：使用 `hclog` 进行结构化日志记录
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/client/logmon/client.go) | 同目录源文件 |
+| [logmon.go](file:///d:/claude/nomad/client/logmon/logmon.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/client/logmon/plugin.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/client/logmon/server.go) | 同目录源文件 |
 

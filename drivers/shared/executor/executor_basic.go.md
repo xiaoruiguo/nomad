@@ -31,7 +31,7 @@
 | `configureResourceContainer` | `e *UniversalExecutor` | `_ *ExecCommand, _ int` | `func(...), func(...), error` | [L24](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L24) |
 | `start` | `e *UniversalExecutor` | `command *ExecCommand` | `error` | [L30](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L30) |
 | `withNetworkIsolation` | - | `f func(...), _ *drivers.NetworkIsolationSpec` | `error` | [L34](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L34) |
-| `ListProcesses` | `e *UniversalExecutor` | - | `set.Collection[int]` | [L38](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L38) |
+| `ListProcesses` | `e *UniversalExecutor` | `` | `set.Collection[int]` | [L38](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L38) |
 | `setSubCmdCgroup` | `e *UniversalExecutor` | `*exec.Cmd, string` | `func(...), error` | [L42](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L42) |
 
 ## 5. 核心方法详解
@@ -41,6 +41,21 @@
 **签名**：`func NewExecutorWithIsolation(logger hclog.Logger, compute cpustats.Compute) Executor`
 
 **位置**：[L18](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go#L18)
+
+**中文说明**：创建并返回一个新的 ExecutorWithIsolation 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `compute` | `cpustats.Compute` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Executor` | — |
 
 ## 6. 依赖关系
 
@@ -61,9 +76,15 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
+| [executor_plugin.go](file:///d:/claude/nomad/drivers/shared/executor/executor_plugin.go) | 同目录源文件 |
 

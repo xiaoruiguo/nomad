@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。支持变量插值、函数调用和 HCL 到 JSON 的转换。
+该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。
 
 ## 2. 类型定义
 
@@ -18,21 +18,36 @@
 
 **定义位置**：[L46](file:///d:/claude/nomad/jobspec2/parse.go#L46)
 
+**中文说明**：ParseResult 是一个结果结构体，封装操作执行的结果。
+
 **类型**：struct
 
 ```go
+type ParseResult struct {
 	Job *api.Job
 	Submission *api.JobSubmission
 	Variables Variables
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Job` | `*api.Job` | — |
+| `Submission` | `*api.JobSubmission` | — |
+| `Variables` | `Variables` | — |
 
 ### ParseConfig
 
 **定义位置**：[L96](file:///d:/claude/nomad/jobspec2/parse.go#L96)
 
+**中文说明**：ParseConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type ParseConfig struct {
 	Path string
 	BaseDir string
 	Body []byte
@@ -43,7 +58,23 @@
 	Envs []string
 	Strict bool
 	parsedVarFiles []*hcl.File
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Path` | `string` | 路径 |
+| `BaseDir` | `string` | 字符串 |
+| `Body` | `[]byte` | 主体 is HCL 主体 |
+| `AllowFS` | `bool` | 布尔值 |
+| `ArgVars` | `[]string` | 列表 |
+| `VarFiles` | `[]string` | 列表 |
+| `VarContent` | `string` | 字符串 |
+| `Envs` | `[]string` | 列表 |
+| `Strict` | `bool` | 布尔值 |
+| `parsedVarFiles` | `[]*hcl.File` | 列表 |
 
 **关联方法**（1 个）：`normalize`
 
@@ -51,10 +82,10 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `formatJSON` | `"json"` |
-| `formatHCL2` | `"hcl2"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `formatJSON` | `—` | `"json"` | — |
+| `formatHCL2` | `—` | `"hcl2"` | — |
 
 ## 4. 方法与函数
 
@@ -64,7 +95,7 @@
 | `ParseWithConfig` | - | `args *ParseConfig` | `*api.Job, error` | [L54](file:///d:/claude/nomad/jobspec2/parse.go#L54) |
 | `ParseWithConfigEx` | - | `args *ParseConfig` | `*ParseResult, error` | [L66](file:///d:/claude/nomad/jobspec2/parse.go#L66) |
 | `parseWithConfigImpl` | - | `args *ParseConfig` | `*jobConfig, error` | [L83](file:///d:/claude/nomad/jobspec2/parse.go#L83) |
-| `normalize` | `c *ParseConfig` | - | - | [L126](file:///d:/claude/nomad/jobspec2/parse.go#L126) |
+| `normalize` | `c *ParseConfig` | `` | `` | [L126](file:///d:/claude/nomad/jobspec2/parse.go#L126) |
 | `decode` | - | `c *jobConfig` | `error` | [L132](file:///d:/claude/nomad/jobspec2/parse.go#L132) |
 | `parseFile` | - | `path string` | `*hcl.File, hcl.Diagnostics` | [L186](file:///d:/claude/nomad/jobspec2/parse.go#L186) |
 | `parseHCLOrJSON` | - | `src []byte, filename string` | `*hcl.File, hcl.Diagnostics` | [L201](file:///d:/claude/nomad/jobspec2/parse.go#L201) |
@@ -82,6 +113,22 @@
 **签名**：`func Parse(path string, r io.Reader) *api.Job, error`
 
 **位置**：[L23](file:///d:/claude/nomad/jobspec2/parse.go#L23)
+
+**中文说明**：解析对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `path` | `string` | 路径 |
+| `r` | `io.Reader` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*api.Job` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -114,4 +161,9 @@
 | 文件 | 关系 |
 |------|------|
 | [parse_test.go](file:///d:/claude/nomad/jobspec2/parse_test.go) | 对应测试文件 |
+| [functions.go](file:///d:/claude/nomad/jobspec2/functions.go) | 同目录源文件 |
+| [hcl_conversions.go](file:///d:/claude/nomad/jobspec2/hcl_conversions.go) | 同目录源文件 |
+| [parse_job.go](file:///d:/claude/nomad/jobspec2/parse_job.go) | 同目录源文件 |
+| [parse_map.go](file:///d:/claude/nomad/jobspec2/parse_map.go) | 同目录源文件 |
+| [types.config.go](file:///d:/claude/nomad/jobspec2/types.config.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # testlog.go 代码说明文档
 
-> 文件路径：[testlog/testlog.go](file:///d:/claude/nomad/helper/testlog/testlog.go)
+> 文件路径：[helper/testlog/testlog.go](file:///d:/claude/nomad/helper/testlog/testlog.go)
 > 总行数：118 行
 > 所属包：`testlog`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,13 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **测试日志子包**（`helper/testlog`），提供测试用的日志捕获和断言工具，便于在测试中验证日志输出。
+该文件属于 **工具包子包**（`helper/testlog`），提供 Nomad 使用的通用工具函数和数据结构。
+
+**包注释**：
+
+Package testlog creates a *log.Logger backed by *testing.T to ease logging
+in tests. This allows logs from components being tested to only be printed
+if the test fails (or the verbose flag is specified).
 
 ## 2. 类型定义
 
@@ -18,21 +24,41 @@
 
 **定义位置**：[L22](file:///d:/claude/nomad/helper/testlog/testlog.go#L22)
 
+**中文说明**：LogPrinter 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	Logf
+type LogPrinter interface {
+	Logf func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `Logf` | `func(...)` | — |
 
 ### prefixStderr
 
 **定义位置**：[L91](file:///d:/claude/nomad/helper/testlog/testlog.go#L91)
 
+**中文说明**：prefixStderr 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type prefixStderr struct {
 	prefix []byte
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `prefix` | `[]byte` | 字节数组 |
 
 **关联方法**（1 个）：`Write`
 
@@ -50,7 +76,7 @@
 | `WithPrefix` | - | `t LogPrinter, prefix string` | `*log.Logger` | [L43](file:///d:/claude/nomad/helper/testlog/testlog.go#L43) |
 | `Logger` | - | `t LogPrinter` | `*log.Logger` | [L50](file:///d:/claude/nomad/helper/testlog/testlog.go#L50) |
 | `HCLogger` | - | `t LogPrinter` | `hclog.InterceptLogger` | [L57](file:///d:/claude/nomad/helper/testlog/testlog.go#L57) |
-| `HCLoggerTestLevel` | - | - | `hclog.Level` | [L65](file:///d:/claude/nomad/helper/testlog/testlog.go#L65) |
+| `HCLoggerTestLevel` | - | `` | `hclog.Level` | [L65](file:///d:/claude/nomad/helper/testlog/testlog.go#L65) |
 | `HCLoggerNode` | - | `t LogPrinter, node int32` | `hclog.InterceptLogger, io.Writer` | [L78](file:///d:/claude/nomad/helper/testlog/testlog.go#L78) |
 | `Write` | `w *prefixStderr` | `p []byte` | `int, error` | [L96](file:///d:/claude/nomad/helper/testlog/testlog.go#L96) |
 
@@ -62,11 +88,40 @@
 
 **位置**：[L27](file:///d:/claude/nomad/helper/testlog/testlog.go#L27)
 
+**中文说明**：创建并返回一个新的 Writer 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `LogPrinter` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `io.Writer` | — |
+
 ### NewPrefixWriter()
 
 **签名**：`func NewPrefixWriter(t LogPrinter, prefix string) io.Writer`
 
 **位置**：[L33](file:///d:/claude/nomad/helper/testlog/testlog.go#L33)
+
+**中文说明**：创建并返回一个新的 PrefixWriter 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `LogPrinter` | — |
+| `prefix` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `io.Writer` | — |
 
 ### New()
 
@@ -74,11 +129,40 @@
 
 **位置**：[L38](file:///d:/claude/nomad/helper/testlog/testlog.go#L38)
 
+**中文说明**：创建并返回一个新实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `LogPrinter` | — |
+| `prefix` | `string` | 字符串 |
+| `flag` | `int` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*log.Logger` | 日志记录器 |
+
 ### Write()
 
 **签名**：`func (w *prefixStderr) Write(p []byte) int, error`
 
 **位置**：[L96](file:///d:/claude/nomad/helper/testlog/testlog.go#L96)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `p` | `[]byte` | 字节数组 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -100,7 +184,7 @@
 - **IO 操作**：涉及文件或数据流的读写操作
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
-- **测试工具**：提供测试辅助工具，便于编写单元测试和集成测试
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 

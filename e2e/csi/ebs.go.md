@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **CSI E2E 测试子包**（`e2e/csi`），测试容器存储接口（CSI）插件的注册、卷管理和挂载功能。
+该文件属于 **端到端测试子包**（`e2e/csi`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
 ## 2. 类型定义
 
@@ -18,16 +18,31 @@
 
 **定义位置**：[L21](file:///d:/claude/nomad/e2e/csi/ebs.go#L21)
 
+**中文说明**：CSIControllerPluginEBSTest 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type CSIControllerPluginEBSTest struct {
+	framework.TC framework.TC
 	uuid string
 	testJobIDs []string
 	volumeIDs []string
 	pluginJobIDs []string
 	nodeIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `uuid` | `string` | 字符串 |
+| `testJobIDs` | `[]string` | 列表 |
+| `volumeIDs` | `[]string` | 列表 |
+| `pluginJobIDs` | `[]string` | 列表 |
+| `nodeIDs` | `[]string` | 列表 |
 
 **关联方法**（6 个）：`BeforeAll`, `AfterEach`, `AfterAll`, `TestVolumeClaim`, `TestSnapshot`, `TestNodeDrain`
 
@@ -35,22 +50,24 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `ebsPluginID` | `"aws-ebs0"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ebsPluginID` | `—` | `"aws-ebs0"` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `BeforeAll` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | - | [L34](file:///d:/claude/nomad/e2e/csi/ebs.go#L34) |
-| `AfterEach` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | - | [L96](file:///d:/claude/nomad/e2e/csi/ebs.go#L96) |
-| `AfterAll` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | - | [L120](file:///d:/claude/nomad/e2e/csi/ebs.go#L120) |
-| `TestVolumeClaim` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | - | [L146](file:///d:/claude/nomad/e2e/csi/ebs.go#L146) |
-| `TestSnapshot` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | - | [L198](file:///d:/claude/nomad/e2e/csi/ebs.go#L198) |
-| `TestNodeDrain` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | - | [L230](file:///d:/claude/nomad/e2e/csi/ebs.go#L230) |
+| `BeforeAll` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | `` | [L34](file:///d:/claude/nomad/e2e/csi/ebs.go#L34) |
+| `AfterEach` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | `` | [L96](file:///d:/claude/nomad/e2e/csi/ebs.go#L96) |
+| `AfterAll` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | `` | [L120](file:///d:/claude/nomad/e2e/csi/ebs.go#L120) |
+| `TestVolumeClaim` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | `` | [L146](file:///d:/claude/nomad/e2e/csi/ebs.go#L146) |
+| `TestSnapshot` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | `` | [L198](file:///d:/claude/nomad/e2e/csi/ebs.go#L198) |
+| `TestNodeDrain` | `tc *CSIControllerPluginEBSTest` | `f *framework.F` | `` | [L230](file:///d:/claude/nomad/e2e/csi/ebs.go#L230) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -76,4 +93,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [csi.go](file:///d:/claude/nomad/e2e/csi/csi.go) | 同目录源文件 |
+| [efs.go](file:///d:/claude/nomad/e2e/csi/efs.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # eof.go 代码说明文档
 
-> 文件路径：[eof.go](file:///d:/claude/nomad/helper/eof.go)
+> 文件路径：[helper/eof.go](file:///d:/claude/nomad/helper/eof.go)
 > 总行数：43 行
 > 所属包：`helper`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,11 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **EOF 处理工具**，实现 EOF 错误的检测和包装，用于区分正常结束和异常关闭。
+该文件属于 **工具包子包**（`helper/helper`），提供 Nomad 使用的通用工具函数和数据结构。
+
+**包注释**：
+
+These functions are coming from consul/lib/eof.go
 
 ## 2. 类型定义
 
@@ -20,10 +24,10 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `yamuxStreamClosed` | `yamux.ErrStreamClosed.Error()` |
-| `yamuxSessionShutdown` | `yamux.ErrSessionShutdown.Error()` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `yamuxStreamClosed` | `—` | `yamux.ErrStreamClosed.Error()` | — |
+| `yamuxSessionShutdown` | `—` | `yamux.ErrSessionShutdown.Error()` | — |
 
 ## 4. 方法与函数
 
@@ -32,6 +36,8 @@
 | `IsErrEOF` | - | `err error` | `bool` | [L22](file:///d:/claude/nomad/helper/eof.go#L22) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -54,4 +60,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [backoff.go](file:///d:/claude/nomad/helper/backoff.go) | 同目录源文件 |
+| [cluster.go](file:///d:/claude/nomad/helper/cluster.go) | 同目录源文件 |
+| [file.go](file:///d:/claude/nomad/helper/file.go) | 同目录源文件 |
+| [funcs.go](file:///d:/claude/nomad/helper/funcs.go) | 同目录源文件 |
+| [funcs_unix.go](file:///d:/claude/nomad/helper/funcs_unix.go) | 同目录源文件 |
 

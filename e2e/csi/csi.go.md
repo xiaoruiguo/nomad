@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **CSI E2E 测试子包**（`e2e/csi`），测试容器存储接口（CSI）插件的注册、卷管理和挂载功能。
+该文件属于 **端到端测试子包**（`e2e/csi`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
 ## 2. 类型定义
 
@@ -20,25 +20,25 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `ns` | `""` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ns` | `—` | `""` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `pluginAllocWait` | `&e2e.WaitConfig{...}` |
-| `pluginWait` | `&e2e.WaitConfig{...}` |
-| `reapWait` | `&e2e.WaitConfig{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `pluginAllocWait` | `—` | `&e2e.WaitConfig{...}` | — |
+| `pluginWait` | `—` | `&e2e.WaitConfig{...}` | — |
+| `reapWait` | `—` | `&e2e.WaitConfig{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L25](file:///d:/claude/nomad/e2e/csi/csi.go#L25) |
-| `assertNoErrorElseDump` | - | `f *framework.F, err error, msg string, pluginJobIDs []string` | - | [L45](file:///d:/claude/nomad/e2e/csi/csi.go#L45) |
-| `requireNoErrorElseDump` | - | `f *framework.F, err error, msg string, pluginJobIDs []string` | - | [L54](file:///d:/claude/nomad/e2e/csi/csi.go#L54) |
+| `init` | - | `` | `` | [L25](file:///d:/claude/nomad/e2e/csi/csi.go#L25) |
+| `assertNoErrorElseDump` | - | `f *framework.F, err error, msg string, pluginJobIDs []string` | `` | [L45](file:///d:/claude/nomad/e2e/csi/csi.go#L45) |
+| `requireNoErrorElseDump` | - | `f *framework.F, err error, msg string, pluginJobIDs []string` | `` | [L54](file:///d:/claude/nomad/e2e/csi/csi.go#L54) |
 | `dumpLogs` | - | `pluginIDs []string` | `error` | [L61](file:///d:/claude/nomad/e2e/csi/csi.go#L61) |
 | `waitForVolumeClaimRelease` | - | `volID string, wc *e2e.WaitConfig` | `error` | [L99](file:///d:/claude/nomad/e2e/csi/csi.go#L99) |
 | `readFile` | - | `client *api.Client, allocID string, path string` | `bytes.Buffer, error` | [L124](file:///d:/claude/nomad/e2e/csi/csi.go#L124) |
@@ -48,6 +48,8 @@
 | `volumeRegister` | - | `volID string, volFilePath string, createOrRegister string` | `error` | [L219](file:///d:/claude/nomad/e2e/csi/csi.go#L219) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -81,4 +83,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [ebs.go](file:///d:/claude/nomad/e2e/csi/ebs.go) | 同目录源文件 |
+| [efs.go](file:///d:/claude/nomad/e2e/csi/efs.go) | 同目录源文件 |
 

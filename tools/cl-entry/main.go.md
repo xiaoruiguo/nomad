@@ -20,36 +20,38 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `pr` | ``Must have a Pull Request already open.
-  Enter PR # => `` |
-| `kind` | ``Choose type, one of
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `pr` | `—` | ``Must have a Pull Request already open.
+  Enter PR # => `` | — |
+| `kind` | `—` | ``Choose type, one of
     1. bug
     2. improvement
-    3....` |
-| `note` | ``Write a note, for example
-	build: Added make target for ...` |
+    3....` | — |
+| `note` | `—` | ``Write a note, for example
+	build: Added make target for ...` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `noteRe` | `regexp.MustCompile(`^[a-z0-9/\s]+: .+`)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `noteRe` | `—` | `regexp.MustCompile(`^[a-z0-9/\s]+: .+`)` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L38](file:///d:/claude/nomad/tools/cl-entry/main.go#L38) |
+| `main` | - | `` | `` | [L38](file:///d:/claude/nomad/tools/cl-entry/main.go#L38) |
 | `write` | - | `pr int, label string, msg string` | `string, error` | [L60](file:///d:/claude/nomad/tools/cl-entry/main.go#L60) |
 | `cleanup` | - | `note string` | `string, error` | [L76](file:///d:/claude/nomad/tools/cl-entry/main.go#L76) |
 | `label` | - | `n int` | `string, error` | [L85](file:///d:/claude/nomad/tools/cl-entry/main.go#L85) |
 | `ask` | - | `q string` | `int, error` | [L108](file:///d:/claude/nomad/tools/cl-entry/main.go#L108) |
 | `askStr` | - | `q string` | `string, error` | [L122](file:///d:/claude/nomad/tools/cl-entry/main.go#L122) |
-| `check` | - | `err error` | - | [L129](file:///d:/claude/nomad/tools/cl-entry/main.go#L129) |
+| `check` | - | `err error` | `` | [L129](file:///d:/claude/nomad/tools/cl-entry/main.go#L129) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

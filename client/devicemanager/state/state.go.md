@@ -1,6 +1,6 @@
 # state.go 代码说明文档
 
-> 文件路径：[devicemanager/state/state.go](file:///d:/claude/nomad/client/devicemanager/state/state.go)
+> 文件路径：[client/devicemanager/state/state.go](file:///d:/claude/nomad/client/devicemanager/state/state.go)
 > 总行数：15 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备管理器状态子包**（`client/devicemanager/state`），定义设备管理器的状态数据结构。
+该文件属于 **设备管理器子包**（`client/devicemanager`），管理客户端节点上的硬件设备（GPU、FPGA 等），通过设备插件发现设备并分配给任务。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L10](file:///d:/claude/nomad/client/devicemanager/state/state.go#L10)
 
+**中文说明**：PluginState 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
+type PluginState struct {
 	ReattachConfigs map[string]*pstructs.ReattachConfig
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ReattachConfigs` | `map[string]*pstructs.ReattachConfig` | 映射表 |
 
 ## 3. 常量与变量
 
@@ -34,6 +44,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -44,7 +56,7 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Client 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 

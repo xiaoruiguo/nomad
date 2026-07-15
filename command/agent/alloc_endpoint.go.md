@@ -1,6 +1,6 @@
 # alloc_endpoint.go 代码说明文档
 
-> 文件路径：[alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go)
+> 文件路径：[command/agent/alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go)
 > 总行数：806 行
 > 所属包：`agent`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 **HTTP API 端点实现**，负责 `alloc` 相关的 HTTP 请求处理，包括请求解析、ACL 鉴权、调用 Server/Client RPC、响应格式化等。端点通过 `http.go` 中的路由注册表挂载到 HTTP 服务器。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -20,10 +20,10 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `allocNotFoundErr` | `"allocation not found"` |
-| `resourceNotFoundErr` | `"resource not found"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `allocNotFoundErr` | `—` | `"allocation not found"` | — |
+| `resourceNotFoundErr` | `—` | `"resource not found"` | — |
 
 ## 4. 方法与函数
 
@@ -47,13 +47,15 @@
 | `allocChecks` | `s *HTTPServer` | `allocID string, resp http.ResponseWriter, req *http.Request` | `any, error` | [L557](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L557) |
 | `allocExec` | `s *HTTPServer` | `allocID string, resp http.ResponseWriter, req *http.Request` | `interface{}, error` | [L590](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L590) |
 | `execStream` | `s *HTTPServer` | `ws *websocket.Conn, args *cstructs.AllocExecRequest` | `any, error` | [L627](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L627) |
-| `execStreamImpl` | `s *HTTPServer` | `ws *websocket.Conn, args *cstructs.AllocExecRequest, handler structs.Streami...` | `any, error` | [L652](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L652) |
+| `execStreamImpl` | `s *HTTPServer` | `ws *websocket.Conn, args *cstructs.AllocExecRequest, handler structs.Streamin...` | `any, error` | [L652](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L652) |
 | `execStreamHandleError` | `s *HTTPServer` | `ws *websocket.Conn, codedErr HTTPCodedError` | `HTTPCodedError` | [L736](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L736) |
 | `toWsCode` | - | `httpCode int` | `int` | [L751](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L751) |
 | `isClosedError` | - | `err error` | `bool` | [L762](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L762) |
-| `forwardExecInput` | - | `ctx context.Context, encoder *codec.Encoder, ws *websocket.Conn, errCh chan ...` | - | [L781](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L781) |
+| `forwardExecInput` | - | `ctx context.Context, encoder *codec.Encoder, ws *websocket.Conn, errCh chan<-...` | `` | [L781](file:///d:/claude/nomad/command/agent/alloc_endpoint.go#L781) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -83,13 +85,18 @@
 
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **后台协程**：启动 goroutine 执行后台任务
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [alloc_endpoint_test.go](file:///d:/claude/nomad/command/agent/alloc_endpoint_test.go) | 对应测试文件 |
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [acl_endpoint.go](file:///d:/claude/nomad/command/agent/acl_endpoint.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | 同目录源文件 |
+| [agent_ce.go](file:///d:/claude/nomad/command/agent/agent_ce.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/command/agent/agent_endpoint.go) | 同目录源文件 |
+| [bindata_assetfs.go](file:///d:/claude/nomad/command/agent/bindata_assetfs.go) | 同目录源文件 |
 

@@ -16,6 +16,8 @@
 
 **定义位置**：[L12](file:///d:/claude/nomad/analysis/main.go#L12)
 
+**中文说明**：---------- 命令：foo ----------
+
 **类型**：struct
 
 **关联方法**（3 个）：`Run`, `Synopsis`, `Help`
@@ -23,6 +25,8 @@
 ### BarCommand
 
 **定义位置**：[L32](file:///d:/claude/nomad/analysis/main.go#L32)
+
+**中文说明**：---------- 命令：bar ----------
 
 **类型**：struct
 
@@ -37,14 +41,14 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `Run` | `c *FooCommand` | `args []string` | `int` | [L14](file:///d:/claude/nomad/analysis/main.go#L14) |
-| `Synopsis` | `c *FooCommand` | - | `string` | [L19](file:///d:/claude/nomad/analysis/main.go#L19) |
-| `Help` | `c *FooCommand` | - | `string` | [L23](file:///d:/claude/nomad/analysis/main.go#L23) |
-| `fooCommandFactory` | - | - | `cli.Command, error` | [L27](file:///d:/claude/nomad/analysis/main.go#L27) |
+| `Synopsis` | `c *FooCommand` | `` | `string` | [L19](file:///d:/claude/nomad/analysis/main.go#L19) |
+| `Help` | `c *FooCommand` | `` | `string` | [L23](file:///d:/claude/nomad/analysis/main.go#L23) |
+| `fooCommandFactory` | - | `` | `cli.Command, error` | [L27](file:///d:/claude/nomad/analysis/main.go#L27) |
 | `Run` | `c *BarCommand` | `args []string` | `int` | [L34](file:///d:/claude/nomad/analysis/main.go#L34) |
-| `Synopsis` | `c *BarCommand` | - | `string` | [L39](file:///d:/claude/nomad/analysis/main.go#L39) |
-| `Help` | `c *BarCommand` | - | `string` | [L43](file:///d:/claude/nomad/analysis/main.go#L43) |
-| `barCommandFactory` | - | - | `cli.Command, error` | [L47](file:///d:/claude/nomad/analysis/main.go#L47) |
-| `main` | - | - | - | [L52](file:///d:/claude/nomad/analysis/main.go#L52) |
+| `Synopsis` | `c *BarCommand` | `` | `string` | [L39](file:///d:/claude/nomad/analysis/main.go#L39) |
+| `Help` | `c *BarCommand` | `` | `string` | [L43](file:///d:/claude/nomad/analysis/main.go#L43) |
+| `barCommandFactory` | - | `` | `cli.Command, error` | [L47](file:///d:/claude/nomad/analysis/main.go#L47) |
+| `main` | - | `` | `` | [L52](file:///d:/claude/nomad/analysis/main.go#L52) |
 
 ## 5. 核心方法详解
 
@@ -54,11 +58,39 @@
 
 **位置**：[L14](file:///d:/claude/nomad/analysis/main.go#L14)
 
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+
 ### Run()
 
 **签名**：`func (c *BarCommand) Run(args []string) int`
 
 **位置**：[L34](file:///d:/claude/nomad/analysis/main.go#L34)
+
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
 
 ## 6. 依赖关系
 

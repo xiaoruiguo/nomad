@@ -18,9 +18,12 @@
 
 **定义位置**：[L24](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L24)
 
+**中文说明**：VolumeSubmission 与卷（Volume）相关，管理持久化存储。
+
 **类型**：struct
 
 ```go
+type VolumeSubmission struct {
 	t *testing.T
 	nomadClient *nomadapi.Client
 	namespace string
@@ -31,7 +34,23 @@
 	verbose bool
 	volID string
 	nodeID string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `t` | `*testing.T` | — |
+| `nomadClient` | `*nomadapi.Client` | — |
+| `namespace` | `string` | 命名空间 |
+| `filename` | `string` | 字符串 |
+| `waitState` | `nomadapi.HostVolumeState` | — |
+| `noCleanup` | `bool` | 布尔值 |
+| `timeout` | `time.Duration` | 超时时间 |
+| `verbose` | `bool` | 布尔值 |
+| `volID` | `string` | 字符串 |
+| `nodeID` | `string` | 字符串 |
 
 **关联方法**（8 个）：`VolumeID`, `NodeID`, `Get`, `setClient`, `run`, `waits`, `cleanup`, `logf`
 
@@ -39,13 +58,13 @@
 
 **定义位置**：[L44](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L44)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Option func(...)`
 
 ### Cleanup
 
 **定义位置**：[L46](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L46)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Cleanup func(...)`
 
 ## 3. 常量与变量
 
@@ -56,20 +75,20 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `Create` | - | `t *testing.T, filename string, opts ...Option` | `*VolumeSubmission, Cleanup` | [L48](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L48) |
-| `VolumeID` | `sub *VolumeSubmission` | - | `string` | [L72](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L72) |
-| `NodeID` | `sub *VolumeSubmission` | - | `string` | [L77](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L77) |
-| `Get` | `sub *VolumeSubmission` | - | `*nomadapi.HostVolume` | [L82](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L82) |
-| `setClient` | `sub *VolumeSubmission` | - | - | [L89](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L89) |
-| `run` | `sub *VolumeSubmission` | `start time.Time` | - | [L98](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L98) |
-| `waits` | `sub *VolumeSubmission` | `start time.Time` | - | [L115](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L115) |
-| `cleanup` | `sub *VolumeSubmission` | - | - | [L154](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L154) |
-| `logf` | `sub *VolumeSubmission` | `msg string, args ...any` | - | [L176](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L176) |
+| `VolumeID` | `sub *VolumeSubmission` | `` | `string` | [L72](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L72) |
+| `NodeID` | `sub *VolumeSubmission` | `` | `string` | [L77](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L77) |
+| `Get` | `sub *VolumeSubmission` | `` | `*nomadapi.HostVolume` | [L82](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L82) |
+| `setClient` | `sub *VolumeSubmission` | `` | `` | [L89](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L89) |
+| `run` | `sub *VolumeSubmission` | `start time.Time` | `` | [L98](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L98) |
+| `waits` | `sub *VolumeSubmission` | `start time.Time` | `` | [L115](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L115) |
+| `cleanup` | `sub *VolumeSubmission` | `` | `` | [L154](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L154) |
+| `logf` | `sub *VolumeSubmission` | `msg string, args ...any` | `` | [L176](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L176) |
 | `WithClient` | - | `client *nomadapi.Client` | `Option` | [L183](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L183) |
 | `WithNamespace` | - | `ns string` | `Option` | [L192](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L192) |
 | `WithTimeout` | - | `timeout time.Duration` | `Option` | [L199](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L199) |
 | `WithWaitState` | - | `state api.HostVolumeState` | `Option` | [L207](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L207) |
-| `WithNoCleanup` | - | - | `Option` | [L214](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L214) |
-| `WithVerbose` | - | - | `Option` | [L221](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L221) |
+| `WithNoCleanup` | - | `` | `Option` | [L214](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L214) |
+| `WithVerbose` | - | `` | `Option` | [L221](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L221) |
 
 ## 5. 核心方法详解
 
@@ -79,11 +98,36 @@
 
 **位置**：[L48](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L48)
 
+**中文说明**：创建新的对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `*testing.T` | — |
+| `filename` | `string` | 字符串 |
+| `opts` | `...Option` | 选项 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*VolumeSubmission` | — |
+| `Cleanup` | — |
+
 ### Get()
 
 **签名**：`func (sub *VolumeSubmission) Get() *nomadapi.HostVolume`
 
 **位置**：[L82](file:///d:/claude/nomad/e2e/v3/volumes3/host3.go#L82)
+
+**中文说明**：获取对象的信息。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*nomadapi.HostVolume` | — |
 
 ## 6. 依赖关系
 

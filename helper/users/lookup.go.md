@@ -1,6 +1,6 @@
 # lookup.go 代码说明文档
 
-> 文件路径：[users/lookup.go](file:///d:/claude/nomad/helper/users/lookup.go)
+> 文件路径：[helper/users/lookup.go](file:///d:/claude/nomad/helper/users/lookup.go)
 > 总行数：180 行
 > 所属包：`users`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **用户查找子包**（`helper/users`），实现系统用户查找（UID/GID 解析），支持缓存和跨平台兼容，用于任务执行的用户身份切换。
+该文件属于 **工具包子包**（`helper/users`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -20,10 +20,10 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `globalCache` | `newCache()` |
-| `lock` | `` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `globalCache` | `—` | `newCache()` | — |
+| `lock` | `sync.Mutex` | `` | — |
 
 ## 4. 方法与函数
 
@@ -32,7 +32,7 @@
 | `Lookup` | - | `username string` | `*user.User, error` | [L23](file:///d:/claude/nomad/helper/users/lookup.go#L23) |
 | `LookupUnix` | - | `username string` | `int, int, string, error` | [L31](file:///d:/claude/nomad/helper/users/lookup.go#L31) |
 | `internalLookupUser` | - | `username string` | `*user.User, error` | [L55](file:///d:/claude/nomad/helper/users/lookup.go#L55) |
-| `Current` | - | - | `*user.User, error` | [L63](file:///d:/claude/nomad/helper/users/lookup.go#L63) |
+| `Current` | - | `` | `*user.User, error` | [L63](file:///d:/claude/nomad/helper/users/lookup.go#L63) |
 | `WriteFileFor` | - | `path string, contents []byte, username string` | `error` | [L80](file:///d:/claude/nomad/helper/users/lookup.go#L80) |
 | `writeFileFor` | - | `path string, contents []byte, username string` | `error` | [L106](file:///d:/claude/nomad/helper/users/lookup.go#L106) |
 | `SocketFileFor` | - | `logger hclog.Logger, path string, username string` | `net.Listener, error` | [L131](file:///d:/claude/nomad/helper/users/lookup.go#L131) |
@@ -45,6 +45,19 @@
 **签名**：`func Lookup(username string) *user.User, error`
 
 **位置**：[L23](file:///d:/claude/nomad/helper/users/lookup.go#L23)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `username` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*user.User` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -73,4 +86,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [cache.go](file:///d:/claude/nomad/helper/users/cache.go) | 同目录源文件 |
 

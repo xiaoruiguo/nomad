@@ -18,13 +18,25 @@
 
 **定义位置**：[L17](file:///d:/claude/nomad/drivers/docker/ports.go#L17)
 
+**中文说明**：publishedPorts 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type publishedPorts struct {
 	logger hclog.Logger
 	publishedPorts map[nat.Port][]nat.PortBinding
 	exposedPorts map[nat.Port]struct{...}
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `publishedPorts` | `map[nat.Port][]nat.PortBinding` | 映射表 |
+| `exposedPorts` | `map[nat.Port]struct{...}` | 映射表 |
 
 **关联方法**（2 个）：`addMapped`, `add`
 
@@ -37,10 +49,12 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `newPublishedPorts` | - | `logger hclog.Logger` | `*publishedPorts` | [L23](file:///d:/claude/nomad/drivers/docker/ports.go#L23) |
-| `addMapped` | `p *publishedPorts` | `label string, ip string, port int, portMap hclutils.MapStrInt` | - | [L32](file:///d:/claude/nomad/drivers/docker/ports.go#L32) |
-| `add` | `p *publishedPorts` | `label string, ip string, port int, to int` | - | [L45](file:///d:/claude/nomad/drivers/docker/ports.go#L45) |
+| `addMapped` | `p *publishedPorts` | `label string, ip string, port int, portMap hclutils.MapStrInt` | `` | [L32](file:///d:/claude/nomad/drivers/docker/ports.go#L32) |
+| `add` | `p *publishedPorts` | `label string, ip string, port int, to int` | `` | [L45](file:///d:/claude/nomad/drivers/docker/ports.go#L45) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -65,4 +79,9 @@
 | 文件 | 关系 |
 |------|------|
 | [ports_test.go](file:///d:/claude/nomad/drivers/docker/ports_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

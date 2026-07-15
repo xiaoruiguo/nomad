@@ -1,6 +1,6 @@
 # discover.go 代码说明文档
 
-> 文件路径：[discover/discover.go](file:///d:/claude/nomad/helper/discover/discover.go)
+> 文件路径：[helper/discover/discover.go](file:///d:/claude/nomad/helper/discover/discover.go)
 > 总行数：70 行
 > 所属包：`discover`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **插件发现子包**（`helper/discover`），实现 Nomad 插件的自动发现机制，扫描指定目录查找可用插件。
+该文件属于 **工具包子包**（`helper/discover`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -24,10 +24,12 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `NomadExecutable` | - | - | `string, error` | [L17](file:///d:/claude/nomad/helper/discover/discover.go#L17) |
+| `NomadExecutable` | - | `` | `string, error` | [L17](file:///d:/claude/nomad/helper/discover/discover.go#L17) |
 | `isNomad` | - | `path string, nomadExe string` | `bool` | [L64](file:///d:/claude/nomad/helper/discover/discover.go#L64) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

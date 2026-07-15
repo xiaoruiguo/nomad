@@ -18,62 +18,123 @@
 
 **定义位置**：[L11](file:///d:/claude/nomad/e2e/framework/interfaces.go#L11)
 
+**中文说明**：TestCase 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	internalTestCase
-	Name
+type TestCase interface {
+	internalTestCase internalTestCase
+	Name func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `internalTestCase` | `internalTestCase` | — |
+| `Name` | `func(...)` | — |
 
 ### internalTestCase
 
 **定义位置**：[L17](file:///d:/claude/nomad/e2e/framework/interfaces.go#L17)
 
+**中文说明**：internalTestCase 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	setClusterInfo
+type internalTestCase interface {
+	setClusterInfo func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `setClusterInfo` | `func(...)` | — |
 
 ### BeforeAllTests
 
 **定义位置**：[L25](file:///d:/claude/nomad/e2e/framework/interfaces.go#L25)
 
+**中文说明**：BeforeAllTests 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	BeforeAll
+type BeforeAllTests interface {
+	BeforeAll func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `BeforeAll` | `func(...)` | — |
 
 ### AfterAllTests
 
 **定义位置**：[L33](file:///d:/claude/nomad/e2e/framework/interfaces.go#L33)
 
+**中文说明**：AfterAllTests 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	AfterAll
+type AfterAllTests interface {
+	AfterAll func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `AfterAll` | `func(...)` | — |
 
 ### BeforeEachTest
 
 **定义位置**：[L40](file:///d:/claude/nomad/e2e/framework/interfaces.go#L40)
 
+**中文说明**：BeforeEachTest 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	BeforeEach
+type BeforeEachTest interface {
+	BeforeEach func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `BeforeEach` | `func(...)` | — |
 
 ### AfterEachTest
 
 **定义位置**：[L47](file:///d:/claude/nomad/e2e/framework/interfaces.go#L47)
 
+**中文说明**：AfterEachTest 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	AfterEach
+type AfterEachTest interface {
+	AfterEach func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `AfterEach` | `func(...)` | — |
 
 ## 3. 常量与变量
 
@@ -85,7 +146,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -96,4 +161,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [case.go](file:///d:/claude/nomad/e2e/framework/case.go) | 同目录源文件 |
+| [context.go](file:///d:/claude/nomad/e2e/framework/context.go) | 同目录源文件 |
+| [doc.go](file:///d:/claude/nomad/e2e/framework/doc.go) | 同目录源文件 |
+| [framework.go](file:///d:/claude/nomad/e2e/framework/framework.go) | 同目录源文件 |
+| [provisioner.go](file:///d:/claude/nomad/e2e/framework/provisioner.go) | 同目录源文件 |
 

@@ -18,12 +18,23 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L18)
 
+**中文说明**：SysBatchSchedulerTest 与调度器（Scheduler）相关，调度器负责将作业分配到合适的节点。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type SysBatchSchedulerTest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（8 个）：`BeforeAll`, `TestJobRunBasic`, `TestJobStopEarly`, `TestJobReplaceRunning`, `TestJobReplaceDead`, `TestJobRunPeriodic`, `TestJobRunDispatch`, `AfterEach`
 
@@ -35,17 +46,19 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L23](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L23) |
-| `BeforeAll` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L33](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L33) |
-| `TestJobRunBasic` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L39](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L39) |
-| `TestJobStopEarly` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L61](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L61) |
-| `TestJobReplaceRunning` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L87](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L87) |
-| `TestJobReplaceDead` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L129](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L129) |
-| `TestJobRunPeriodic` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L171](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L171) |
-| `TestJobRunDispatch` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L213](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L213) |
-| `AfterEach` | `tc *SysBatchSchedulerTest` | `f *framework.F` | - | [L248](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L248) |
+| `init` | - | `` | `` | [L23](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L23) |
+| `BeforeAll` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L33](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L33) |
+| `TestJobRunBasic` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L39](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L39) |
+| `TestJobStopEarly` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L61](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L61) |
+| `TestJobReplaceRunning` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L87](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L87) |
+| `TestJobReplaceDead` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L129](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L129) |
+| `TestJobRunPeriodic` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L171](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L171) |
+| `TestJobRunDispatch` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L213](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L213) |
+| `AfterEach` | `tc *SysBatchSchedulerTest` | `f *framework.F` | `` | [L248](file:///d:/claude/nomad/e2e/scheduler_sysbatch/sysbatch.go#L248) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

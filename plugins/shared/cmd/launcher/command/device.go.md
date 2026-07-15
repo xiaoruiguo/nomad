@@ -18,13 +18,25 @@
 
 **定义位置**：[L36](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L36)
 
+**中文说明**：Device 与设备（Device）相关，管理硬件资源如 GPU/FPGA。
+
 **类型**：struct
 
 ```go
-	Meta
+type Device struct {
+	Meta Meta
 	dev device.DevicePlugin
 	spec hcldec.Spec
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Meta` | `Meta` | 元数据 |
+| `dev` | `device.DevicePlugin` | dev is 插件 设备 |
+| `spec` | `hcldec.Spec` | — |
 
 **关联方法**（8 个）：`Help`, `Synopsis`, `Run`, `getDevicePlugin`, `getSpec`, `setConfig`, `startRepl`, `replOutput`
 
@@ -37,15 +49,15 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `DeviceCommandFactory` | - | `meta Meta` | `cli.CommandFactory` | [L30](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L30) |
-| `Help` | `c *Device` | - | `string` | [L46](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L46) |
-| `Synopsis` | `c *Device` | - | `string` | [L66](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L66) |
+| `Help` | `c *Device` | `` | `string` | [L46](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L46) |
+| `Synopsis` | `c *Device` | `` | `string` | [L66](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L66) |
 | `Run` | `c *Device` | `args []string` | `int` | [L70](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L70) |
 | `getDevicePlugin` | `c *Device` | `binary string` | `device.DevicePlugin, func(...), error` | [L136](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L136) |
-| `getSpec` | `c *Device` | - | `hcldec.Spec, error` | [L169](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L169) |
+| `getSpec` | `c *Device` | `` | `hcldec.Spec, error` | [L169](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L169) |
 | `setConfig` | `c *Device` | `spec hcldec.Spec, apiVersion string, config []byte, nmdCfg *base.AgentConfig` | `error` | [L189](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L189) |
 | `hclConfigToInterface` | - | `config []byte` | `interface{}, error` | [L219](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L219) |
-| `startRepl` | `c *Device` | - | `error` | [L244](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L244) |
-| `replOutput` | `c *Device` | `ctx context.Context, startFingerprint chan context.Context, startStats chan ...` | - | [L312](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L312) |
+| `startRepl` | `c *Device` | `` | `error` | [L244](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L244) |
+| `replOutput` | `c *Device` | `ctx context.Context, startFingerprint <-chan context.Context, startStats <-ch...` | `` | [L312](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L312) |
 
 ## 5. 核心方法详解
 
@@ -54,6 +66,20 @@
 **签名**：`func (c *Device) Run(args []string) int`
 
 **位置**：[L70](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go#L70)
+
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
 
 ## 6. 依赖关系
 
@@ -95,4 +121,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [meta.go](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go) | 同目录源文件 |
 

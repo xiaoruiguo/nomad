@@ -19,25 +19,27 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `defaultPath` | `"/etc/resolv.conf"` |
-| `alternatePath` | `"/run/systemd/resolve/resolv.conf"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `defaultPath` | `—` | `"/etc/resolv.conf"` | — |
+| `alternatePath` | `—` | `"/run/systemd/resolve/resolv.conf"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `detectSystemdResolvConfOnce` | `` |
-| `pathAfterSystemdDetection` | `defaultPath` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `detectSystemdResolvConfOnce` | `sync.Once` | `` | — |
+| `pathAfterSystemdDetection` | `—` | `defaultPath` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Path` | - | - | `string` | [L59](file:///d:/claude/nomad/lib/resolvconf/path.go#L59) |
+| `Path` | - | `` | `string` | [L59](file:///d:/claude/nomad/lib/resolvconf/path.go#L59) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -58,4 +60,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [lib.go](file:///d:/claude/nomad/lib/resolvconf/lib.go) | 同目录源文件 |
+| [resolvconf.go](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go) | 同目录源文件 |
 

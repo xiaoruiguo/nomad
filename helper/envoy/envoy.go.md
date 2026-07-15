@@ -1,6 +1,6 @@
 # envoy.go 代码说明文档
 
-> 文件路径：[envoy/envoy.go](file:///d:/claude/nomad/helper/envoy/envoy.go)
+> 文件路径：[helper/envoy/envoy.go](file:///d:/claude/nomad/helper/envoy/envoy.go)
 > 总行数：99 行
 > 所属包：`envoy`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,12 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Envoy 集成子包**（`helper/envoy`），提供 Envoy 代理的版本解析和配置辅助功能。
+该文件属于 **工具包子包**（`helper/envoy`），提供 Nomad 使用的通用工具函数和数据结构。
+
+**包注释**：
+
+Package envoy provides a high level view of the variables that go into
+selecting an envoy version.
 
 ## 2. 类型定义
 
@@ -20,22 +25,22 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `SidecarMetaParam` | `"connect.sidecar_image"` |
-| `SidecarConfigVar` | `"${meta." + SidecarMetaParam + "}"` |
-| `GatewayMetaParam` | `"connect.gateway_image"` |
-| `GatewayConfigVar` | `"${meta." + GatewayMetaParam + "}"` |
-| `ImageFormat` | `"docker.io/envoyproxy/envoy:v" + VersionVar` |
-| `VersionVar` | `"${NOMAD_envoy_version}"` |
-| `DefaultConnectLogLevel` | `"info"` |
-| `DefaultConnectLogLevelParam` | `"connect.log_level"` |
-| `DefaultConnectProxyConcurrency` | `"1"` |
-| `DefaultConnectProxyConcurrencyParam` | `"connect.proxy_concurrency"` |
-| `DefaultTransparentProxyUID` | `"101"` |
-| `DefaultTransparentProxyUIDParam` | `"connect.transparent_proxy.default_uid"` |
-| `DefaultTransparentProxyOutboundPort` | `"15001"` |
-| `DefaultTransparentProxyOutboundPortParam` | `"connect.transparent_proxy.default_outbound_port"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `SidecarMetaParam` | `—` | `"connect.sidecar_image"` | — |
+| `SidecarConfigVar` | `—` | `"${meta." + SidecarMetaParam + "}"` | — |
+| `GatewayMetaParam` | `—` | `"connect.gateway_image"` | — |
+| `GatewayConfigVar` | `—` | `"${meta." + GatewayMetaParam + "}"` | — |
+| `ImageFormat` | `—` | `"docker.io/envoyproxy/envoy:v" + VersionVar` | — |
+| `VersionVar` | `—` | `"${NOMAD_envoy_version}"` | — |
+| `DefaultConnectLogLevel` | `—` | `"info"` | — |
+| `DefaultConnectLogLevelParam` | `—` | `"connect.log_level"` | — |
+| `DefaultConnectProxyConcurrency` | `—` | `"1"` | — |
+| `DefaultConnectProxyConcurrencyParam` | `—` | `"connect.proxy_concurrency"` | — |
+| `DefaultTransparentProxyUID` | `—` | `"101"` | — |
+| `DefaultTransparentProxyUIDParam` | `—` | `"connect.transparent_proxy.default_uid"` | — |
+| `DefaultTransparentProxyOutboundPort` | `—` | `"15001"` | — |
+| `DefaultTransparentProxyOutboundPortParam` | `—` | `"connect.transparent_proxy.default_outbound_port"` | — |
 
 ## 4. 方法与函数
 
@@ -44,6 +49,8 @@
 | `PortLabel` | - | `prefix string, service string, suffix string` | `string` | [L93](file:///d:/claude/nomad/helper/envoy/envoy.go#L93) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -55,7 +62,7 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 辅助工具的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 

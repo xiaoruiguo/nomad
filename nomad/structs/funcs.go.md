@@ -1,6 +1,6 @@
 # funcs.go 代码说明文档
 
-> 文件路径：[structs/funcs.go](file:///d:/claude/nomad/nomad/structs/funcs.go)
+> 文件路径：[nomad/structs/funcs.go](file:///d:/claude/nomad/nomad/structs/funcs.go)
 > 总行数：579 行
 > 所属包：`structs`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **核心数据结构子包**（`nomad/structs`），定义 Nomad 的所有核心数据结构（Job、Node、Alloc、Eval、Deployment 等），是整个系统的领域模型基础。
+该文件属于 `structs` 包，包含 25 个方法/函数。
 
 ## 2. 类型定义
 
@@ -18,7 +18,9 @@
 
 **定义位置**：[L107](file:///d:/claude/nomad/nomad/structs/funcs.go#L107)
 
-**类型定义**：`map[string]map[string]*Allocation`
+**中文说明**：TerminalByNodeByName 与节点（Node）相关，节点是 Nomad 客户端运行任务的载体。
+
+**类型定义**：`type TerminalByNodeByName map[string]map[string]*Allocation`
 
 **关联方法**（2 个）：`Set`, `Get`
 
@@ -34,7 +36,7 @@
 | `AllocSubset` | - | `allocs []*Allocation, subset []*Allocation` | `bool` | [L43](file:///d:/claude/nomad/nomad/structs/funcs.go#L43) |
 | `FilterTerminalAllocs` | - | `allocs []*Allocation` | `[]*Allocation, map[string]*Allocation` | [L63](file:///d:/claude/nomad/nomad/structs/funcs.go#L63) |
 | `SplitTerminalAllocs` | - | `allocs []*Allocation` | `[]*Allocation, TerminalByNodeByName` | [L90](file:///d:/claude/nomad/nomad/structs/funcs.go#L90) |
-| `Set` | `a *TerminalByNodeByName` | `allocation *Allocation` | - | [L109](file:///d:/claude/nomad/nomad/structs/funcs.go#L109) |
+| `Set` | `a *TerminalByNodeByName` | `allocation *Allocation` | `` | [L109](file:///d:/claude/nomad/nomad/structs/funcs.go#L109) |
 | `Get` | `a *TerminalByNodeByName` | `nodeID string, name string` | `*Allocation, bool` | [L125](file:///d:/claude/nomad/nomad/structs/funcs.go#L125) |
 | `AllocsFit` | - | `node *Node, allocs []*Allocation, netIdx *NetworkIndex, checkDevices bool` | `bool, string, *ComparableResources, error` | [L142](file:///d:/claude/nomad/nomad/structs/funcs.go#L142) |
 | `computeFreePercentage` | - | `node *Node, util *ComparableResources` | `freePctCpu float64, freePctRam float64` | [L234](file:///d:/claude/nomad/nomad/structs/funcs.go#L234) |
@@ -46,7 +48,7 @@
 | `CopySliceSpreadTarget` | - | `s []*SpreadTarget` | `[]*SpreadTarget` | [L336](file:///d:/claude/nomad/nomad/structs/funcs.go#L336) |
 | `CopySliceNodeScoreMeta` | - | `s []*NodeScoreMeta` | `[]*NodeScoreMeta` | [L349](file:///d:/claude/nomad/nomad/structs/funcs.go#L349) |
 | `VaultNamespaceSet` | - | `blocks map[string]map[string]*Vault` | `[]string` | [L364](file:///d:/claude/nomad/nomad/structs/funcs.go#L364) |
-| `DenormalizeAllocationJobs` | - | `job *Job, allocs []*Allocation` | - | [L379](file:///d:/claude/nomad/nomad/structs/funcs.go#L379) |
+| `DenormalizeAllocationJobs` | - | `job *Job, allocs []*Allocation` | `` | [L379](file:///d:/claude/nomad/nomad/structs/funcs.go#L379) |
 | `AllocName` | - | `job string, group string, idx uint` | `string` | [L390](file:///d:/claude/nomad/nomad/structs/funcs.go#L390) |
 | `AllocSuffix` | - | `name string` | `string` | [L396](file:///d:/claude/nomad/nomad/structs/funcs.go#L396) |
 | `ACLPolicyListHash` | - | `policies []*ACLPolicy` | `string` | [L406](file:///d:/claude/nomad/nomad/structs/funcs.go#L406) |
@@ -58,11 +60,39 @@
 
 ## 5. 核心方法详解
 
+### Set()
+
+**签名**：`func (a *TerminalByNodeByName) Set(allocation *Allocation) `
+
+**位置**：[L109](file:///d:/claude/nomad/nomad/structs/funcs.go#L109)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `allocation` | `*Allocation` | — |
+
 ### Get()
 
 **签名**：`func (a *TerminalByNodeByName) Get(nodeID string, name string) *Allocation, bool`
 
 **位置**：[L125](file:///d:/claude/nomad/nomad/structs/funcs.go#L125)
+
+**中文说明**：获取对象的信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `nodeID` | `string` | 字符串 |
+| `name` | `string` | 名称 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Allocation` | — |
+| `bool` | 布尔值 |
 
 ## 6. 依赖关系
 
@@ -86,11 +116,16 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **加密安全**：使用 Go crypto 标准库实现加密、签名或 TLS 通信
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [funcs_test.go](file:///d:/claude/nomad/nomad/structs/funcs_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/structs/acl.go) | 同目录源文件 |
+| [actions.go](file:///d:/claude/nomad/nomad/structs/actions.go) | 同目录源文件 |
+| [alloc.go](file:///d:/claude/nomad/nomad/structs/alloc.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/structs/autopilot.go) | 同目录源文件 |
+| [batch_future.go](file:///d:/claude/nomad/nomad/structs/batch_future.go) | 同目录源文件 |
 

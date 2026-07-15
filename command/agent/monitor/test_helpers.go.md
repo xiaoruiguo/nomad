@@ -1,6 +1,6 @@
 # test_helpers.go 代码说明文档
 
-> 文件路径：[monitor/test_helpers.go](file:///d:/claude/nomad/command/agent/monitor/test_helpers.go)
+> 文件路径：[command/agent/monitor/test_helpers.go](file:///d:/claude/nomad/command/agent/monitor/test_helpers.go)
 > 总行数：125 行
 > 所属包：`monitor`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **监控子包**（`command/agent/monitor`），提供流式日志监控和输出管理功能，支持 `nomad monitor` 和 `nomad alloc logs` 等命令的后端实现。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -18,28 +18,40 @@
 
 **定义位置**：[L25](file:///d:/claude/nomad/command/agent/monitor/test_helpers.go#L25)
 
+**中文说明**：StreamingClient 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	StreamingRpcHandler
+type StreamingClient interface {
+	StreamingRpcHandler func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `StreamingRpcHandler` | `func(...)` | — |
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `writeLine` | `*ast.CallExpr` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `writeLine` | `—` | `[]byte(fmt.Sprintf("[INFO] log log log made of wood you a...` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `PrepFile` | - | `t *testing.T` | `*os.File` | [L31](file:///d:/claude/nomad/command/agent/monitor/test_helpers.go#L31) |
-| `ExportMonitorClient_TestHelper` | - | `req cstructs.MonitorExportRequest, c StreamingClient, userTimeout chan time....` | `*strings.Builder, error` | [L52](file:///d:/claude/nomad/command/agent/monitor/test_helpers.go#L52) |
+| `ExportMonitorClient_TestHelper` | - | `req cstructs.MonitorExportRequest, c StreamingClient, userTimeout <-chan time...` | `*strings.Builder, error` | [L52](file:///d:/claude/nomad/command/agent/monitor/test_helpers.go#L52) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -64,13 +76,14 @@
 
 ## 7. 设计模式与技术特点
 
-- **接口抽象**：定义接口类型以解耦组件依赖，便于测试和替换实现
+- **接口抽象**：定义接口类型，实现依赖倒置和解耦，便于测试模拟
+- **IO 操作**：涉及文件或数据流的读写操作
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [export_monitor.go](file:///d:/claude/nomad/command/agent/monitor/export_monitor.go) | 同目录源文件 |
+| [monitor.go](file:///d:/claude/nomad/command/agent/monitor/monitor.go) | 同目录源文件 |
+| [stream_helpers.go](file:///d:/claude/nomad/command/agent/monitor/stream_helpers.go) | 同目录源文件 |
 

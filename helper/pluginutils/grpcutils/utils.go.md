@@ -1,6 +1,6 @@
 # utils.go 代码说明文档
 
-> 文件路径：[pluginutils/grpcutils/utils.go](file:///d:/claude/nomad/helper/pluginutils/grpcutils/utils.go)
+> 文件路径：[helper/pluginutils/grpcutils/utils.go](file:///d:/claude/nomad/helper/pluginutils/grpcutils/utils.go)
 > 总行数：109 行
 > 所属包：`grpcutils`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **gRPC 插件工具子包**（`helper/pluginutils/grpcutils`），提供 gRPC 插件通信的工具函数。
+该文件属于 **工具包子包**（`helper/pluginutils/grpcutils`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -28,6 +28,8 @@
 | `HandleGrpcErr` | - | `err error, pluginCtx context.Context` | `error` | [L76](file:///d:/claude/nomad/helper/pluginutils/grpcutils/utils.go#L76) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

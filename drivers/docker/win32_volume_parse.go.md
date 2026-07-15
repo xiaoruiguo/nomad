@@ -18,15 +18,27 @@
 
 **定义位置**：[L80](file:///d:/claude/nomad/drivers/docker/win32_volume_parse.go#L80)
 
+**中文说明**：fileInfoProvider 是一个提供者，提供特定功能的实现。
+
 **类型**：interface
 
 ```go
-	fileInfo
+type fileInfoProvider interface {
+	fileInfo func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `fileInfo` | `func(...)` | — |
 
 ### defaultFileInfoProvider
 
 **定义位置**：[L84](file:///d:/claude/nomad/drivers/docker/win32_volume_parse.go#L84)
+
+**中文说明**：defaultFileInfoProvider 是一个提供者，提供特定功能的实现。
 
 **类型**：struct
 
@@ -36,21 +48,21 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `rxHostDir` | ``(?:\\\\\?\\)?[a-z]:[\\/](?:[^\\/:*?"<>\|\r\n]+[\\/]?)*`` |
-| `rxName` | ``[^\\/:*?"<>\|\r\n]+\/?.*`` |
-| `rxReservedNames` | ``(con)\|(prn)\|(nul)\|(aux)\|(com[1-9])\|(lpt[1-9])`` |
-| `rxPipe` | ``[/\\]{2}.[/\\]pipe[/\\][^:*?"<>\|\r\n]+`` |
-| `rxSource` | ``((?P<source>((` + rxHostDir + `)\|(` + rxName + `)\|(` +...` |
-| `rxDestination` | ``(?P<destination>((?:\\\\\?\\)?([a-z]):((?:[\\/][^\\/:*?"...` |
-| `rxMode` | ``(:(?P<mode>(?i)ro\|rw))?`` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `rxHostDir` | `—` | ``(?:\\\\\?\\)?[a-z]:[\\/](?:[^\\/:*?"<>\|\r\n]+[\\/]?)*`` | — |
+| `rxName` | `—` | ``[^\\/:*?"<>\|\r\n]+\/?.*`` | — |
+| `rxReservedNames` | `—` | ``(con)\|(prn)\|(nul)\|(aux)\|(com[1-9])\|(lpt[1-9])`` | — |
+| `rxPipe` | `—` | ``[/\\]{2}.[/\\]pipe[/\\][^:*?"<>\|\r\n]+`` | — |
+| `rxSource` | `—` | ``((?P<source>((` + rxHostDir + `)\|(` + rxName + `)\|(` +...` | — |
+| `rxDestination` | `—` | ``(?P<destination>((?:\\\\\?\\)?([a-z]):((?:[\\/][^\\/:*?"...` | — |
+| `rxMode` | `—` | ``(:(?P<mode>(?i)ro\|rw))?`` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `currentFileInfoProvider` | `defaultFileInfoProvider{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `currentFileInfoProvider` | `fileInfoProvider` | `defaultFileInfoProvider{...}` | — |
 
 ## 4. 方法与函数
 
@@ -61,6 +73,8 @@
 | `windowsSplitRawSpec` | - | `raw string, destRegex string` | `[]string, error` | [L100](file:///d:/claude/nomad/drivers/docker/win32_volume_parse.go#L100) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -83,4 +97,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

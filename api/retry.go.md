@@ -1,6 +1,6 @@
 # retry.go 代码说明文档
 
-> 文件路径：[retry.go](file:///d:/claude/nomad/api/retry.go)
+> 文件路径：[api/retry.go](file:///d:/claude/nomad/api/retry.go)
 > 总行数：125 行
 > 所属包：`api`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **重试（Retry）逻辑**，提供 HTTP 请求的指数退避重试机制。
+该文件属于 **API 客户端包**（`api/`），提供 Go 语言客户端库，通过 HTTP API 与 Nomad Server 交互。当前文件 `retry.go` 实现相关 API 端点的客户端方法。
 
 ## 2. 类型定义
 
@@ -18,26 +18,41 @@
 
 **定义位置**：[L19](file:///d:/claude/nomad/api/retry.go#L19)
 
+**中文说明**：retryOptions 是一个选项结构体，提供功能配置选项。
+
 **类型**：struct
 
 ```go
+type retryOptions struct {
 	maxRetries int64
 	maxBackoffDelay time.Duration
 	maxToLastCall time.Duration
 	fixedDelay time.Duration
 	delayBase time.Duration
 	maxValidAttempt int64
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `maxRetries` | `int64` | — |
+| `maxBackoffDelay` | `time.Duration` | 时间间隔 |
+| `maxToLastCall` | `time.Duration` | 时间间隔 |
+| `fixedDelay` | `time.Duration` | 时间间隔 |
+| `delayBase` | `time.Duration` | 时间间隔 |
+| `maxValidAttempt` | `int64` | — |
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `defaultNumberOfRetries` | `5` |
-| `defaultDelayTimeBase` | `time.Second` |
-| `defaultMaxBackoffDelay` | `5 * time.Minute` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `defaultNumberOfRetries` | `—` | `5` | — |
+| `defaultDelayTimeBase` | `—` | `time.Second` | — |
+| `defaultMaxBackoffDelay` | `—` | `5 * time.Minute` | — |
 
 ## 4. 方法与函数
 
@@ -48,6 +63,8 @@
 | `calculateDelay` | `c *Client` | `attempt int64` | `time.Duration` | [L104](file:///d:/claude/nomad/api/retry.go#L104) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -62,13 +79,17 @@
 
 ## 7. 设计模式与技术特点
 
-- **写入选项模式**：方法接受 `*WriteOptions` 参数，支持区域指定和命名空间限定
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
+- **HTTP 服务**：提供 HTTP API 端点或客户端
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [retry_test.go](file:///d:/claude/nomad/api/retry_test.go) | 对应测试文件 |
-| [api.go](file:///d:/claude/nomad/api/api.go) | API 客户端核心，定义 `Client` 和请求/响应类型 |
+| [acl.go](file:///d:/claude/nomad/api/acl.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/api/agent.go) | 同目录源文件 |
+| [allocations.go](file:///d:/claude/nomad/api/allocations.go) | 同目录源文件 |
+| [allocations_exec.go](file:///d:/claude/nomad/api/allocations_exec.go) | 同目录源文件 |
+| [api.go](file:///d:/claude/nomad/api/api.go) | 同目录源文件 |
 

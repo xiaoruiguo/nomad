@@ -1,6 +1,6 @@
 # regions_endpoint.go 代码说明文档
 
-> 文件路径：[regions_endpoint.go](file:///d:/claude/nomad/nomad/regions_endpoint.go)
+> 文件路径：[nomad/regions_endpoint.go](file:///d:/claude/nomad/nomad/regions_endpoint.go)
 > 总行数：35 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **区域 RPC 端点**，处理跨区域集群信息查询 RPC 请求。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `regions_endpoint.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,13 +18,25 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/nomad/regions_endpoint.go#L13)
 
+**中文说明**：Region 与区域（Region）相关，Nomad 的多区域联邦单元。
+
 **类型**：struct
 
 ```go
+type Region struct {
 	srv *Server
 	ctx *RPCContext
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（1 个）：`List`
 
@@ -41,11 +53,47 @@
 
 ## 5. 核心方法详解
 
+### NewRegionEndpoint()
+
+**签名**：`func NewRegionEndpoint(srv *Server, ctx *RPCContext) *Region`
+
+**位置**：[L19](file:///d:/claude/nomad/nomad/regions_endpoint.go#L19)
+
+**中文说明**：创建并返回一个新的 RegionEndpoint 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Region` | — |
+
 ### List()
 
 **签名**：`func (r *Region) List(args *structs.GenericRequest, reply *[]string) error`
 
 **位置**：[L26](file:///d:/claude/nomad/nomad/regions_endpoint.go#L26)
+
+**中文说明**：列出所有对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.GenericRequest` | 参数 |
+| `reply` | `*[]string` | 列表 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -58,13 +106,18 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [regions_endpoint_test.go](file:///d:/claude/nomad/nomad/regions_endpoint_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # helper_devices.go 代码说明文档
 
-> 文件路径：[helper_devices.go](file:///d:/claude/nomad/command/helper_devices.go)
+> 文件路径：[command/helper_devices.go](file:///d:/claude/nomad/command/helper_devices.go)
 > 总行数：127 行
 > 所属包：`command`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 Nomad CLI `command` 包的源码文件，提供命令实现或辅助功能。
+该文件属于 **CLI 命令包**（`command/`），实现 `nomad helper_devices` 命令，通过 Nomad API 客户端与 Server 交互，提供作业管理、节点查询、集群运维等命令行功能。
 
 ## 2. 类型定义
 
@@ -27,13 +27,15 @@
 | `deviceQualifiedID` | - | `vendor string, typ string, name string, id string` | `string` | [L14](file:///d:/claude/nomad/command/helper_devices.go#L14) |
 | `buildDeviceStatsSummaryMap` | - | `deviceGroupStats []*api.DeviceGroupStats` | `map[string]*api.StatValue` | [L26](file:///d:/claude/nomad/command/helper_devices.go#L26) |
 | `formatDeviceStats` | - | `qid string, stat *api.StatObject` | `[]string` | [L39](file:///d:/claude/nomad/command/helper_devices.go#L39) |
-| `formatDeviceStatsImpl` | - | `stat *api.StatObject, keyPrefix string, result *[]string` | - | [L48](file:///d:/claude/nomad/command/helper_devices.go#L48) |
+| `formatDeviceStatsImpl` | - | `stat *api.StatObject, keyPrefix string, result *[]string` | `` | [L48](file:///d:/claude/nomad/command/helper_devices.go#L48) |
 | `getDeviceResourcesForNode` | - | `deviceGroupStats []*api.DeviceGroupStats, node *api.Node` | `[]string` | [L64](file:///d:/claude/nomad/command/helper_devices.go#L64) |
 | `getDeviceResources` | - | `deviceGroupStats []*api.DeviceGroupStats` | `[]string` | [L86](file:///d:/claude/nomad/command/helper_devices.go#L86) |
-| `printDeviceStats` | - | `ui cli.Ui, deviceGroupStats []*api.DeviceGroupStats` | - | [L99](file:///d:/claude/nomad/command/helper_devices.go#L99) |
+| `printDeviceStats` | - | `ui cli.Ui, deviceGroupStats []*api.DeviceGroupStats` | `` | [L99](file:///d:/claude/nomad/command/helper_devices.go#L99) |
 | `getDeviceAttributes` | - | `d *api.NodeDeviceResource` | `[]string` | [L116](file:///d:/claude/nomad/command/helper_devices.go#L116) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -43,24 +45,21 @@
 |--------|------|
 | `fmt` | 标准库 |
 | `sort` | 标准库 |
-| `github.com/hashicorp/cli` | 第三方库 |
 | `github.com/hashicorp/nomad/api` | 内部包 |
+| `github.com/hashicorp/cli` | 第三方库 |
 
-## 7. 设计模式与约定
+## 7. 设计模式与技术特点
 
-该文件遵循 Nomad CLI 命令的标准实现模式：
-
-1. **嵌入 Meta**：命令结构体嵌入 `Meta`，获取 API 客户端、UI 输出、flag 解析等通用能力
-2. **实现 cli.Command 接口**：`Name()`、`Run()`、`Help()`、`Synopsis()` 四个必需方法
-3. **可选自动补全**：实现 `AutocompleteFlags()` / `AutocompleteArgs()` 提供 shell 补全
-4. **Flag 解析**：通过 `m.FlagSet()` 创建 flag 集，支持 `-address`、`-region`、`-namespace` 等通用 flag
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [meta.go](file:///d:/claude/nomad/command/meta.go) | `Meta` 结构体定义，提供通用 CLI 基础设施 |
-| [helpers.go](file:///d:/claude/nomad/command/helpers.go) | CLI 辅助函数（格式化、Job 解析等） |
-| [../api/api.go](file:///d:/claude/nomad/api/api.go) | Go API 客户端库 |
 | [helper_devices_test.go](file:///d:/claude/nomad/command/helper_devices_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/command/acl.go) | 同目录源文件 |
+| [acl_auth_method.go](file:///d:/claude/nomad/command/acl_auth_method.go) | 同目录源文件 |
+| [acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go) | 同目录源文件 |
+| [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
+| [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 

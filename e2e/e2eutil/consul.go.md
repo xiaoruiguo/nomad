@@ -18,12 +18,23 @@
 
 **定义位置**：[L166](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L166)
 
+**中文说明**：ConsulPolicy 与 Consul 集成相关，用于服务发现和配置管理。
+
 **类型**：struct
 
 ```go
+type ConsulPolicy struct {
 	Name string
 	Rules string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Name` | `string` | 名称 |
+| `Rules` | `string` | e.g. 服务 "" { 策略="写入" } |
 
 ## 3. 常量与变量
 
@@ -33,24 +44,26 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `RequireConsulStatus` | - | `require *require.Assertions, client *capi.Client, namespace string, service ...` | - | [L20](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L20) |
-| `serviceStatus` | - | `require *require.Assertions, client *capi.Client, namespace string, service ...` | `[]*capi.ServiceEntry, string` | [L32](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L32) |
-| `RequireConsulDeregistered` | - | `require *require.Assertions, client *capi.Client, namespace string, service ...` | - | [L42](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L42) |
-| `RequireConsulRegistered` | - | `require *require.Assertions, client *capi.Client, namespace string, service ...` | - | [L58](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L58) |
-| `CreateConsulNamespaces` | - | `t *testing.T, client *capi.Client, namespaces []string` | - | [L77](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L77) |
-| `DeleteConsulNamespaces` | - | `t *testing.T, client *capi.Client, namespaces []string` | - | [L92](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L92) |
+| `RequireConsulStatus` | - | `require *require.Assertions, client *capi.Client, namespace string, service s...` | `` | [L20](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L20) |
+| `serviceStatus` | - | `require *require.Assertions, client *capi.Client, namespace string, service s...` | `[]*capi.ServiceEntry, string` | [L32](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L32) |
+| `RequireConsulDeregistered` | - | `require *require.Assertions, client *capi.Client, namespace string, service s...` | `` | [L42](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L42) |
+| `RequireConsulRegistered` | - | `require *require.Assertions, client *capi.Client, namespace string, service s...` | `` | [L58](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L58) |
+| `CreateConsulNamespaces` | - | `t *testing.T, client *capi.Client, namespaces []string` | `` | [L77](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L77) |
+| `DeleteConsulNamespaces` | - | `t *testing.T, client *capi.Client, namespaces []string` | `` | [L92](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L92) |
 | `ListConsulNamespaces` | - | `t *testing.T, client *capi.Client` | `[]string` | [L104](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L104) |
-| `PutConsulKey` | - | `t *testing.T, client *capi.Client, namespace string, key string, value string` | - | [L120](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L120) |
-| `DeleteConsulKey` | - | `t *testing.T, client *capi.Client, namespace string, key string` | - | [L131](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L131) |
+| `PutConsulKey` | - | `t *testing.T, client *capi.Client, namespace string, key string, value string` | `` | [L120](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L120) |
+| `DeleteConsulKey` | - | `t *testing.T, client *capi.Client, namespace string, key string` | `` | [L131](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L131) |
 | `ReadConsulConfigEntry` | - | `t *testing.T, client *capi.Client, namespace string, kind string, name string` | `capi.ConfigEntry` | [L143](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L143) |
-| `DeleteConsulConfigEntry` | - | `t *testing.T, client *capi.Client, namespace string, kind string, name string` | - | [L156](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L156) |
+| `DeleteConsulConfigEntry` | - | `t *testing.T, client *capi.Client, namespace string, kind string, name string` | `` | [L156](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L156) |
 | `CreateConsulPolicy` | - | `t *testing.T, client *capi.Client, namespace string, policy ConsulPolicy` | `string` | [L175](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L175) |
-| `DeleteConsulPolicies` | - | `t *testing.T, client *capi.Client, policies map[string][]string` | - | [L191](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L191) |
-| `CreateConsulRole` | - | `t *testing.T, client *capi.Client, name string, namespace string, policyID s...` | - | [L207](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L207) |
+| `DeleteConsulPolicies` | - | `t *testing.T, client *capi.Client, policies map[string][]string` | `` | [L191](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L191) |
+| `CreateConsulRole` | - | `t *testing.T, client *capi.Client, name string, namespace string, policyID st...` | `` | [L207](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L207) |
 | `CreateConsulToken` | - | `t *testing.T, client *capi.Client, namespace string, policyID string` | `secret string, accessor string` | [L226](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L226) |
-| `DeleteConsulTokens` | - | `t *testing.T, client *capi.Client, tokens map[string][]string` | - | [L241](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L241) |
+| `DeleteConsulTokens` | - | `t *testing.T, client *capi.Client, tokens map[string][]string` | `` | [L241](file:///d:/claude/nomad/e2e/e2eutil/consul.go#L241) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -76,4 +89,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [deployments.go](file:///d:/claude/nomad/e2e/e2eutil/deployments.go) | 同目录源文件 |
 

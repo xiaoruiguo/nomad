@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。是所有任务驱动（Docker、Java、QEMU 等）的接口契约。
+该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -18,18 +18,18 @@
 
 **定义位置**：[L8](file:///d:/claude/nomad/plugins/drivers/fsisolation/isolation.go#L8)
 
-**类型定义**：`string`
+**类型定义**：`type Mode string`
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `None` | `Mode("none")` |
-| `Chroot` | `Mode("chroot")` |
-| `Image` | `Mode("image")` |
-| `Unveil` | `Mode("unveil")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `None` | `—` | `Mode("none")` | — |
+| `Chroot` | `—` | `Mode("chroot")` | — |
+| `Image` | `—` | `Mode("image")` | — |
+| `Unveil` | `—` | `Mode("unveil")` | — |
 
 ## 4. 方法与函数
 
@@ -37,7 +37,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 

@@ -18,12 +18,23 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/e2e/deployment/deployment.go#L18)
 
+**中文说明**：DeploymentTest 与部署（Deployment）相关，部署管理作业的滚动更新过程。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type DeploymentTest struct {
+	framework.TC framework.TC
 	jobIds []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIds` | `[]string` | 列表 |
 
 **关联方法**（3 个）：`BeforeAll`, `TestDeploymentAutoPromote`, `AfterEach`
 
@@ -35,12 +46,14 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L23](file:///d:/claude/nomad/e2e/deployment/deployment.go#L23) |
-| `BeforeAll` | `tc *DeploymentTest` | `f *framework.F` | - | [L33](file:///d:/claude/nomad/e2e/deployment/deployment.go#L33) |
-| `TestDeploymentAutoPromote` | `tc *DeploymentTest` | `f *framework.F` | - | [L39](file:///d:/claude/nomad/e2e/deployment/deployment.go#L39) |
-| `AfterEach` | `tc *DeploymentTest` | `f *framework.F` | - | [L80](file:///d:/claude/nomad/e2e/deployment/deployment.go#L80) |
+| `init` | - | `` | `` | [L23](file:///d:/claude/nomad/e2e/deployment/deployment.go#L23) |
+| `BeforeAll` | `tc *DeploymentTest` | `f *framework.F` | `` | [L33](file:///d:/claude/nomad/e2e/deployment/deployment.go#L33) |
+| `TestDeploymentAutoPromote` | `tc *DeploymentTest` | `f *framework.F` | `` | [L39](file:///d:/claude/nomad/e2e/deployment/deployment.go#L39) |
+| `AfterEach` | `tc *DeploymentTest` | `f *framework.F` | `` | [L80](file:///d:/claude/nomad/e2e/deployment/deployment.go#L80) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

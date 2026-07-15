@@ -1,6 +1,6 @@
 # self.go 代码说明文档
 
-> 文件路径：[subproc/self.go](file:///d:/claude/nomad/helper/subproc/self.go)
+> 文件路径：[helper/subproc/self.go](file:///d:/claude/nomad/helper/subproc/self.go)
 > 总行数：39 行
 > 所属包：`subproc`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **子进程子包**（`helper/subproc``），实现子进程管理框架，支持父子进程通信、退出码处理和优雅关闭，用于 Nomad 的 fork-exec 模式。
+该文件属于 **工具包子包**（`helper/subproc`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -20,18 +20,20 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `executable` | `` |
-| `once` | `` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `executable` | `string` | `` | — |
+| `once` | `sync.Once` | `` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Self` | - | - | `string` | [L21](file:///d:/claude/nomad/helper/subproc/self.go#L21) |
+| `Self` | - | `` | `string` | [L21](file:///d:/claude/nomad/helper/subproc/self.go#L21) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -55,4 +57,6 @@
 | 文件 | 关系 |
 |------|------|
 | [self_test.go](file:///d:/claude/nomad/helper/subproc/self_test.go) | 对应测试文件 |
+| [doc.go](file:///d:/claude/nomad/helper/subproc/doc.go) | 同目录源文件 |
+| [subproc.go](file:///d:/claude/nomad/helper/subproc/subproc.go) | 同目录源文件 |
 

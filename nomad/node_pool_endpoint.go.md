@@ -1,6 +1,6 @@
 # node_pool_endpoint.go 代码说明文档
 
-> 文件路径：[node_pool_endpoint.go](file:///d:/claude/nomad/nomad/node_pool_endpoint.go)
+> 文件路径：[nomad/node_pool_endpoint.go](file:///d:/claude/nomad/nomad/node_pool_endpoint.go)
 > 总行数：576 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **节点池 RPC 端点**，处理节点池的 CRUD 操作和节点分配。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `node_pool_endpoint.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L22](file:///d:/claude/nomad/nomad/node_pool_endpoint.go#L22)
 
+**中文说明**：NodePool 是一个对象池，复用资源以减少分配开销。
+
 **类型**：struct
 
 ```go
+type NodePool struct {
 	srv *Server
 	ctx *RPCContext
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
 
 **关联方法**（7 个）：`List`, `GetNodePool`, `UpsertNodePools`, `DeleteNodePools`, `nodePoolRegionsInUse`, `ListJobs`, `ListNodes`
 
@@ -46,29 +57,47 @@
 
 ## 5. 核心方法详解
 
+### NewNodePoolEndpoint()
+
+**签名**：`func NewNodePoolEndpoint(srv *Server, ctx *RPCContext) *NodePool`
+
+**位置**：[L27](file:///d:/claude/nomad/nomad/node_pool_endpoint.go#L27)
+
+**中文说明**：创建并返回一个新的 NodePoolEndpoint 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*NodePool` | — |
+
 ### List()
 
 **签名**：`func (n *NodePool) List(args *structs.NodePoolListRequest, reply *structs.NodePoolListResponse) error`
 
 **位置**：[L33](file:///d:/claude/nomad/nomad/node_pool_endpoint.go#L33)
 
-### GetNodePool()
+**中文说明**：列出所有对象。
 
-**签名**：`func (n *NodePool) GetNodePool(args *structs.NodePoolSpecificRequest, reply *structs.SingleNodePoolResponse) error`
+**参数说明**：
 
-**位置**：[L106](file:///d:/claude/nomad/nomad/node_pool_endpoint.go#L106)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.NodePoolListRequest` | 参数 |
+| `reply` | `*structs.NodePoolListResponse` | — |
 
-### ListJobs()
+**返回值**：
 
-**签名**：`func (n *NodePool) ListJobs(args *structs.NodePoolJobsRequest, reply *structs.NodePoolJobsResponse) error`
-
-**位置**：[L383](file:///d:/claude/nomad/nomad/node_pool_endpoint.go#L383)
-
-### ListNodes()
-
-**签名**：`func (n *NodePool) ListNodes(args *structs.NodePoolNodesRequest, reply *structs.NodePoolNodesResponse) error`
-
-**位置**：[L497](file:///d:/claude/nomad/nomad/node_pool_endpoint.go#L497)
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -90,16 +119,20 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
 - **指标收集**：使用 `go-metrics` 收集运行时指标
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **对象池模式**：实现对象池，复用资源减少分配开销
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [node_pool_endpoint_test.go](file:///d:/claude/nomad/nomad/node_pool_endpoint_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

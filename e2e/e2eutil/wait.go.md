@@ -18,12 +18,23 @@
 
 **定义位置**：[L11](file:///d:/claude/nomad/e2e/e2eutil/wait.go#L11)
 
+**中文说明**：WaitConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type WaitConfig struct {
 	Interval time.Duration
 	Retries int64
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Interval` | `time.Duration` | 时间间隔 |
+| `Retries` | `int64` | — |
 
 **关联方法**（1 个）：`OrDefault`
 
@@ -35,9 +46,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `OrDefault` | `wc *WaitConfig` | - | `time.Duration, int64` | [L17](file:///d:/claude/nomad/e2e/e2eutil/wait.go#L17) |
+| `OrDefault` | `wc *WaitConfig` | `` | `time.Duration, int64` | [L17](file:///d:/claude/nomad/e2e/e2eutil/wait.go#L17) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -55,4 +68,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
 

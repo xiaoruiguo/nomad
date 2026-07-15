@@ -1,6 +1,6 @@
 # eval_delete.go 代码说明文档
 
-> 文件路径：[eval_delete.go](file:///d:/claude/nomad/command/eval_delete.go)
+> 文件路径：[command/eval_delete.go](file:///d:/claude/nomad/command/eval_delete.go)
 > 总行数：334 行
 > 所属包：`command`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,24 +10,41 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 Nomad CLI 命令 **`eval delete`**，功能简述：
-
-> Delete evaluations by ID or using a filter
+该文件属于 **CLI 命令包**（`command/`），实现 `nomad eval_delete` 命令，通过 Nomad API 客户端与 Server 交互，提供作业管理、节点查询、集群运维等命令行功能。
 
 ## 2. 类型定义
 
 ### EvalDeleteCommand
 
+**定义位置**：[L16](file:///d:/claude/nomad/command/eval_delete.go#L16)
+
+**中文说明**：EvalDeleteCommand 与评估（Evaluation）相关，评估是 Nomad 调度系统的工作单元。
+
 **类型**：struct
 
 ```go
-	Meta
+type EvalDeleteCommand struct {
+	Meta Meta
 	filter string
 	yes bool
 	deleteByArg bool
 	numDeleted int
 	client *api.Client
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Meta` | `Meta` | 元数据 |
+| `filter` | `string` | 字符串 |
+| `yes` | `bool` | 布尔值 |
+| `deleteByArg` | `bool` | 布尔值 |
+| `numDeleted` | `int` | — |
+| `client` | `*api.Client` | — |
+
+**关联方法**（11 个）：`Help`, `Synopsis`, `AutocompleteFlags`, `AutocompleteArgs`, `Name`, `Run`, `verifyArgsAndFlags`, `handleEvalArgDelete`, `batchDelete`, `askQuestion`, `handleDeleteByFilter`
 
 ## 3. 常量与变量
 
@@ -37,11 +54,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Help` | `e *EvalDeleteCommand` | - | `string` | [L36](file:///d:/claude/nomad/command/eval_delete.go#L36) |
-| `Synopsis` | `e *EvalDeleteCommand` | - | `string` | [L74](file:///d:/claude/nomad/command/eval_delete.go#L74) |
-| `AutocompleteFlags` | `e *EvalDeleteCommand` | - | `complete.Flags` | [L78](file:///d:/claude/nomad/command/eval_delete.go#L78) |
-| `AutocompleteArgs` | `e *EvalDeleteCommand` | - | `complete.Predictor` | [L86](file:///d:/claude/nomad/command/eval_delete.go#L86) |
-| `Name` | `e *EvalDeleteCommand` | - | `string` | [L101](file:///d:/claude/nomad/command/eval_delete.go#L101) |
+| `Help` | `e *EvalDeleteCommand` | `` | `string` | [L36](file:///d:/claude/nomad/command/eval_delete.go#L36) |
+| `Synopsis` | `e *EvalDeleteCommand` | `` | `string` | [L74](file:///d:/claude/nomad/command/eval_delete.go#L74) |
+| `AutocompleteFlags` | `e *EvalDeleteCommand` | `` | `complete.Flags` | [L78](file:///d:/claude/nomad/command/eval_delete.go#L78) |
+| `AutocompleteArgs` | `e *EvalDeleteCommand` | `` | `complete.Predictor` | [L86](file:///d:/claude/nomad/command/eval_delete.go#L86) |
+| `Name` | `e *EvalDeleteCommand` | `` | `string` | [L101](file:///d:/claude/nomad/command/eval_delete.go#L101) |
 | `Run` | `e *EvalDeleteCommand` | `args []string` | `int` | [L103](file:///d:/claude/nomad/command/eval_delete.go#L103) |
 | `verifyArgsAndFlags` | `e *EvalDeleteCommand` | `args []string` | `error` | [L178](file:///d:/claude/nomad/command/eval_delete.go#L178) |
 | `handleEvalArgDelete` | `e *EvalDeleteCommand` | `evalID string` | `int, error` | [L198](file:///d:/claude/nomad/command/eval_delete.go#L198) |
@@ -52,31 +69,25 @@
 
 ## 5. 核心方法详解
 
-### Help()
-
-**功能**：返回命令的帮助文本，包含用法说明和参数列表。
-
-### Synopsis()
-
-**简述**：`Delete evaluations by ID or using a filter`
-
-### AutocompleteFlags()
-
-**功能**：为 shell 自动补全提供 flag 预测规则，返回 `complete.Flags` 映射。
-
-### AutocompleteArgs()
-
-**功能**：为 shell 自动补全提供参数预测规则。
-
-### Name()
-
-**命令名**：`eval delete`
-
 ### Run()
 
 **签名**：`func (e *EvalDeleteCommand) Run(args []string) int`
 
-**行为**：执行命令核心逻辑，包括参数解析、API 调用、结果格式化输出。
+**位置**：[L103](file:///d:/claude/nomad/command/eval_delete.go#L103)
+
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
 
 ## 6. 依赖关系
 
@@ -91,22 +102,18 @@
 | `github.com/hashicorp/nomad/api/contexts` | 内部包 |
 | `github.com/posener/complete` | 第三方库 |
 
-## 7. 设计模式与约定
+## 7. 设计模式与技术特点
 
-该文件遵循 Nomad CLI 命令的标准实现模式：
-
-1. **嵌入 Meta**：命令结构体嵌入 `Meta`，获取 API 客户端、UI 输出、flag 解析等通用能力
-2. **实现 cli.Command 接口**：`Name()`、`Run()`、`Help()`、`Synopsis()` 四个必需方法
-3. **可选自动补全**：实现 `AutocompleteFlags()` / `AutocompleteArgs()` 提供 shell 补全
-4. **Flag 解析**：通过 `m.FlagSet()` 创建 flag 集，支持 `-address`、`-region`、`-namespace` 等通用 flag
+- **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [meta.go](file:///d:/claude/nomad/command/meta.go) | `Meta` 结构体定义，提供通用 CLI 基础设施 |
-| [helpers.go](file:///d:/claude/nomad/command/helpers.go) | CLI 辅助函数（格式化、Job 解析等） |
-| [../api/api.go](file:///d:/claude/nomad/api/api.go) | Go API 客户端库 |
 | [eval_delete_test.go](file:///d:/claude/nomad/command/eval_delete_test.go) | 对应测试文件 |
-| [eval.go](file:///d:/claude/nomad/command/eval.go) | 父命令文件 |
+| [acl.go](file:///d:/claude/nomad/command/acl.go) | 同目录源文件 |
+| [acl_auth_method.go](file:///d:/claude/nomad/command/acl_auth_method.go) | 同目录源文件 |
+| [acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go) | 同目录源文件 |
+| [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
+| [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 

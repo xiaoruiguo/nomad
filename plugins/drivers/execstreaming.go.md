@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。是所有任务驱动（Docker、Java、QEMU 等）的接口契约。
+该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -24,7 +24,7 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `StreamToExecOptions` | - | `ctx context.Context, command []string, tty bool, stream ExecTaskStream` | `*ExecOptions, chan error` | [L17](file:///d:/claude/nomad/plugins/drivers/execstreaming.go#L17) |
+| `StreamToExecOptions` | - | `ctx context.Context, command []string, tty bool, stream ExecTaskStream` | `*ExecOptions, <-chan error` | [L17](file:///d:/claude/nomad/plugins/drivers/execstreaming.go#L17) |
 | `NewExecStreamingResponseExit` | - | `exitCode int` | `*ExecTaskStreamingResponseMsg` | [L176](file:///d:/claude/nomad/plugins/drivers/execstreaming.go#L176) |
 | `isHeartbeat` | - | `r *ExecTaskStreamingRequestMsg` | `bool` | [L186](file:///d:/claude/nomad/plugins/drivers/execstreaming.go#L186) |
 
@@ -35,6 +35,20 @@
 **签名**：`func NewExecStreamingResponseExit(exitCode int) *ExecTaskStreamingResponseMsg`
 
 **位置**：[L176](file:///d:/claude/nomad/plugins/drivers/execstreaming.go#L176)
+
+**中文说明**：创建并返回一个新的 ExecStreamingResponseExit 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `exitCode` | `int` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ExecTaskStreamingResponseMsg` | — |
 
 ## 6. 依赖关系
 
@@ -53,9 +67,15 @@
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
 - **IO 操作**：涉及文件或数据流的读写操作
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/drivers/client.go) | 同目录源文件 |
+| [cstructs.go](file:///d:/claude/nomad/plugins/drivers/cstructs.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/plugins/drivers/driver.go) | 同目录源文件 |
+| [errors.go](file:///d:/claude/nomad/plugins/drivers/errors.go) | 同目录源文件 |
+| [mock.go](file:///d:/claude/nomad/plugins/drivers/mock.go) | 同目录源文件 |
 

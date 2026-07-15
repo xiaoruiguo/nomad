@@ -1,6 +1,6 @@
 # task_dir_nonlinux.go 代码说明文档
 
-> 文件路径：[allocdir/task_dir_nonlinux.go](file:///d:/claude/nomad/client/allocdir/task_dir_nonlinux.go)
+> 文件路径：[client/allocdir/task_dir_nonlinux.go](file:///d:/claude/nomad/client/allocdir/task_dir_nonlinux.go)
 > 总行数：13 行
 > 所属包：`allocdir`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **分配目录管理子包**（`client/allocdir`），管理分配的文件系统目录（共享目录、任务目录、日志目录等），为任务提供隔离的文件系统环境。
+该文件属于 **分配目录子包**（`client/allocdir`），管理分配的文件系统目录结构，包括任务数据、日志和 secrets 目录的创建和清理。
 
 **构建标签**：`!linux`
 
@@ -27,18 +27,27 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `unmountSpecialDirs` | `t *TaskDir` | - | `error` | [L10](file:///d:/claude/nomad/client/allocdir/task_dir_nonlinux.go#L10) |
+| `unmountSpecialDirs` | `t *TaskDir` | `` | `error` | [L10](file:///d:/claude/nomad/client/allocdir/task_dir_nonlinux.go#L10) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Client 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [alloc_dir.go](file:///d:/claude/nomad/client/allocdir/alloc_dir.go) | 同目录源文件 |
+| [fs_darwin.go](file:///d:/claude/nomad/client/allocdir/fs_darwin.go) | 同目录源文件 |
+| [fs_default.go](file:///d:/claude/nomad/client/allocdir/fs_default.go) | 同目录源文件 |
+| [fs_freebsd.go](file:///d:/claude/nomad/client/allocdir/fs_freebsd.go) | 同目录源文件 |
+| [fs_linux.go](file:///d:/claude/nomad/client/allocdir/fs_linux.go) | 同目录源文件 |
 

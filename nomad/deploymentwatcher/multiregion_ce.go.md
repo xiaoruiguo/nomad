@@ -1,6 +1,6 @@
 # multiregion_ce.go 代码说明文档
 
-> 文件路径：[deploymentwatcher/multiregion_ce.go](file:///d:/claude/nomad/nomad/deploymentwatcher/multiregion_ce.go)
+> 文件路径：[nomad/deploymentwatcher/multiregion_ce.go](file:///d:/claude/nomad/nomad/deploymentwatcher/multiregion_ce.go)
 > 总行数：38 行
 > 所属包：`deploymentwatcher`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **部署监视器子包**（`nomad/deploymentwatcher`），监视部署状态变化，触发部署自动提升（promote）、回滚（rollback）等操作，协调部署的渐进式更新。
+该文件属于 `deploymentwatcher` 包，定义接口类型、包含 4 个方法/函数。
 
 **构建标签**：`!ent`
 
@@ -21,11 +21,15 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/nomad/deploymentwatcher/multiregion_ce.go#L13)
 
+**中文说明**：DeploymentRPC 与部署（Deployment）相关，部署管理作业的滚动更新过程。
+
 **类型**：interface
 
 ### JobRPC
 
 **定义位置**：[L14](file:///d:/claude/nomad/nomad/deploymentwatcher/multiregion_ce.go#L14)
+
+**中文说明**：JobRPC 与作业（Job）相关，作业是 Nomad 调度的目标对象。
 
 **类型**：interface
 
@@ -43,6 +47,8 @@
 | `CancelDeployment` | `w *deploymentWatcher` | `req *structs.DeploymentCancelRequest, resp *structs.DeploymentUpdateResponse` | `error` | [L35](file:///d:/claude/nomad/nomad/deploymentwatcher/multiregion_ce.go#L35) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -62,4 +68,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [batcher.go](file:///d:/claude/nomad/nomad/deploymentwatcher/batcher.go) | 同目录源文件 |
+| [deployment_watcher.go](file:///d:/claude/nomad/nomad/deploymentwatcher/deployment_watcher.go) | 同目录源文件 |
+| [deployments_watcher.go](file:///d:/claude/nomad/nomad/deploymentwatcher/deployments_watcher.go) | 同目录源文件 |
+| [doc.go](file:///d:/claude/nomad/nomad/deploymentwatcher/doc.go) | 同目录源文件 |
 

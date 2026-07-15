@@ -1,6 +1,6 @@
 # env.go 代码说明文档
 
-> 文件路径：[taskenv/env.go](file:///d:/claude/nomad/client/taskenv/env.go)
+> 文件路径：[client/taskenv/env.go](file:///d:/claude/nomad/client/taskenv/env.go)
 > 总行数：1203 行
 > 所属包：`taskenv`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **任务环境子包**（`client/taskenv`），构建任务的环境变量（节点属性、元数据、服务发现等）。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 ## 2. 类型定义
 
@@ -18,9 +18,12 @@
 
 **定义位置**：[L159](file:///d:/claude/nomad/client/taskenv/env.go#L159)
 
+**中文说明**：TaskEnv 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type TaskEnv struct {
 	NodeAttrs map[string]string
 	EnvMap map[string]string
 	TaskSecrets map[string]string
@@ -29,7 +32,21 @@
 	EnvMapClient map[string]string
 	clientTaskDir string
 	clientSharedAllocDir string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `NodeAttrs` | `map[string]string` | 映射表 |
+| `EnvMap` | `map[string]string` | 映射表 |
+| `TaskSecrets` | `map[string]string` | 映射表 |
+| `deviceEnv` | `map[string]string` | 映射表 |
+| `envList` | `[]string` | 列表 |
+| `EnvMapClient` | `map[string]string` | 映射表 |
+| `clientTaskDir` | `string` | 字符串 |
+| `clientSharedAllocDir` | `string` | 字符串 |
 
 **关联方法**（11 个）：`List`, `DeviceEnv`, `Map`, `All`, `WithTask`, `AllValues`, `ParseAndReplace`, `ReplaceEnv`, `replaceEnvClient`, `checkEscape`, `ClientPath`
 
@@ -37,9 +54,12 @@
 
 **定义位置**：[L426](file:///d:/claude/nomad/client/taskenv/env.go#L426)
 
+**中文说明**：Builder 是一个构建器，用于分步构建复杂对象。
+
 **类型**：struct
 
 ```go
+type Builder struct {
 	envvars map[string]string
 	templateEnv map[string]string
 	hostEnv map[string]string
@@ -84,7 +104,57 @@
 	deviceHookName string
 	upstreams []structs.ConsulUpstream
 	mu *sync.RWMutex
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `envvars` | `map[string]string` | 映射表 |
+| `templateEnv` | `map[string]string` | 映射表 |
+| `hostEnv` | `map[string]string` | 映射表 |
+| `nodeAttrs` | `map[string]string` | 映射表 |
+| `taskSecrets` | `map[string]string` | 映射表 |
+| `taskMeta` | `map[string]string` | 映射表 |
+| `allocDir` | `string` | 字符串 |
+| `localDir` | `string` | 字符串 |
+| `secretsDir` | `string` | 字符串 |
+| `clientSharedAllocDir` | `string` | 字符串 |
+| `clientTaskRoot` | `string` | 字符串 |
+| `clientTaskLocalDir` | `string` | 字符串 |
+| `clientTaskSecretsDir` | `string` | 字符串 |
+| `cpuCores` | `string` | 字符串 |
+| `cpuLimit` | `int64` | — |
+| `memLimit` | `int64` | — |
+| `memMaxLimit` | `int64` | — |
+| `taskName` | `string` | 字符串 |
+| `allocIndex` | `int` | — |
+| `datacenter` | `string` | 数据中心 |
+| `cgroupParent` | `string` | 字符串 |
+| `namespace` | `string` | 命名空间 |
+| `region` | `string` | 区域 |
+| `allocId` | `string` | 字符串 |
+| `allocName` | `string` | 字符串 |
+| `groupName` | `string` | 字符串 |
+| `vaultToken` | `string` | 字符串 |
+| `vaultNamespace` | `string` | 字符串 |
+| `injectVaultToken` | `bool` | 布尔值 |
+| `workloadTokenDefault` | `string` | 字符串 |
+| `workloadTokens` | `map[string]string` | 映射表 |
+| `jobID` | `string` | 字符串 |
+| `jobName` | `string` | 字符串 |
+| `jobParentID` | `string` | 字符串 |
+| `otherPorts` | `map[string]string` | 映射表 |
+| `driverNetwork` | `*drivers.DriverNetwork` | — |
+| `networks` | `[]*structs.NetworkResource` | 列表 |
+| `networkStatus` | `*structs.AllocNetworkStatus` | — |
+| `allocatedPorts` | `structs.AllocatedPorts` | — |
+| `hookEnvs` | `map[string]map[string]string` | 映射表 |
+| `hookNames` | `[]string` | 列表 |
+| `deviceHookName` | `string` | 字符串 |
+| `upstreams` | `[]structs.ConsulUpstream` | 列表 |
+| `mu` | `*sync.RWMutex` | 读写锁，保护并发访问 |
 
 **关联方法**（25 个）：`buildEnv`, `Build`, `SetSecrets`, `SetHookEnv`, `setHookEnvLocked`, `SetDeviceHookEnv`, `setTask`, `setAlloc`, `setNode`, `SetAllocDir`, `SetTaskLocalDir`, `SetClientSharedAllocDir`, `SetClientTaskRoot`, `SetClientTaskLocalDir`, `SetClientTaskSecretsDir`, `SetSecretsDir`, `SetDriverNetwork`, `SetUpstreams`, `setUpstreamsLocked`, `SetNetworkStatus`, `SetHostEnvvars`, `SetTemplateEnv`, `SetVaultToken`, `SetDefaultWorkloadToken`, `SetWorkloadToken`
 
@@ -92,73 +162,73 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `AllocDir` | `"NOMAD_ALLOC_DIR"` |
-| `TaskLocalDir` | `"NOMAD_TASK_DIR"` |
-| `SecretsDir` | `"NOMAD_SECRETS_DIR"` |
-| `MemLimit` | `"NOMAD_MEMORY_LIMIT"` |
-| `MemMaxLimit` | `"NOMAD_MEMORY_MAX_LIMIT"` |
-| `CpuLimit` | `"NOMAD_CPU_LIMIT"` |
-| `CpuCores` | `"NOMAD_CPU_CORES"` |
-| `AllocID` | `"NOMAD_ALLOC_ID"` |
-| `ShortAllocID` | `"NOMAD_SHORT_ALLOC_ID"` |
-| `AllocName` | `"NOMAD_ALLOC_NAME"` |
-| `TaskName` | `"NOMAD_TASK_NAME"` |
-| `GroupName` | `"NOMAD_GROUP_NAME"` |
-| `JobID` | `"NOMAD_JOB_ID"` |
-| `JobName` | `"NOMAD_JOB_NAME"` |
-| `JobParentID` | `"NOMAD_JOB_PARENT_ID"` |
-| `AllocIndex` | `"NOMAD_ALLOC_INDEX"` |
-| `Datacenter` | `"NOMAD_DC"` |
-| `CgroupParent` | `"NOMAD_PARENT_CGROUP"` |
-| `Namespace` | `"NOMAD_NAMESPACE"` |
-| `Region` | `"NOMAD_REGION"` |
-| `AddrPrefix` | `"NOMAD_ADDR_"` |
-| `HostAddrPrefix` | `"NOMAD_HOST_ADDR_"` |
-| `UnixAddr` | `"NOMAD_UNIX_ADDR"` |
-| `IpPrefix` | `"NOMAD_IP_"` |
-| `HostIpPrefix` | `"NOMAD_HOST_IP_"` |
-| `PortPrefix` | `"NOMAD_PORT_"` |
-| `AllocPortPrefix` | `"NOMAD_ALLOC_PORT_"` |
-| `HostPortPrefix` | `"NOMAD_HOST_PORT_"` |
-| `MetaPrefix` | `"NOMAD_META_"` |
-| `UpstreamPrefix` | `"NOMAD_UPSTREAM_"` |
-| `AllocPrefix` | `"NOMAD_ALLOC_"` |
-| `VaultToken` | `"VAULT_TOKEN"` |
-| `VaultNamespace` | `"VAULT_NAMESPACE"` |
-| `WorkloadToken` | `"NOMAD_TOKEN"` |
-| `nodeIdKey` | `"node.unique.id"` |
-| `nodeDcKey` | `"node.datacenter"` |
-| `nodeRegionKey` | `"node.region"` |
-| `nodeNameKey` | `"node.unique.name"` |
-| `nodeClassKey` | `"node.class"` |
-| `nodePoolKey` | `"node.pool"` |
-| `nodeAttributePrefix` | `"attr."` |
-| `nodeMetaPrefix` | `"meta."` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `AllocDir` | `—` | `"NOMAD_ALLOC_DIR"` | — |
+| `TaskLocalDir` | `—` | `"NOMAD_TASK_DIR"` | — |
+| `SecretsDir` | `—` | `"NOMAD_SECRETS_DIR"` | — |
+| `MemLimit` | `—` | `"NOMAD_MEMORY_LIMIT"` | — |
+| `MemMaxLimit` | `—` | `"NOMAD_MEMORY_MAX_LIMIT"` | — |
+| `CpuLimit` | `—` | `"NOMAD_CPU_LIMIT"` | — |
+| `CpuCores` | `—` | `"NOMAD_CPU_CORES"` | — |
+| `AllocID` | `—` | `"NOMAD_ALLOC_ID"` | — |
+| `ShortAllocID` | `—` | `"NOMAD_SHORT_ALLOC_ID"` | — |
+| `AllocName` | `—` | `"NOMAD_ALLOC_NAME"` | — |
+| `TaskName` | `—` | `"NOMAD_TASK_NAME"` | — |
+| `GroupName` | `—` | `"NOMAD_GROUP_NAME"` | — |
+| `JobID` | `—` | `"NOMAD_JOB_ID"` | — |
+| `JobName` | `—` | `"NOMAD_JOB_NAME"` | — |
+| `JobParentID` | `—` | `"NOMAD_JOB_PARENT_ID"` | — |
+| `AllocIndex` | `—` | `"NOMAD_ALLOC_INDEX"` | — |
+| `Datacenter` | `—` | `"NOMAD_DC"` | — |
+| `CgroupParent` | `—` | `"NOMAD_PARENT_CGROUP"` | — |
+| `Namespace` | `—` | `"NOMAD_NAMESPACE"` | — |
+| `Region` | `—` | `"NOMAD_REGION"` | — |
+| `AddrPrefix` | `—` | `"NOMAD_ADDR_"` | — |
+| `HostAddrPrefix` | `—` | `"NOMAD_HOST_ADDR_"` | — |
+| `UnixAddr` | `—` | `"NOMAD_UNIX_ADDR"` | — |
+| `IpPrefix` | `—` | `"NOMAD_IP_"` | — |
+| `HostIpPrefix` | `—` | `"NOMAD_HOST_IP_"` | — |
+| `PortPrefix` | `—` | `"NOMAD_PORT_"` | — |
+| `AllocPortPrefix` | `—` | `"NOMAD_ALLOC_PORT_"` | — |
+| `HostPortPrefix` | `—` | `"NOMAD_HOST_PORT_"` | — |
+| `MetaPrefix` | `—` | `"NOMAD_META_"` | — |
+| `UpstreamPrefix` | `—` | `"NOMAD_UPSTREAM_"` | — |
+| `AllocPrefix` | `—` | `"NOMAD_ALLOC_"` | — |
+| `VaultToken` | `—` | `"VAULT_TOKEN"` | — |
+| `VaultNamespace` | `—` | `"VAULT_NAMESPACE"` | — |
+| `WorkloadToken` | `—` | `"NOMAD_TOKEN"` | — |
+| `nodeIdKey` | `—` | `"node.unique.id"` | — |
+| `nodeDcKey` | `—` | `"node.datacenter"` | — |
+| `nodeRegionKey` | `—` | `"node.region"` | — |
+| `nodeNameKey` | `—` | `"node.unique.name"` | — |
+| `nodeClassKey` | `—` | `"node.class"` | — |
+| `nodePoolKey` | `—` | `"node.pool"` | — |
+| `nodeAttributePrefix` | `—` | `"attr."` | — |
+| `nodeMetaPrefix` | `—` | `"meta."` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `NewTaskEnv` | - | `env map[string]string, envClient map[string]string, deviceEnv map[string]str...` | `*TaskEnv` | [L191](file:///d:/claude/nomad/client/taskenv/env.go#L191) |
-| `NewEmptyTaskEnv` | - | - | `*TaskEnv` | [L204](file:///d:/claude/nomad/client/taskenv/env.go#L204) |
-| `List` | `t *TaskEnv` | - | `[]string` | [L213](file:///d:/claude/nomad/client/taskenv/env.go#L213) |
-| `DeviceEnv` | `t *TaskEnv` | - | `map[string]string` | [L227](file:///d:/claude/nomad/client/taskenv/env.go#L227) |
-| `Map` | `t *TaskEnv` | - | `map[string]string` | [L237](file:///d:/claude/nomad/client/taskenv/env.go#L237) |
-| `All` | `t *TaskEnv` | - | `map[string]string` | [L248](file:///d:/claude/nomad/client/taskenv/env.go#L248) |
+| `NewTaskEnv` | - | `env map[string]string, envClient map[string]string, deviceEnv map[string]stri...` | `*TaskEnv` | [L191](file:///d:/claude/nomad/client/taskenv/env.go#L191) |
+| `NewEmptyTaskEnv` | - | `` | `*TaskEnv` | [L204](file:///d:/claude/nomad/client/taskenv/env.go#L204) |
+| `List` | `t *TaskEnv` | `` | `[]string` | [L213](file:///d:/claude/nomad/client/taskenv/env.go#L213) |
+| `DeviceEnv` | `t *TaskEnv` | `` | `map[string]string` | [L227](file:///d:/claude/nomad/client/taskenv/env.go#L227) |
+| `Map` | `t *TaskEnv` | `` | `map[string]string` | [L237](file:///d:/claude/nomad/client/taskenv/env.go#L237) |
+| `All` | `t *TaskEnv` | `` | `map[string]string` | [L248](file:///d:/claude/nomad/client/taskenv/env.go#L248) |
 | `WithTask` | `t *TaskEnv` | `alloc *structs.Allocation, task *structs.Task` | `*TaskEnv` | [L264](file:///d:/claude/nomad/client/taskenv/env.go#L264) |
-| `AllValues` | `t *TaskEnv` | - | `map[string]cty.Value, map[string]error, error` | [L293](file:///d:/claude/nomad/client/taskenv/env.go#L293) |
+| `AllValues` | `t *TaskEnv` | `` | `map[string]cty.Value, map[string]error, error` | [L293](file:///d:/claude/nomad/client/taskenv/env.go#L293) |
 | `ParseAndReplace` | `t *TaskEnv` | `args []string` | `[]string` | [L359](file:///d:/claude/nomad/client/taskenv/env.go#L359) |
 | `ReplaceEnv` | `t *TaskEnv` | `arg string` | `string` | [L375](file:///d:/claude/nomad/client/taskenv/env.go#L375) |
 | `replaceEnvClient` | `t *TaskEnv` | `arg string` | `string` | [L390](file:///d:/claude/nomad/client/taskenv/env.go#L390) |
 | `checkEscape` | `t *TaskEnv` | `testPath string` | `bool` | [L397](file:///d:/claude/nomad/client/taskenv/env.go#L397) |
 | `ClientPath` | `t *TaskEnv` | `rawPath string, joinEscape bool` | `string, bool` | [L415](file:///d:/claude/nomad/client/taskenv/env.go#L415) |
-| `NewBuilder` | - | `node *structs.Node, alloc *structs.Allocation, task *structs.Task, region st...` | `*Builder` | [L524](file:///d:/claude/nomad/client/taskenv/env.go#L524) |
-| `NewEmptyBuilder` | - | - | `*Builder` | [L531](file:///d:/claude/nomad/client/taskenv/env.go#L531) |
-| `buildEnv` | `b *Builder` | `allocDir string, localDir string, secretsDir string, nodeAttrs map[string]st...` | `map[string]string, map[string]string` | [L542](file:///d:/claude/nomad/client/taskenv/env.go#L542) |
-| `Build` | `b *Builder` | - | `*TaskEnv` | [L708](file:///d:/claude/nomad/client/taskenv/env.go#L708) |
-| `SetSecrets` | `b *Builder` | `secrets map[string]string` | - | [L730](file:///d:/claude/nomad/client/taskenv/env.go#L730) |
+| `NewBuilder` | - | `node *structs.Node, alloc *structs.Allocation, task *structs.Task, region string` | `*Builder` | [L524](file:///d:/claude/nomad/client/taskenv/env.go#L524) |
+| `NewEmptyBuilder` | - | `` | `*Builder` | [L531](file:///d:/claude/nomad/client/taskenv/env.go#L531) |
+| `buildEnv` | `b *Builder` | `allocDir string, localDir string, secretsDir string, nodeAttrs map[string]string` | `map[string]string, map[string]string` | [L542](file:///d:/claude/nomad/client/taskenv/env.go#L542) |
+| `Build` | `b *Builder` | `` | `*TaskEnv` | [L708](file:///d:/claude/nomad/client/taskenv/env.go#L708) |
+| `SetSecrets` | `b *Builder` | `secrets map[string]string` | `` | [L730](file:///d:/claude/nomad/client/taskenv/env.go#L730) |
 | `SetHookEnv` | `b *Builder` | `hook string, envs map[string]string` | `*Builder` | [L739](file:///d:/claude/nomad/client/taskenv/env.go#L739) |
 | `setHookEnvLocked` | `b *Builder` | `hook string, envs map[string]string` | `*Builder` | [L747](file:///d:/claude/nomad/client/taskenv/env.go#L747) |
 | `SetDeviceHookEnv` | `b *Builder` | `hookName string, envs map[string]string` | `*Builder` | [L759](file:///d:/claude/nomad/client/taskenv/env.go#L759) |
@@ -173,30 +243,127 @@
 | `SetClientTaskSecretsDir` | `b *Builder` | `dir string` | `*Builder` | [L961](file:///d:/claude/nomad/client/taskenv/env.go#L961) |
 | `SetSecretsDir` | `b *Builder` | `dir string` | `*Builder` | [L968](file:///d:/claude/nomad/client/taskenv/env.go#L968) |
 | `SetDriverNetwork` | `b *Builder` | `n *drivers.DriverNetwork` | `*Builder` | [L976](file:///d:/claude/nomad/client/taskenv/env.go#L976) |
-| `buildNetworkEnv` | - | `envMap map[string]string, nets structs.Networks, driverNet *drivers.DriverNe...` | - | [L992](file:///d:/claude/nomad/client/taskenv/env.go#L992) |
-| `buildPortEnv` | - | `envMap map[string]string, p structs.Port, ip string, driverNet *drivers.Driv...` | - | [L1003](file:///d:/claude/nomad/client/taskenv/env.go#L1003) |
+| `buildNetworkEnv` | - | `envMap map[string]string, nets structs.Networks, driverNet *drivers.DriverNet...` | `` | [L992](file:///d:/claude/nomad/client/taskenv/env.go#L992) |
+| `buildPortEnv` | - | `envMap map[string]string, p structs.Port, ip string, driverNet *drivers.Drive...` | `` | [L1003](file:///d:/claude/nomad/client/taskenv/env.go#L1003) |
 | `SetUpstreams` | `b *Builder` | `upstreams []structs.ConsulUpstream` | `*Builder` | [L1029](file:///d:/claude/nomad/client/taskenv/env.go#L1029) |
 | `setUpstreamsLocked` | `b *Builder` | `upstreams []structs.ConsulUpstream` | `*Builder` | [L1035](file:///d:/claude/nomad/client/taskenv/env.go#L1035) |
 | `SetNetworkStatus` | `b *Builder` | `netStatus *structs.AllocNetworkStatus` | `*Builder` | [L1040](file:///d:/claude/nomad/client/taskenv/env.go#L1040) |
-| `buildUpstreamsEnv` | - | `envMap map[string]string, upstreams []structs.ConsulUpstream` | - | [L1048](file:///d:/claude/nomad/client/taskenv/env.go#L1048) |
-| `addNomadAllocNetwork` | - | `envMap map[string]string, p structs.AllocatedPorts, netStatus *structs.Alloc...` | - | [L1068](file:///d:/claude/nomad/client/taskenv/env.go#L1068) |
+| `buildUpstreamsEnv` | - | `envMap map[string]string, upstreams []structs.ConsulUpstream` | `` | [L1048](file:///d:/claude/nomad/client/taskenv/env.go#L1048) |
+| `addNomadAllocNetwork` | - | `envMap map[string]string, p structs.AllocatedPorts, netStatus *structs.AllocN...` | `` | [L1068](file:///d:/claude/nomad/client/taskenv/env.go#L1068) |
 | `SetPortMapEnvs` | - | `envs map[string]string, ports map[string]int` | `map[string]string` | [L1088](file:///d:/claude/nomad/client/taskenv/env.go#L1088) |
 | `SetHostEnvvars` | `b *Builder` | `filter []string` | `*Builder` | [L1102](file:///d:/claude/nomad/client/taskenv/env.go#L1102) |
 | `SetTemplateEnv` | `b *Builder` | `m map[string]string` | `*Builder` | [L1128](file:///d:/claude/nomad/client/taskenv/env.go#L1128) |
 | `SetVaultToken` | `b *Builder` | `token string, namespace string, inject bool` | `*Builder` | [L1135](file:///d:/claude/nomad/client/taskenv/env.go#L1135) |
 | `SetDefaultWorkloadToken` | `b *Builder` | `token string` | `*Builder` | [L1144](file:///d:/claude/nomad/client/taskenv/env.go#L1144) |
 | `SetWorkloadToken` | `b *Builder` | `name string, token string` | `*Builder` | [L1151](file:///d:/claude/nomad/client/taskenv/env.go#L1151) |
-| `addPort` | - | `m map[string]string, taskName string, ip string, portLabel string, port int` | - | [L1162](file:///d:/claude/nomad/client/taskenv/env.go#L1162) |
-| `addGroupPort` | - | `m map[string]string, port structs.Port` | - | [L1173](file:///d:/claude/nomad/client/taskenv/env.go#L1173) |
-| `addPorts` | - | `m map[string]string, ports structs.AllocatedPorts` | - | [L1183](file:///d:/claude/nomad/client/taskenv/env.go#L1183) |
+| `addPort` | - | `m map[string]string, taskName string, ip string, portLabel string, port int` | `` | [L1162](file:///d:/claude/nomad/client/taskenv/env.go#L1162) |
+| `addGroupPort` | - | `m map[string]string, port structs.Port` | `` | [L1173](file:///d:/claude/nomad/client/taskenv/env.go#L1173) |
+| `addPorts` | - | `m map[string]string, ports structs.AllocatedPorts` | `` | [L1183](file:///d:/claude/nomad/client/taskenv/env.go#L1183) |
 
 ## 5. 核心方法详解
+
+### NewTaskEnv()
+
+**签名**：`func NewTaskEnv(env map[string]string, envClient map[string]string, deviceEnv map[string]string, node map[string]string, secrets map[string]string, clientTaskDir string, clientAllocDir string) *TaskEnv`
+
+**位置**：[L191](file:///d:/claude/nomad/client/taskenv/env.go#L191)
+
+**中文说明**：创建并返回一个新的 TaskEnv 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `env` | `map[string]string` | 映射表 |
+| `envClient` | `map[string]string` | 映射表 |
+| `deviceEnv` | `map[string]string` | 映射表 |
+| `node` | `map[string]string` | 映射表 |
+| `secrets` | `map[string]string` | 映射表 |
+| `clientTaskDir` | `string` | 字符串 |
+| `clientAllocDir` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TaskEnv` | — |
+
+### NewEmptyTaskEnv()
+
+**签名**：`func NewEmptyTaskEnv() *TaskEnv`
+
+**位置**：[L204](file:///d:/claude/nomad/client/taskenv/env.go#L204)
+
+**中文说明**：创建并返回一个新的 EmptyTaskEnv 实例。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TaskEnv` | — |
 
 ### List()
 
 **签名**：`func (t *TaskEnv) List() []string`
 
 **位置**：[L213](file:///d:/claude/nomad/client/taskenv/env.go#L213)
+
+**中文说明**：列出所有对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `[]string` | 列表 |
+
+### NewBuilder()
+
+**签名**：`func NewBuilder(node *structs.Node, alloc *structs.Allocation, task *structs.Task, region string) *Builder`
+
+**位置**：[L524](file:///d:/claude/nomad/client/taskenv/env.go#L524)
+
+**中文说明**：创建并返回一个新的 Builder 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `node` | `*structs.Node` | — |
+| `alloc` | `*structs.Allocation` | — |
+| `task` | `*structs.Task` | — |
+| `region` | `string` | 区域 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Builder` | — |
+
+### NewEmptyBuilder()
+
+**签名**：`func NewEmptyBuilder() *Builder`
+
+**位置**：[L531](file:///d:/claude/nomad/client/taskenv/env.go#L531)
+
+**中文说明**：创建并返回一个新的 EmptyBuilder 实例。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Builder` | — |
+
+### Build()
+
+**签名**：`func (b *Builder) Build() *TaskEnv`
+
+**位置**：[L708](file:///d:/claude/nomad/client/taskenv/env.go#L708)
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TaskEnv` | — |
 
 ## 6. 依赖关系
 
@@ -223,10 +390,15 @@
 ## 7. 设计模式与技术特点
 
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
+- **IO 操作**：涉及文件或数据流的读写操作
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [env_test.go](file:///d:/claude/nomad/client/taskenv/env_test.go) | 对应测试文件 |
+| [network.go](file:///d:/claude/nomad/client/taskenv/network.go) | 同目录源文件 |
+| [services.go](file:///d:/claude/nomad/client/taskenv/services.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/client/taskenv/util.go) | 同目录源文件 |
 

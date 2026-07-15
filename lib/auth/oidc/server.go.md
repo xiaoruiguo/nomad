@@ -18,15 +18,29 @@
 
 **定义位置**：[L17](file:///d:/claude/nomad/lib/auth/oidc/server.go#L17)
 
+**中文说明**：CallbackServer 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type CallbackServer struct {
 	ln net.Listener
 	url string
 	clientNonce string
 	errCh chan error
 	successCh chan *api.ACLOIDCCompleteAuthRequest
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ln` | `net.Listener` | — |
+| `url` | `string` | URL 地址 |
+| `clientNonce` | `string` | 字符串 |
+| `errCh` | `chan error` | 错误通道 |
+| `successCh` | `chan *api.ACLOIDCCompleteAuthRequest` | 通道 |
 
 **关联方法**（6 个）：`Close`, `RedirectURI`, `Nonce`, `ErrorCh`, `SuccessCh`, `ServeHTTP`
 
@@ -34,25 +48,25 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `serverSuccessHTMLResponse` | ``
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `serverSuccessHTMLResponse` | `—` | ``
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset...` |
+  <meta charset...` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewCallbackServer` | - | `addr string` | `*CallbackServer, error` | [L28](file:///d:/claude/nomad/lib/auth/oidc/server.go#L28) |
-| `Close` | `s *CallbackServer` | - | `error` | [L64](file:///d:/claude/nomad/lib/auth/oidc/server.go#L64) |
-| `RedirectURI` | `s *CallbackServer` | - | `string` | [L67](file:///d:/claude/nomad/lib/auth/oidc/server.go#L67) |
-| `Nonce` | `s *CallbackServer` | - | `string` | [L70](file:///d:/claude/nomad/lib/auth/oidc/server.go#L70) |
-| `ErrorCh` | `s *CallbackServer` | - | `chan error` | [L74](file:///d:/claude/nomad/lib/auth/oidc/server.go#L74) |
-| `SuccessCh` | `s *CallbackServer` | - | `chan *api.ACLOIDCCompleteAuthRequest` | [L78](file:///d:/claude/nomad/lib/auth/oidc/server.go#L78) |
-| `ServeHTTP` | `s *CallbackServer` | `w http.ResponseWriter, req *http.Request` | - | [L82](file:///d:/claude/nomad/lib/auth/oidc/server.go#L82) |
+| `Close` | `s *CallbackServer` | `` | `error` | [L64](file:///d:/claude/nomad/lib/auth/oidc/server.go#L64) |
+| `RedirectURI` | `s *CallbackServer` | `` | `string` | [L67](file:///d:/claude/nomad/lib/auth/oidc/server.go#L67) |
+| `Nonce` | `s *CallbackServer` | `` | `string` | [L70](file:///d:/claude/nomad/lib/auth/oidc/server.go#L70) |
+| `ErrorCh` | `s *CallbackServer` | `` | `<-chan error` | [L74](file:///d:/claude/nomad/lib/auth/oidc/server.go#L74) |
+| `SuccessCh` | `s *CallbackServer` | `` | `<-chan *api.ACLOIDCCompleteAuthRequest` | [L78](file:///d:/claude/nomad/lib/auth/oidc/server.go#L78) |
+| `ServeHTTP` | `s *CallbackServer` | `w http.ResponseWriter, req *http.Request` | `` | [L82](file:///d:/claude/nomad/lib/auth/oidc/server.go#L82) |
 
 ## 5. 核心方法详解
 
@@ -62,11 +76,34 @@
 
 **位置**：[L28](file:///d:/claude/nomad/lib/auth/oidc/server.go#L28)
 
+**中文说明**：创建并返回一个新的 CallbackServer 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `addr` | `string` | 地址 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*CallbackServer` | — |
+| `error` | 错误信息 |
+
 ### Close()
 
 **签名**：`func (s *CallbackServer) Close() error`
 
 **位置**：[L64](file:///d:/claude/nomad/lib/auth/oidc/server.go#L64)
+
+**中文说明**：关闭对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -82,11 +119,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [server_test.go](file:///d:/claude/nomad/lib/auth/oidc/server_test.go) | 对应测试文件 |
+| [client_assertion.go](file:///d:/claude/nomad/lib/auth/oidc/client_assertion.go) | 同目录源文件 |
+| [provider.go](file:///d:/claude/nomad/lib/auth/oidc/provider.go) | 同目录源文件 |
+| [request.go](file:///d:/claude/nomad/lib/auth/oidc/request.go) | 同目录源文件 |
 

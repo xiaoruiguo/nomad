@@ -1,6 +1,6 @@
 # init.go 代码说明文档
 
-> 文件路径：[pluginutils/loader/init.go](file:///d:/claude/nomad/helper/pluginutils/loader/init.go)
+> 文件路径：[helper/pluginutils/loader/init.go](file:///d:/claude/nomad/helper/pluginutils/loader/init.go)
 > 总行数：536 行
 > 所属包：`loader`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **插件加载器子包**（`helper/pluginutils/loader`），实现 Nomad 插件的加载器，管理插件实例的生命周期，支持内部插件（编译内置）和外部插件（独立进程）的加载、配置和重新连接。
+该文件属于 **工具包子包**（`helper/pluginutils/loader`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -26,17 +26,19 @@
 |------|--------|------|--------|------|
 | `validateConfig` | - | `config *PluginLoaderConfig` | `error` | [L25](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L25) |
 | `init` | `l *PluginLoader` | `cfg *PluginLoaderConfig` | `map[string]*config.PluginConfig, error` | [L57](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L57) |
-| `initInternal` | `l *PluginLoader` | `plugins map[PluginID]*InternalPluginConfig, configs map[string]*config.Plugi...` | `map[PluginID]*pluginInfo, error` | [L98](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L98) |
+| `initInternal` | `l *PluginLoader` | `plugins map[PluginID]*InternalPluginConfig, configs map[string]*config.Plugin...` | `map[PluginID]*pluginInfo, error` | [L98](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L98) |
 | `selectApiVersion` | `l *PluginLoader` | `i *base.PluginInfoResponse` | `string, error` | [L173](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L173) |
 | `convertVersions` | - | `in []string` | `[]*version.Version, error` | [L205](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L205) |
-| `scan` | `l *PluginLoader` | - | `[]os.FileInfo, error` | [L224](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L224) |
+| `scan` | `l *PluginLoader` | `` | `[]os.FileInfo, error` | [L224](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L224) |
 | `fingerprintPlugins` | `l *PluginLoader` | `plugins []os.FileInfo, configs map[string]*config.PluginConfig` | `map[PluginID]*pluginInfo, error` | [L269](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L269) |
 | `fingerprintPlugin` | `l *PluginLoader` | `pluginExe os.FileInfo, config *config.PluginConfig` | `*pluginInfo, error` | [L332](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L332) |
 | `mergePlugins` | `l *PluginLoader` | `internal map[PluginID]*pluginInfo, external map[PluginID]*pluginInfo` | `map[PluginID]*pluginInfo` | [L410](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L410) |
-| `validatePluginConfigs` | `l *PluginLoader` | - | `map[string]*InternalPluginConfig, error` | [L443](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L443) |
+| `validatePluginConfigs` | `l *PluginLoader` | `` | `map[string]*InternalPluginConfig, error` | [L443](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L443) |
 | `validatePluginConfig` | `l *PluginLoader` | `id PluginID, info *pluginInfo` | `map[string]interface{}, error` | [L464](file:///d:/claude/nomad/helper/pluginutils/loader/init.go#L464) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -70,4 +72,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [api_versions.go](file:///d:/claude/nomad/helper/pluginutils/loader/api_versions.go) | 同目录源文件 |
+| [filter_unix.go](file:///d:/claude/nomad/helper/pluginutils/loader/filter_unix.go) | 同目录源文件 |
+| [filter_windows.go](file:///d:/claude/nomad/helper/pluginutils/loader/filter_windows.go) | 同目录源文件 |
+| [instance.go](file:///d:/claude/nomad/helper/pluginutils/loader/instance.go) | 同目录源文件 |
+| [loader.go](file:///d:/claude/nomad/helper/pluginutils/loader/loader.go) | 同目录源文件 |
 

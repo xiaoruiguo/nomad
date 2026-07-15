@@ -18,12 +18,23 @@
 
 **定义位置**：[L38](file:///d:/claude/nomad/lib/auth/oidc/request.go#L38)
 
+**中文说明**：RequestCache 是一个缓存，存储常用数据以减少重复计算或 I/O。
+
 **类型**：struct
 
 ```go
+type RequestCache struct {
 	c *expirable.LRU[string, *oidc.Req]
 	lock sync.Mutex
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `c` | `*expirable.LRU[string, *oidc.Req]` | 字符串 |
+| `lock` | `sync.Mutex` | 互斥锁，保护并发访问 |
 
 **关联方法**（6 个）：`store`, `storeLocked`, `Load`, `loadLocked`, `LoadOrAdd`, `LoadAndDelete`
 
@@ -31,16 +42,16 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `MaxRequests` | `1000` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `MaxRequests` | `—` | `1000` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ErrNonceReuse` | `errors.New("nonce reuse detected")` |
-| `ErrTooManyRequests` | `errors.New("too many auth requests")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ErrNonceReuse` | `—` | `errors.New("nonce reuse detected")` | — |
+| `ErrTooManyRequests` | `—` | `errors.New("too many auth requests")` | — |
 
 ## 4. 方法与函数
 
@@ -62,6 +73,38 @@
 
 **位置**：[L32](file:///d:/claude/nomad/lib/auth/oidc/request.go#L32)
 
+**中文说明**：创建并返回一个新的 RequestCache 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `timeout` | `time.Duration` | 超时时间 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*RequestCache` | — |
+
+### Load()
+
+**签名**：`func (rc *RequestCache) Load(nonce string) *oidc.Req`
+
+**位置**：[L69](file:///d:/claude/nomad/lib/auth/oidc/request.go#L69)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `nonce` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*oidc.Req` | — |
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -79,10 +122,14 @@
 
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
 - **缓存模式**：实现缓存机制，减少重复计算或 I/O 操作
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [request_test.go](file:///d:/claude/nomad/lib/auth/oidc/request_test.go) | 对应测试文件 |
+| [client_assertion.go](file:///d:/claude/nomad/lib/auth/oidc/client_assertion.go) | 同目录源文件 |
+| [provider.go](file:///d:/claude/nomad/lib/auth/oidc/provider.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/lib/auth/oidc/server.go) | 同目录源文件 |
 

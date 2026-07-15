@@ -1,6 +1,6 @@
 # network_default.go 代码说明文档
 
-> 文件路径：[fingerprint/network_default.go](file:///d:/claude/nomad/client/fingerprint/network_default.go)
+> 文件路径：[client/fingerprint/network_default.go](file:///d:/claude/nomad/client/fingerprint/network_default.go)
 > 总行数：13 行
 > 所属包：`fingerprint`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **指纹采集子包**（`client/fingerprint`），实现节点能力检测（CPU、内存、网络、存储、Arch、Consul、Vault 等），向 Server 报告节点资源。是调度器决策的基础。
+该文件属于 **指纹采集子包**（`client/fingerprint`），采集客户端节点的硬件和软件信息（CPU、内存、OS、网络），用于节点注册和资源上报。
 
 **平台特定实现**：此文件为 **默认/其他平台** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -31,7 +31,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -41,4 +45,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [arch.go](file:///d:/claude/nomad/client/fingerprint/arch.go) | 同目录源文件 |
+| [bridge.go](file:///d:/claude/nomad/client/fingerprint/bridge.go) | 同目录源文件 |
+| [bridge_default.go](file:///d:/claude/nomad/client/fingerprint/bridge_default.go) | 同目录源文件 |
+| [bridge_linux.go](file:///d:/claude/nomad/client/fingerprint/bridge_linux.go) | 同目录源文件 |
+| [cgroup.go](file:///d:/claude/nomad/client/fingerprint/cgroup.go) | 同目录源文件 |
 

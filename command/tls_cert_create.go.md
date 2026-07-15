@@ -1,6 +1,6 @@
 # tls_cert_create.go 代码说明文档
 
-> 文件路径：[tls_cert_create.go](file:///d:/claude/nomad/command/tls_cert_create.go)
+> 文件路径：[command/tls_cert_create.go](file:///d:/claude/nomad/command/tls_cert_create.go)
 > 总行数：318 行
 > 所属包：`command`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,18 +10,21 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 Nomad CLI 命令 **`tls cert create`**，功能简述：
-
-> Create a new TLS certificate
+该文件属于 **CLI 命令包**（`command/`），实现 `nomad tls_cert_create` 命令，通过 Nomad API 客户端与 Server 交互，提供作业管理、节点查询、集群运维等命令行功能。
 
 ## 2. 类型定义
 
 ### TLSCertCreateCommand
 
+**定义位置**：[L20](file:///d:/claude/nomad/command/tls_cert_create.go#L20)
+
+**中文说明**：TLSCertCreateCommand 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	Meta
+type TLSCertCreateCommand struct {
+	Meta Meta
 	dnsNames flags.StringFlag
 	ipAddresses flags.StringFlag
 	ca string
@@ -32,7 +35,26 @@
 	key string
 	region string
 	server bool
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Meta` | `Meta` | 元数据 |
+| `dnsNames` | `flags.StringFlag` | 字符串 |
+| `ipAddresses` | `flags.StringFlag` | 字符串 |
+| `ca` | `string` | 字符串 |
+| `cli` | `bool` | 布尔值 |
+| `client` | `bool` | 布尔值 |
+| `days` | `int` | — |
+| `domain` | `string` | 字符串 |
+| `key` | `string` | 键 |
+| `region` | `string` | 区域 |
+| `server` | `bool` | 布尔值 |
+
+**关联方法**（6 个）：`Help`, `AutocompleteFlags`, `AutocompleteArgs`, `Synopsis`, `Name`, `Run`
 
 ## 3. 常量与变量
 
@@ -42,41 +64,35 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Help` | `c *TLSCertCreateCommand` | - | `string` | [L53](file:///d:/claude/nomad/command/tls_cert_create.go#L53) |
-| `AutocompleteFlags` | `c *TLSCertCreateCommand` | - | `complete.Flags` | [L102](file:///d:/claude/nomad/command/tls_cert_create.go#L102) |
-| `AutocompleteArgs` | `c *TLSCertCreateCommand` | - | `complete.Predictor` | [L118](file:///d:/claude/nomad/command/tls_cert_create.go#L118) |
-| `Synopsis` | `c *TLSCertCreateCommand` | - | `string` | [L122](file:///d:/claude/nomad/command/tls_cert_create.go#L122) |
-| `Name` | `c *TLSCertCreateCommand` | - | `string` | [L126](file:///d:/claude/nomad/command/tls_cert_create.go#L126) |
+| `Help` | `c *TLSCertCreateCommand` | `` | `string` | [L53](file:///d:/claude/nomad/command/tls_cert_create.go#L53) |
+| `AutocompleteFlags` | `c *TLSCertCreateCommand` | `` | `complete.Flags` | [L102](file:///d:/claude/nomad/command/tls_cert_create.go#L102) |
+| `AutocompleteArgs` | `c *TLSCertCreateCommand` | `` | `complete.Predictor` | [L118](file:///d:/claude/nomad/command/tls_cert_create.go#L118) |
+| `Synopsis` | `c *TLSCertCreateCommand` | `` | `string` | [L122](file:///d:/claude/nomad/command/tls_cert_create.go#L122) |
+| `Name` | `c *TLSCertCreateCommand` | `` | `string` | [L126](file:///d:/claude/nomad/command/tls_cert_create.go#L126) |
 | `Run` | `c *TLSCertCreateCommand` | `args []string` | `int` | [L128](file:///d:/claude/nomad/command/tls_cert_create.go#L128) |
-| `recordPreparation` | - | `certType string, regionName string, domain string, dnsNames []string, ipAddresses []net.IP` | `[]net.IP, []string, string, []x509.ExtKeyUsage, string` | [L292](file:///d:/claude/nomad/command/tls_cert_create.go#L292) |
+| `recordPreparation` | - | `certType string, regionName string, domain string, dnsNames []string, ipAddre...` | `[]net.IP, []string, string, []x509.ExtKeyUsage, string` | [L292](file:///d:/claude/nomad/command/tls_cert_create.go#L292) |
 
 ## 5. 核心方法详解
-
-### Help()
-
-**功能**：返回命令的帮助文本，包含用法说明和参数列表。
-
-### AutocompleteFlags()
-
-**功能**：为 shell 自动补全提供 flag 预测规则，返回 `complete.Flags` 映射。
-
-### AutocompleteArgs()
-
-**功能**：为 shell 自动补全提供参数预测规则。
-
-### Synopsis()
-
-**简述**：`Create a new TLS certificate`
-
-### Name()
-
-**命令名**：`tls cert create`
 
 ### Run()
 
 **签名**：`func (c *TLSCertCreateCommand) Run(args []string) int`
 
-**行为**：执行命令核心逻辑，包括参数解析、API 调用、结果格式化输出。
+**位置**：[L128](file:///d:/claude/nomad/command/tls_cert_create.go#L128)
+
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
 
 ## 6. 依赖关系
 
@@ -89,27 +105,24 @@
 | `net` | 标准库 |
 | `os` | 标准库 |
 | `strings` | 标准库 |
-| `github.com/posener/complete` | 第三方库 |
 | `github.com/hashicorp/nomad/helper/flags` | 内部包 |
 | `github.com/hashicorp/nomad/helper/tlsutil` | 内部包 |
 | `github.com/hashicorp/nomad/lib/file` | 内部包 |
+| `github.com/posener/complete` | 第三方库 |
 
-## 7. 设计模式与约定
+## 7. 设计模式与技术特点
 
-该文件遵循 Nomad CLI 命令的标准实现模式：
-
-1. **嵌入 Meta**：命令结构体嵌入 `Meta`，获取 API 客户端、UI 输出、flag 解析等通用能力
-2. **实现 cli.Command 接口**：`Name()`、`Run()`、`Help()`、`Synopsis()` 四个必需方法
-3. **可选自动补全**：实现 `AutocompleteFlags()` / `AutocompleteArgs()` 提供 shell 补全
-4. **Flag 解析**：通过 `m.FlagSet()` 创建 flag 集，支持 `-address`、`-region`、`-namespace` 等通用 flag
+- **IO 操作**：涉及文件或数据流的读写操作
+- **加密安全**：使用 Go crypto 标准库实现加密、签名或 TLS 通信
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [meta.go](file:///d:/claude/nomad/command/meta.go) | `Meta` 结构体定义，提供通用 CLI 基础设施 |
-| [helpers.go](file:///d:/claude/nomad/command/helpers.go) | CLI 辅助函数（格式化、Job 解析等） |
-| [../api/api.go](file:///d:/claude/nomad/api/api.go) | Go API 客户端库 |
 | [tls_cert_create_test.go](file:///d:/claude/nomad/command/tls_cert_create_test.go) | 对应测试文件 |
-| [tls.go](file:///d:/claude/nomad/command/tls.go) | 父命令文件 |
+| [acl.go](file:///d:/claude/nomad/command/acl.go) | 同目录源文件 |
+| [acl_auth_method.go](file:///d:/claude/nomad/command/acl_auth_method.go) | 同目录源文件 |
+| [acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go) | 同目录源文件 |
+| [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
+| [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 

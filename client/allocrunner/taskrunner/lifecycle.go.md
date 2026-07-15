@@ -1,6 +1,6 @@
 # lifecycle.go 代码说明文档
 
-> 文件路径：[allocrunner/taskrunner/lifecycle.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go)
+> 文件路径：[client/allocrunner/taskrunner/lifecycle.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go)
 > 总行数：188 行
 > 所属包：`taskrunner`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **任务运行器子包**（`client/allocrunner/taskrunner`），实现单个任务的运行生命周期管理，包括任务启动/停止、 artifact 下载、模板渲染、密钥注入、重启策略等。TaskRunner 是分配内每个任务的控制器。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 ## 2. 类型定义
 
@@ -30,21 +30,28 @@
 | `Exec` | `tr *TaskRunner` | `timeout time.Duration, cmd string, args []string` | `[]byte, int, error` | [L131](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L131) |
 | `Signal` | `tr *TaskRunner` | `event *structs.TaskEvent, s string` | `error` | [L143](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L143) |
 | `Kill` | `tr *TaskRunner` | `ctx context.Context, event *structs.TaskEvent` | `error` | [L163](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L163) |
-| `IsRunning` | `tr *TaskRunner` | - | `bool` | [L185](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L185) |
+| `IsRunning` | `tr *TaskRunner` | `` | `bool` | [L185](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L185) |
 
 ## 5. 核心方法详解
-
-### Restart()
-
-**签名**：`func (tr *TaskRunner) Restart(ctx context.Context, event *structs.TaskEvent, failure bool) error`
-
-**位置**：[L17](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L17)
 
 ### Signal()
 
 **签名**：`func (tr *TaskRunner) Signal(event *structs.TaskEvent, s string) error`
 
 **位置**：[L143](file:///d:/claude/nomad/client/allocrunner/taskrunner/lifecycle.go#L143)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `event` | `*structs.TaskEvent` | 事件 |
+| `s` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -66,4 +73,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [api_hook.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/api_hook.go) | 同目录源文件 |
+| [artifact_hook.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/artifact_hook.go) | 同目录源文件 |
+| [connect_native_hook.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/connect_native_hook.go) | 同目录源文件 |
+| [consul_hook.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/consul_hook.go) | 同目录源文件 |
+| [device_hook.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/device_hook.go) | 同目录源文件 |
 

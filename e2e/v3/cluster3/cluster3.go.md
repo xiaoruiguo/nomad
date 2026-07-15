@@ -18,9 +18,12 @@
 
 **定义位置**：[L22](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L22)
 
+**中文说明**：Cluster 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Cluster struct {
 	t *testing.T
 	consulClient *consulapi.Client
 	nomadClient *nomadapi.Client
@@ -33,7 +36,25 @@
 	linuxClients int
 	windowsClients int
 	showState bool
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `t` | `*testing.T` | — |
+| `consulClient` | `*consulapi.Client` | — |
+| `nomadClient` | `*nomadapi.Client` | — |
+| `vaultClient` | `*vaultapi.Client` | — |
+| `timeout` | `time.Duration` | 超时时间 |
+| `enterprise` | `bool` | 布尔值 |
+| `leaderReady` | `bool` | 布尔值 |
+| `consulReady` | `bool` | 布尔值 |
+| `vaultReady` | `bool` | 布尔值 |
+| `linuxClients` | `int` | — |
+| `windowsClients` | `int` | — |
+| `showState` | `bool` | 布尔值 |
 
 **关联方法**（3 个）：`wait`, `setClients`, `dump`
 
@@ -41,7 +62,7 @@
 
 **定义位置**：[L168](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L168)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Option func(...)`
 
 ## 3. 常量与变量
 
@@ -51,21 +72,23 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `wait` | `c *Cluster` | - | - | [L39](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L39) |
-| `Establish` | - | `t *testing.T, opts ...Option` | - | [L170](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L170) |
-| `setClients` | `c *Cluster` | - | - | [L187](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L187) |
-| `Enterprise` | - | - | `Option` | [L205](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L205) |
+| `wait` | `c *Cluster` | `` | `` | [L39](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L39) |
+| `Establish` | - | `t *testing.T, opts ...Option` | `` | [L170](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L170) |
+| `setClients` | `c *Cluster` | `` | `` | [L187](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L187) |
+| `Enterprise` | - | `` | `Option` | [L205](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L205) |
 | `Timeout` | - | `timeout time.Duration` | `Option` | [L211](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L211) |
 | `LinuxClients` | - | `count int` | `Option` | [L217](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L217) |
 | `WindowsClients` | - | `count int` | `Option` | [L223](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L223) |
-| `Leader` | - | - | `Option` | [L230](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L230) |
-| `Consul` | - | - | `Option` | [L236](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L236) |
-| `Vault` | - | - | `Option` | [L242](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L242) |
-| `ShowState` | - | - | `Option` | [L248](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L248) |
-| `dump` | `c *Cluster` | - | - | [L254](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L254) |
-| `debug` | - | `msg string, args ...any` | - | [L359](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L359) |
+| `Leader` | - | `` | `Option` | [L230](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L230) |
+| `Consul` | - | `` | `Option` | [L236](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L236) |
+| `Vault` | - | `` | `Option` | [L242](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L242) |
+| `ShowState` | - | `` | `Option` | [L248](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L248) |
+| `dump` | `c *Cluster` | `` | `` | [L254](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L254) |
+| `debug` | - | `msg string, args ...any` | `` | [L359](file:///d:/claude/nomad/e2e/v3/cluster3/cluster3.go#L359) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

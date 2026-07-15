@@ -1,6 +1,6 @@
 # mkfifoat.go 代码说明文档
 
-> 文件路径：[lib/fifo/mkfifoat.go](file:///d:/claude/nomad/client/lib/fifo/mkfifoat.go)
+> 文件路径：[client/lib/fifo/mkfifoat.go](file:///d:/claude/nomad/client/lib/fifo/mkfifoat.go)
 > 总行数：40 行
 > 所属包：`fifo`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **FIFO 子包**（`client/lib/fifo`），提供 FIFO（命名管道）操作工具。
+该文件属于 **客户端库子包**（`client/lib`），提供客户端使用的通用库函数和数据结构。
 
 **构建标签**：`linux || freebsd || netbsd || openbsd`
 
@@ -31,6 +31,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -44,10 +46,14 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Client 的一部分
+- **IO 操作**：涉及文件或数据流的读写操作
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [doc.go](file:///d:/claude/nomad/client/lib/fifo/doc.go) | 同目录源文件 |
+| [fifo_unix.go](file:///d:/claude/nomad/client/lib/fifo/fifo_unix.go) | 同目录源文件 |
+| [fifo_windows.go](file:///d:/claude/nomad/client/lib/fifo/fifo_windows.go) | 同目录源文件 |
+| [mkfifo_unix.go](file:///d:/claude/nomad/client/lib/fifo/mkfifo_unix.go) | 同目录源文件 |
 

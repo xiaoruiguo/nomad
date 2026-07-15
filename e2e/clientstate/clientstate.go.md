@@ -21,12 +21,23 @@
 
 **定义位置**：[L43](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L43)
 
+**中文说明**：ClientStateTC 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type ClientStateTC struct {
+	framework.TC framework.TC
 	bin string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `bin` | `string` | 字符串 |
 
 **关联方法**（4 个）：`BeforeAll`, `TestClientState_Kill`, `TestClientState_KillDuringRestart`, `TestClientState_Corrupt`
 
@@ -38,14 +49,16 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L33](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L33) |
-| `BeforeAll` | `tc *ClientStateTC` | `f *framework.F` | - | [L50](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L50) |
+| `init` | - | `` | `` | [L33](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L33) |
+| `BeforeAll` | `tc *ClientStateTC` | `f *framework.F` | `` | [L50](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L50) |
 | `getPID` | - | `client *api.Client, alloc *api.Allocation, path string` | `int, error` | [L60](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L60) |
-| `TestClientState_Kill` | `tc *ClientStateTC` | `f *framework.F` | - | [L89](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L89) |
-| `TestClientState_KillDuringRestart` | `tc *ClientStateTC` | `f *framework.F` | - | [L230](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L230) |
-| `TestClientState_Corrupt` | `tc *ClientStateTC` | `f *framework.F` | - | [L352](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L352) |
+| `TestClientState_Kill` | `tc *ClientStateTC` | `f *framework.F` | `` | [L89](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L89) |
+| `TestClientState_KillDuringRestart` | `tc *ClientStateTC` | `f *framework.F` | `` | [L230](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L230) |
+| `TestClientState_Corrupt` | `tc *ClientStateTC` | `f *framework.F` | `` | [L352](file:///d:/claude/nomad/e2e/clientstate/clientstate.go#L352) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -79,6 +92,7 @@
 
 - **IO 操作**：涉及文件或数据流的读写操作
 - **端到端测试**：通过真实 Nomad 集群验证功能，使用测试框架组织测试用例
+- **HTTP 服务**：提供 HTTP API 端点或客户端
 
 ## 8. 相关文件
 

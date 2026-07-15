@@ -18,12 +18,23 @@
 
 **定义位置**：[L20](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L20)
 
+**中文说明**：TaskEventsTest 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type TaskEventsTest struct {
+	framework.TC framework.TC
 	jobIds []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIds` | `[]string` | 列表 |
 
 **关联方法**（7 个）：`BeforeAll`, `AfterEach`, `waitUntilEvents`, `TestTaskEvents_SimpleBatch`, `TestTaskEvents_FailedBatch`, `TestTaskEvents_CompletedLeader`, `TestTaskEvents_FailedSibling`
 
@@ -35,17 +46,19 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L25](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L25) |
-| `BeforeAll` | `tc *TaskEventsTest` | `f *framework.F` | - | [L35](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L35) |
-| `AfterEach` | `tc *TaskEventsTest` | `f *framework.F` | - | [L40](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L40) |
+| `init` | - | `` | `` | [L25](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L25) |
+| `BeforeAll` | `tc *TaskEventsTest` | `f *framework.F` | `` | [L35](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L35) |
+| `AfterEach` | `tc *TaskEventsTest` | `f *framework.F` | `` | [L40](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L40) |
 | `formatEvents` | - | `events []*api.TaskEvent` | `string` | [L51](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L51) |
 | `waitUntilEvents` | `tc *TaskEventsTest` | `f *framework.F, jobName string, numEvents int` | `*api.Allocation, *api.TaskState` | [L65](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L65) |
-| `TestTaskEvents_SimpleBatch` | `tc *TaskEventsTest` | `f *framework.F` | - | [L119](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L119) |
-| `TestTaskEvents_FailedBatch` | `tc *TaskEventsTest` | `f *framework.F` | - | [L137](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L137) |
-| `TestTaskEvents_CompletedLeader` | `tc *TaskEventsTest` | `f *framework.F` | - | [L158](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L158) |
-| `TestTaskEvents_FailedSibling` | `tc *TaskEventsTest` | `f *framework.F` | - | [L180](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L180) |
+| `TestTaskEvents_SimpleBatch` | `tc *TaskEventsTest` | `f *framework.F` | `` | [L119](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L119) |
+| `TestTaskEvents_FailedBatch` | `tc *TaskEventsTest` | `f *framework.F` | `` | [L137](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L137) |
+| `TestTaskEvents_CompletedLeader` | `tc *TaskEventsTest` | `f *framework.F` | `` | [L158](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L158) |
+| `TestTaskEvents_FailedSibling` | `tc *TaskEventsTest` | `f *framework.F` | `` | [L180](file:///d:/claude/nomad/e2e/taskevents/taskevents.go#L180) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

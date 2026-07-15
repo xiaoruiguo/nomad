@@ -24,9 +24,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `SkipTestWithoutRootAccess` | - | `t *testing.T` | - | [L15](file:///d:/claude/nomad/ci/skip_non_root.go#L15) |
+| `SkipTestWithoutRootAccess` | - | `t *testing.T` | `` | [L15](file:///d:/claude/nomad/ci/skip_non_root.go#L15) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -47,4 +49,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [ports.go](file:///d:/claude/nomad/ci/ports.go) | 同目录源文件 |
+| [slow.go](file:///d:/claude/nomad/ci/slow.go) | 同目录源文件 |
 

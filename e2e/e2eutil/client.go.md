@@ -30,6 +30,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -51,4 +53,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
+| [deployments.go](file:///d:/claude/nomad/e2e/e2eutil/deployments.go) | 同目录源文件 |
 

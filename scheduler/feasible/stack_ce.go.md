@@ -1,6 +1,6 @@
 # stack_ce.go 代码说明文档
 
-> 文件路径：[feasible/stack_ce.go](file:///d:/claude/nomad/scheduler/feasible/stack_ce.go)
+> 文件路径：[scheduler/feasible/stack_ce.go](file:///d:/claude/nomad/scheduler/feasible/stack_ce.go)
 > 总行数：12 行
 > 所属包：`feasible`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **可行性检查子包**（`scheduler/feasible`），实现调度器的可行性检查和评分迭代器栈。包含节点过滤（约束、驱动、设备、网络）、评分（装箱、分散、资源利用率）、抢占、排名等核心调度算法。是调度决策的核心引擎，采用迭代器链模式（Iterator Chain）实现可组合的调度管道。
+该文件属于 **可行性检查子包**（`scheduler/feasible`），实现节点可行性检查器，根据约束、资源、节点池等条件筛选符合条件的节点。
 
 **构建标签**：`!ent`
 
@@ -37,14 +37,37 @@
 
 **位置**：[L9](file:///d:/claude/nomad/scheduler/feasible/stack_ce.go#L9)
 
+**中文说明**：创建并返回一个新的 QuotaIterator 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `_` | `Context` | — |
+| `source` | `FeasibleIterator` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `FeasibleIterator` | — |
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
 - **社区版存根**：为企业版功能提供社区版的空实现，通过 build tag 选择
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [context.go](file:///d:/claude/nomad/scheduler/feasible/context.go) | 同目录源文件 |
+| [device.go](file:///d:/claude/nomad/scheduler/feasible/device.go) | 同目录源文件 |
+| [doc.go](file:///d:/claude/nomad/scheduler/feasible/doc.go) | 同目录源文件 |
+| [feasible.go](file:///d:/claude/nomad/scheduler/feasible/feasible.go) | 同目录源文件 |
+| [numa_ce.go](file:///d:/claude/nomad/scheduler/feasible/numa_ce.go) | 同目录源文件 |
 

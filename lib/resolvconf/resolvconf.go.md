@@ -11,34 +11,49 @@
 
 该文件属于 **DNS 解析配置子包**（`lib/resolvconf`），实现 `/etc/resolv.conf` 文件的解析和生成，用于任务网络的 DNS 配置。
 
+**包注释**：
+
+Package resolvconf provides utility code to query and update DNS configuration in /etc/resolv.conf
+
 ## 2. 类型定义
 
 ### File
 
 **定义位置**：[L38](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L38)
 
+**中文说明**：File 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type File struct {
 	Content []byte
 	Hash []byte
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Content` | `[]byte` | 字节数组 |
+| `Hash` | `[]byte` | 字节数组 |
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `IP` | `iota` |
-| `IPv4` | `` |
-| `IPv6` | `` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `IP` | `—` | `iota` | — |
+| `IPv4` | `—` | `` | — |
+| `IPv6` | `—` | `` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Get` | - | - | `*File, error` | [L44](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L44) |
+| `Get` | - | `` | `*File, error` | [L44](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L44) |
 | `GetSpecific` | - | `path string` | `*File, error` | [L49](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L49) |
 | `FilterResolvDNS` | - | `resolvConf []byte, ipv6Enabled bool` | `*File, error` | [L64](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L64) |
 | `GetNameservers` | - | `resolvConf []byte, kind int` | `[]string` | [L79](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L79) |
@@ -54,6 +69,37 @@
 **签名**：`func Get() *File, error`
 
 **位置**：[L44](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L44)
+
+**中文说明**：获取对象的信息。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*File` | — |
+| `error` | 错误信息 |
+
+### Build()
+
+**签名**：`func Build(path string, nameservers []string, dnsSearch []string, dnsOptions []string) *File, error`
+
+**位置**：[L141](file:///d:/claude/nomad/lib/resolvconf/resolvconf.go#L141)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `path` | `string` | 路径 |
+| `nameservers` | `[]string` | 列表 |
+| `dnsSearch` | `[]string` | 列表 |
+| `dnsOptions` | `[]string` | 列表 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*File` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -76,4 +122,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [lib.go](file:///d:/claude/nomad/lib/resolvconf/lib.go) | 同目录源文件 |
+| [path.go](file:///d:/claude/nomad/lib/resolvconf/path.go) | 同目录源文件 |
 

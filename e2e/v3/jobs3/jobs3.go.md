@@ -18,9 +18,12 @@
 
 **定义位置**：[L27](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L27)
 
+**中文说明**：Submission 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Submission struct {
 	t *testing.T
 	nomadClient *nomadapi.Client
 	jobSpec string
@@ -39,7 +42,31 @@
 	inNamespace string
 	authToken string
 	legacyConsulToken string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `t` | `*testing.T` | — |
+| `nomadClient` | `*nomadapi.Client` | — |
+| `jobSpec` | `string` | 字符串 |
+| `jobID` | `string` | 字符串 |
+| `origJobID` | `string` | 字符串 |
+| `noRandomJobID` | `bool` | 布尔值 |
+| `noCleanup` | `bool` | 布尔值 |
+| `timeout` | `time.Duration` | 超时时间 |
+| `verbose` | `bool` | 布尔值 |
+| `detach` | `bool` | 布尔值 |
+| `dispatcher` | `bool` | 布尔值 |
+| `mutators` | `[]func(...)` | 列表 |
+| `preCleanup` | `[]func(...)` | 列表 |
+| `vars` | `Vars` | — |
+| `waitComplete` | `*set.Set[string]` | 字符串 |
+| `inNamespace` | `string` | 字符串 |
+| `authToken` | `string` | 字符串 |
+| `legacyConsulToken` | `string` | 字符串 |
 
 **关联方法**（19 个）：`queryOptions`, `Evals`, `Allocs`, `WaitForDeploymentFunc`, `AllocEvents`, `TaskLogs`, `TaskLogsByAlloc`, `getTaskLogs`, `JobID`, `AllocID`, `NodesApi`, `DeploymentsApi`, `logf`, `cleanup`, `Rerun`, `run`, `waitAlloc`, `waits`, `setClient`
 
@@ -47,42 +74,65 @@
 
 **定义位置**：[L102](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L102)
 
+**中文说明**：TaskEvents 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type TaskEvents struct {
 	Group string
 	Task string
 	Events []*nomadapi.TaskEvent
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Group` | `string` | 字符串 |
+| `Task` | `string` | 字符串 |
+| `Events` | `[]*nomadapi.TaskEvent` | 列表 |
 
 ### Logs
 
 **定义位置**：[L125](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L125)
 
+**中文说明**：Logs 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Logs struct {
 	Stdout string
 	Stderr string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Stdout` | `string` | 字符串 |
+| `Stderr` | `string` | 字符串 |
 
 ### Option
 
 **定义位置**：[L265](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L265)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Option func(...)`
 
 ### Cleanup
 
 **定义位置**：[L267](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L267)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Cleanup func(...)`
 
 ### Vars
 
 **定义位置**：[L622](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L622)
 
-**类型定义**：`map[string]string`
+**类型定义**：`type Vars map[string]string`
 
 **关联方法**（2 个）：`Slice`, `String`
 
@@ -90,53 +140,53 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `idRe` | `regexp.MustCompile(`(?m)^job "(.*)" \{`)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `idRe` | `—` | `regexp.MustCompile(`(?m)^job "(.*)" \{`)` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `queryOptions` | `sub *Submission` | - | `*nomadapi.QueryOptions` | [L55](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L55) |
-| `Evals` | `sub *Submission` | - | `[]*nomadapi.Evaluation` | [L62](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L62) |
-| `Allocs` | `sub *Submission` | - | `[]*nomadapi.AllocationListStub` | [L70](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L70) |
-| `WaitForDeploymentFunc` | `sub *Submission` | `ctx context.Context, deploymentID string, fn func(...)` | - | [L80](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L80) |
-| `AllocEvents` | `sub *Submission` | - | `map[string]TaskEvents` | [L109](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L109) |
+| `queryOptions` | `sub *Submission` | `` | `*nomadapi.QueryOptions` | [L55](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L55) |
+| `Evals` | `sub *Submission` | `` | `[]*nomadapi.Evaluation` | [L62](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L62) |
+| `Allocs` | `sub *Submission` | `` | `[]*nomadapi.AllocationListStub` | [L70](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L70) |
+| `WaitForDeploymentFunc` | `sub *Submission` | `ctx context.Context, deploymentID string, fn func(...)` | `` | [L80](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L80) |
+| `AllocEvents` | `sub *Submission` | `` | `map[string]TaskEvents` | [L109](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L109) |
 | `TaskLogs` | `sub *Submission` | `group string, task string` | `Logs` | [L132](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L132) |
 | `TaskLogsByAlloc` | `sub *Submission` | `group string, task string` | `map[string]Logs` | [L145](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L145) |
 | `getTaskLogs` | `sub *Submission` | `allocID string, task string` | `Logs` | [L163](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L163) |
-| `JobID` | `sub *Submission` | - | `string` | [L203](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L203) |
+| `JobID` | `sub *Submission` | `` | `string` | [L203](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L203) |
 | `AllocID` | `sub *Submission` | `group string` | `string` | [L210](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L210) |
-| `NodesApi` | `sub *Submission` | - | `*nomadapi.Nodes` | [L226](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L226) |
-| `DeploymentsApi` | `sub *Submission` | - | `*nomadapi.Deployments` | [L230](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L230) |
-| `logf` | `sub *Submission` | `msg string, args ...any` | - | [L234](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L234) |
-| `cleanup` | `sub *Submission` | - | - | [L239](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L239) |
+| `NodesApi` | `sub *Submission` | `` | `*nomadapi.Nodes` | [L226](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L226) |
+| `DeploymentsApi` | `sub *Submission` | `` | `*nomadapi.Deployments` | [L230](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L230) |
+| `logf` | `sub *Submission` | `msg string, args ...any` | `` | [L234](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L234) |
+| `cleanup` | `sub *Submission` | `` | `` | [L239](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L239) |
 | `Submit` | - | `t *testing.T, filename string, opts ...Option` | `*Submission, Cleanup` | [L269](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L269) |
 | `Namespace` | - | `name string` | `Option` | [L285](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L285) |
 | `AuthToken` | - | `token string` | `Option` | [L291](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L291) |
-| `Rerun` | `sub *Submission` | `opts ...Option` | - | [L301](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L301) |
-| `run` | `sub *Submission` | - | - | [L310](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L310) |
-| `waitAlloc` | `sub *Submission` | `group string, id string` | - | [L490](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L490) |
-| `waits` | `sub *Submission` | - | - | [L530](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L530) |
-| `setClient` | `sub *Submission` | - | - | [L546](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L546) |
+| `Rerun` | `sub *Submission` | `opts ...Option` | `` | [L301](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L301) |
+| `run` | `sub *Submission` | `` | `` | [L310](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L310) |
+| `waitAlloc` | `sub *Submission` | `group string, id string` | `` | [L490](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L490) |
+| `waits` | `sub *Submission` | `` | `` | [L530](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L530) |
+| `setClient` | `sub *Submission` | `` | `` | [L546](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L546) |
 | `initialize` | - | `t *testing.T, filename string` | `*Submission` | [L552](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L552) |
-| `DisableRandomJobID` | - | - | `Option` | [L572](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L572) |
-| `DisableCleanup` | - | - | `Option` | [L578](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L578) |
-| `Detach` | - | - | `Option` | [L584](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L584) |
+| `DisableRandomJobID` | - | `` | `Option` | [L572](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L572) |
+| `DisableCleanup` | - | `` | `Option` | [L578](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L578) |
+| `Detach` | - | `` | `Option` | [L584](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L584) |
 | `MutateJobSpec` | - | `mut func(...)` | `Option` | [L590](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L590) |
 | `ReplaceInJobSpec` | - | `old string, new string` | `Option` | [L596](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L596) |
 | `Timeout` | - | `timeout time.Duration` | `Option` | [L602](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L602) |
 | `Verbose` | - | `on bool` | `Option` | [L609](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L609) |
 | `Var` | - | `key string, value string` | `Option` | [L616](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L616) |
-| `Slice` | `v *Vars` | - | `[]string` | [L624](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L624) |
-| `String` | `v *Vars` | - | `string` | [L632](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L632) |
+| `Slice` | `v *Vars` | `` | `[]string` | [L624](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L624) |
+| `String` | `v *Vars` | `` | `string` | [L632](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L632) |
 | `WaitComplete` | - | `group string` | `Option` | [L642](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L642) |
 | `PreCleanup` | - | `cb func(...)` | `Option` | [L649](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L649) |
-| `Dispatcher` | - | - | `Option` | [L657](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L657) |
-| `defaultPreCleanup` | - | `job *Submission` | - | [L665](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L665) |
-| `SkipEvalComplete` | - | - | `Option` | [L693](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L693) |
-| `SkipDeploymentHealthy` | - | - | `Option` | [L699](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L699) |
+| `Dispatcher` | - | `` | `Option` | [L657](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L657) |
+| `defaultPreCleanup` | - | `job *Submission` | `` | [L665](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L665) |
+| `SkipEvalComplete` | - | `` | `Option` | [L693](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L693) |
+| `SkipDeploymentHealthy` | - | `` | `Option` | [L699](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L699) |
 | `LegacyConsulToken` | - | `token string` | `Option` | [L703](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L703) |
 
 ## 5. 核心方法详解
@@ -146,6 +196,21 @@
 **签名**：`func Submit(t *testing.T, filename string, opts ...Option) *Submission, Cleanup`
 
 **位置**：[L269](file:///d:/claude/nomad/e2e/v3/jobs3/jobs3.go#L269)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `*testing.T` | — |
+| `filename` | `string` | 字符串 |
+| `opts` | `...Option` | 选项 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Submission` | — |
+| `Cleanup` | — |
 
 ## 6. 依赖关系
 
@@ -181,4 +246,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [allocexec3.go](file:///d:/claude/nomad/e2e/v3/jobs3/allocexec3.go) | 同目录源文件 |
 

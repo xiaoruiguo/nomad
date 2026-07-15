@@ -1,6 +1,6 @@
 # networking_iptables.go 代码说明文档
 
-> 文件路径：[allocrunner/networking_iptables.go](file:///d:/claude/nomad/client/allocrunner/networking_iptables.go)
+> 文件路径：[client/allocrunner/networking_iptables.go](file:///d:/claude/nomad/client/allocrunner/networking_iptables.go)
 > 总行数：103 行
 > 所属包：`allocrunner`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **分配运行器子包**（`client/allocrunner`），实现分配（Allocation）的运行生命周期管理，包括预启动钩子、网络配置、Consul 集成、CSI 卷挂载、健康检查等。AllocRunner 是 Client 节点上每个分配的控制器。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 **构建标签**：`linux`
 
@@ -21,45 +21,81 @@
 
 **定义位置**：[L37](file:///d:/claude/nomad/client/allocrunner/networking_iptables.go#L37)
 
+**中文说明**：IPTables 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	IPTablesCleanup
-	IPTablesChain
+type IPTables interface {
+	IPTablesCleanup IPTablesCleanup
+	IPTablesChain IPTablesChain
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `IPTablesCleanup` | `IPTablesCleanup` | — |
+| `IPTablesChain` | `IPTablesChain` | — |
 
 ### IPTablesCleanup
 
 **定义位置**：[L41](file:///d:/claude/nomad/client/allocrunner/networking_iptables.go#L41)
 
+**中文说明**：IPTablesCleanup 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	List
-	Delete
-	ClearAndDeleteChain
+type IPTablesCleanup interface {
+	List func(...)
+	Delete func(...)
+	ClearAndDeleteChain func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `List` | `func(...)` | 列出所有对象。 |
+| `Delete` | `func(...)` | 删除指定的对象。 |
+| `ClearAndDeleteChain` | `func(...)` | — |
 
 ### IPTablesChain
 
 **定义位置**：[L46](file:///d:/claude/nomad/client/allocrunner/networking_iptables.go#L46)
 
+**中文说明**：IPTablesChain 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	ListChains
-	NewChain
-	Exists
-	Append
+type IPTablesChain interface {
+	ListChains func(...)
+	NewChain func(...)
+	Exists func(...)
+	Append func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `ListChains` | `func(...)` | 列出所有Chains。 |
+| `NewChain` | `func(...)` | 创建并返回一个新的 Chain 实例。 |
+| `Exists` | `func(...)` | — |
+| `Append` | `func(...)` | — |
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `cniAdminChainName` | `"NOMAD-ADMIN"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `cniAdminChainName` | `—` | `"NOMAD-ADMIN"` | — |
 
 ## 4. 方法与函数
 
@@ -74,6 +110,8 @@
 | `generateAdminChainRule` | - | `bridgeName string, subnet string` | `[]string` | [L100](file:///d:/claude/nomad/client/allocrunner/networking_iptables.go#L100) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -95,4 +133,9 @@
 | 文件 | 关系 |
 |------|------|
 | [networking_iptables_test.go](file:///d:/claude/nomad/client/allocrunner/networking_iptables_test.go) | 对应测试文件 |
+| [alloc_runner.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner.go) | 同目录源文件 |
+| [alloc_runner_ce.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner_ce.go) | 同目录源文件 |
+| [alloc_runner_hooks.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner_hooks.go) | 同目录源文件 |
+| [allocdir_hook.go](file:///d:/claude/nomad/client/allocrunner/allocdir_hook.go) | 同目录源文件 |
+| [checks_hook.go](file:///d:/claude/nomad/client/allocrunner/checks_hook.go) | 同目录源文件 |
 

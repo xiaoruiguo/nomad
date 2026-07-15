@@ -20,10 +20,10 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `dockerNetSpecLabelKey` | `"docker_sandbox_container_id"` |
-| `dockerNetSpecHostnameKey` | `"docker_sandbox_hostname"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `dockerNetSpecLabelKey` | `—` | `"docker_sandbox_container_id"` | — |
+| `dockerNetSpecHostnameKey` | `—` | `"docker_sandbox_hostname"` | — |
 
 ## 4. 方法与函数
 
@@ -35,6 +35,8 @@
 | `pullInfraImage` | `d *Driver` | `allocID string` | `error` | [L187](file:///d:/claude/nomad/drivers/docker/network.go#L187) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -59,4 +61,9 @@
 | 文件 | 关系 |
 |------|------|
 | [network_test.go](file:///d:/claude/nomad/drivers/docker/network_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

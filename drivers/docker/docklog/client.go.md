@@ -18,11 +18,21 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/drivers/docker/docklog/client.go#L13)
 
+**中文说明**：dockerLoggerClient 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type dockerLoggerClient struct {
 	client proto.DockerLoggerClient
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `client` | `proto.DockerLoggerClient` | 日志记录器 |
 
 **关联方法**（2 个）：`Start`, `Stop`
 
@@ -35,7 +45,7 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `Start` | `c *dockerLoggerClient` | `opts *StartOpts` | `error` | [L18](file:///d:/claude/nomad/drivers/docker/docklog/client.go#L18) |
-| `Stop` | `c *dockerLoggerClient` | - | `error` | [L35](file:///d:/claude/nomad/drivers/docker/docklog/client.go#L35) |
+| `Stop` | `c *dockerLoggerClient` | `` | `error` | [L35](file:///d:/claude/nomad/drivers/docker/docklog/client.go#L35) |
 
 ## 5. 核心方法详解
 
@@ -45,11 +55,33 @@
 
 **位置**：[L18](file:///d:/claude/nomad/drivers/docker/docklog/client.go#L18)
 
+**中文说明**：启动对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `opts` | `*StartOpts` | 选项 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Stop()
 
 **签名**：`func (c *dockerLoggerClient) Stop() error`
 
 **位置**：[L35](file:///d:/claude/nomad/drivers/docker/docklog/client.go#L35)
+
+**中文说明**：停止对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -69,4 +101,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [docker_logger.go](file:///d:/claude/nomad/drivers/docker/docklog/docker_logger.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/drivers/docker/docklog/plugin.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/drivers/docker/docklog/server.go) | 同目录源文件 |
+| [z_docker_logger_cmd.go](file:///d:/claude/nomad/drivers/docker/docklog/z_docker_logger_cmd.go) | 同目录源文件 |
 

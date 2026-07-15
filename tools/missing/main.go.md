@@ -18,7 +18,7 @@
 
 **定义位置**：[L30](file:///d:/claude/nomad/tools/missing/main.go#L30)
 
-**类型定义**：`map[string][]string`
+**类型定义**：`type Manifest map[string][]string`
 
 **关联方法**（1 个）：`covers`
 
@@ -26,22 +26,22 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `verify` | `1` |
-| `group` | `2` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `verify` | `—` | `1` | — |
+| `group` | `—` | `2` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `uninteresting` | `[]string{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `uninteresting` | `—` | `[]string{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L21](file:///d:/claude/nomad/tools/missing/main.go#L21) |
+| `main` | - | `` | `` | [L21](file:///d:/claude/nomad/tools/missing/main.go#L21) |
 | `covers` | `m *Manifest` | `pkg string` | `bool` | [L32](file:///d:/claude/nomad/tools/missing/main.go#L32) |
 | `run` | - | `args []string` | `error` | [L46](file:///d:/claude/nomad/tools/missing/main.go#L46) |
 | `runVerify` | - | `manifest Manifest` | `error` | [L75](file:///d:/claude/nomad/tools/missing/main.go#L75) |
@@ -53,6 +53,8 @@
 | `inCode` | - | `root string` | `[]string, error` | [L180](file:///d:/claude/nomad/tools/missing/main.go#L180) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

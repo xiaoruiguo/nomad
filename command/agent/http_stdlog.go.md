@@ -1,6 +1,6 @@
 # http_stdlog.go 代码说明文档
 
-> 文件路径：[http_stdlog.go](file:///d:/claude/nomad/command/agent/http_stdlog.go)
+> 文件路径：[command/agent/http_stdlog.go](file:///d:/claude/nomad/command/agent/http_stdlog.go)
 > 总行数：37 行
 > 所属包：`agent`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **标准日志到 hclog 的桥接**，将 Go 标准库 `log` 包的输出重定向到 Nomad 的结构化日志系统。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L22](file:///d:/claude/nomad/command/agent/http_stdlog.go#L22)
 
+**中文说明**：httpServerLoggerAdapter 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type httpServerLoggerAdapter struct {
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（1 个）：`Write`
 
@@ -39,6 +49,25 @@
 
 ## 5. 核心方法详解
 
+### Write()
+
+**签名**：`func (l *httpServerLoggerAdapter) Write(data []byte) int, error`
+
+**位置**：[L26](file:///d:/claude/nomad/command/agent/http_stdlog.go#L26)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `data` | `[]byte` | 数据 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+| `error` | 错误信息 |
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -51,15 +80,17 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Agent 包的一部分
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
+- **结构化日志**：使用 `hclog` 进行结构化日志记录
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [http_stdlog_test.go](file:///d:/claude/nomad/command/agent/http_stdlog_test.go) | 对应测试文件 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | 相关基础文件 |
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [acl_endpoint.go](file:///d:/claude/nomad/command/agent/acl_endpoint.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | 同目录源文件 |
+| [agent_ce.go](file:///d:/claude/nomad/command/agent/agent_ce.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/command/agent/agent_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go) | 同目录源文件 |
 

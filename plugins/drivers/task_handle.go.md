@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。是所有任务驱动（Docker、Java、QEMU 等）的接口契约。
+该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -18,14 +18,27 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L13)
 
+**中文说明**：TaskHandle 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type TaskHandle struct {
 	Version int
 	Config *TaskConfig
 	State TaskState
 	DriverState []byte
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Version` | `int` | 版本号 |
+| `Config` | `*TaskConfig` | 配置 |
+| `State` | `TaskState` | 状态 |
+| `DriverState` | `[]byte` | 字节数组 |
 
 **关联方法**（3 个）：`SetDriverState`, `GetDriverState`, `Copy`
 
@@ -40,7 +53,7 @@
 | `NewTaskHandle` | - | `version int` | `*TaskHandle` | [L24](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L24) |
 | `SetDriverState` | `h *TaskHandle` | `v interface{}` | `error` | [L28](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L28) |
 | `GetDriverState` | `h *TaskHandle` | `v interface{}` | `error` | [L33](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L33) |
-| `Copy` | `h *TaskHandle` | - | `*TaskHandle` | [L38](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L38) |
+| `Copy` | `h *TaskHandle` | `` | `*TaskHandle` | [L38](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L38) |
 
 ## 5. 核心方法详解
 
@@ -50,11 +63,33 @@
 
 **位置**：[L24](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L24)
 
+**中文说明**：创建并返回一个新的 TaskHandle 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `version` | `int` | 版本号 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TaskHandle` | — |
+
 ### Copy()
 
 **签名**：`func (h *TaskHandle) Copy() *TaskHandle`
 
 **位置**：[L38](file:///d:/claude/nomad/plugins/drivers/task_handle.go#L38)
+
+**中文说明**：创建对象的副本。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TaskHandle` | — |
 
 ## 6. 依赖关系
 
@@ -66,10 +101,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/drivers/client.go) | 同目录源文件 |
+| [cstructs.go](file:///d:/claude/nomad/plugins/drivers/cstructs.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/plugins/drivers/driver.go) | 同目录源文件 |
+| [errors.go](file:///d:/claude/nomad/plugins/drivers/errors.go) | 同目录源文件 |
+| [execstreaming.go](file:///d:/claude/nomad/plugins/drivers/execstreaming.go) | 同目录源文件 |
 

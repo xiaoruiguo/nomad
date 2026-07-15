@@ -32,6 +32,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -65,4 +67,7 @@
 | 文件 | 关系 |
 |------|------|
 | [client_assertion_test.go](file:///d:/claude/nomad/lib/auth/oidc/client_assertion_test.go) | 对应测试文件 |
+| [provider.go](file:///d:/claude/nomad/lib/auth/oidc/provider.go) | 同目录源文件 |
+| [request.go](file:///d:/claude/nomad/lib/auth/oidc/request.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/lib/auth/oidc/server.go) | 同目录源文件 |
 

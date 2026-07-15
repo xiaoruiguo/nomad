@@ -1,6 +1,6 @@
 # escapes.go 代码说明文档
 
-> 文件路径：[escapingfs/escapes.go](file:///d:/claude/nomad/helper/escapingfs/escapes.go)
+> 文件路径：[helper/escapingfs/escapes.go](file:///d:/claude/nomad/helper/escapingfs/escapes.go)
 > 总行数：128 行
 > 所属包：`escapingfs`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **文件系统逃逸防护子包**（`helper/escapingfs`），实现文件系统路径逃逸检测和防护，防止路径遍历攻击，确保文件操作限制在指定目录内。
+该文件属于 **工具包子包**（`helper/escapingfs`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -33,6 +33,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -54,4 +56,5 @@
 | 文件 | 关系 |
 |------|------|
 | [escapes_test.go](file:///d:/claude/nomad/helper/escapingfs/escapes_test.go) | 对应测试文件 |
+| [copydir.go](file:///d:/claude/nomad/helper/escapingfs/copydir.go) | 同目录源文件 |
 

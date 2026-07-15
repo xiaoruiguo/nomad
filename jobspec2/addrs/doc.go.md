@@ -12,6 +12,19 @@
 
 该文件属于 **地址解析子包**（`jobspec2/addrs`），实现 jobspec 中的地址解析逻辑，处理服务和网络地址的引用和解析。
 
+**包注释**：
+
+Package addrs contains types that represent "addresses", which are
+references to specific objects within a Packer configuration.
+//
+All addresses have string representations based on HCL traversal syntax
+which should be used in the user-interface, and also in-memory
+representations that can be used internally.
+//
+All types within this package should be treated as immutable, even if this
+is not enforced by the Go compiler. It is always an implementation error
+to modify an address object in-place after it is initially constructed.
+
 ## 2. 类型定义
 
 该文件未定义类型。
@@ -26,7 +39,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -36,4 +53,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [input_variable.go](file:///d:/claude/nomad/jobspec2/addrs/input_variable.go) | 同目录源文件 |
+| [parse_ref.go](file:///d:/claude/nomad/jobspec2/addrs/parse_ref.go) | 同目录源文件 |
+| [referenceable.go](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # testagent.go 代码说明文档
 
-> 文件路径：[testagent.go](file:///d:/claude/nomad/command/agent/testagent.go)
+> 文件路径：[command/agent/testagent.go](file:///d:/claude/nomad/command/agent/testagent.go)
 > 总行数：413 行
 > 所属包：`agent`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **测试用 Agent**，为集成测试提供轻量级 Agent 实例的创建和配置。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -18,9 +18,12 @@
 
 **定义位置**：[L38](file:///d:/claude/nomad/command/agent/testagent.go#L38)
 
+**中文说明**：TestAgent 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type TestAgent struct {
 	T testing.TB
 	Name string
 	ConfigCallback func(...)
@@ -30,12 +33,32 @@
 	Key string
 	Servers []*HTTPServer
 	Server *HTTPServer
-	*Agent
+	*Agent *Agent
 	RootToken *structs.ACLToken
 	ports []int
 	Enterprise bool
 	shutdown bool
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `T` | `testing.TB` | — |
+| `Name` | `string` | 名称 |
+| `ConfigCallback` | `func(...)` | — |
+| `Config` | `*Config` | 配置 |
+| `logger` | `hclog.InterceptLogger` | 日志记录器 |
+| `DataDir` | `string` | 字符串 |
+| `Key` | `string` | 键 |
+| `Servers` | `[]*HTTPServer` | 列表 |
+| `Server` | `*HTTPServer` | — |
+| `*Agent` | `*Agent` | — |
+| `RootToken` | `*structs.ACLToken` | — |
+| `ports` | `[]int` | 列表 |
+| `Enterprise` | `bool` | 布尔值 |
+| `shutdown` | `bool` | 是否已关闭 |
 
 **关联方法**（7 个）：`Start`, `start`, `Shutdown`, `HTTPAddr`, `APIClient`, `pickRandomPorts`, `config`
 
@@ -43,24 +66,46 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `TempDir` | `*ast.CallExpr` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `TempDir` | `—` | `os.TempDir()` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewTestAgent` | - | `t testing.TB, name string, configCallback func(...)` | `*TestAgent` | [L96](file:///d:/claude/nomad/command/agent/testagent.go#L96) |
-| `Start` | `a *TestAgent` | - | `*TestAgent` | [L111](file:///d:/claude/nomad/command/agent/testagent.go#L111) |
-| `start` | `a *TestAgent` | - | `*Agent, error` | [L251](file:///d:/claude/nomad/command/agent/testagent.go#L251) |
-| `Shutdown` | `a *TestAgent` | - | - | [L279](file:///d:/claude/nomad/command/agent/testagent.go#L279) |
-| `HTTPAddr` | `a *TestAgent` | - | `string` | [L316](file:///d:/claude/nomad/command/agent/testagent.go#L316) |
-| `APIClient` | `a *TestAgent` | - | `*api.Client` | [L327](file:///d:/claude/nomad/command/agent/testagent.go#L327) |
-| `pickRandomPorts` | `a *TestAgent` | `c *Config` | - | [L345](file:///d:/claude/nomad/command/agent/testagent.go#L345) |
-| `config` | `a *TestAgent` | - | `*Config` | [L359](file:///d:/claude/nomad/command/agent/testagent.go#L359) |
+| `Start` | `a *TestAgent` | `` | `*TestAgent` | [L111](file:///d:/claude/nomad/command/agent/testagent.go#L111) |
+| `start` | `a *TestAgent` | `` | `*Agent, error` | [L251](file:///d:/claude/nomad/command/agent/testagent.go#L251) |
+| `Shutdown` | `a *TestAgent` | `` | `` | [L279](file:///d:/claude/nomad/command/agent/testagent.go#L279) |
+| `HTTPAddr` | `a *TestAgent` | `` | `string` | [L316](file:///d:/claude/nomad/command/agent/testagent.go#L316) |
+| `APIClient` | `a *TestAgent` | `` | `*api.Client` | [L327](file:///d:/claude/nomad/command/agent/testagent.go#L327) |
+| `pickRandomPorts` | `a *TestAgent` | `c *Config` | `` | [L345](file:///d:/claude/nomad/command/agent/testagent.go#L345) |
+| `config` | `a *TestAgent` | `` | `*Config` | [L359](file:///d:/claude/nomad/command/agent/testagent.go#L359) |
 
 ## 5. 核心方法详解
+
+### NewTestAgent()
+
+**签名**：`func NewTestAgent(t testing.TB, name string, configCallback func(...)) *TestAgent`
+
+**位置**：[L96](file:///d:/claude/nomad/command/agent/testagent.go#L96)
+
+**中文说明**：创建并返回一个新的 TestAgent 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `testing.TB` | — |
+| `name` | `string` | 名称 |
+| `configCallback` | `func(...)` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TestAgent` | — |
 
 ### Start()
 
@@ -68,11 +113,21 @@
 
 **位置**：[L111](file:///d:/claude/nomad/command/agent/testagent.go#L111)
 
+**中文说明**：启动对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*TestAgent` | — |
+
 ### Shutdown()
 
 **签名**：`func (a *TestAgent) Shutdown() `
 
 **位置**：[L279](file:///d:/claude/nomad/command/agent/testagent.go#L279)
+
+**中文说明**：关闭对象，释放相关资源。
 
 ## 6. 依赖关系
 
@@ -105,14 +160,20 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Agent 包的一部分
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
+- **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **指标收集**：使用 `go-metrics` 收集运行时指标
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [testagent_ce.go](file:///d:/claude/nomad/command/agent/testagent_ce.go) | 企业版/社区版变体 |
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [acl_endpoint.go](file:///d:/claude/nomad/command/agent/acl_endpoint.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | 同目录源文件 |
+| [agent_ce.go](file:///d:/claude/nomad/command/agent/agent_ce.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/command/agent/agent_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go) | 同目录源文件 |
 

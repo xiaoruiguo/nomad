@@ -1,6 +1,6 @@
 # regions.go 代码说明文档
 
-> 文件路径：[regions.go](file:///d:/claude/nomad/api/regions.go)
+> 文件路径：[api/regions.go](file:///d:/claude/nomad/api/regions.go)
 > 总行数：28 行
 > 所属包：`api`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **区域（Region）API 客户端**，提供已知区域列表查询的客户端方法。
+该文件属于 **API 客户端包**（`api/`），提供 Go 语言客户端库，通过 HTTP API 与 Nomad Server 交互。当前文件 `regions.go` 实现相关 API 端点的客户端方法。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L9](file:///d:/claude/nomad/api/regions.go#L9)
 
+**中文说明**：Regions 与区域（Region）相关，Nomad 的多区域联邦单元。
+
 **类型**：struct
 
 ```go
+type Regions struct {
 	client *Client
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `client` | `*Client` | 关联的 Client 实例 |
 
 **关联方法**（1 个）：`List`
 
@@ -34,8 +44,8 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Regions` | `c *Client` | - | `*Regions` | [L14](file:///d:/claude/nomad/api/regions.go#L14) |
-| `List` | `r *Regions` | - | `[]string, error` | [L20](file:///d:/claude/nomad/api/regions.go#L20) |
+| `Regions` | `c *Client` | `` | `*Regions` | [L14](file:///d:/claude/nomad/api/regions.go#L14) |
+| `List` | `r *Regions` | `` | `[]string, error` | [L20](file:///d:/claude/nomad/api/regions.go#L20) |
 
 ## 5. 核心方法详解
 
@@ -44,6 +54,15 @@
 **签名**：`func (r *Regions) List() []string, error`
 
 **位置**：[L20](file:///d:/claude/nomad/api/regions.go#L20)
+
+**中文说明**：列出所有对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `[]string` | 列表 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -55,12 +74,16 @@
 
 ## 7. 设计模式与技术特点
 
-- **子客户端模式**：结构体嵌入 `client *Client` 字段，通过主 `Client` 获取子客户端实例，所有方法委托给底层 HTTP 客户端
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [regions_test.go](file:///d:/claude/nomad/api/regions_test.go) | 对应测试文件 |
-| [api.go](file:///d:/claude/nomad/api/api.go) | API 客户端核心，定义 `Client` 和请求/响应类型 |
+| [acl.go](file:///d:/claude/nomad/api/acl.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/api/agent.go) | 同目录源文件 |
+| [allocations.go](file:///d:/claude/nomad/api/allocations.go) | 同目录源文件 |
+| [allocations_exec.go](file:///d:/claude/nomad/api/allocations_exec.go) | 同目录源文件 |
+| [api.go](file:///d:/claude/nomad/api/api.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # decode.go 代码说明文档
 
-> 文件路径：[hcl/decode.go](file:///d:/claude/nomad/helper/hcl/decode.go)
+> 文件路径：[helper/hcl/decode.go](file:///d:/claude/nomad/helper/hcl/decode.go)
 > 总行数：64 行
 > 所属包：`hcl`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **HCL 解析子包**（`helper/hcl`），提供 HCL（HashiCorp 配置语言）的解析和解码工具函数。
+该文件属于 **工具包子包**（`helper/hcl`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -27,6 +27,8 @@
 | `DecodeDuration` | - | `expr hcl.Expression, ctx *hcl.EvalContext, val any` | `hcl.Diagnostics` | [L21](file:///d:/claude/nomad/helper/hcl/decode.go#L21) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -48,4 +50,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [parse.go](file:///d:/claude/nomad/helper/hcl/parse.go) | 同目录源文件 |
 

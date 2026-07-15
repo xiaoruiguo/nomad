@@ -1,6 +1,6 @@
 # event_logger_nonwindows.go 代码说明文档
 
-> 文件路径：[winsvc/event_logger_nonwindows.go](file:///d:/claude/nomad/helper/winsvc/event_logger_nonwindows.go)
+> 文件路径：[helper/winsvc/event_logger_nonwindows.go](file:///d:/claude/nomad/helper/winsvc/event_logger_nonwindows.go)
 > 总行数：18 行
 > 所属包：`winsvc`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Windows 服务子包**（`helper/winsvc`），实现 Nomad 在 Windows 上的服务管理，包括服务安装、启动、停止、事件日志记录和权限提升，通过 build tag 区分 Windows 和非 Windows 平台。
+该文件属于 **工具包子包**（`helper/winsvc`），提供 Nomad 使用的通用工具函数和数据结构。
 
 **平台特定实现**：此文件为 **非 Windows** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -37,6 +37,21 @@
 
 **位置**：[L15](file:///d:/claude/nomad/helper/winsvc/event_logger_nonwindows.go#L15)
 
+**中文说明**：创建并返回一个新的 EventLogger 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `_` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `io.WriteCloser` | — |
+| `error` | 错误信息 |
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -50,9 +65,15 @@
 
 - **IO 操作**：涉及文件或数据流的读写操作
 - **平台特定实现**：通过 build tag 机制实现 非 Windows 平台支持
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [event.go](file:///d:/claude/nomad/helper/winsvc/event.go) | 同目录源文件 |
+| [event_logger.go](file:///d:/claude/nomad/helper/winsvc/event_logger.go) | 同目录源文件 |
+| [event_logger_windows.go](file:///d:/claude/nomad/helper/winsvc/event_logger_windows.go) | 同目录源文件 |
+| [events_nonwindows.go](file:///d:/claude/nomad/helper/winsvc/events_nonwindows.go) | 同目录源文件 |
+| [events_windows.go](file:///d:/claude/nomad/helper/winsvc/events_windows.go) | 同目录源文件 |
 

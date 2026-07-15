@@ -21,9 +21,12 @@
 
 **定义位置**：[L69](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L69)
 
+**中文说明**：LibcontainerExecutor 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type LibcontainerExecutor struct {
 	id string
 	command *ExecCommand
 	logger hclog.Logger
@@ -37,7 +40,26 @@
 	userProcExited chan interface{}
 	exitState *ProcessState
 	sigChan chan os.Signal
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `id` | `string` | 唯一标识符 |
+| `command` | `*ExecCommand` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `compute` | `cpustats.Compute` | — |
+| `totalCpuStats` | `*cpustats.Tracker` | — |
+| `userCpuStats` | `*cpustats.Tracker` | — |
+| `systemCpuStats` | `*cpustats.Tracker` | — |
+| `processStats` | `procstats.ProcessStats` | — |
+| `container` | `*libcontainer.Container` | — |
+| `userProc` | `*libcontainer.Process` | — |
+| `userProcExited` | `chan interface{}` | 通道 |
+| `exitState` | `*ProcessState` | — |
+| `sigChan` | `chan os.Signal` | 通道 |
 
 **关联方法**（24 个）：`catchSignals`, `ListProcesses`, `cleanOldProcessesInCGroup`, `Launch`, `Wait`, `wait`, `Shutdown`, `UpdateResources`, `Version`, `Stats`, `handleStats`, `Signal`, `Exec`, `newTerminalSocket`, `ExecStreaming`, `handleExecWait`, `configureCgroups`, `configureCgroupHook`, `configureCgroupMemory`, `configureCG1`, `cpusetCG1`, `configureCG2`, `newLibcontainerConfig`, `clampCpuShares`
 
@@ -45,58 +67,69 @@
 
 **定义位置**：[L622](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L622)
 
+**中文说明**：waitResult 是一个结果结构体，封装操作执行的结果。
+
 **类型**：struct
 
 ```go
+type waitResult struct {
 	ps *os.ProcessState
 	err error
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ps` | `*os.ProcessState` | — |
+| `err` | `error` | 错误信息 |
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `MinCPUShares` | `2` |
-| `MaxCPUShares` | `262_144` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `MinCPUShares` | `—` | `2` | — |
+| `MaxCPUShares` | `—` | `262_144` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ExecutorCgroupV1MeasuredMemStats` | `[]string{...}` |
-| `ExecutorCgroupV2MeasuredMemStats` | `[]string{...}` |
-| `ExecutorCgroupMeasuredCpuStats` | `[]string{...}` |
-| `userMountToUnixMount` | `map[string]int{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ExecutorCgroupV1MeasuredMemStats` | `—` | `[]string{...}` | — |
+| `ExecutorCgroupV2MeasuredMemStats` | `—` | `[]string{...}` | — |
+| `ExecutorCgroupMeasuredCpuStats` | `—` | `[]string{...}` | — |
+| `userMountToUnixMount` | `—` | `map[string]int{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `catchSignals` | `l *LibcontainerExecutor` | - | - | [L88](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L88) |
+| `catchSignals` | `l *LibcontainerExecutor` | `` | `` | [L88](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L88) |
 | `NewExecutorWithIsolation` | - | `logger hclog.Logger, compute cpustats.Compute` | `Executor` | [L116](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L116) |
-| `ListProcesses` | `l *LibcontainerExecutor` | - | `set.Collection[int]` | [L135](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L135) |
+| `ListProcesses` | `l *LibcontainerExecutor` | `` | `set.Collection[int]` | [L135](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L135) |
 | `cleanOldProcessesInCGroup` | `l *LibcontainerExecutor` | `nomadRelativePath string` | `error` | [L141](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L141) |
 | `Launch` | `l *LibcontainerExecutor` | `command *ExecCommand` | `*ProcessState, error` | [L183](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L183) |
 | `Wait` | `l *LibcontainerExecutor` | `ctx context.Context` | `*ProcessState, error` | [L287](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L287) |
-| `wait` | `l *LibcontainerExecutor` | - | - | [L296](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L296) |
+| `wait` | `l *LibcontainerExecutor` | `` | `` | [L296](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L296) |
 | `Shutdown` | `l *LibcontainerExecutor` | `signal string, grace time.Duration` | `error` | [L351](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L351) |
 | `UpdateResources` | `l *LibcontainerExecutor` | `resources *drivers.Resources` | `error` | [L410](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L410) |
-| `Version` | `l *LibcontainerExecutor` | - | `*ExecutorVersion, error` | [L415](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L415) |
-| `Stats` | `l *LibcontainerExecutor` | `ctx context.Context, interval time.Duration` | `chan *cstructs.TaskResourceUsage, error` | [L420](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L420) |
-| `handleStats` | `l *LibcontainerExecutor` | `ch chan *cstructs.TaskResourceUsage, ctx context.Context, interval time.Dura...` | - | [L427](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L427) |
+| `Version` | `l *LibcontainerExecutor` | `` | `*ExecutorVersion, error` | [L415](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L415) |
+| `Stats` | `l *LibcontainerExecutor` | `ctx context.Context, interval time.Duration` | `<-chan *cstructs.TaskResourceUsage, error` | [L420](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L420) |
+| `handleStats` | `l *LibcontainerExecutor` | `ch chan *cstructs.TaskResourceUsage, ctx context.Context, interval time.Duration` | `` | [L427](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L427) |
 | `Signal` | `l *LibcontainerExecutor` | `s os.Signal` | `error` | [L525](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L525) |
 | `Exec` | `l *LibcontainerExecutor` | `deadline time.Time, cmd string, args []string` | `[]byte, int, error` | [L530](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L530) |
-| `newTerminalSocket` | `l *LibcontainerExecutor` | - | `pty func(...), tty *os.File, err error` | [L575](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L575) |
+| `newTerminalSocket` | `l *LibcontainerExecutor` | `` | `pty func(...), tty *os.File, err error` | [L575](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L575) |
 | `ExecStreaming` | `l *LibcontainerExecutor` | `ctx context.Context, cmd []string, tty bool, stream drivers.ExecTaskStream` | `error` | [L585](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L585) |
-| `handleExecWait` | `l *LibcontainerExecutor` | `ch chan *waitResult, process *libcontainer.Process` | - | [L627](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L627) |
-| `configureCapabilities` | - | `cfg *runc.Config, command *ExecCommand` | - | [L632](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L632) |
+| `handleExecWait` | `l *LibcontainerExecutor` | `ch chan *waitResult, process *libcontainer.Process` | `` | [L627](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L627) |
+| `configureCapabilities` | - | `cfg *runc.Config, command *ExecCommand` | `` | [L632](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L632) |
 | `configureNamespaces` | - | `pidMode string, ipcMode string` | `runc.Namespaces` | [L662](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L662) |
 | `configureIsolation` | - | `cfg *runc.Config, command *ExecCommand` | `error` | [L680](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L680) |
 | `configureCgroups` | `l *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand` | `error` | [L772](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L772) |
-| `configureCgroupHook` | ` *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand` | - | [L800](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L800) |
-| `configureCgroupMemory` | `l *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand` | - | [L808](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L808) |
+| `configureCgroupHook` | ` *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand` | `` | [L800](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L800) |
+| `configureCgroupMemory` | `l *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand` | `` | [L808](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L808) |
 | `configureCG1` | `l *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand, cgroup string` | `error` | [L817](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L817) |
 | `cpusetCG1` | `l *LibcontainerExecutor` | `cpusetCgroupPath string, cores string` | `error` | [L842](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L842) |
 | `configureCG2` | `l *LibcontainerExecutor` | `cfg *runc.Config, command *ExecCommand, cg string` | `error` | [L850](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L850) |
@@ -118,11 +151,39 @@
 
 **位置**：[L116](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L116)
 
+**中文说明**：创建并返回一个新的 ExecutorWithIsolation 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `compute` | `cpustats.Compute` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Executor` | — |
+
 ### Launch()
 
 **签名**：`func (l *LibcontainerExecutor) Launch(command *ExecCommand) *ProcessState, error`
 
 **位置**：[L183](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L183)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `command` | `*ExecCommand` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ProcessState` | — |
+| `error` | 错误信息 |
 
 ### Wait()
 
@@ -130,23 +191,79 @@
 
 **位置**：[L287](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L287)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ProcessState` | — |
+| `error` | 错误信息 |
+
 ### Shutdown()
 
 **签名**：`func (l *LibcontainerExecutor) Shutdown(signal string, grace time.Duration) error`
 
 **位置**：[L351](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L351)
 
+**中文说明**：关闭对象，释放相关资源。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `signal` | `string` | 字符串 |
+| `grace` | `time.Duration` | 时间间隔 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Stats()
 
-**签名**：`func (l *LibcontainerExecutor) Stats(ctx context.Context, interval time.Duration) chan *cstructs.TaskResourceUsage, error`
+**签名**：`func (l *LibcontainerExecutor) Stats(ctx context.Context, interval time.Duration) <-chan *cstructs.TaskResourceUsage, error`
 
 **位置**：[L420](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L420)
+
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `interval` | `time.Duration` | 时间间隔 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *cstructs.TaskResourceUsage` | 通道 |
+| `error` | 错误信息 |
 
 ### Signal()
 
 **签名**：`func (l *LibcontainerExecutor) Signal(s os.Signal) error`
 
 **位置**：[L525](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go#L525)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `s` | `os.Signal` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -200,9 +317,15 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_plugin.go](file:///d:/claude/nomad/drivers/shared/executor/executor_plugin.go) | 同目录源文件 |
 

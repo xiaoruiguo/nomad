@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理，通过 gRPC 与 Nomad 通信。
+该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理。
 
 ## 2. 类型定义
 
@@ -18,32 +18,47 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/plugins/device/mock.go#L13)
 
-**类型定义**：`func(...)`
+**中文说明**：FingerprintFn 与指纹采集（Fingerprint）相关，收集节点硬件和软件信息。
+
+**类型定义**：`type FingerprintFn func(...)`
 
 ### ReserveFn
 
 **定义位置**：[L14](file:///d:/claude/nomad/plugins/device/mock.go#L14)
 
-**类型定义**：`func(...)`
+**类型定义**：`type ReserveFn func(...)`
 
 ### StatsFn
 
 **定义位置**：[L15](file:///d:/claude/nomad/plugins/device/mock.go#L15)
 
-**类型定义**：`func(...)`
+**类型定义**：`type StatsFn func(...)`
 
 ### MockDevicePlugin
 
 **定义位置**：[L20](file:///d:/claude/nomad/plugins/device/mock.go#L20)
 
+**中文说明**：MockDevicePlugin 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
-	*base.MockPlugin
+type MockDevicePlugin struct {
+	*base.MockPlugin *base.MockPlugin
 	FingerprintF FingerprintFn
 	ReserveF ReserveFn
 	StatsF StatsFn
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `*base.MockPlugin` | `*base.MockPlugin` | — |
+| `FingerprintF` | `FingerprintFn` | — |
+| `ReserveF` | `ReserveFn` | — |
+| `StatsF` | `StatsFn` | — |
 
 **关联方法**（3 个）：`Fingerprint`, `Reserve`, `Stats`
 
@@ -55,9 +70,9 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Fingerprint` | `p *MockDevicePlugin` | `ctx context.Context` | `chan *FingerprintResponse, error` | [L27](file:///d:/claude/nomad/plugins/device/mock.go#L27) |
+| `Fingerprint` | `p *MockDevicePlugin` | `ctx context.Context` | `<-chan *FingerprintResponse, error` | [L27](file:///d:/claude/nomad/plugins/device/mock.go#L27) |
 | `Reserve` | `p *MockDevicePlugin` | `devices []string` | `*ContainerReservation, error` | [L31](file:///d:/claude/nomad/plugins/device/mock.go#L31) |
-| `Stats` | `p *MockDevicePlugin` | `ctx context.Context, interval time.Duration` | `chan *StatsResponse, error` | [L35](file:///d:/claude/nomad/plugins/device/mock.go#L35) |
+| `Stats` | `p *MockDevicePlugin` | `ctx context.Context, interval time.Duration` | `<-chan *StatsResponse, error` | [L35](file:///d:/claude/nomad/plugins/device/mock.go#L35) |
 | `StaticFingerprinter` | - | `devices []*DeviceGroup` | `FingerprintFn` | [L42](file:///d:/claude/nomad/plugins/device/mock.go#L42) |
 | `ErrorChFingerprinter` | - | `err error` | `FingerprintFn` | [L53](file:///d:/claude/nomad/plugins/device/mock.go#L53) |
 | `StaticReserve` | - | `out *ContainerReservation` | `ReserveFn` | [L64](file:///d:/claude/nomad/plugins/device/mock.go#L64) |
@@ -69,15 +84,44 @@
 
 ### Fingerprint()
 
-**签名**：`func (p *MockDevicePlugin) Fingerprint(ctx context.Context) chan *FingerprintResponse, error`
+**签名**：`func (p *MockDevicePlugin) Fingerprint(ctx context.Context) <-chan *FingerprintResponse, error`
 
 **位置**：[L27](file:///d:/claude/nomad/plugins/device/mock.go#L27)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *FingerprintResponse` | 通道 |
+| `error` | 错误信息 |
+
 ### Stats()
 
-**签名**：`func (p *MockDevicePlugin) Stats(ctx context.Context, interval time.Duration) chan *StatsResponse, error`
+**签名**：`func (p *MockDevicePlugin) Stats(ctx context.Context, interval time.Duration) <-chan *StatsResponse, error`
 
 **位置**：[L35](file:///d:/claude/nomad/plugins/device/mock.go#L35)
+
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `interval` | `time.Duration` | 时间间隔 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *StatsResponse` | 通道 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -97,4 +141,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/device/client.go) | 同目录源文件 |
+| [device.go](file:///d:/claude/nomad/plugins/device/device.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/plugins/device/plugin.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/plugins/device/server.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/plugins/device/util.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # fingerprint.go 代码说明文档
 
-> 文件路径：[fingerprint/fingerprint.go](file:///d:/claude/nomad/client/fingerprint/fingerprint.go)
+> 文件路径：[client/fingerprint/fingerprint.go](file:///d:/claude/nomad/client/fingerprint/fingerprint.go)
 > 总行数：145 行
 > 所属包：`fingerprint`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **指纹采集子包**（`client/fingerprint`），实现节点能力检测（CPU、内存、网络、存储、Arch、Consul、Vault 等），向 Server 报告节点资源。是调度器决策的基础。
+该文件属于 **指纹采集子包**（`client/fingerprint`），采集客户端节点的硬件和软件信息（CPU、内存、OS、网络），用于节点注册和资源上报。
 
 ## 2. 类型定义
 
@@ -18,44 +18,81 @@
 
 **定义位置**：[L96](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L96)
 
-**类型定义**：`func(...)`
+**中文说明**：Factory 是一个工厂，负责创建对象实例。
+
+**类型定义**：`type Factory func(...)`
 
 ### HealthCheck
 
 **定义位置**：[L101](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L101)
 
+**中文说明**：HealthCheck 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	HealthCheck
-	GetHealthCheckInterval
+type HealthCheck interface {
+	HealthCheck func(...)
+	GetHealthCheckInterval func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `HealthCheck` | `func(...)` | — |
+| `GetHealthCheckInterval` | `func(...)` | 获取HealthCheckInterval的信息。 |
 
 ### Fingerprint
 
 **定义位置**：[L117](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L117)
 
+**中文说明**：Fingerprint 与指纹采集（Fingerprint）相关，收集节点硬件和软件信息。
+
 **类型**：interface
 
 ```go
-	Fingerprint
-	Periodic
+type Fingerprint interface {
+	Fingerprint func(...)
+	Periodic func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `Fingerprint` | `func(...)` | — |
+| `Periodic` | `func(...)` | — |
 
 ### ReloadableFingerprint
 
 **定义位置**：[L133](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L133)
 
+**中文说明**：ReloadableFingerprint 与指纹采集（Fingerprint）相关，收集节点硬件和软件信息。
+
 **类型**：interface
 
 ```go
-	Fingerprint
-	Reload
+type ReloadableFingerprint interface {
+	Fingerprint Fingerprint
+	Reload func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `Fingerprint` | `Fingerprint` | — |
+| `Reload` | `func(...)` | 重新加载对象的配置。 |
 
 ### StaticFingerprinter
 
 **定义位置**：[L140](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L140)
+
+**中文说明**：StaticFingerprinter 与指纹采集（Fingerprint）相关，收集节点硬件和软件信息。
 
 **类型**：struct
 
@@ -65,58 +102,50 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `EmptyDuration` | `time.Duration(0)` |
-| `TightenNetworkTimeoutsConfig` | `"test.tighten_network_timeouts"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `EmptyDuration` | `—` | `time.Duration(0)` | — |
+| `TightenNetworkTimeoutsConfig` | `—` | `"test.tighten_network_timeouts"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `hostFingerprinters` | `map[string]Factory{...}` |
-| `envFingerprinters` | `map[string]Factory{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `hostFingerprinters` | `—` | `map[string]Factory{...}` | — |
+| `envFingerprinters` | `—` | `map[string]Factory{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L24](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L24) |
-| `BuiltinFingerprints` | - | - | `[]string` | [L66](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L66) |
+| `init` | - | `` | `` | [L24](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L24) |
+| `BuiltinFingerprints` | - | `` | `[]string` | [L66](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L66) |
 | `NewFingerprint` | - | `name string, logger log.Logger` | `Fingerprint, error` | [L80](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L80) |
-| `Periodic` | `s *StaticFingerprinter` | - | `bool, time.Duration` | [L142](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L142) |
+| `Periodic` | `s *StaticFingerprinter` | `` | `bool, time.Duration` | [L142](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L142) |
 
 ## 5. 核心方法详解
 
-### Fingerprint 接口
+### NewFingerprint()
 
-**位置**：[L117](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L117)
+**签名**：`func NewFingerprint(name string, logger log.Logger) Fingerprint, error`
 
-**职责**：定义节点指纹采集接口。每个实现检测节点的一项能力（CPU、内存、网络等）。
+**位置**：[L80](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L80)
 
-**方法**：
-- `Fingerprint(request, response)` — 执行指纹采集，填充 `FingerprintResponse` 中的节点属性和资源
-- `Periodic()` — 返回是否需要周期性运行及间隔
+**中文说明**：创建并返回一个新的 Fingerprint 实例。
 
-### HealthCheck 接口
+**参数说明**：
 
-**位置**：[L101](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L101)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `name` | `string` | 名称 |
+| `logger` | `log.Logger` | 日志记录器 |
 
-**职责**：定义周期性健康检查接口（如 Consul/Vault 连通性检查）。
+**返回值**：
 
-### ReloadableFingerprint 接口
-
-**位置**：[L133](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L133)
-
-**职责**：支持配置热重载的指纹采集器。Client reload 时调用 `Reload()` 后立即调用 `Fingerprint()`。
-
-### StaticFingerprinter
-
-**位置**：[L140](file:///d:/claude/nomad/client/fingerprint/fingerprint.go#L140)
-
-**职责**：嵌入基类，使指纹采集器变为非周期性（只运行一次）。
-
----
+| 类型 | 说明 |
+|------|------|
+| `Fingerprint` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -133,11 +162,18 @@
 ## 7. 设计模式与技术特点
 
 - **接口抽象**：定义接口类型，实现依赖倒置和解耦，便于测试模拟
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [fingerprint_test.go](file:///d:/claude/nomad/client/fingerprint/fingerprint_test.go) | 对应测试文件 |
+| [arch.go](file:///d:/claude/nomad/client/fingerprint/arch.go) | 同目录源文件 |
+| [bridge.go](file:///d:/claude/nomad/client/fingerprint/bridge.go) | 同目录源文件 |
+| [bridge_default.go](file:///d:/claude/nomad/client/fingerprint/bridge_default.go) | 同目录源文件 |
+| [bridge_linux.go](file:///d:/claude/nomad/client/fingerprint/bridge_linux.go) | 同目录源文件 |
+| [cgroup.go](file:///d:/claude/nomad/client/fingerprint/cgroup.go) | 同目录源文件 |
 

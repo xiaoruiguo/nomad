@@ -1,6 +1,6 @@
 # dec.go 代码说明文档
 
-> 文件路径：[pluginutils/hclspecutils/dec.go](file:///d:/claude/nomad/helper/pluginutils/hclspecutils/dec.go)
+> 文件路径：[helper/pluginutils/hclspecutils/dec.go](file:///d:/claude/nomad/helper/pluginutils/hclspecutils/dec.go)
 > 总行数：335 行
 > 所属包：`hclspecutils`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **HCL 规格工具子包**（`helper/pluginutils/hclspecutils`），提供 HCL 规格解析和类型表达式处理工具，用于插件配置验证。
+该文件属于 **工具包子包**（`helper/pluginutils/hclspecutils`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -20,11 +20,11 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `nilSpecDiagnostic` | `&hcl.Diagnostic{...}` |
-| `emptyPos` | `hcl.Pos{...}` |
-| `specCtx` | `&hcl.EvalContext{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `nilSpecDiagnostic` | `—` | `&hcl.Diagnostic{...}` | — |
+| `emptyPos` | `—` | `hcl.Pos{...}` | — |
+| `specCtx` | `—` | `&hcl.EvalContext{...}` | — |
 
 ## 4. 方法与函数
 
@@ -45,6 +45,8 @@
 | `decodeDefaultSpec` | - | `d *hclspec.Default` | `hcldec.Spec, hcl.Diagnostics` | [L314](file:///d:/claude/nomad/helper/pluginutils/hclspecutils/dec.go#L314) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -67,4 +69,6 @@
 | 文件 | 关系 |
 |------|------|
 | [dec_test.go](file:///d:/claude/nomad/helper/pluginutils/hclspecutils/dec_test.go) | 对应测试文件 |
+| [spec_funcs.go](file:///d:/claude/nomad/helper/pluginutils/hclspecutils/spec_funcs.go) | 同目录源文件 |
+| [type_expr.go](file:///d:/claude/nomad/helper/pluginutils/hclspecutils/type_expr.go) | 同目录源文件 |
 

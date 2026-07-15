@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Consul 集成 E2E 测试子包**（`e2e/consul`），测试 Nomad 与 Consul 的服务发现、服务注册和 Connect 集成功能。
+该文件属于 **端到端测试子包**（`e2e/consul`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L21](file:///d:/claude/nomad/e2e/consul/check_restart.go#L21)
 
+**中文说明**：CheckRestartE2ETest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type CheckRestartE2ETest struct {
+	framework.TC framework.TC
 	jobIds []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIds` | `[]string` | 列表 |
 
 **关联方法**（4 个）：`BeforeAll`, `AfterEach`, `TestGroupCheckRestart`, `TestTaskCheckRestart`
 
@@ -31,20 +42,22 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `ns` | `""` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ns` | `—` | `""` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `BeforeAll` | `tc *CheckRestartE2ETest` | `f *framework.F` | - | [L26](file:///d:/claude/nomad/e2e/consul/check_restart.go#L26) |
-| `AfterEach` | `tc *CheckRestartE2ETest` | `f *framework.F` | - | [L31](file:///d:/claude/nomad/e2e/consul/check_restart.go#L31) |
-| `TestGroupCheckRestart` | `tc *CheckRestartE2ETest` | `f *framework.F` | - | [L47](file:///d:/claude/nomad/e2e/consul/check_restart.go#L47) |
-| `TestTaskCheckRestart` | `tc *CheckRestartE2ETest` | `f *framework.F` | - | [L83](file:///d:/claude/nomad/e2e/consul/check_restart.go#L83) |
+| `BeforeAll` | `tc *CheckRestartE2ETest` | `f *framework.F` | `` | [L26](file:///d:/claude/nomad/e2e/consul/check_restart.go#L26) |
+| `AfterEach` | `tc *CheckRestartE2ETest` | `f *framework.F` | `` | [L31](file:///d:/claude/nomad/e2e/consul/check_restart.go#L31) |
+| `TestGroupCheckRestart` | `tc *CheckRestartE2ETest` | `f *framework.F` | `` | [L47](file:///d:/claude/nomad/e2e/consul/check_restart.go#L47) |
+| `TestTaskCheckRestart` | `tc *CheckRestartE2ETest` | `f *framework.F` | `` | [L83](file:///d:/claude/nomad/e2e/consul/check_restart.go#L83) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -71,4 +84,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [consul.go](file:///d:/claude/nomad/e2e/consul/consul.go) | 同目录源文件 |
+| [namespaces.go](file:///d:/claude/nomad/e2e/consul/namespaces.go) | 同目录源文件 |
+| [namespaces_ce.go](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go) | 同目录源文件 |
+| [on_update.go](file:///d:/claude/nomad/e2e/consul/on_update.go) | 同目录源文件 |
+| [script_checks.go](file:///d:/claude/nomad/e2e/consul/script_checks.go) | 同目录源文件 |
 

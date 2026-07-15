@@ -18,13 +18,17 @@
 
 **定义位置**：[L16](file:///d:/claude/nomad/plugins/serve.go#L16)
 
-**类型定义**：`func(...)`
+**中文说明**：PluginFactory 是一个工厂，负责创建对象实例。
+
+**类型定义**：`type PluginFactory func(...)`
 
 ### PluginCtxFactory
 
 **定义位置**：[L19](file:///d:/claude/nomad/plugins/serve.go#L19)
 
-**类型定义**：`func(...)`
+**中文说明**：PluginCtxFactory 是一个工厂，负责创建对象实例。
+
+**类型定义**：`type PluginCtxFactory func(...)`
 
 ## 3. 常量与变量
 
@@ -34,9 +38,9 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Serve` | - | `f PluginFactory` | - | [L22](file:///d:/claude/nomad/plugins/serve.go#L22) |
-| `ServeCtx` | - | `f PluginCtxFactory` | - | [L33](file:///d:/claude/nomad/plugins/serve.go#L33) |
-| `serve` | - | `plugin interface{}, logger log.Logger` | - | [L45](file:///d:/claude/nomad/plugins/serve.go#L45) |
+| `Serve` | - | `f PluginFactory` | `` | [L22](file:///d:/claude/nomad/plugins/serve.go#L22) |
+| `ServeCtx` | - | `f PluginCtxFactory` | `` | [L33](file:///d:/claude/nomad/plugins/serve.go#L33) |
+| `serve` | - | `plugin interface{}, logger log.Logger` | `` | [L45](file:///d:/claude/nomad/plugins/serve.go#L45) |
 
 ## 5. 核心方法详解
 
@@ -45,6 +49,12 @@
 **签名**：`func Serve(f PluginFactory) `
 
 **位置**：[L22](file:///d:/claude/nomad/plugins/serve.go#L22)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `f` | `PluginFactory` | — |
 
 ## 6. 依赖关系
 

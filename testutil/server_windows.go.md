@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动（`server.go`）、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
+该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
 
 **平台特定实现**：此文件为 **Windows** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -23,19 +23,21 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `kernel32` | `syscall.NewLazyDLL("kernel32.dll")` |
-| `procSetCtrlHandler` | `kernel32.NewProc("SetConsoleCtrlHandler")` |
-| `procGenCtrlEvent` | `kernel32.NewProc("GenerateConsoleCtrlEvent")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `kernel32` | `—` | `syscall.NewLazyDLL("kernel32.dll")` | — |
+| `procSetCtrlHandler` | `—` | `kernel32.NewProc("SetConsoleCtrlHandler")` | — |
+| `procGenCtrlEvent` | `—` | `kernel32.NewProc("GenerateConsoleCtrlEvent")` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `gracefulStop` | `s *TestServer` | - | `error` | [L22](file:///d:/claude/nomad/testutil/server_windows.go#L22) |
+| `gracefulStop` | `s *TestServer` | `` | `error` | [L22](file:///d:/claude/nomad/testutil/server_windows.go#L22) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -55,4 +57,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [file.go](file:///d:/claude/nomad/testutil/file.go) | 同目录源文件 |
+| [mock_calls.go](file:///d:/claude/nomad/testutil/mock_calls.go) | 同目录源文件 |
+| [responsewriter.go](file:///d:/claude/nomad/testutil/responsewriter.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/testutil/server.go) | 同目录源文件 |
+| [server_default.go](file:///d:/claude/nomad/testutil/server_default.go) | 同目录源文件 |
 

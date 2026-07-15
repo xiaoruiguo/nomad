@@ -18,9 +18,12 @@
 
 **定义位置**：[L17](file:///d:/claude/nomad/drivers/mock/handle.go#L17)
 
+**中文说明**：taskHandle 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type taskHandle struct {
 	logger hclog.Logger
 	pluginExitAfter time.Duration
 	killAfter time.Duration
@@ -34,9 +37,30 @@
 	completedAt time.Time
 	exitResult *drivers.ExitResult
 	kill context.CancelFunc
-	killCh chan struct{...}
+	killCh <-chan struct{...}
 	Recovered bool
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `pluginExitAfter` | `time.Duration` | 时间间隔 |
+| `killAfter` | `time.Duration` | 时间间隔 |
+| `waitCh` | `chan interface{}` | 通道 |
+| `taskConfig` | `*drivers.TaskConfig` | — |
+| `command` | `Command` | — |
+| `execCommand` | `*Command` | — |
+| `stateLock` | `sync.RWMutex` | 互斥锁，保护并发访问 |
+| `procState` | `drivers.TaskState` | — |
+| `startedAt` | `time.Time` | 时间点 |
+| `completedAt` | `time.Time` | 时间点 |
+| `exitResult` | `*drivers.ExitResult` | — |
+| `kill` | `context.CancelFunc` | 取消函数，用于取消上下文 |
+| `killCh` | `<-chan struct{...}` | 信号通道 |
+| `Recovered` | `bool` | 布尔值 |
 
 **关联方法**（3 个）：`TaskStatus`, `IsRunning`, `run`
 
@@ -48,11 +72,13 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `TaskStatus` | `h *taskHandle` | - | `*drivers.TaskStatus` | [L44](file:///d:/claude/nomad/drivers/mock/handle.go#L44) |
-| `IsRunning` | `h *taskHandle` | - | `bool` | [L59](file:///d:/claude/nomad/drivers/mock/handle.go#L59) |
-| `run` | `h *taskHandle` | - | - | [L65](file:///d:/claude/nomad/drivers/mock/handle.go#L65) |
+| `TaskStatus` | `h *taskHandle` | `` | `*drivers.TaskStatus` | [L44](file:///d:/claude/nomad/drivers/mock/handle.go#L44) |
+| `IsRunning` | `h *taskHandle` | `` | `bool` | [L59](file:///d:/claude/nomad/drivers/mock/handle.go#L59) |
+| `run` | `h *taskHandle` | `` | `` | [L65](file:///d:/claude/nomad/drivers/mock/handle.go#L65) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -78,4 +104,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [command.go](file:///d:/claude/nomad/drivers/mock/command.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/mock/driver.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/mock/state.go) | 同目录源文件 |
+| [utils.go](file:///d:/claude/nomad/drivers/mock/utils.go) | 同目录源文件 |
 

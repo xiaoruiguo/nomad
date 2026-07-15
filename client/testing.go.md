@@ -1,6 +1,6 @@
 # testing.go 代码说明文档
 
-> 文件路径：[testing.go](file:///d:/claude/nomad/client/testing.go)
+> 文件路径：[client/testing.go](file:///d:/claude/nomad/client/testing.go)
 > 总行数：155 行
 > 所属包：`client`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 Nomad Client 核心包（`client`），提供 Client 节点运行所需的功能。
+该文件属于 **Nomad Client 核心包**（`client/`），实现客户端节点的主要功能，包括分配管理、任务执行、心跳上报和驱动调度。
 
 ## 2. 类型定义
 
@@ -29,6 +29,8 @@
 | `TestRPCOnlyClient` | - | `t testing.TB, cb func(...), srvAddr net.Addr, rpcs map[string]any` | `*Client, func(...)` | [L97](file:///d:/claude/nomad/client/testing.go#L97) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -56,10 +58,15 @@
 
 ## 7. 设计模式与技术特点
 
-- **结构化日志**：使用 `hclog` 进行结构化日志记录
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/client/acl.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/client/agent_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/client/alloc_endpoint.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/client/client.go) | 同目录源文件 |
+| [client_stats_endpoint.go](file:///d:/claude/nomad/client/client_stats_endpoint.go) | 同目录源文件 |
 

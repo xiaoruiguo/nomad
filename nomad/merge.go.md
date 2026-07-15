@@ -1,6 +1,6 @@
 # merge.go 代码说明文档
 
-> 文件路径：[merge.go](file:///d:/claude/nomad/nomad/merge.go)
+> 文件路径：[nomad/merge.go](file:///d:/claude/nomad/nomad/merge.go)
 > 总行数：28 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,13 +10,15 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **作业合并器**，实现多区域作业的合并逻辑，用于多区域调度。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `merge.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
 ### serfMergeDelegate
 
 **定义位置**：[L16](file:///d:/claude/nomad/nomad/merge.go#L16)
+
+**中文说明**：serfMergeDelegate 与 Serf 相关，用于集群成员管理和故障检测。
 
 **类型**：struct
 
@@ -34,6 +36,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -46,10 +50,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Server 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

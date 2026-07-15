@@ -1,6 +1,6 @@
 # util.go 代码说明文档
 
-> 文件路径：[pluginutils/loader/util.go](file:///d:/claude/nomad/helper/pluginutils/loader/util.go)
+> 文件路径：[helper/pluginutils/loader/util.go](file:///d:/claude/nomad/helper/pluginutils/loader/util.go)
 > 总行数：30 行
 > 所属包：`loader`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **插件加载器子包**（`helper/pluginutils/loader`），实现 Nomad 插件的加载器，管理插件实例的生命周期，支持内部插件（编译内置）和外部插件（独立进程）的加载、配置和重新连接。
+该文件属于 **工具包子包**（`helper/pluginutils/loader`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -29,6 +29,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -40,10 +42,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 辅助工具的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [api_versions.go](file:///d:/claude/nomad/helper/pluginutils/loader/api_versions.go) | 同目录源文件 |
+| [filter_unix.go](file:///d:/claude/nomad/helper/pluginutils/loader/filter_unix.go) | 同目录源文件 |
+| [filter_windows.go](file:///d:/claude/nomad/helper/pluginutils/loader/filter_windows.go) | 同目录源文件 |
+| [init.go](file:///d:/claude/nomad/helper/pluginutils/loader/init.go) | 同目录源文件 |
+| [instance.go](file:///d:/claude/nomad/helper/pluginutils/loader/instance.go) | 同目录源文件 |
 

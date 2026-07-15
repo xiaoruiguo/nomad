@@ -21,6 +21,8 @@
 
 **定义位置**：[L10](file:///d:/claude/nomad/drivers/shared/executor/resource_container_default.go#L10)
 
+**中文说明**：resourceContainerContext 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 **关联方法**（1 个）：`executorCleanup`
@@ -33,11 +35,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `executorCleanup` | `rc *resourceContainerContext` | - | `error` | [L13](file:///d:/claude/nomad/drivers/shared/executor/resource_container_default.go#L13) |
+| `executorCleanup` | `rc *resourceContainerContext` | `` | `error` | [L13](file:///d:/claude/nomad/drivers/shared/executor/resource_container_default.go#L13) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -48,4 +54,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

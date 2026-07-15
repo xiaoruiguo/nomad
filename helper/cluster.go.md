@@ -1,6 +1,6 @@
 # cluster.go 代码说明文档
 
-> 文件路径：[cluster.go](file:///d:/claude/nomad/helper/cluster.go)
+> 文件路径：[helper/cluster.go](file:///d:/claude/nomad/helper/cluster.go)
 > 总行数：39 行
 > 所属包：`helper`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **集群工具函数**，提供随机时间错开（RandomStagger）和速率缩放间隔（RateScaledInterval）等工具，用于协调集群内节点的行为节奏，避免惊群效应。
+该文件属于 **工具包子包**（`helper/helper`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -20,9 +20,9 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `minRate` | `1.0 / 86400` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `minRate` | `—` | `1.0 / 86400` | — |
 
 ## 4. 方法与函数
 
@@ -32,6 +32,8 @@
 | `RateScaledInterval` | - | `rate float64, min time.Duration, n int` | `time.Duration` | [L28](file:///d:/claude/nomad/helper/cluster.go#L28) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -44,11 +46,16 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 辅助工具的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [cluster_test.go](file:///d:/claude/nomad/helper/cluster_test.go) | 对应测试文件 |
+| [backoff.go](file:///d:/claude/nomad/helper/backoff.go) | 同目录源文件 |
+| [eof.go](file:///d:/claude/nomad/helper/eof.go) | 同目录源文件 |
+| [file.go](file:///d:/claude/nomad/helper/file.go) | 同目录源文件 |
+| [funcs.go](file:///d:/claude/nomad/helper/funcs.go) | 同目录源文件 |
+| [funcs_unix.go](file:///d:/claude/nomad/helper/funcs_unix.go) | 同目录源文件 |
 

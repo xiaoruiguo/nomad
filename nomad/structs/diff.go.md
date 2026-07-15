@@ -1,6 +1,6 @@
 # diff.go 代码说明文档
 
-> 文件路径：[structs/diff.go](file:///d:/claude/nomad/nomad/structs/diff.go)
+> 文件路径：[nomad/structs/diff.go](file:///d:/claude/nomad/nomad/structs/diff.go)
 > 总行数：3463 行
 > 所属包：`structs`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **核心数据结构子包**（`nomad/structs`），定义 Nomad 的所有核心数据结构（Job、Node、Alloc、Eval、Deployment 等），是整个系统的领域模型基础。
+该文件属于 `structs` 包，定义接口类型、定义结构体类型、包含 99 个方法/函数。
 
 ## 2. 类型定义
 
@@ -18,17 +18,27 @@
 
 **定义位置**：[L21](file:///d:/claude/nomad/nomad/structs/diff.go#L21)
 
+**中文说明**：DiffableWithID 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	DiffID
+type DiffableWithID interface {
+	DiffID func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `DiffID` | `func(...)` | — |
 
 ### DiffType
 
 **定义位置**：[L28](file:///d:/claude/nomad/nomad/structs/diff.go#L28)
 
-**类型定义**：`string`
+**类型定义**：`type DiffType string`
 
 **关联方法**（1 个）：`Less`
 
@@ -36,15 +46,29 @@
 
 **定义位置**：[L62](file:///d:/claude/nomad/nomad/structs/diff.go#L62)
 
+**中文说明**：JobDiff 与作业（Job）相关，作业是 Nomad 调度的目标对象。
+
 **类型**：struct
 
 ```go
+type JobDiff struct {
 	Type DiffType
 	ID string
 	Fields []*FieldDiff
 	Objects []*ObjectDiff
 	TaskGroups []*TaskGroupDiff
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Type` | `DiffType` | 类型 |
+| `ID` | `string` | 唯一标识符 |
+| `Fields` | `[]*FieldDiff` | 列表 |
+| `Objects` | `[]*ObjectDiff` | 列表 |
+| `TaskGroups` | `[]*TaskGroupDiff` | 列表 |
 
 **关联方法**（1 个）：`GoString`
 
@@ -52,16 +76,31 @@
 
 **定义位置**：[L210](file:///d:/claude/nomad/nomad/structs/diff.go#L210)
 
+**中文说明**：TaskGroupDiff 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type TaskGroupDiff struct {
 	Type DiffType
 	Name string
 	Fields []*FieldDiff
 	Objects []*ObjectDiff
 	Tasks []*TaskDiff
 	Updates map[string]uint64
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Type` | `DiffType` | 类型 |
+| `Name` | `string` | 名称 |
+| `Fields` | `[]*FieldDiff` | 列表 |
+| `Objects` | `[]*ObjectDiff` | 列表 |
+| `Tasks` | `[]*TaskDiff` | 列表 |
+| `Updates` | `map[string]uint64` | 无符号 64 位整数 |
 
 **关联方法**（1 个）：`GoString`
 
@@ -69,7 +108,9 @@
 
 **定义位置**：[L425](file:///d:/claude/nomad/nomad/structs/diff.go#L425)
 
-**类型定义**：`[]*TaskGroupDiff`
+**中文说明**：TaskGroupDiffs 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
+**类型定义**：`type TaskGroupDiffs []*TaskGroupDiff`
 
 **关联方法**（3 个）：`Len`, `Swap`, `Less`
 
@@ -77,15 +118,29 @@
 
 **定义位置**：[L432](file:///d:/claude/nomad/nomad/structs/diff.go#L432)
 
+**中文说明**：TaskDiff 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type TaskDiff struct {
 	Type DiffType
 	Name string
 	Fields []*FieldDiff
 	Objects []*ObjectDiff
 	Annotations []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Type` | `DiffType` | 类型 |
+| `Name` | `string` | 名称 |
+| `Fields` | `[]*FieldDiff` | 列表 |
+| `Objects` | `[]*ObjectDiff` | 列表 |
+| `Annotations` | `[]string` | 列表 |
 
 **关联方法**（1 个）：`GoString`
 
@@ -93,7 +148,9 @@
 
 **定义位置**：[L773](file:///d:/claude/nomad/nomad/structs/diff.go#L773)
 
-**类型定义**：`[]*TaskDiff`
+**中文说明**：TaskDiffs 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
+**类型定义**：`type TaskDiffs []*TaskDiff`
 
 **关联方法**（3 个）：`Len`, `Swap`, `Less`
 
@@ -101,14 +158,27 @@
 
 **定义位置**：[L3105](file:///d:/claude/nomad/nomad/structs/diff.go#L3105)
 
+**中文说明**：ObjectDiff 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type ObjectDiff struct {
 	Type DiffType
 	Name string
 	Fields []*FieldDiff
 	Objects []*ObjectDiff
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Type` | `DiffType` | 类型 |
+| `Name` | `string` | 名称 |
+| `Fields` | `[]*FieldDiff` | 列表 |
+| `Objects` | `[]*ObjectDiff` | 列表 |
 
 **关联方法**（2 个）：`GoString`, `Less`
 
@@ -116,7 +186,7 @@
 
 **定义位置**：[L3172](file:///d:/claude/nomad/nomad/structs/diff.go#L3172)
 
-**类型定义**：`[]*ObjectDiff`
+**类型定义**：`type ObjectDiffs []*ObjectDiff`
 
 **关联方法**（3 个）：`Len`, `Swap`, `Less`
 
@@ -124,14 +194,27 @@
 
 **定义位置**：[L3178](file:///d:/claude/nomad/nomad/structs/diff.go#L3178)
 
+**中文说明**：FieldDiff 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type FieldDiff struct {
 	Type DiffType
 	Name string
 	Old, New string
 	Annotations []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Type` | `DiffType` | 类型 |
+| `Name` | `string` | 名称 |
+| `Old, New` | `string` | 字符串 |
+| `Annotations` | `[]string` | 列表 |
 
 **关联方法**（2 个）：`GoString`, `Less`
 
@@ -139,7 +222,7 @@
 
 **定义位置**：[L3240](file:///d:/claude/nomad/nomad/structs/diff.go#L3240)
 
-**类型定义**：`[]*FieldDiff`
+**类型定义**：`type FieldDiffs []*FieldDiff`
 
 **关联方法**（3 个）：`Len`, `Swap`, `Less`
 
@@ -147,12 +230,12 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `DiffTypeNone` | `"None"` |
-| `DiffTypeAdded` | `"Added"` |
-| `DiffTypeDeleted` | `"Deleted"` |
-| `DiffTypeEdited` | `"Edited"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `DiffTypeNone` | `DiffType` | `"None"` | — |
+| `DiffTypeAdded` | `DiffType` | `"Added"` | — |
+| `DiffTypeDeleted` | `DiffType` | `"Deleted"` | — |
+| `DiffTypeEdited` | `DiffType` | `"Edited"` | — |
 
 ## 4. 方法与函数
 
@@ -160,12 +243,12 @@
 |------|--------|------|--------|------|
 | `Less` | `d *DiffType` | `other DiffType` | `bool` | [L37](file:///d:/claude/nomad/nomad/structs/diff.go#L37) |
 | `Diff` | `j *Job` | `other *Job, contextual bool` | `*JobDiff, error` | [L73](file:///d:/claude/nomad/nomad/structs/diff.go#L73) |
-| `GoString` | `j *JobDiff` | - | `string` | [L191](file:///d:/claude/nomad/nomad/structs/diff.go#L191) |
+| `GoString` | `j *JobDiff` | `` | `string` | [L191](file:///d:/claude/nomad/nomad/structs/diff.go#L191) |
 | `Diff` | `tg *TaskGroup` | `other *TaskGroup, contextual bool` | `*TaskGroupDiff, error` | [L222](file:///d:/claude/nomad/nomad/structs/diff.go#L222) |
-| `GoString` | `tg *TaskGroupDiff` | - | `string` | [L360](file:///d:/claude/nomad/nomad/structs/diff.go#L360) |
+| `GoString` | `tg *TaskGroupDiff` | `` | `string` | [L360](file:///d:/claude/nomad/nomad/structs/diff.go#L360) |
 | `taskGroupDiffs` | - | `old []*TaskGroup, new []*TaskGroup, contextual bool` | `[]*TaskGroupDiff, error` | [L389](file:///d:/claude/nomad/nomad/structs/diff.go#L389) |
-| `Len` | `tg *TaskGroupDiffs` | - | `int` | [L427](file:///d:/claude/nomad/nomad/structs/diff.go#L427) |
-| `Swap` | `tg *TaskGroupDiffs` | `i int, j int` | - | [L428](file:///d:/claude/nomad/nomad/structs/diff.go#L428) |
+| `Len` | `tg *TaskGroupDiffs` | `` | `int` | [L427](file:///d:/claude/nomad/nomad/structs/diff.go#L427) |
+| `Swap` | `tg *TaskGroupDiffs` | `i int, j int` | `` | [L428](file:///d:/claude/nomad/nomad/structs/diff.go#L428) |
 | `Less` | `tg *TaskGroupDiffs` | `i int, j int` | `bool` | [L429](file:///d:/claude/nomad/nomad/structs/diff.go#L429) |
 | `Diff` | `t *Task` | `other *Task, contextual bool` | `*TaskDiff, error` | [L442](file:///d:/claude/nomad/nomad/structs/diff.go#L442) |
 | `secretsDiff` | - | `old *Secret, new *Secret, contextual bool` | `*ObjectDiff` | [L586](file:///d:/claude/nomad/nomad/structs/diff.go#L586) |
@@ -173,10 +256,10 @@
 | `actionDiff` | - | `old *Action, new *Action, contextual bool` | `*ObjectDiff` | [L641](file:///d:/claude/nomad/nomad/structs/diff.go#L641) |
 | `actionDiffs` | - | `old []*Action, new []*Action, contextual bool` | `[]*ObjectDiff` | [L674](file:///d:/claude/nomad/nomad/structs/diff.go#L674) |
 | `scheduleDiff` | - | `old *TaskSchedule, new *TaskSchedule, contextual bool` | `*ObjectDiff` | [L703](file:///d:/claude/nomad/nomad/structs/diff.go#L703) |
-| `GoString` | `t *TaskDiff` | - | `string` | [L716](file:///d:/claude/nomad/nomad/structs/diff.go#L716) |
+| `GoString` | `t *TaskDiff` | `` | `string` | [L716](file:///d:/claude/nomad/nomad/structs/diff.go#L716) |
 | `taskDiffs` | - | `old []*Task, new []*Task, contextual bool` | `[]*TaskDiff, error` | [L737](file:///d:/claude/nomad/nomad/structs/diff.go#L737) |
-| `Len` | `t *TaskDiffs` | - | `int` | [L775](file:///d:/claude/nomad/nomad/structs/diff.go#L775) |
-| `Swap` | `t *TaskDiffs` | `i int, j int` | - | [L776](file:///d:/claude/nomad/nomad/structs/diff.go#L776) |
+| `Len` | `t *TaskDiffs` | `` | `int` | [L775](file:///d:/claude/nomad/nomad/structs/diff.go#L775) |
+| `Swap` | `t *TaskDiffs` | `i int, j int` | `` | [L776](file:///d:/claude/nomad/nomad/structs/diff.go#L776) |
 | `Less` | `t *TaskDiffs` | `i int, j int` | `bool` | [L777](file:///d:/claude/nomad/nomad/structs/diff.go#L777) |
 | `scalingDiff` | - | `old *ScalingPolicy, new *ScalingPolicy, contextual bool` | `*ObjectDiff` | [L781](file:///d:/claude/nomad/nomad/structs/diff.go#L781) |
 | `policyDiff` | - | `old map[string]interface{}, new map[string]interface{}, contextual bool` | `*ObjectDiff` | [L819](file:///d:/claude/nomad/nomad/structs/diff.go#L819) |
@@ -189,8 +272,8 @@
 | `connectDiffs` | - | `old *ConsulConnect, new *ConsulConnect, contextual bool` | `*ObjectDiff` | [L1116](file:///d:/claude/nomad/nomad/structs/diff.go#L1116) |
 | `connectGatewayDiff` | - | `prev *ConsulGateway, next *ConsulGateway, contextual bool` | `*ObjectDiff` | [L1160](file:///d:/claude/nomad/nomad/structs/diff.go#L1160) |
 | `connectGatewayMeshDiff` | - | `prev *ConsulMeshConfigEntry, next *ConsulMeshConfigEntry, contextual bool` | `*ObjectDiff` | [L1210](file:///d:/claude/nomad/nomad/structs/diff.go#L1210) |
-| `connectGatewayIngressDiff` | - | `prev *ConsulIngressConfigEntry, next *ConsulIngressConfigEntry, contextual b...` | `*ObjectDiff` | [L1230](file:///d:/claude/nomad/nomad/structs/diff.go#L1230) |
-| `connectGatewayTerminatingDiff` | - | `prev *ConsulTerminatingConfigEntry, next *ConsulTerminatingConfigEntry, cont...` | `*ObjectDiff` | [L1268](file:///d:/claude/nomad/nomad/structs/diff.go#L1268) |
+| `connectGatewayIngressDiff` | - | `prev *ConsulIngressConfigEntry, next *ConsulIngressConfigEntry, contextual bool` | `*ObjectDiff` | [L1230](file:///d:/claude/nomad/nomad/structs/diff.go#L1230) |
+| `connectGatewayTerminatingDiff` | - | `prev *ConsulTerminatingConfigEntry, next *ConsulTerminatingConfigEntry, conte...` | `*ObjectDiff` | [L1268](file:///d:/claude/nomad/nomad/structs/diff.go#L1268) |
 | `connectGatewayTerminatingLinkedServicesDiff` | - | `prev []*ConsulLinkedService, next []*ConsulLinkedService, contextual bool` | `[]*ObjectDiff` | [L1302](file:///d:/claude/nomad/nomad/structs/diff.go#L1302) |
 | `connectGatewayTerminatingLinkedServiceDiff` | - | `prev *ConsulLinkedService, next *ConsulLinkedService, contextual bool` | `*ObjectDiff` | [L1335](file:///d:/claude/nomad/nomad/structs/diff.go#L1335) |
 | `connectGatewayTLSConfigDiff` | - | `prev *ConsulGatewayTLSConfig, next *ConsulGatewayTLSConfig, contextual bool` | `*ObjectDiff` | [L1361](file:///d:/claude/nomad/nomad/structs/diff.go#L1361) |
@@ -198,9 +281,9 @@
 | `connectGatewayIngressListenerDiff` | - | `prev *ConsulIngressListener, next *ConsulIngressListener, contextual bool` | `*ObjectDiff` | [L1437](file:///d:/claude/nomad/nomad/structs/diff.go#L1437) |
 | `connectGatewayIngressServicesDiff` | - | `prev []*ConsulIngressService, next []*ConsulIngressService, contextual bool` | `[]*ObjectDiff` | [L1471](file:///d:/claude/nomad/nomad/structs/diff.go#L1471) |
 | `connectGatewayIngressServiceDiff` | - | `prev *ConsulIngressService, next *ConsulIngressService, contextual bool` | `*ObjectDiff` | [L1503](file:///d:/claude/nomad/nomad/structs/diff.go#L1503) |
-| `connectGatewayHTTPHeaderModifiersDiff` | - | `prev *ConsulHTTPHeaderModifiers, next *ConsulHTTPHeaderModifiers, name strin...` | `*ObjectDiff` | [L1584](file:///d:/claude/nomad/nomad/structs/diff.go#L1584) |
+| `connectGatewayHTTPHeaderModifiersDiff` | - | `prev *ConsulHTTPHeaderModifiers, next *ConsulHTTPHeaderModifiers, name string...` | `*ObjectDiff` | [L1584](file:///d:/claude/nomad/nomad/structs/diff.go#L1584) |
 | `connectGatewayProxyDiff` | - | `prev *ConsulGatewayProxy, next *ConsulGatewayProxy, contextual bool` | `*ObjectDiff` | [L1615](file:///d:/claude/nomad/nomad/structs/diff.go#L1615) |
-| `connectGatewayProxyEnvoyBindAddrsDiff` | - | `prev map[string]*ConsulGatewayBindAddress, next map[string]*ConsulGatewayBin...` | `*ObjectDiff` | [L1668](file:///d:/claude/nomad/nomad/structs/diff.go#L1668) |
+| `connectGatewayProxyEnvoyBindAddrsDiff` | - | `prev map[string]*ConsulGatewayBindAddress, next map[string]*ConsulGatewayBind...` | `*ObjectDiff` | [L1668](file:///d:/claude/nomad/nomad/structs/diff.go#L1668) |
 | `connectSidecarServiceDiff` | - | `old *ConsulSidecarService, new *ConsulSidecarService, contextual bool` | `*ObjectDiff` | [L1700](file:///d:/claude/nomad/nomad/structs/diff.go#L1700) |
 | `sidecarTaskDiff` | - | `old *SidecarTask, new *SidecarTask, contextual bool` | `*ObjectDiff` | [L1733](file:///d:/claude/nomad/nomad/structs/diff.go#L1733) |
 | `consulProxyDiff` | - | `old *ConsulProxy, new *ConsulProxy, contextual bool` | `*ObjectDiff` | [L1787](file:///d:/claude/nomad/nomad/structs/diff.go#L1787) |
@@ -221,7 +304,7 @@
 | `uiDiff` | - | `old *JobUIConfig, new *JobUIConfig, contextual bool` | `*ObjectDiff` | [L2398](file:///d:/claude/nomad/nomad/structs/diff.go#L2398) |
 | `linkDiffs` | - | `old []*JobUILink, new []*JobUILink, contextual bool` | `[]*ObjectDiff` | [L2432](file:///d:/claude/nomad/nomad/structs/diff.go#L2432) |
 | `linkDiff` | - | `old JobUILink, new JobUILink, contextual bool` | `*ObjectDiff` | [L2463](file:///d:/claude/nomad/nomad/structs/diff.go#L2463) |
-| `volumeDiffs` | - | `oldVR map[string]*VolumeRequest, newVR map[string]*VolumeRequest, contextual...` | `[]*ObjectDiff` | [L2482](file:///d:/claude/nomad/nomad/structs/diff.go#L2482) |
+| `volumeDiffs` | - | `oldVR map[string]*VolumeRequest, newVR map[string]*VolumeRequest, contextual ...` | `[]*ObjectDiff` | [L2482](file:///d:/claude/nomad/nomad/structs/diff.go#L2482) |
 | `volumeDiff` | - | `oldVR *VolumeRequest, newVR *VolumeRequest, contextual bool` | `*ObjectDiff` | [L2511](file:///d:/claude/nomad/nomad/structs/diff.go#L2511) |
 | `volumeCSIMountOptionsDiff` | - | `oldMO *CSIMountOptions, newMO *CSIMountOptions, contextual bool` | `*ObjectDiff` | [L2546](file:///d:/claude/nomad/nomad/structs/diff.go#L2546) |
 | `volumeMountsDiffs` | - | `oldMounts []*VolumeMount, newMounts []*VolumeMount, contextual bool` | `[]*ObjectDiff` | [L2577](file:///d:/claude/nomad/nomad/structs/diff.go#L2577) |
@@ -240,25 +323,27 @@
 | `idSliceDiffs` | - | `old []*WorkloadIdentity, new []*WorkloadIdentity, contextual bool` | `[]*ObjectDiff` | [L3004](file:///d:/claude/nomad/nomad/structs/diff.go#L3004) |
 | `weightsDiff` | - | `oldWeights *ServiceWeights, newWeights *ServiceWeights, contextual bool` | `*ObjectDiff` | [L3035](file:///d:/claude/nomad/nomad/structs/diff.go#L3035) |
 | `idDiff` | - | `oldWI *WorkloadIdentity, newWI *WorkloadIdentity, contextual bool` | `*ObjectDiff` | [L3073](file:///d:/claude/nomad/nomad/structs/diff.go#L3073) |
-| `GoString` | `o *ObjectDiff` | - | `string` | [L3112](file:///d:/claude/nomad/nomad/structs/diff.go#L3112) |
+| `GoString` | `o *ObjectDiff` | `` | `string` | [L3112](file:///d:/claude/nomad/nomad/structs/diff.go#L3112) |
 | `Less` | `o *ObjectDiff` | `other *ObjectDiff` | `bool` | [L3124](file:///d:/claude/nomad/nomad/structs/diff.go#L3124) |
-| `Len` | `o *ObjectDiffs` | - | `int` | [L3174](file:///d:/claude/nomad/nomad/structs/diff.go#L3174) |
-| `Swap` | `o *ObjectDiffs` | `i int, j int` | - | [L3175](file:///d:/claude/nomad/nomad/structs/diff.go#L3175) |
+| `Len` | `o *ObjectDiffs` | `` | `int` | [L3174](file:///d:/claude/nomad/nomad/structs/diff.go#L3174) |
+| `Swap` | `o *ObjectDiffs` | `i int, j int` | `` | [L3175](file:///d:/claude/nomad/nomad/structs/diff.go#L3175) |
 | `Less` | `o *ObjectDiffs` | `i int, j int` | `bool` | [L3176](file:///d:/claude/nomad/nomad/structs/diff.go#L3176) |
 | `fieldDiff` | - | `old string, new string, name string, contextual bool` | `*FieldDiff` | [L3188](file:///d:/claude/nomad/nomad/structs/diff.go#L3188) |
-| `GoString` | `f *FieldDiff` | - | `string` | [L3212](file:///d:/claude/nomad/nomad/structs/diff.go#L3212) |
+| `GoString` | `f *FieldDiff` | `` | `string` | [L3212](file:///d:/claude/nomad/nomad/structs/diff.go#L3212) |
 | `Less` | `f *FieldDiff` | `other *FieldDiff` | `bool` | [L3221](file:///d:/claude/nomad/nomad/structs/diff.go#L3221) |
-| `Len` | `f *FieldDiffs` | - | `int` | [L3242](file:///d:/claude/nomad/nomad/structs/diff.go#L3242) |
-| `Swap` | `f *FieldDiffs` | `i int, j int` | - | [L3243](file:///d:/claude/nomad/nomad/structs/diff.go#L3243) |
+| `Len` | `f *FieldDiffs` | `` | `int` | [L3242](file:///d:/claude/nomad/nomad/structs/diff.go#L3242) |
+| `Swap` | `f *FieldDiffs` | `i int, j int` | `` | [L3243](file:///d:/claude/nomad/nomad/structs/diff.go#L3243) |
 | `Less` | `f *FieldDiffs` | `i int, j int` | `bool` | [L3244](file:///d:/claude/nomad/nomad/structs/diff.go#L3244) |
 | `fieldDiffs` | - | `old map[string]string, new map[string]string, contextual bool` | `[]*FieldDiff` | [L3249](file:///d:/claude/nomad/nomad/structs/diff.go#L3249) |
 | `stringSetDiff` | - | `old []string, new []string, name string, contextual bool` | `*ObjectDiff` | [L3273](file:///d:/claude/nomad/nomad/structs/diff.go#L3273) |
 | `periodicDiff` | - | `old *PeriodicConfig, new *PeriodicConfig, contextual bool` | `*ObjectDiff` | [L3325](file:///d:/claude/nomad/nomad/structs/diff.go#L3325) |
-| `primitiveObjectDiff` | - | `old interface{}, new interface{}, filter []string, name string, contextual b...` | `*ObjectDiff` | [L3360](file:///d:/claude/nomad/nomad/structs/diff.go#L3360) |
-| `primitiveObjectSetDiff` | - | `old []interface{}, new []interface{}, filter []string, name string, contextu...` | `[]*ObjectDiff` | [L3401](file:///d:/claude/nomad/nomad/structs/diff.go#L3401) |
+| `primitiveObjectDiff` | - | `old interface{}, new interface{}, filter []string, name string, contextual bool` | `*ObjectDiff` | [L3360](file:///d:/claude/nomad/nomad/structs/diff.go#L3360) |
+| `primitiveObjectSetDiff` | - | `old []interface{}, new []interface{}, filter []string, name string, contextua...` | `[]*ObjectDiff` | [L3401](file:///d:/claude/nomad/nomad/structs/diff.go#L3401) |
 | `interfaceSlice` | - | `slice interface{}` | `[]interface{}` | [L3449](file:///d:/claude/nomad/nomad/structs/diff.go#L3449) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -286,4 +371,9 @@
 | 文件 | 关系 |
 |------|------|
 | [diff_test.go](file:///d:/claude/nomad/nomad/structs/diff_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/structs/acl.go) | 同目录源文件 |
+| [actions.go](file:///d:/claude/nomad/nomad/structs/actions.go) | 同目录源文件 |
+| [alloc.go](file:///d:/claude/nomad/nomad/structs/alloc.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/structs/autopilot.go) | 同目录源文件 |
+| [batch_future.go](file:///d:/claude/nomad/nomad/structs/batch_future.go) | 同目录源文件 |
 

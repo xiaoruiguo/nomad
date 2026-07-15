@@ -18,13 +18,25 @@
 
 **定义位置**：[L43](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L43)
 
+**中文说明**：blockAttrs 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type blockAttrs struct {
 	body hcl.Body
 	hiddenAttrs map[string]struct{...}
 	hiddenBlocks map[string]struct{...}
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `body` | `hcl.Body` | — |
+| `hiddenAttrs` | `map[string]struct{...}` | 映射表 |
+| `hiddenBlocks` | `map[string]struct{...}` | 映射表 |
 
 **关联方法**（4 个）：`Content`, `PartialContent`, `JustAttributes`, `MissingItemRange`
 
@@ -39,8 +51,8 @@
 | `BlocksAsAttrs` | - | `body hcl.Body` | `hcl.Body` | [L36](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L36) |
 | `Content` | `b *blockAttrs` | `schema *hcl.BodySchema` | `*hcl.BodyContent, hcl.Diagnostics` | [L50](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L50) |
 | `PartialContent` | `b *blockAttrs` | `schema *hcl.BodySchema` | `*hcl.BodyContent, hcl.Body, hcl.Diagnostics` | [L55](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L55) |
-| `JustAttributes` | `b *blockAttrs` | - | `hcl.Attributes, hcl.Diagnostics` | [L80](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L80) |
-| `MissingItemRange` | `b *blockAttrs` | - | `hcl.Range` | [L123](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L123) |
+| `JustAttributes` | `b *blockAttrs` | `` | `hcl.Attributes, hcl.Diagnostics` | [L80](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L80) |
+| `MissingItemRange` | `b *blockAttrs` | `` | `hcl.Range` | [L123](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L123) |
 | `expandBlocks` | - | `blocks hcl.Blocks` | `hcl.Blocks` | [L127](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L127) |
 | `blocksByType` | - | `blocks hcls.Blocks` | `map[string]hcls.Blocks` | [L141](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L141) |
 | `blocksToExpr` | - | `blocks hcls.Blocks` | `hcls.Expression` | [L149](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L149) |
@@ -48,6 +60,8 @@
 | `attrExpr` | - | `expr hcls.Expression` | `hcls.Expression` | [L246](file:///d:/claude/nomad/jobspec2/hclutil/blockattrs.go#L246) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

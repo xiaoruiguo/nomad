@@ -24,11 +24,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `CalculateCPUPercent` | - | `newSample uint64, oldSample uint64, newTotal uint64, oldTotal uint64, cores ...` | `float64` | [L6](file:///d:/claude/nomad/drivers/docker/util/util.go#L6) |
+| `CalculateCPUPercent` | - | `newSample uint64, oldSample uint64, newTotal uint64, oldTotal uint64, cores int` | `float64` | [L6](file:///d:/claude/nomad/drivers/docker/util/util.go#L6) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -39,4 +43,6 @@
 | 文件 | 关系 |
 |------|------|
 | [util_test.go](file:///d:/claude/nomad/drivers/docker/util/util_test.go) | 对应测试文件 |
+| [stats_posix.go](file:///d:/claude/nomad/drivers/docker/util/stats_posix.go) | 同目录源文件 |
+| [stats_windows.go](file:///d:/claude/nomad/drivers/docker/util/stats_windows.go) | 同目录源文件 |
 

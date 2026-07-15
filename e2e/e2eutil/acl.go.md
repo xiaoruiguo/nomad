@@ -24,9 +24,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `ApplyJobPolicy` | - | `t *testing.T, nomad *api.Client, ns string, j string, g string, task string,...` | `*api.ACLPolicy` | [L19](file:///d:/claude/nomad/e2e/e2eutil/acl.go#L19) |
+| `ApplyJobPolicy` | - | `t *testing.T, nomad *api.Client, ns string, j string, g string, task string, ...` | `*api.ACLPolicy` | [L19](file:///d:/claude/nomad/e2e/e2eutil/acl.go#L19) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -50,4 +52,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
+| [deployments.go](file:///d:/claude/nomad/e2e/e2eutil/deployments.go) | 同目录源文件 |
 

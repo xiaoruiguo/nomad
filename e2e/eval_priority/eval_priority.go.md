@@ -18,12 +18,23 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L13)
 
+**中文说明**：EvalPriorityTest 与评估（Evaluation）相关，评估是 Nomad 调度系统的工作单元。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type EvalPriorityTest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（4 个）：`BeforeAll`, `AfterEach`, `TestEvalPrioritySet`, `TestEvalPriorityNotSet`
 
@@ -35,13 +46,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L18](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L18) |
-| `BeforeAll` | `tc *EvalPriorityTest` | `f *framework.F` | - | [L28](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L28) |
-| `AfterEach` | `tc *EvalPriorityTest` | `f *framework.F` | - | [L33](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L33) |
-| `TestEvalPrioritySet` | `tc *EvalPriorityTest` | `f *framework.F` | - | [L46](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L46) |
-| `TestEvalPriorityNotSet` | `tc *EvalPriorityTest` | `f *framework.F` | - | [L122](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L122) |
+| `init` | - | `` | `` | [L18](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L18) |
+| `BeforeAll` | `tc *EvalPriorityTest` | `f *framework.F` | `` | [L28](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L28) |
+| `AfterEach` | `tc *EvalPriorityTest` | `f *framework.F` | `` | [L33](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L33) |
+| `TestEvalPrioritySet` | `tc *EvalPriorityTest` | `f *framework.F` | `` | [L46](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L46) |
+| `TestEvalPriorityNotSet` | `tc *EvalPriorityTest` | `f *framework.F` | `` | [L122](file:///d:/claude/nomad/e2e/eval_priority/eval_priority.go#L122) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

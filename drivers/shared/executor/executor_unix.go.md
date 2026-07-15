@@ -27,12 +27,14 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `setNewProcessGroup` | `e *UniversalExecutor` | - | `error` | [L19](file:///d:/claude/nomad/drivers/shared/executor/executor_unix.go#L19) |
+| `setNewProcessGroup` | `e *UniversalExecutor` | `` | `error` | [L19](file:///d:/claude/nomad/drivers/shared/executor/executor_unix.go#L19) |
 | `killProcessTree` | `e *UniversalExecutor` | `process *os.Process` | `error` | [L28](file:///d:/claude/nomad/drivers/shared/executor/executor_unix.go#L28) |
 | `shutdownProcess` | `e *UniversalExecutor` | `sig os.Signal, proc *os.Process` | `error` | [L47](file:///d:/claude/nomad/drivers/shared/executor/executor_unix.go#L47) |
 | `setCmdUser` | - | `cmd *exec.Cmd, userid string` | `error` | [L61](file:///d:/claude/nomad/drivers/shared/executor/executor_unix.go#L61) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -58,4 +60,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

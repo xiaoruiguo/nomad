@@ -1,6 +1,6 @@
 # job_endpoint.go 代码说明文档
 
-> 文件路径：[job_endpoint.go](file:///d:/claude/nomad/command/agent/job_endpoint.go)
+> 文件路径：[command/agent/job_endpoint.go](file:///d:/claude/nomad/command/agent/job_endpoint.go)
 > 总行数：2335 行
 > 所属包：`agent`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 **HTTP API 端点实现**，负责 `job` 相关的 HTTP 请求处理，包括请求解析、ACL 鉴权、调用 Server/Client RPC、响应格式化等。端点通过 `http.go` 中的路由注册表挂载到 HTTP 服务器。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -20,9 +20,9 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `jobNotFoundErr` | `"job not found"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `jobNotFoundErr` | `—` | `"job not found"` | — |
 
 ## 4. 方法与函数
 
@@ -66,8 +66,8 @@
 | `regionForJob` | - | `job *api.Job, queryRegion string, apiRegion string, agentRegion string` | `string, string` | [L1058](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1058) |
 | `namespaceForJob` | - | `jobNamespace *string, queryNamespace string, apiNamespace string` | `string` | [L1110](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1110) |
 | `ApiJobToStructJob` | - | `job *api.Job` | `*structs.Job` | [L1129](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1129) |
-| `ApiTgToStructsTG` | - | `job *structs.Job, taskGroup *api.TaskGroup, tg *structs.TaskGroup` | - | [L1228](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1228) |
-| `ApiTaskToStructsTask` | - | `job *structs.Job, group *structs.TaskGroup, apiTask *api.Task, structsTask *...` | - | [L1377](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1377) |
+| `ApiTgToStructsTG` | - | `job *structs.Job, taskGroup *api.TaskGroup, tg *structs.TaskGroup` | `` | [L1228](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1228) |
+| `ApiTaskToStructsTask` | - | `job *structs.Job, group *structs.TaskGroup, apiTask *api.Task, structsTask *s...` | `` | [L1377](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1377) |
 | `apiWaitConfigToStructsWaitConfig` | - | `waitConfig *api.WaitConfig` | `*structs.WaitConfig` | [L1537](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1537) |
 | `apiChangeScriptToStructsChangeScript` | - | `changeScript *api.ChangeScript` | `*structs.ChangeScript` | [L1548](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1548) |
 | `ApiCSIPluginConfigToStructsCSIPluginConfig` | - | `apiConfig *api.TaskCSIPluginConfig` | `*structs.TaskCSIPluginConfig` | [L1562](file:///d:/claude/nomad/command/agent/job_endpoint.go#L1562) |
@@ -118,6 +118,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -143,13 +145,17 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HTTP 服务**：提供 HTTP API 端点或客户端
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [job_endpoint_test.go](file:///d:/claude/nomad/command/agent/job_endpoint_test.go) | 对应测试文件 |
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [acl_endpoint.go](file:///d:/claude/nomad/command/agent/acl_endpoint.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | 同目录源文件 |
+| [agent_ce.go](file:///d:/claude/nomad/command/agent/agent_ce.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/command/agent/agent_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go) | 同目录源文件 |
 

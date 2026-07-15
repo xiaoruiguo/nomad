@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Consul 集成 E2E 测试子包**（`e2e/consul`），测试 Nomad 与 Consul 的服务发现、服务注册和 Connect 集成功能。
+该文件属于 **端到端测试子包**（`e2e/consul`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L16](file:///d:/claude/nomad/e2e/consul/on_update.go#L16)
 
+**中文说明**：OnUpdateChecksTest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type OnUpdateChecksTest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（4 个）：`BeforeAll`, `AfterEach`, `TestOnUpdateCheck_IgnoreWarning_IgnoreErrors`, `TestOnUpdate_CheckRestart`
 
@@ -35,12 +46,14 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `BeforeAll` | `tc *OnUpdateChecksTest` | `f *framework.F` | - | [L21](file:///d:/claude/nomad/e2e/consul/on_update.go#L21) |
-| `AfterEach` | `tc *OnUpdateChecksTest` | `f *framework.F` | - | [L28](file:///d:/claude/nomad/e2e/consul/on_update.go#L28) |
-| `TestOnUpdateCheck_IgnoreWarning_IgnoreErrors` | `tc *OnUpdateChecksTest` | `f *framework.F` | - | [L42](file:///d:/claude/nomad/e2e/consul/on_update.go#L42) |
-| `TestOnUpdate_CheckRestart` | `tc *OnUpdateChecksTest` | `f *framework.F` | - | [L80](file:///d:/claude/nomad/e2e/consul/on_update.go#L80) |
+| `BeforeAll` | `tc *OnUpdateChecksTest` | `f *framework.F` | `` | [L21](file:///d:/claude/nomad/e2e/consul/on_update.go#L21) |
+| `AfterEach` | `tc *OnUpdateChecksTest` | `f *framework.F` | `` | [L28](file:///d:/claude/nomad/e2e/consul/on_update.go#L28) |
+| `TestOnUpdateCheck_IgnoreWarning_IgnoreErrors` | `tc *OnUpdateChecksTest` | `f *framework.F` | `` | [L42](file:///d:/claude/nomad/e2e/consul/on_update.go#L42) |
+| `TestOnUpdate_CheckRestart` | `tc *OnUpdateChecksTest` | `f *framework.F` | `` | [L80](file:///d:/claude/nomad/e2e/consul/on_update.go#L80) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -63,4 +76,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [check_restart.go](file:///d:/claude/nomad/e2e/consul/check_restart.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/consul/consul.go) | 同目录源文件 |
+| [namespaces.go](file:///d:/claude/nomad/e2e/consul/namespaces.go) | 同目录源文件 |
+| [namespaces_ce.go](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go) | 同目录源文件 |
+| [script_checks.go](file:///d:/claude/nomad/e2e/consul/script_checks.go) | 同目录源文件 |
 

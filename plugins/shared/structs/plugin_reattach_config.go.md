@@ -18,14 +18,27 @@
 
 **定义位置**：[L15](file:///d:/claude/nomad/plugins/shared/structs/plugin_reattach_config.go#L15)
 
+**中文说明**：ReattachConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type ReattachConfig struct {
 	Protocol string
 	Network string
 	Addr string
 	Pid int
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Protocol` | `string` | 字符串 |
+| `Network` | `string` | 字符串 |
+| `Addr` | `string` | 地址 |
+| `Pid` | `int` | — |
 
 ## 3. 常量与变量
 
@@ -39,6 +52,8 @@
 | `ReattachConfigFromGoPlugin` | - | `plug *plugin.ReattachConfig` | `*ReattachConfig` | [L62](file:///d:/claude/nomad/plugins/shared/structs/plugin_reattach_config.go#L62) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -58,4 +73,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [attribute.go](file:///d:/claude/nomad/plugins/shared/structs/attribute.go) | 同目录源文件 |
+| [stats.go](file:///d:/claude/nomad/plugins/shared/structs/stats.go) | 同目录源文件 |
+| [units.go](file:///d:/claude/nomad/plugins/shared/structs/units.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/plugins/shared/structs/util.go) | 同目录源文件 |
 

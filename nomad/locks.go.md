@@ -1,6 +1,6 @@
 # locks.go 代码说明文档
 
-> 文件路径：[locks.go](file:///d:/claude/nomad/nomad/locks.go)
+> 文件路径：[nomad/locks.go](file:///d:/claude/nomad/nomad/locks.go)
 > 总行数：155 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **锁管理器**，管理分布式锁的启用/禁用和状态查询。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `locks.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -20,21 +20,23 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `errTimerNotFound` | `errors.New("lock doesn't have a running timer ")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `errTimerNotFound` | `—` | `errors.New("lock doesn't have a running timer ")` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `restoreLockTTLTimers` | `s *Server` | - | `error` | [L21](file:///d:/claude/nomad/nomad/locks.go#L21) |
-| `CreateVariableLockTTLTimer` | `s *Server` | `variable structs.VariableEncrypted` | - | [L45](file:///d:/claude/nomad/nomad/locks.go#L45) |
-| `invalidateVariableLock` | `s *Server` | `variable structs.VariableEncrypted` | - | [L78](file:///d:/claude/nomad/nomad/locks.go#L78) |
+| `restoreLockTTLTimers` | `s *Server` | `` | `error` | [L21](file:///d:/claude/nomad/nomad/locks.go#L21) |
+| `CreateVariableLockTTLTimer` | `s *Server` | `variable structs.VariableEncrypted` | `` | [L45](file:///d:/claude/nomad/nomad/locks.go#L45) |
+| `invalidateVariableLock` | `s *Server` | `variable structs.VariableEncrypted` | `` | [L78](file:///d:/claude/nomad/nomad/locks.go#L78) |
 | `RenewTTLTimer` | `s *Server` | `variable structs.VariableEncrypted` | `error` | [L114](file:///d:/claude/nomad/nomad/locks.go#L114) |
-| `RemoveVariableLockTTLTimer` | `s *Server` | `variable structs.VariableEncrypted` | - | [L141](file:///d:/claude/nomad/nomad/locks.go#L141) |
+| `RemoveVariableLockTTLTimer` | `s *Server` | `variable structs.VariableEncrypted` | `` | [L141](file:///d:/claude/nomad/nomad/locks.go#L141) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -49,11 +51,16 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Server 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [locks_test.go](file:///d:/claude/nomad/nomad/locks_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

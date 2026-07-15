@@ -18,15 +18,29 @@
 
 **定义位置**：[L34](file:///d:/claude/nomad/version/version.go#L34)
 
+**中文说明**：VersionInfo 是一个信息结构体，包含对象的元数据或描述信息。
+
 **类型**：struct
 
 ```go
+type VersionInfo struct {
 	BuildDate time.Time
 	Revision string
 	Version string
 	VersionPrerelease string
 	VersionMetadata string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `BuildDate` | `time.Time` | 时间点 |
+| `Revision` | `string` | 字符串 |
+| `Version` | `string` | 版本号 |
+| `VersionPrerelease` | `string` | 字符串 |
+| `VersionMetadata` | `string` | 字符串 |
 
 **关联方法**（3 个）：`Copy`, `VersionNumber`, `FullVersionNumber`
 
@@ -34,22 +48,22 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `BuildDate` | `` |
-| `GitCommit` | `` |
-| `GitDescribe` | `` |
-| `Version` | `"2.0.4"` |
-| `VersionPrerelease` | `"dev"` |
-| `VersionMetadata` | `""` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `BuildDate` | `string` | `` | — |
+| `GitCommit` | `string` | `` | — |
+| `GitDescribe` | `string` | `` | — |
+| `Version` | `—` | `"2.0.4"` | — |
+| `VersionPrerelease` | `—` | `"dev"` | — |
+| `VersionMetadata` | `—` | `""` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Copy` | `v *VersionInfo` | - | `*VersionInfo` | [L42](file:///d:/claude/nomad/version/version.go#L42) |
-| `GetVersion` | - | - | `*VersionInfo` | [L51](file:///d:/claude/nomad/version/version.go#L51) |
-| `VersionNumber` | `v *VersionInfo` | - | `string` | [L74](file:///d:/claude/nomad/version/version.go#L74) |
+| `Copy` | `v *VersionInfo` | `` | `*VersionInfo` | [L42](file:///d:/claude/nomad/version/version.go#L42) |
+| `GetVersion` | - | `` | `*VersionInfo` | [L51](file:///d:/claude/nomad/version/version.go#L51) |
+| `VersionNumber` | `v *VersionInfo` | `` | `string` | [L74](file:///d:/claude/nomad/version/version.go#L74) |
 | `FullVersionNumber` | `v *VersionInfo` | `rev bool` | `string` | [L88](file:///d:/claude/nomad/version/version.go#L88) |
 
 ## 5. 核心方法详解
@@ -59,6 +73,14 @@
 **签名**：`func (v *VersionInfo) Copy() *VersionInfo`
 
 **位置**：[L42](file:///d:/claude/nomad/version/version.go#L42)
+
+**中文说明**：创建对象的副本。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*VersionInfo` | — |
 
 ## 6. 依赖关系
 

@@ -20,63 +20,65 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `UnitKiB` | `"KiB"` |
-| `UnitMiB` | `"MiB"` |
-| `UnitGiB` | `"GiB"` |
-| `UnitTiB` | `"TiB"` |
-| `UnitPiB` | `"PiB"` |
-| `UnitEiB` | `"EiB"` |
-| `UnitkB` | `"kB"` |
-| `UnitKB` | `"KB"` |
-| `UnitMB` | `"MB"` |
-| `UnitGB` | `"GB"` |
-| `UnitTB` | `"TB"` |
-| `UnitPB` | `"PB"` |
-| `UnitEB` | `"EB"` |
-| `UnitKiBPerS` | `"KiB/s"` |
-| `UnitMiBPerS` | `"MiB/s"` |
-| `UnitGiBPerS` | `"GiB/s"` |
-| `UnitTiBPerS` | `"TiB/s"` |
-| `UnitPiBPerS` | `"PiB/s"` |
-| `UnitEiBPerS` | `"EiB/s"` |
-| `UnitkBPerS` | `"kB/s"` |
-| `UnitKBPerS` | `"KB/s"` |
-| `UnitMBPerS` | `"MB/s"` |
-| `UnitGBPerS` | `"GB/s"` |
-| `UnitTBPerS` | `"TB/s"` |
-| `UnitPBPerS` | `"PB/s"` |
-| `UnitEBPerS` | `"EB/s"` |
-| `UnitMHz` | `"MHz"` |
-| `UnitGHz` | `"GHz"` |
-| `UnitmW` | `"mW"` |
-| `UnitW` | `"W"` |
-| `UnitkW` | `"kW"` |
-| `UnitMW` | `"MW"` |
-| `UnitGW` | `"GW"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `UnitKiB` | `—` | `"KiB"` | — |
+| `UnitMiB` | `—` | `"MiB"` | — |
+| `UnitGiB` | `—` | `"GiB"` | — |
+| `UnitTiB` | `—` | `"TiB"` | — |
+| `UnitPiB` | `—` | `"PiB"` | — |
+| `UnitEiB` | `—` | `"EiB"` | — |
+| `UnitkB` | `—` | `"kB"` | — |
+| `UnitKB` | `—` | `"KB"` | — |
+| `UnitMB` | `—` | `"MB"` | — |
+| `UnitGB` | `—` | `"GB"` | — |
+| `UnitTB` | `—` | `"TB"` | — |
+| `UnitPB` | `—` | `"PB"` | — |
+| `UnitEB` | `—` | `"EB"` | — |
+| `UnitKiBPerS` | `—` | `"KiB/s"` | — |
+| `UnitMiBPerS` | `—` | `"MiB/s"` | — |
+| `UnitGiBPerS` | `—` | `"GiB/s"` | — |
+| `UnitTiBPerS` | `—` | `"TiB/s"` | — |
+| `UnitPiBPerS` | `—` | `"PiB/s"` | — |
+| `UnitEiBPerS` | `—` | `"EiB/s"` | — |
+| `UnitkBPerS` | `—` | `"kB/s"` | — |
+| `UnitKBPerS` | `—` | `"KB/s"` | — |
+| `UnitMBPerS` | `—` | `"MB/s"` | — |
+| `UnitGBPerS` | `—` | `"GB/s"` | — |
+| `UnitTBPerS` | `—` | `"TB/s"` | — |
+| `UnitPBPerS` | `—` | `"PB/s"` | — |
+| `UnitEBPerS` | `—` | `"EB/s"` | — |
+| `UnitMHz` | `—` | `"MHz"` | — |
+| `UnitGHz` | `—` | `"GHz"` | — |
+| `UnitmW` | `—` | `"mW"` | — |
+| `UnitW` | `—` | `"W"` | — |
+| `UnitkW` | `—` | `"kW"` | — |
+| `UnitMW` | `—` | `"MW"` | — |
+| `UnitGW` | `—` | `"GW"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `numUnits` | `len(binarySIBytes) + len(decimalSIBytes) + len(binarySIBy...` |
-| `UnitIndex` | `make(map[string]*Unit, numUnits)` |
-| `lengthSortedUnits` | `make([]string, 0, numUnits)` |
-| `binarySIBytes` | `[]*Unit{...}` |
-| `decimalSIBytes` | `[]*Unit{...}` |
-| `binarySIByteRates` | `[]*Unit{...}` |
-| `decimalSIByteRates` | `[]*Unit{...}` |
-| `hertz` | `[]*Unit{...}` |
-| `watts` | `[]*Unit{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `numUnits` | `—` | `len(binarySIBytes) + len(decimalSIBytes) + len(binarySIBy...` | — |
+| `UnitIndex` | `—` | `make(map[string]*Unit, numUnits)` | — |
+| `lengthSortedUnits` | `—` | `make([]string, 0, numUnits)` | — |
+| `binarySIBytes` | `—` | `[]*Unit{...}` | — |
+| `decimalSIBytes` | `—` | `[]*Unit{...}` | — |
+| `binarySIByteRates` | `—` | `[]*Unit{...}` | — |
+| `decimalSIByteRates` | `—` | `[]*Unit{...}` | — |
+| `hertz` | `—` | `[]*Unit{...}` | — |
+| `watts` | `—` | `[]*Unit{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L251](file:///d:/claude/nomad/plugins/shared/structs/units.go#L251) |
+| `init` | - | `` | `` | [L251](file:///d:/claude/nomad/plugins/shared/structs/units.go#L251) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -94,4 +96,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [attribute.go](file:///d:/claude/nomad/plugins/shared/structs/attribute.go) | 同目录源文件 |
+| [plugin_reattach_config.go](file:///d:/claude/nomad/plugins/shared/structs/plugin_reattach_config.go) | 同目录源文件 |
+| [stats.go](file:///d:/claude/nomad/plugins/shared/structs/stats.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/plugins/shared/structs/util.go) | 同目录源文件 |
 

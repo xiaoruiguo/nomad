@@ -1,6 +1,6 @@
 # core_sched.go 代码说明文档
 
-> 文件路径：[core_sched.go](file:///d:/claude/nomad/nomad/core_sched.go)
+> 文件路径：[nomad/core_sched.go](file:///d:/claude/nomad/nomad/core_sched.go)
 > 总行数：1401 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2025
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **核心调度器**，处理系统级评估（如垃圾回收、节点排水），周期性清理过期对象。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `core_sched.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,15 +18,29 @@
 
 **定义位置**：[L28](file:///d:/claude/nomad/nomad/core_sched.go#L28)
 
+**中文说明**：CoreScheduler 与调度器（Scheduler）相关，调度器负责将作业分配到合适的节点。
+
 **类型**：struct
 
 ```go
+type CoreScheduler struct {
 	srv *Server
 	snap *state.StateSnapshot
 	logger log.Logger
 	planner sstructs.Planner
 	customThresholdForObject map[string]*time.Duration
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `snap` | `*state.StateSnapshot` | — |
+| `logger` | `log.Logger` | 日志记录器 |
+| `planner` | `sstructs.Planner` | 计划器，管理分配方案 |
+| `customThresholdForObject` | `map[string]*time.Duration` | 时间间隔 |
 
 **关联方法**（25 个）：`Process`, `forceGC`, `jobGC`, `jobReap`, `partitionJobReap`, `evalGC`, `gcEval`, `evalReap`, `partitionEvalReap`, `nodeGC`, `nodeReap`, `deploymentGC`, `deploymentReap`, `partitionDeploymentReap`, `csiVolumeClaimGC`, `csiPluginGC`, `expiredOneTimeTokenGC`, `expiredACLTokenGC`, `rootKeyRotateOrGC`, `rootKeyGC`, `rootKeyMigrate`, `rootKeyRotate`, `variablesRekey`, `rotateVariables`, `getCutoffTime`
 
@@ -54,7 +68,7 @@
 | `deploymentGC` | `c *CoreScheduler` | `customThreshold *time.Duration` | `error` | [L583](file:///d:/claude/nomad/nomad/core_sched.go#L583) |
 | `deploymentReap` | `c *CoreScheduler` | `deployments []string` | `error` | [L646](file:///d:/claude/nomad/nomad/core_sched.go#L646) |
 | `partitionDeploymentReap` | `c *CoreScheduler` | `deployments []string, batchSize int` | `[]*structs.DeploymentDeleteRequest` | [L662](file:///d:/claude/nomad/nomad/core_sched.go#L662) |
-| `allocGCEligible` | - | `a *structs.Allocation, job *structs.Job, gcTime time.Time, cutoffTime time.T...` | `bool` | [L690](file:///d:/claude/nomad/nomad/core_sched.go#L690) |
+| `allocGCEligible` | - | `a *structs.Allocation, job *structs.Job, gcTime time.Time, cutoffTime time.Time` | `bool` | [L690](file:///d:/claude/nomad/nomad/core_sched.go#L690) |
 | `csiVolumeClaimGC` | `c *CoreScheduler` | `eval *structs.Evaluation, customThreshold *time.Duration` | `error` | [L756](file:///d:/claude/nomad/nomad/core_sched.go#L756) |
 | `csiPluginGC` | `c *CoreScheduler` | `eval *structs.Evaluation, customThreshold *time.Duration` | `error` | [L829](file:///d:/claude/nomad/nomad/core_sched.go#L829) |
 | `expiredOneTimeTokenGC` | `c *CoreScheduler` | `eval *structs.Evaluation` | `error` | [L876](file:///d:/claude/nomad/nomad/core_sched.go#L876) |
@@ -68,6 +82,48 @@
 | `getCutoffTime` | `c *CoreScheduler` | `configThreshold time.Duration` | `time.Time` | [L1398](file:///d:/claude/nomad/nomad/core_sched.go#L1398) |
 
 ## 5. 核心方法详解
+
+### NewCoreScheduler()
+
+**签名**：`func NewCoreScheduler(srv *Server, snap *state.StateSnapshot, planner sstructs.Planner) sstructs.Scheduler`
+
+**位置**：[L46](file:///d:/claude/nomad/nomad/core_sched.go#L46)
+
+**中文说明**：创建并返回一个新的 CoreScheduler 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `snap` | `*state.StateSnapshot` | — |
+| `planner` | `sstructs.Planner` | 计划器，管理分配方案 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `sstructs.Scheduler` | — |
+
+### Process()
+
+**签名**：`func (c *CoreScheduler) Process(eval *structs.Evaluation) error`
+
+**位置**：[L58](file:///d:/claude/nomad/nomad/core_sched.go#L58)
+
+**中文说明**：处理 用于 实现 调度器.调度器 接口
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `eval` | `*structs.Evaluation` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -93,16 +149,20 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
-- **调度器模式**：实现调度器接口，从评估队列获取评估并产生调度计划
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **后台协程**：启动 goroutine 执行后台任务
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [core_sched_test.go](file:///d:/claude/nomad/nomad/core_sched_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

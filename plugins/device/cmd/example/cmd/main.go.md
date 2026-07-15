@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理，通过 gRPC 与 Nomad 通信。
+该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理。
 
 ## 2. 类型定义
 
@@ -24,10 +24,12 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L13](file:///d:/claude/nomad/plugins/device/cmd/example/cmd/main.go#L13) |
+| `main` | - | `` | `` | [L13](file:///d:/claude/nomad/plugins/device/cmd/example/cmd/main.go#L13) |
 | `factory` | - | `log log.Logger` | `interface{}` | [L19](file:///d:/claude/nomad/plugins/device/cmd/example/cmd/main.go#L19) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

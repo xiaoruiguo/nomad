@@ -1,6 +1,6 @@
 # secrets.go 代码说明文档
 
-> 文件路径：[fingerprint/secrets.go](file:///d:/claude/nomad/client/fingerprint/secrets.go)
+> 文件路径：[client/fingerprint/secrets.go](file:///d:/claude/nomad/client/fingerprint/secrets.go)
 > 总行数：102 行
 > 所属包：`fingerprint`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **指纹采集子包**（`client/fingerprint`），实现节点能力检测（CPU、内存、网络、存储、Arch、Consul、Vault 等），向 Server 报告节点资源。是调度器决策的基础。
+该文件属于 **指纹采集子包**（`client/fingerprint`），采集客户端节点的硬件和软件信息（CPU、内存、OS、网络），用于节点注册和资源上报。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/client/fingerprint/secrets.go#L18)
 
+**中文说明**：SecretsPluginFingerprint 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
+type SecretsPluginFingerprint struct {
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（3 个）：`Fingerprint`, `Periodic`, `Reload`
 
@@ -36,16 +46,57 @@
 |------|--------|------|--------|------|
 | `NewPluginsSecretsFingerprint` | - | `logger hclog.Logger` | `Fingerprint` | [L22](file:///d:/claude/nomad/client/fingerprint/secrets.go#L22) |
 | `Fingerprint` | `s *SecretsPluginFingerprint` | `request *FingerprintRequest, response *FingerprintResponse` | `error` | [L28](file:///d:/claude/nomad/client/fingerprint/secrets.go#L28) |
-| `Periodic` | `s *SecretsPluginFingerprint` | - | `bool, time.Duration` | [L95](file:///d:/claude/nomad/client/fingerprint/secrets.go#L95) |
-| `Reload` | `s *SecretsPluginFingerprint` | - | - | [L99](file:///d:/claude/nomad/client/fingerprint/secrets.go#L99) |
+| `Periodic` | `s *SecretsPluginFingerprint` | `` | `bool, time.Duration` | [L95](file:///d:/claude/nomad/client/fingerprint/secrets.go#L95) |
+| `Reload` | `s *SecretsPluginFingerprint` | `` | `` | [L99](file:///d:/claude/nomad/client/fingerprint/secrets.go#L99) |
 
 ## 5. 核心方法详解
+
+### NewPluginsSecretsFingerprint()
+
+**签名**：`func NewPluginsSecretsFingerprint(logger hclog.Logger) Fingerprint`
+
+**位置**：[L22](file:///d:/claude/nomad/client/fingerprint/secrets.go#L22)
+
+**中文说明**：创建并返回一个新的 PluginsSecretsFingerprint 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Fingerprint` | — |
 
 ### Fingerprint()
 
 **签名**：`func (s *SecretsPluginFingerprint) Fingerprint(request *FingerprintRequest, response *FingerprintResponse) error`
 
 **位置**：[L28](file:///d:/claude/nomad/client/fingerprint/secrets.go#L28)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `request` | `*FingerprintRequest` | 请求 |
+| `response` | `*FingerprintResponse` | 响应 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
+### Reload()
+
+**签名**：`func (s *SecretsPluginFingerprint) Reload() `
+
+**位置**：[L99](file:///d:/claude/nomad/client/fingerprint/secrets.go#L99)
+
+**中文说明**：重新加载对象的配置。
 
 ## 6. 依赖关系
 
@@ -64,11 +115,19 @@
 
 ## 7. 设计模式与技术特点
 
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [secrets_test.go](file:///d:/claude/nomad/client/fingerprint/secrets_test.go) | 对应测试文件 |
+| [arch.go](file:///d:/claude/nomad/client/fingerprint/arch.go) | 同目录源文件 |
+| [bridge.go](file:///d:/claude/nomad/client/fingerprint/bridge.go) | 同目录源文件 |
+| [bridge_default.go](file:///d:/claude/nomad/client/fingerprint/bridge_default.go) | 同目录源文件 |
+| [bridge_linux.go](file:///d:/claude/nomad/client/fingerprint/bridge_linux.go) | 同目录源文件 |
+| [cgroup.go](file:///d:/claude/nomad/client/fingerprint/cgroup.go) | 同目录源文件 |
 

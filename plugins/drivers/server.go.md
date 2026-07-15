@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。是所有任务驱动（Docker、Java、QEMU 等）的接口契约。
+该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L24](file:///d:/claude/nomad/plugins/drivers/server.go#L24)
 
+**中文说明**：driverPluginServer 与任务驱动（Driver）相关，驱动负责任务的实际执行。
+
 **类型**：struct
 
 ```go
+type driverPluginServer struct {
 	broker *plugin.GRPCBroker
 	impl DriverPlugin
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `broker` | `*plugin.GRPCBroker` | — |
+| `impl` | `DriverPlugin` | — |
 
 **关联方法**（18 个）：`Init`, `TaskConfigSchema`, `Capabilities`, `Fingerprint`, `RecoverTask`, `StartTask`, `WaitTask`, `StopTask`, `DestroyTask`, `InspectTask`, `TaskStats`, `ExecTask`, `ExecTaskStreaming`, `SignalTask`, `TaskEvents`, `CreateNetwork`, `DestroyNetwork`, `Shutdown`
 
@@ -62,17 +73,62 @@
 
 **位置**：[L29](file:///d:/claude/nomad/plugins/drivers/server.go#L29)
 
+**中文说明**：初始化对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.InitRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.InitResponse` | — |
+| `error` | 错误信息 |
+
 ### Fingerprint()
 
 **签名**：`func (b *driverPluginServer) Fingerprint(req *proto.FingerprintRequest, srv proto.Driver_FingerprintServer) error`
 
 **位置**：[L88](file:///d:/claude/nomad/plugins/drivers/server.go#L88)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `req` | `*proto.FingerprintRequest` | — |
+| `srv` | `proto.Driver_FingerprintServer` | 关联的 Server 实例 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Shutdown()
 
 **签名**：`func (b *driverPluginServer) Shutdown(ctx context.Context, req *proto.ShutdownRequest) *proto.ShutdownResponse, error`
 
 **位置**：[L446](file:///d:/claude/nomad/plugins/drivers/server.go#L446)
+
+**中文说明**：关闭对象，释放相关资源。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.ShutdownRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.ShutdownResponse` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -106,4 +162,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/drivers/client.go) | 同目录源文件 |
+| [cstructs.go](file:///d:/claude/nomad/plugins/drivers/cstructs.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/plugins/drivers/driver.go) | 同目录源文件 |
+| [errors.go](file:///d:/claude/nomad/plugins/drivers/errors.go) | 同目录源文件 |
+| [execstreaming.go](file:///d:/claude/nomad/plugins/drivers/execstreaming.go) | 同目录源文件 |
 

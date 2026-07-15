@@ -25,10 +25,12 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `MapKeys` | - | `m M` | `[]K` | [L14](file:///d:/claude/nomad/lib/lang/maps.go#L14) |
-| `MapClear` | - | `m M` | - | [L23](file:///d:/claude/nomad/lib/lang/maps.go#L23) |
-| `WalkMap` | - | `m map[K]V, f func(...)` | - | [L31](file:///d:/claude/nomad/lib/lang/maps.go#L31) |
+| `MapClear` | - | `m M` | `` | [L23](file:///d:/claude/nomad/lib/lang/maps.go#L23) |
+| `WalkMap` | - | `m map[K]V, f func(...)` | `` | [L31](file:///d:/claude/nomad/lib/lang/maps.go#L31) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -49,4 +51,7 @@
 | 文件 | 关系 |
 |------|------|
 | [maps_test.go](file:///d:/claude/nomad/lib/lang/maps_test.go) | 对应测试文件 |
+| [doc.go](file:///d:/claude/nomad/lib/lang/doc.go) | 同目录源文件 |
+| [pair.go](file:///d:/claude/nomad/lib/lang/pair.go) | 同目录源文件 |
+| [stack.go](file:///d:/claude/nomad/lib/lang/stack.go) | 同目录源文件 |
 

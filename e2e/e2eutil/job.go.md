@@ -38,7 +38,7 @@
 | `CleanupJobsAndGC` | - | `t *testing.T, jobIDs *[]string` | `func(...)` | [L218](file:///d:/claude/nomad/e2e/e2eutil/job.go#L218) |
 | `MaybeCleanupJobsAndGC` | - | `jobIDs *[]string` | `func(...)` | [L234](file:///d:/claude/nomad/e2e/e2eutil/job.go#L234) |
 | `MaybeCleanupNamespacedJobsAndGC` | - | `ns string, jobIDs []string` | `func(...)` | [L248](file:///d:/claude/nomad/e2e/e2eutil/job.go#L248) |
-| `CleanupJobsAndGCWithContext` | - | `t *testing.T, ctx context.Context, jobIDs *[]string` | - | [L261](file:///d:/claude/nomad/e2e/e2eutil/job.go#L261) |
+| `CleanupJobsAndGCWithContext` | - | `t *testing.T, ctx context.Context, jobIDs *[]string` | `` | [L261](file:///d:/claude/nomad/e2e/e2eutil/job.go#L261) |
 
 ## 5. 核心方法详解
 
@@ -48,11 +48,40 @@
 
 **位置**：[L23](file:///d:/claude/nomad/e2e/e2eutil/job.go#L23)
 
+**中文说明**：注册对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `jobID` | `string` | 字符串 |
+| `jobFilePath` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Dispatch()
 
 **签名**：`func Dispatch(jobID string, meta map[string]string, payload string) error`
 
 **位置**：[L107](file:///d:/claude/nomad/e2e/e2eutil/job.go#L107)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `jobID` | `string` | 字符串 |
+| `meta` | `map[string]string` | 元数据 |
+| `payload` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -83,4 +112,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
 

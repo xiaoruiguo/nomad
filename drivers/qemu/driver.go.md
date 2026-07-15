@@ -18,9 +18,12 @@
 
 **定义位置**：[L123](file:///d:/claude/nomad/drivers/qemu/driver.go#L123)
 
+**中文说明**：TaskConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type TaskConfig struct {
 	ImagePath string `codec:"image_path"`
 	Emulator string `codec:"emulator"`
 	MachineType string `codec:"machine_type"`
@@ -30,47 +33,102 @@
 	GracefulShutdown bool `codec:"graceful_shutdown"`
 	DriveInterface string `codec:"drive_interface"`
 	GuestAgent bool `codec:"guest_agent"`
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ImagePath` | `string `codec:"image_path"`` | 字符串 |
+| `Emulator` | `string `codec:"emulator"`` | 字符串 |
+| `MachineType` | `string `codec:"machine_type"`` | 字符串 |
+| `Accelerator` | `string `codec:"accelerator"`` | 字符串 |
+| `Args` | `[]string `codec:"args"`` | 参数 |
+| `PortMap` | `hclutils.MapStrInt `codec:"port_map"`` | — |
+| `GracefulShutdown` | `bool `codec:"graceful_shutdown"`` | 布尔值 |
+| `DriveInterface` | `string `codec:"drive_interface"`` | 字符串 |
+| `GuestAgent` | `bool `codec:"guest_agent"`` | 布尔值 |
 
 ### TaskState
 
 **定义位置**：[L138](file:///d:/claude/nomad/drivers/qemu/driver.go#L138)
 
+**中文说明**：TaskState 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type TaskState struct {
 	ReattachConfig *pstructs.ReattachConfig
 	TaskConfig *drivers.TaskConfig
 	Pid int
 	StartedAt time.Time
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ReattachConfig` | `*pstructs.ReattachConfig` | — |
+| `TaskConfig` | `*drivers.TaskConfig` | — |
+| `Pid` | `int` | — |
+| `StartedAt` | `time.Time` | 时间点 |
 
 ### Config
 
 **定义位置**：[L146](file:///d:/claude/nomad/drivers/qemu/driver.go#L146)
 
+**中文说明**：Config 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type Config struct {
 	ImagePaths []string `codec:"image_paths"`
 	ArgsAllowList []string `codec:"args_allowlist"`
 	EmulatorsAllowList []string `codec:"emulators_allowlist"`
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ImagePaths` | `[]string `codec:"image_paths"`` | 列表 |
+| `ArgsAllowList` | `[]string `codec:"args_allowlist"`` | 列表 |
+| `EmulatorsAllowList` | `[]string `codec:"emulators_allowlist"`` | 列表 |
 
 ### Driver
 
 **定义位置**：[L162](file:///d:/claude/nomad/drivers/qemu/driver.go#L162)
 
+**中文说明**：Driver 与任务驱动（Driver）相关，驱动负责任务的实际执行。
+
 **类型**：struct
 
 ```go
+type Driver struct {
 	eventer *eventer.Eventer
 	config Config
 	tasks *taskStore
 	ctx context.Context
 	nomadConfig *base.ClientDriverConfig
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `eventer` | `*eventer.Eventer` | — |
+| `config` | `Config` | 配置 |
+| `tasks` | `*taskStore` | — |
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `nomadConfig` | `*base.ClientDriverConfig` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（19 个）：`PluginInfo`, `ConfigSchema`, `SetConfig`, `TaskConfigSchema`, `Capabilities`, `Fingerprint`, `handleFingerprint`, `buildFingerprint`, `RecoverTask`, `StartTask`, `WaitTask`, `StopTask`, `DestroyTask`, `InspectTask`, `TaskStats`, `TaskEvents`, `SignalTask`, `ExecTask`, `handleWait`
 
@@ -78,45 +136,45 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `pluginName` | `"qemu"` |
-| `fingerprintPeriod` | `30 * time.Second` |
-| `driverAttr` | `"driver.qemu"` |
-| `driverVersionAttr` | `"driver.qemu.version"` |
-| `driverEmulatorsAttr` | `"driver.qemu.emulators"` |
-| `qemuGracefulShutdownMsg` | `"system_powerdown\n"` |
-| `qemuMonitorSocketName` | `"qm.sock"` |
-| `qemuGuestAgentSocketName` | `"qa.sock"` |
-| `taskHandleVersion` | `1` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `pluginName` | `—` | `"qemu"` | — |
+| `fingerprintPeriod` | `—` | `30 * time.Second` | — |
+| `driverAttr` | `—` | `"driver.qemu"` | — |
+| `driverVersionAttr` | `—` | `"driver.qemu.version"` | — |
+| `driverEmulatorsAttr` | `—` | `"driver.qemu.emulators"` | — |
+| `qemuGracefulShutdownMsg` | `—` | `"system_powerdown\n"` | — |
+| `qemuMonitorSocketName` | `—` | `"qm.sock"` | — |
+| `qemuGuestAgentSocketName` | `—` | `"qa.sock"` | — |
+| `taskHandleVersion` | `—` | `1` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `PluginID` | `loader.PluginID{...}` |
-| `PluginConfig` | `&loader.InternalPluginConfig{...}` |
-| `versionRegex` | `regexp.MustCompile(`version (\d[\.\d+]+)`)` |
-| `pluginInfo` | `&base.PluginInfoResponse{...}` |
-| `configSpec` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` |
-| `taskConfigSpec` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` |
-| `capabilities` | `&drivers.Capabilities{...}` |
-| `_` | `(*Driver)(nil)` |
-| `allowedDriveInterfaces` | `[]string{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `PluginID` | `—` | `loader.PluginID{...}` | — |
+| `PluginConfig` | `—` | `&loader.InternalPluginConfig{...}` | — |
+| `versionRegex` | `—` | `regexp.MustCompile(`version (\d[\.\d+]+)`)` | — |
+| `pluginInfo` | `—` | `&base.PluginInfoResponse{...}` | — |
+| `configSpec` | `—` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` | — |
+| `taskConfigSpec` | `—` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` | — |
+| `capabilities` | `—` | `&drivers.Capabilities{...}` | — |
+| `_` | `drivers.DriverPlugin` | `(*Driver)(nil)` | — |
+| `allowedDriveInterfaces` | `—` | `[]string{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewQemuDriver` | - | `ctx context.Context, logger hclog.Logger` | `drivers.DriverPlugin` | [L184](file:///d:/claude/nomad/drivers/qemu/driver.go#L184) |
-| `PluginInfo` | `d *Driver` | - | `*base.PluginInfoResponse, error` | [L194](file:///d:/claude/nomad/drivers/qemu/driver.go#L194) |
-| `ConfigSchema` | `d *Driver` | - | `*hclspec.Spec, error` | [L198](file:///d:/claude/nomad/drivers/qemu/driver.go#L198) |
+| `PluginInfo` | `d *Driver` | `` | `*base.PluginInfoResponse, error` | [L194](file:///d:/claude/nomad/drivers/qemu/driver.go#L194) |
+| `ConfigSchema` | `d *Driver` | `` | `*hclspec.Spec, error` | [L198](file:///d:/claude/nomad/drivers/qemu/driver.go#L198) |
 | `SetConfig` | `d *Driver` | `cfg *base.Config` | `error` | [L202](file:///d:/claude/nomad/drivers/qemu/driver.go#L202) |
-| `TaskConfigSchema` | `d *Driver` | - | `*hclspec.Spec, error` | [L217](file:///d:/claude/nomad/drivers/qemu/driver.go#L217) |
-| `Capabilities` | `d *Driver` | - | `*drivers.Capabilities, error` | [L221](file:///d:/claude/nomad/drivers/qemu/driver.go#L221) |
-| `Fingerprint` | `d *Driver` | `ctx context.Context` | `chan *drivers.Fingerprint, error` | [L225](file:///d:/claude/nomad/drivers/qemu/driver.go#L225) |
-| `handleFingerprint` | `d *Driver` | `ctx context.Context, ch chan *drivers.Fingerprint` | - | [L231](file:///d:/claude/nomad/drivers/qemu/driver.go#L231) |
-| `buildFingerprint` | `d *Driver` | - | `*drivers.Fingerprint` | [L246](file:///d:/claude/nomad/drivers/qemu/driver.go#L246) |
+| `TaskConfigSchema` | `d *Driver` | `` | `*hclspec.Spec, error` | [L217](file:///d:/claude/nomad/drivers/qemu/driver.go#L217) |
+| `Capabilities` | `d *Driver` | `` | `*drivers.Capabilities, error` | [L221](file:///d:/claude/nomad/drivers/qemu/driver.go#L221) |
+| `Fingerprint` | `d *Driver` | `ctx context.Context` | `<-chan *drivers.Fingerprint, error` | [L225](file:///d:/claude/nomad/drivers/qemu/driver.go#L225) |
+| `handleFingerprint` | `d *Driver` | `ctx context.Context, ch chan *drivers.Fingerprint` | `` | [L231](file:///d:/claude/nomad/drivers/qemu/driver.go#L231) |
+| `buildFingerprint` | `d *Driver` | `` | `*drivers.Fingerprint` | [L246](file:///d:/claude/nomad/drivers/qemu/driver.go#L246) |
 | `RecoverTask` | `d *Driver` | `handle *drivers.TaskHandle` | `error` | [L286](file:///d:/claude/nomad/drivers/qemu/driver.go#L286) |
 | `findEmulators` | - | `allowList []string` | `[]string` | [L359](file:///d:/claude/nomad/drivers/qemu/driver.go#L359) |
 | `isAllowedImagePath` | - | `allowedPaths []string, allocDir string, imagePath string` | `bool` | [L394](file:///d:/claude/nomad/drivers/qemu/driver.go#L394) |
@@ -124,16 +182,16 @@
 | `validateEmulator` | - | `emulator string, allowedEmulators []string` | `error` | [L427](file:///d:/claude/nomad/drivers/qemu/driver.go#L427) |
 | `validateArgs` | - | `pluginConfigAllowList []string, args []string` | `error` | [L439](file:///d:/claude/nomad/drivers/qemu/driver.go#L439) |
 | `StartTask` | `d *Driver` | `cfg *drivers.TaskConfig` | `*drivers.TaskHandle, *drivers.DriverNetwork, error` | [L456](file:///d:/claude/nomad/drivers/qemu/driver.go#L456) |
-| `WaitTask` | `d *Driver` | `ctx context.Context, taskID string` | `chan *drivers.ExitResult, error` | [L707](file:///d:/claude/nomad/drivers/qemu/driver.go#L707) |
+| `WaitTask` | `d *Driver` | `ctx context.Context, taskID string` | `<-chan *drivers.ExitResult, error` | [L707](file:///d:/claude/nomad/drivers/qemu/driver.go#L707) |
 | `StopTask` | `d *Driver` | `taskID string, timeout time.Duration, signal string` | `error` | [L719](file:///d:/claude/nomad/drivers/qemu/driver.go#L719) |
 | `DestroyTask` | `d *Driver` | `taskID string, force bool` | `error` | [L765](file:///d:/claude/nomad/drivers/qemu/driver.go#L765) |
 | `InspectTask` | `d *Driver` | `taskID string` | `*drivers.TaskStatus, error` | [L787](file:///d:/claude/nomad/drivers/qemu/driver.go#L787) |
-| `TaskStats` | `d *Driver` | `ctx context.Context, taskID string, interval time.Duration` | `chan *drivers.TaskResourceUsage, error` | [L796](file:///d:/claude/nomad/drivers/qemu/driver.go#L796) |
-| `TaskEvents` | `d *Driver` | `ctx context.Context` | `chan *drivers.TaskEvent, error` | [L805](file:///d:/claude/nomad/drivers/qemu/driver.go#L805) |
+| `TaskStats` | `d *Driver` | `ctx context.Context, taskID string, interval time.Duration` | `<-chan *drivers.TaskResourceUsage, error` | [L796](file:///d:/claude/nomad/drivers/qemu/driver.go#L796) |
+| `TaskEvents` | `d *Driver` | `ctx context.Context` | `<-chan *drivers.TaskEvent, error` | [L805](file:///d:/claude/nomad/drivers/qemu/driver.go#L805) |
 | `SignalTask` | `d *Driver` | `_ string, _ string` | `error` | [L809](file:///d:/claude/nomad/drivers/qemu/driver.go#L809) |
 | `ExecTask` | `d *Driver` | `_ string, _ []string, _ time.Duration` | `*drivers.ExecTaskResult, error` | [L813](file:///d:/claude/nomad/drivers/qemu/driver.go#L813) |
 | `GetAbsolutePath` | - | `bin string` | `string, error` | [L820](file:///d:/claude/nomad/drivers/qemu/driver.go#L820) |
-| `handleWait` | `d *Driver` | `ctx context.Context, handle *taskHandle, ch chan *drivers.ExitResult` | - | [L829](file:///d:/claude/nomad/drivers/qemu/driver.go#L829) |
+| `handleWait` | `d *Driver` | `ctx context.Context, handle *taskHandle, ch chan *drivers.ExitResult` | `` | [L829](file:///d:/claude/nomad/drivers/qemu/driver.go#L829) |
 | `validateSocketPath` | - | `path string` | `error` | [L860](file:///d:/claude/nomad/drivers/qemu/driver.go#L860) |
 | `sendQemuShutdown` | - | `logger hclog.Logger, monitorPath string, userPid int` | `error` | [L872](file:///d:/claude/nomad/drivers/qemu/driver.go#L872) |
 
@@ -145,11 +203,39 @@
 
 **位置**：[L184](file:///d:/claude/nomad/drivers/qemu/driver.go#L184)
 
+**中文说明**：创建并返回一个新的 QemuDriver 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `drivers.DriverPlugin` | — |
+
 ### Fingerprint()
 
-**签名**：`func (d *Driver) Fingerprint(ctx context.Context) chan *drivers.Fingerprint, error`
+**签名**：`func (d *Driver) Fingerprint(ctx context.Context) <-chan *drivers.Fingerprint, error`
 
 **位置**：[L225](file:///d:/claude/nomad/drivers/qemu/driver.go#L225)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *drivers.Fingerprint` | 通道 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -189,10 +275,16 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [driver_test.go](file:///d:/claude/nomad/drivers/qemu/driver_test.go) | 对应测试文件 |
+| [driver_bsd.go](file:///d:/claude/nomad/drivers/qemu/driver_bsd.go) | 同目录源文件 |
+| [driver_fallback.go](file:///d:/claude/nomad/drivers/qemu/driver_fallback.go) | 同目录源文件 |
+| [driver_linux.go](file:///d:/claude/nomad/drivers/qemu/driver_linux.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/qemu/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/qemu/state.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # logging.go 代码说明文档
 
-> 文件路径：[logging/logging.go](file:///d:/claude/nomad/helper/logging/logging.go)
+> 文件路径：[helper/logging/logging.go](file:///d:/claude/nomad/helper/logging/logging.go)
 > 总行数：42 行
 > 所属包：`logging`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **日志工具子包**（`helper/logging`），提供日志配置和初始化工具函数，支持多种日志输出格式和级别。
+该文件属于 **日志工具子包**（`helper/logging`），提供日志配置、日志格式化和日志级别管理功能，基于 hclog 实现。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L15](file:///d:/claude/nomad/helper/logging/logging.go#L15)
 
+**中文说明**：HcLogUI 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type HcLogUI struct {
 	Log hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Log` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（6 个）：`Ask`, `AskSecret`, `Output`, `Info`, `Error`, `Warn`
 
@@ -36,10 +46,10 @@
 |------|--------|------|--------|------|
 | `Ask` | `l *HcLogUI` | `query string` | `string, error` | [L19](file:///d:/claude/nomad/helper/logging/logging.go#L19) |
 | `AskSecret` | `l *HcLogUI` | `query string` | `string, error` | [L23](file:///d:/claude/nomad/helper/logging/logging.go#L23) |
-| `Output` | `l *HcLogUI` | `message string` | - | [L27](file:///d:/claude/nomad/helper/logging/logging.go#L27) |
-| `Info` | `l *HcLogUI` | `message string` | - | [L31](file:///d:/claude/nomad/helper/logging/logging.go#L31) |
-| `Error` | `l *HcLogUI` | `message string` | - | [L35](file:///d:/claude/nomad/helper/logging/logging.go#L35) |
-| `Warn` | `l *HcLogUI` | `message string` | - | [L39](file:///d:/claude/nomad/helper/logging/logging.go#L39) |
+| `Output` | `l *HcLogUI` | `message string` | `` | [L27](file:///d:/claude/nomad/helper/logging/logging.go#L27) |
+| `Info` | `l *HcLogUI` | `message string` | `` | [L31](file:///d:/claude/nomad/helper/logging/logging.go#L31) |
+| `Error` | `l *HcLogUI` | `message string` | `` | [L35](file:///d:/claude/nomad/helper/logging/logging.go#L35) |
+| `Warn` | `l *HcLogUI` | `message string` | `` | [L39](file:///d:/claude/nomad/helper/logging/logging.go#L39) |
 
 ## 5. 核心方法详解
 
@@ -48,6 +58,14 @@
 **签名**：`func (l *HcLogUI) Info(message string) `
 
 **位置**：[L31](file:///d:/claude/nomad/helper/logging/logging.go#L31)
+
+**中文说明**：返回对象的信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `message` | `string` | 消息 |
 
 ## 6. 依赖关系
 

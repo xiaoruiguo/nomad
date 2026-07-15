@@ -18,13 +18,25 @@
 
 **定义位置**：[L36](file:///d:/claude/nomad/drivers/docker/stats.go#L36)
 
+**中文说明**：usageSender 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type usageSender struct {
 	closed bool
-	destCh chan *cstructs.TaskResourceUsage
+	destCh chan<- *cstructs.TaskResourceUsage
 	mu sync.Mutex
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `closed` | `bool` | 是否已关闭 |
+| `destCh` | `chan<- *cstructs.TaskResourceUsage` | — |
+| `mu` | `sync.Mutex` | 互斥锁，保护并发访问 |
 
 **关联方法**（2 个）：`send`, `close`
 
@@ -32,29 +44,46 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `statsCollectorBackoffBaseline` | `5 * time.Second` |
-| `statsCollectorBackoffLimit` | `2 * time.Minute` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `statsCollectorBackoffBaseline` | `—` | `5 * time.Second` | — |
+| `statsCollectorBackoffLimit` | `—` | `2 * time.Minute` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `newStatsChanPipe` | - | - | `*usageSender, chan *cstructs.TaskResourceUsage` | [L44](file:///d:/claude/nomad/drivers/docker/stats.go#L44) |
-| `send` | `u *usageSender` | `tru *cstructs.TaskResourceUsage` | - | [L52](file:///d:/claude/nomad/drivers/docker/stats.go#L52) |
-| `close` | `u *usageSender` | - | - | [L68](file:///d:/claude/nomad/drivers/docker/stats.go#L68) |
-| `Stats` | `h *taskHandle` | `ctx context.Context, interval time.Duration, compute cpustats.Compute` | `chan *cstructs.TaskResourceUsage, error` | [L82](file:///d:/claude/nomad/drivers/docker/stats.go#L82) |
-| `collectStats` | `h *taskHandle` | `ctx context.Context, destCh *usageSender, interval time.Duration, compute cp...` | - | [L96](file:///d:/claude/nomad/drivers/docker/stats.go#L96) |
+| `newStatsChanPipe` | - | `` | `*usageSender, <-chan *cstructs.TaskResourceUsage` | [L44](file:///d:/claude/nomad/drivers/docker/stats.go#L44) |
+| `send` | `u *usageSender` | `tru *cstructs.TaskResourceUsage` | `` | [L52](file:///d:/claude/nomad/drivers/docker/stats.go#L52) |
+| `close` | `u *usageSender` | `` | `` | [L68](file:///d:/claude/nomad/drivers/docker/stats.go#L68) |
+| `Stats` | `h *taskHandle` | `ctx context.Context, interval time.Duration, compute cpustats.Compute` | `<-chan *cstructs.TaskResourceUsage, error` | [L82](file:///d:/claude/nomad/drivers/docker/stats.go#L82) |
+| `collectStats` | `h *taskHandle` | `ctx context.Context, destCh *usageSender, interval time.Duration, compute cpu...` | `` | [L96](file:///d:/claude/nomad/drivers/docker/stats.go#L96) |
 | `collectDockerStats` | `h *taskHandle` | `ctx context.Context` | `*containerapi.StatsResponse, error` | [L132](file:///d:/claude/nomad/drivers/docker/stats.go#L132) |
 
 ## 5. 核心方法详解
 
 ### Stats()
 
-**签名**：`func (h *taskHandle) Stats(ctx context.Context, interval time.Duration, compute cpustats.Compute) chan *cstructs.TaskResourceUsage, error`
+**签名**：`func (h *taskHandle) Stats(ctx context.Context, interval time.Duration, compute cpustats.Compute) <-chan *cstructs.TaskResourceUsage, error`
 
 **位置**：[L82](file:///d:/claude/nomad/drivers/docker/stats.go#L82)
+
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `interval` | `time.Duration` | 时间间隔 |
+| `compute` | `cpustats.Compute` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *cstructs.TaskResourceUsage` | 通道 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -90,4 +119,9 @@
 | 文件 | 关系 |
 |------|------|
 | [stats_test.go](file:///d:/claude/nomad/drivers/docker/stats_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

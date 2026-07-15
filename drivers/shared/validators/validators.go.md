@@ -18,25 +18,37 @@
 
 **定义位置**：[L26](file:///d:/claude/nomad/drivers/shared/validators/validators.go#L26)
 
-**类型定义**：`uint64`
+**类型定义**：`type GroupID uint64`
 
 ### UserID
 
 **定义位置**：[L29](file:///d:/claude/nomad/drivers/shared/validators/validators.go#L29)
 
-**类型定义**：`uint64`
+**类型定义**：`type UserID uint64`
 
 ### Validator
 
 **定义位置**：[L32](file:///d:/claude/nomad/drivers/shared/validators/validators.go#L32)
 
+**中文说明**：Validator 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Validator struct {
 	deniedUIDs *idset.Set[UserID]
 	deniedGIDs *idset.Set[GroupID]
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `deniedUIDs` | `*idset.Set[UserID]` | — |
+| `deniedGIDs` | `*idset.Set[GroupID]` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（1 个）：`HasValidIDs`
 
@@ -44,10 +56,10 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ErrInvalidBound` | `errors.New("range bound not valid")` |
-| `ErrInvalidRange` | `errors.New("lower bound cannot be greater than upper bound")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ErrInvalidBound` | `—` | `errors.New("range bound not valid")` | — |
+| `ErrInvalidRange` | `—` | `errors.New("lower bound cannot be greater than upper bound")` | — |
 
 ## 4. 方法与函数
 
@@ -65,6 +77,23 @@
 **签名**：`func NewValidator(logger hclog.Logger, deniedHostUIDs string, deniedHostGIDs string) *Validator, error`
 
 **位置**：[L43](file:///d:/claude/nomad/drivers/shared/validators/validators.go#L43)
+
+**中文说明**：创建并返回一个新的 Validator 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `deniedHostUIDs` | `string` | 字符串 |
+| `deniedHostGIDs` | `string` | 字符串 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Validator` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -86,10 +115,13 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [validators_test.go](file:///d:/claude/nomad/drivers/shared/validators/validators_test.go) | 对应测试文件 |
+| [validators_default.go](file:///d:/claude/nomad/drivers/shared/validators/validators_default.go) | 同目录源文件 |
+| [validators_unix.go](file:///d:/claude/nomad/drivers/shared/validators/validators_unix.go) | 同目录源文件 |
 

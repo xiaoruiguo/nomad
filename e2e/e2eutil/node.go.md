@@ -30,11 +30,13 @@
 | `ListWindowsClientNodes` | - | `client *api.Client` | `[]string, error` | [L123](file:///d:/claude/nomad/e2e/e2eutil/node.go#L123) |
 | `ListLinuxClientNodes` | - | `client *api.Client` | `[]string, error` | [L130](file:///d:/claude/nomad/e2e/e2eutil/node.go#L130) |
 | `listClientNodesByOS` | - | `client *api.Client, osName string` | `[]string, error` | [L134](file:///d:/claude/nomad/e2e/e2eutil/node.go#L134) |
-| `NodeStatusList` | - | - | `[]map[string]string, error` | [L152](file:///d:/claude/nomad/e2e/e2eutil/node.go#L152) |
+| `NodeStatusList` | - | `` | `[]map[string]string, error` | [L152](file:///d:/claude/nomad/e2e/e2eutil/node.go#L152) |
 | `NodeStatusListFiltered` | - | `filterFn func(...)` | `[]map[string]string, error` | [L166](file:///d:/claude/nomad/e2e/e2eutil/node.go#L166) |
 | `WaitForNodeStatus` | - | `nodeID string, status string, wc *WaitConfig` | `error` | [L192](file:///d:/claude/nomad/e2e/e2eutil/node.go#L192) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -59,4 +61,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
 

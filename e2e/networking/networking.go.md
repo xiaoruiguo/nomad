@@ -18,12 +18,23 @@
 
 **定义位置**：[L15](file:///d:/claude/nomad/e2e/networking/networking.go#L15)
 
+**中文说明**：NetworkingE2ETest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type NetworkingE2ETest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（5 个）：`BeforeAll`, `AfterEach`, `TestNetworking_DockerBridgedHostname`, `TestNetworking_DockerBridgedHostnameInterpolation`, `TestNetworking_DockerBridgedCNIEnvVars`
 
@@ -35,14 +46,16 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L20](file:///d:/claude/nomad/e2e/networking/networking.go#L20) |
-| `BeforeAll` | `tc *NetworkingE2ETest` | `f *framework.F` | - | [L31](file:///d:/claude/nomad/e2e/networking/networking.go#L31) |
-| `AfterEach` | `tc *NetworkingE2ETest` | `f *framework.F` | - | [L36](file:///d:/claude/nomad/e2e/networking/networking.go#L36) |
-| `TestNetworking_DockerBridgedHostname` | `tc *NetworkingE2ETest` | `f *framework.F` | - | [L51](file:///d:/claude/nomad/e2e/networking/networking.go#L51) |
-| `TestNetworking_DockerBridgedHostnameInterpolation` | `tc *NetworkingE2ETest` | `f *framework.F` | - | [L75](file:///d:/claude/nomad/e2e/networking/networking.go#L75) |
-| `TestNetworking_DockerBridgedCNIEnvVars` | `tc *NetworkingE2ETest` | `f *framework.F` | - | [L99](file:///d:/claude/nomad/e2e/networking/networking.go#L99) |
+| `init` | - | `` | `` | [L20](file:///d:/claude/nomad/e2e/networking/networking.go#L20) |
+| `BeforeAll` | `tc *NetworkingE2ETest` | `f *framework.F` | `` | [L31](file:///d:/claude/nomad/e2e/networking/networking.go#L31) |
+| `AfterEach` | `tc *NetworkingE2ETest` | `f *framework.F` | `` | [L36](file:///d:/claude/nomad/e2e/networking/networking.go#L36) |
+| `TestNetworking_DockerBridgedHostname` | `tc *NetworkingE2ETest` | `f *framework.F` | `` | [L51](file:///d:/claude/nomad/e2e/networking/networking.go#L51) |
+| `TestNetworking_DockerBridgedHostnameInterpolation` | `tc *NetworkingE2ETest` | `f *framework.F` | `` | [L75](file:///d:/claude/nomad/e2e/networking/networking.go#L75) |
+| `TestNetworking_DockerBridgedCNIEnvVars` | `tc *NetworkingE2ETest` | `f *framework.F` | `` | [L99](file:///d:/claude/nomad/e2e/networking/networking.go#L99) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

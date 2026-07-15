@@ -20,19 +20,21 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `job` | ``
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `job` | `—` | ``
 job "bench" {
-	datacenters = ["ams2", "ams3", "nyc3", "...` |
+	datacenters = ["ams2", "ams3", "nyc3", "...` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L16](file:///d:/claude/nomad/demo/digitalocean/app/bench.go#L16) |
+| `main` | - | `` | `` | [L16](file:///d:/claude/nomad/demo/digitalocean/app/bench.go#L16) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

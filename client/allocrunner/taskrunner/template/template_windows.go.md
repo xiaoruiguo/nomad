@@ -1,6 +1,6 @@
 # template_windows.go 代码说明文档
 
-> 文件路径：[allocrunner/taskrunner/template/template_windows.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_windows.go)
+> 文件路径：[client/allocrunner/taskrunner/template/template_windows.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_windows.go)
 > 总行数：19 行
 > 所属包：`template`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **模板渲染子包**（`client/allocrunner/taskrunner/template`），实现 Consul-Template 风格的配置模板渲染。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 **平台特定实现**：此文件为 **Windows** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -32,6 +32,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -48,4 +50,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [template.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template.go) | 同目录源文件 |
+| [template_default.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_default.go) | 同目录源文件 |
 

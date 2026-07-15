@@ -1,6 +1,6 @@
 # state_store.go 代码说明文档
 
-> 文件路径：[state/state_store.go](file:///d:/claude/nomad/nomad/state/state_store.go)
+> 文件路径：[nomad/state/state_store.go](file:///d:/claude/nomad/nomad/state/state_store.go)
 > 总行数：7495 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **状态存储子包**（`nomad/state`），实现 Nomad Server 的状态存储（基于 MemDB），管理所有集群状态的内存索引和快照恢复。是 Raft FSM 的数据后端。
+该文件属于 `state` 包，定义结构体类型、包含 247 个方法/函数。
 
 ## 2. 类型定义
 
@@ -18,38 +18,65 @@
 
 **定义位置**：[L30](file:///d:/claude/nomad/nomad/state/state_store.go#L30)
 
-**类型定义**：`*txn`
+**类型定义**：`type Txn *txn`
 
 ### NodeUpsertOption
 
 **定义位置**：[L33](file:///d:/claude/nomad/nomad/state/state_store.go#L33)
 
-**类型定义**：`uint8`
+**中文说明**：NodeUpsertOption 与节点（Node）相关，节点是 Nomad 客户端运行任务的载体。
+
+**类型定义**：`type NodeUpsertOption uint8`
 
 ### IndexEntry
 
 **定义位置**：[L72](file:///d:/claude/nomad/nomad/state/state_store.go#L72)
 
+**中文说明**：IndexEntry 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type IndexEntry struct {
 	Key string
 	Value uint64
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Key` | `string` | 键 |
+| `Value` | `uint64` | 值 |
 
 ### StateStoreConfig
 
 **定义位置**：[L78](file:///d:/claude/nomad/nomad/state/state_store.go#L78)
 
+**中文说明**：StateStoreConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type StateStoreConfig struct {
 	Logger hclog.Logger
 	Region string
 	EnablePublisher bool
 	EventBufferSize int64
 	JobTrackedVersions int
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Logger` | `hclog.Logger` | 日志记录器 |
+| `Region` | `string` | 区域 |
+| `EnablePublisher` | `bool` | 布尔值 |
+| `EventBufferSize` | `int64` | — |
+| `JobTrackedVersions` | `int` | — |
 
 **关联方法**（1 个）：`Validate`
 
@@ -57,15 +84,29 @@
 
 **定义位置**：[L109](file:///d:/claude/nomad/nomad/state/state_store.go#L109)
 
+**中文说明**：StateStore 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type StateStore struct {
 	logger hclog.Logger
 	db *changeTrackerDB
 	config *StateStoreConfig
 	abandonCh chan struct{...}
 	stopEventBroker func(...)
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `db` | `*changeTrackerDB` | — |
+| `config` | `*StateStoreConfig` | 配置 |
+| `abandonCh` | `chan struct{...}` | 信号通道 |
+| `stopEventBroker` | `func(...)` | — |
 
 **关联方法**（227 个）：`NewWatchSet`, `EventBroker`, `namespaceInit`, `Config`, `Snapshot`, `SnapshotMinIndex`, `Restore`, `AbandonCh`, `Abandon`, `StopEventBroker`, `BlockingQuery`, `UpsertPlanResults`, `upsertDeploymentUpdates`, `UpsertJobSummary`, `DeleteJobSummary`, `UpsertDeployment`, `upsertDeploymentImpl`, `Deployments`, `DeploymentsByNamespace`, `DeploymentsByNamespaceOrdered`, `DeploymentsByIDPrefix`, `DeploymentByID`, `deploymentByIDImpl`, `DeploymentsByJobID`, `LatestDeploymentByJobID`, `DeleteDeployment`, `DeleteDeploymentTxn`, `deleteAllocsForJobTxn`, `UpsertScalingEvent`, `ScalingEvents`, `ScalingEventsByJob`, `UpsertNode`, `DeleteNode`, `deleteNodeTxn`, `UpdateNodeStatus`, `updateNodeStatusTxn`, `BatchUpdateNodeDrain`, `UpdateNodeDrain`, `updateNodeDrainImpl`, `UpdateNodeEligibility`, `updateNodeEligibilityImpl`, `UpsertNodeEvents`, `upsertNodeEvents`, `deleteJobFromPlugins`, `NodeByID`, `NodePoolByNodeID`, `NodesByIDPrefix`, `NodeBySecretID`, `NodesByNodePool`, `Nodes`, `UpsertJob`, `UpsertJobTxn`, `UpsertJobWithRequest`, `upsertJobImpl`, `CheckIdempotencyToken`, `DeleteJob`, `DeleteJobTxn`, `deleteJobScalingPolicies`, `deleteJobSubmission`, `deleteJobVersions`, `upsertJobVersion`, `GetJobSubmissions`, `JobSubmission`, `jobSubmission`, `JobByID`, `JobByIDTxn`, `JobsByIDPrefix`, `jobsByIDPrefixAllNamespaces`, `JobVersionsByID`, `JobVersionByTagName`, `jobVersionByID`, `JobByIDAndVersion`, `jobByIDAndVersionImpl`, `JobVersions`, `Jobs`, `JobsByNamespace`, `jobsByNamespaceImpl`, `JobsByPeriodic`, `JobsByScheduler`, `JobsByGC`, `JobsByPool`, `JobsByModifyIndex`, `JobSummaryByID`, `JobSummaries`, `JobSummaryByPrefix`, `UpsertCSIVolume`, `CSIVolumes`, `CSIVolumeByID`, `CSIVolumesByPluginID`, `CSIVolumesByIDPrefix`, `csiVolumeByIDPrefixAllNamespaces`, `CSIVolumesByNodeID`, `CSIVolumesByNamespace`, `csiVolumesByNamespaceImpl`, `CSIVolumeClaim`, `CSIVolumeDeregister`, `volSafeToForce`, `CSIVolumeDenormalizePlugins`, `csiVolumeDenormalizePluginsTxn`, `CSIVolumeDenormalize`, `csiVolumeDenormalizeTxn`, `CSIPlugins`, `CSIPluginsByIDPrefix`, `CSIPluginByID`, `CSIPluginByIDTxn`, `CSIPluginDenormalize`, `CSIPluginDenormalizeTxn`, `UpsertCSIPlugin`, `DeleteCSIPlugin`, `UpsertPeriodicLaunch`, `DeletePeriodicLaunch`, `DeletePeriodicLaunchTxn`, `PeriodicLaunchByID`, `PeriodicLaunches`, `UpsertEvals`, `UpsertEvalsTxn`, `nestedUpsertEval`, `updateEvalModifyIndex`, `DeleteEvalsByFilter`, `EvalIsUserDeleteSafe`, `DeleteEval`, `EvalByID`, `EvalsRelatedToID`, `EvalsByIDPrefix`, `EvalsByJob`, `Evals`, `EvalsByNamespace`, `EvalsByNamespaceOrdered`, `UpdateAllocsFromClient`, `nestedUpdateAllocFromClient`, `cancelFollowupEvalsForReconnect`, `updateClientAllocUpdateIndex`, `UpsertAllocs`, `upsertAllocsImpl`, `UpdateAllocsDesiredTransitions`, `UpdateAllocDesiredTransitionTxn`, `AllocByID`, `allocByIDImpl`, `AllocsByIDPrefix`, `AllocsByIDPrefixAllNSs`, `AllocsByNode`, `AllocsByNodeTerminal`, `AllocsByJob`, `AllocsByEval`, `AllocsByDeployment`, `Allocs`, `AllocsByNamespaceOrdered`, `AllocsByNamespace`, `allocsByNamespaceImpl`, `UpdateDeploymentStatus`, `updateDeploymentStatusImpl`, `UpdateJobStability`, `updateJobStabilityImpl`, `UpdateJobVersionTag`, `updateJobVersionTagImpl`, `unsetJobVersionTagImpl`, `UpdateDeploymentPromotion`, `UpdateDeploymentAllocHealth`, `LatestIndex`, `Index`, `Indexes`, `ReconcileJobSummaries`, `setJobStatuses`, `setJobStatus`, `setJobSummary`, `getJobStatus`, `updateSummaryWithJob`, `updatePreservedValues`, `updateJobScalingPolicies`, `updateJobSubmission`, `pruneJobSubmissions`, `updateJobCSIPlugins`, `updateDeploymentWithAlloc`, `updateSummaryWithAlloc`, `updatePluginForTerminalAlloc`, `updatePluginWithJobSummary`, `UpsertACLPolicies`, `DeleteACLPolicies`, `ACLPolicyByName`, `ACLPolicyByNamePrefix`, `ACLPolicyByJob`, `ACLPolicyByNamespace`, `ACLPolicies`, `UpsertACLTokens`, `DeleteACLTokens`, `ACLTokenByAccessorID`, `ACLTokenBySecretID`, `ACLTokenByAccessorIDPrefix`, `ACLTokens`, `ACLTokensByGlobal`, `CanBootstrapACLToken`, `BootstrapACLTokens`, `UpsertOneTimeToken`, `DeleteOneTimeTokens`, `ExpireOneTimeTokens`, `oneTimeTokensExpiredTxn`, `OneTimeTokenBySecret`, `SchedulerConfig`, `schedulerConfigTxn`, `SchedulerSetConfig`, `ClusterMetadata`, `ClusterSetMetadata`, `WithWriteTransaction`, `SchedulerCASConfig`, `schedulerSetConfigTxn`, `setClusterMetadata`, `UpsertScalingPolicies`, `UpsertScalingPoliciesTxn`, `NamespaceByName`, `namespaceByNameImpl`, `namespaceExists`, `NamespacesByNamePrefix`, `Namespaces`, `NamespaceNames`, `UpsertNamespaces`, `upsertNamespaceImpl`, `DeleteNamespaces`, `DeleteScalingPolicies`, `DeleteScalingPoliciesTxn`, `ScalingPolicies`, `ScalingPoliciesByTypePrefix`, `ScalingPoliciesByNamespace`, `ScalingPoliciesByJob`, `ScalingPoliciesByJobTxn`, `ScalingPolicyByID`, `ScalingPolicyByTargetAndType`, `ScalingPoliciesByIDPrefix`
 
@@ -73,17 +114,27 @@
 
 **定义位置**：[L317](file:///d:/claude/nomad/nomad/state/state_store.go#L317)
 
-**类型定义**：`func(...)`
+**类型定义**：`type QueryFn func(...)`
 
 ### StateSnapshot
 
 **定义位置**：[L7408](file:///d:/claude/nomad/nomad/state/state_store.go#L7408)
 
+**中文说明**：StateSnapshot 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	StateStore
+type StateSnapshot struct {
+	StateStore StateStore
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `StateStore` | `StateStore` | — |
 
 **关联方法**（3 个）：`DenormalizeAllocationsMap`, `DenormalizeAllocationSlice`, `DenormalizeAllocationDiffSlice`
 
@@ -91,34 +142,34 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `NodeUpsertWithNodePool` | `iota` |
-| `NodeEligibilityEventPlanRejectThreshold` | `"Node marked as ineligible for scheduling due to multiple...` |
-| `NodeRegisterEventRegistered` | `"Node registered"` |
-| `NodeRegisterEventReregistered` | `"Node re-registered"` |
-| `siTokenAccessorTable` | `"si_token_accessors"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `NodeUpsertWithNodePool` | `NodeUpsertOption` | `iota` | — |
+| `NodeEligibilityEventPlanRejectThreshold` | `—` | `"Node marked as ineligible for scheduling due to multiple...` | — |
+| `NodeRegisterEventRegistered` | `—` | `"Node registered"` | — |
+| `NodeRegisterEventReregistered` | `—` | `"Node re-registered"` | — |
+| `siTokenAccessorTable` | `—` | `"si_token_accessors"` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `terminate` | - | `s string` | `string` | [L66](file:///d:/claude/nomad/nomad/state/state_store.go#L66) |
-| `Validate` | `c *StateStoreConfig` | - | `error` | [L95](file:///d:/claude/nomad/nomad/state/state_store.go#L95) |
+| `Validate` | `c *StateStoreConfig` | `` | `error` | [L95](file:///d:/claude/nomad/nomad/state/state_store.go#L95) |
 | `NewStateStore` | - | `config *StateStoreConfig` | `*StateStore, error` | [L126](file:///d:/claude/nomad/nomad/state/state_store.go#L126) |
-| `NewWatchSet` | `s *StateStore` | - | `memdb.WatchSet` | [L175](file:///d:/claude/nomad/nomad/state/state_store.go#L175) |
-| `EventBroker` | `s *StateStore` | - | `*stream.EventBroker, error` | [L181](file:///d:/claude/nomad/nomad/state/state_store.go#L181) |
-| `namespaceInit` | `s *StateStore` | - | `error` | [L189](file:///d:/claude/nomad/nomad/state/state_store.go#L189) |
-| `Config` | `s *StateStore` | - | `*StateStoreConfig` | [L208](file:///d:/claude/nomad/nomad/state/state_store.go#L208) |
-| `Snapshot` | `s *StateStore` | - | `*StateSnapshot, error` | [L215](file:///d:/claude/nomad/nomad/state/state_store.go#L215) |
+| `NewWatchSet` | `s *StateStore` | `` | `memdb.WatchSet` | [L175](file:///d:/claude/nomad/nomad/state/state_store.go#L175) |
+| `EventBroker` | `s *StateStore` | `` | `*stream.EventBroker, error` | [L181](file:///d:/claude/nomad/nomad/state/state_store.go#L181) |
+| `namespaceInit` | `s *StateStore` | `` | `error` | [L189](file:///d:/claude/nomad/nomad/state/state_store.go#L189) |
+| `Config` | `s *StateStore` | `` | `*StateStoreConfig` | [L208](file:///d:/claude/nomad/nomad/state/state_store.go#L208) |
+| `Snapshot` | `s *StateStore` | `` | `*StateSnapshot, error` | [L215](file:///d:/claude/nomad/nomad/state/state_store.go#L215) |
 | `SnapshotMinIndex` | `s *StateStore` | `ctx context.Context, index uint64` | `*StateSnapshot, error` | [L242](file:///d:/claude/nomad/nomad/state/state_store.go#L242) |
-| `Restore` | `s *StateStore` | - | `*StateRestore, error` | [L288](file:///d:/claude/nomad/nomad/state/state_store.go#L288) |
-| `AbandonCh` | `s *StateStore` | - | `chan struct{...}` | [L298](file:///d:/claude/nomad/nomad/state/state_store.go#L298) |
-| `Abandon` | `s *StateStore` | - | - | [L304](file:///d:/claude/nomad/nomad/state/state_store.go#L304) |
-| `StopEventBroker` | `s *StateStore` | - | - | [L311](file:///d:/claude/nomad/nomad/state/state_store.go#L311) |
+| `Restore` | `s *StateStore` | `` | `*StateRestore, error` | [L288](file:///d:/claude/nomad/nomad/state/state_store.go#L288) |
+| `AbandonCh` | `s *StateStore` | `` | `<-chan struct{...}` | [L298](file:///d:/claude/nomad/nomad/state/state_store.go#L298) |
+| `Abandon` | `s *StateStore` | `` | `` | [L304](file:///d:/claude/nomad/nomad/state/state_store.go#L304) |
+| `StopEventBroker` | `s *StateStore` | `` | `` | [L311](file:///d:/claude/nomad/nomad/state/state_store.go#L311) |
 | `BlockingQuery` | `s *StateStore` | `query QueryFn, minIndex uint64, ctx context.Context` | `resp interface{}, index uint64, err error` | [L321](file:///d:/claude/nomad/nomad/state/state_store.go#L321) |
-| `UpsertPlanResults` | `s *StateStore` | `msgType structs.MessageType, index uint64, results *structs.ApplyPlanResults...` | `error` | [L360](file:///d:/claude/nomad/nomad/state/state_store.go#L360) |
-| `addComputedAllocAttrs` | - | `allocs []*structs.Allocation, job *structs.Job` | - | [L466](file:///d:/claude/nomad/nomad/state/state_store.go#L466) |
+| `UpsertPlanResults` | `s *StateStore` | `msgType structs.MessageType, index uint64, results *structs.ApplyPlanResultsR...` | `error` | [L360](file:///d:/claude/nomad/nomad/state/state_store.go#L360) |
+| `addComputedAllocAttrs` | - | `allocs []*structs.Allocation, job *structs.Job` | `` | [L466](file:///d:/claude/nomad/nomad/state/state_store.go#L466) |
 | `upsertDeploymentUpdates` | `s *StateStore` | `index uint64, now int64, updates []*structs.DeploymentStatusUpdate, txn *txn` | `error` | [L508](file:///d:/claude/nomad/nomad/state/state_store.go#L508) |
 | `UpsertJobSummary` | `s *StateStore` | `index uint64, jobSummary *structs.JobSummary` | `error` | [L519](file:///d:/claude/nomad/nomad/state/state_store.go#L519) |
 | `DeleteJobSummary` | `s *StateStore` | `index uint64, namespace string, id string` | `error` | [L553](file:///d:/claude/nomad/nomad/state/state_store.go#L553) |
@@ -139,20 +190,20 @@
 | `UpsertScalingEvent` | `s *StateStore` | `index uint64, req *structs.ScalingEventRequest` | `error` | [L880](file:///d:/claude/nomad/nomad/state/state_store.go#L880) |
 | `ScalingEvents` | `s *StateStore` | `ws memdb.WatchSet` | `memdb.ResultIterator, error` | [L930](file:///d:/claude/nomad/nomad/state/state_store.go#L930) |
 | `ScalingEventsByJob` | `s *StateStore` | `ws memdb.WatchSet, namespace string, jobID string` | `map[string][]*structs.ScalingEvent, uint64, error` | [L944](file:///d:/claude/nomad/nomad/state/state_store.go#L944) |
-| `UpsertNode` | `s *StateStore` | `msgType structs.MessageType, index uint64, node *structs.Node, opts ...NodeU...` | `error` | [L963](file:///d:/claude/nomad/nomad/state/state_store.go#L963) |
+| `UpsertNode` | `s *StateStore` | `msgType structs.MessageType, index uint64, node *structs.Node, opts ...NodeUp...` | `error` | [L963](file:///d:/claude/nomad/nomad/state/state_store.go#L963) |
 | `upsertNodeTxn` | - | `txn *txn, index uint64, node *structs.Node` | `error` | [L984](file:///d:/claude/nomad/nomad/state/state_store.go#L984) |
 | `DeleteNode` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodes []string` | `error` | [L1055](file:///d:/claude/nomad/nomad/state/state_store.go#L1055) |
 | `deleteNodeTxn` | `s *StateStore` | `txn *txn, index uint64, nodes []string` | `error` | [L1066](file:///d:/claude/nomad/nomad/state/state_store.go#L1066) |
-| `UpdateNodeStatus` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.NodeUpdateStatusRequ...` | `error` | [L1104](file:///d:/claude/nomad/nomad/state/state_store.go#L1104) |
+| `UpdateNodeStatus` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.NodeUpdateStatusRequest` | `error` | [L1104](file:///d:/claude/nomad/nomad/state/state_store.go#L1104) |
 | `updateNodeStatusTxn` | `s *StateStore` | `txn *txn, req *structs.NodeUpdateStatusRequest` | `error` | [L1120](file:///d:/claude/nomad/nomad/state/state_store.go#L1120) |
-| `BatchUpdateNodeDrain` | `s *StateStore` | `msgType structs.MessageType, index uint64, updatedAt int64, updates map[stri...` | `error` | [L1175](file:///d:/claude/nomad/nomad/state/state_store.go#L1175) |
-| `UpdateNodeDrain` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodeID string, drain *structs.Dra...` | `error` | [L1189](file:///d:/claude/nomad/nomad/state/state_store.go#L1189) |
-| `updateNodeDrainImpl` | `s *StateStore` | `txn *txn, index uint64, nodeID string, drain *structs.DrainStrategy, markEli...` | `error` | [L1203](file:///d:/claude/nomad/nomad/state/state_store.go#L1203) |
-| `UpdateNodeEligibility` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodeID string, eligibility string...` | `error` | [L1296](file:///d:/claude/nomad/nomad/state/state_store.go#L1296) |
-| `updateNodeEligibilityImpl` | `s *StateStore` | `index uint64, nodeID string, eligibility string, updatedAt int64, event *str...` | `error` | [L1305](file:///d:/claude/nomad/nomad/state/state_store.go#L1305) |
-| `UpsertNodeEvents` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodeEvents map[string][]*structs....` | `error` | [L1347](file:///d:/claude/nomad/nomad/state/state_store.go#L1347) |
+| `BatchUpdateNodeDrain` | `s *StateStore` | `msgType structs.MessageType, index uint64, updatedAt int64, updates map[strin...` | `error` | [L1175](file:///d:/claude/nomad/nomad/state/state_store.go#L1175) |
+| `UpdateNodeDrain` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodeID string, drain *structs.Drai...` | `error` | [L1189](file:///d:/claude/nomad/nomad/state/state_store.go#L1189) |
+| `updateNodeDrainImpl` | `s *StateStore` | `txn *txn, index uint64, nodeID string, drain *structs.DrainStrategy, markElig...` | `error` | [L1203](file:///d:/claude/nomad/nomad/state/state_store.go#L1203) |
+| `UpdateNodeEligibility` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodeID string, eligibility string,...` | `error` | [L1296](file:///d:/claude/nomad/nomad/state/state_store.go#L1296) |
+| `updateNodeEligibilityImpl` | `s *StateStore` | `index uint64, nodeID string, eligibility string, updatedAt int64, event *stru...` | `error` | [L1305](file:///d:/claude/nomad/nomad/state/state_store.go#L1305) |
+| `UpsertNodeEvents` | `s *StateStore` | `msgType structs.MessageType, index uint64, nodeEvents map[string][]*structs.N...` | `error` | [L1347](file:///d:/claude/nomad/nomad/state/state_store.go#L1347) |
 | `upsertNodeEvents` | `s *StateStore` | `index uint64, nodeID string, events []*structs.NodeEvent, txn *txn` | `error` | [L1363](file:///d:/claude/nomad/nomad/state/state_store.go#L1363) |
-| `appendNodeEvents` | - | `index uint64, node *structs.Node, events []*structs.NodeEvent` | - | [L1391](file:///d:/claude/nomad/nomad/state/state_store.go#L1391) |
+| `appendNodeEvents` | - | `index uint64, node *structs.Node, events []*structs.NodeEvent` | `` | [L1391](file:///d:/claude/nomad/nomad/state/state_store.go#L1391) |
 | `upsertCSIPluginsForNode` | - | `txn *txn, node *structs.Node, index uint64` | `error` | [L1407](file:///d:/claude/nomad/nomad/state/state_store.go#L1407) |
 | `deleteNodeCSIPlugins` | - | `txn *txn, node *structs.Node, index uint64` | `error` | [L1523](file:///d:/claude/nomad/nomad/state/state_store.go#L1523) |
 | `updateOrGCPlugin` | - | `index uint64, txn Txn, plug *structs.CSIPlugin` | `error` | [L1566](file:///d:/claude/nomad/nomad/state/state_store.go#L1566) |
@@ -163,10 +214,10 @@
 | `NodeBySecretID` | `s *StateStore` | `ws memdb.WatchSet, secretID string` | `*structs.Node, error` | [L1728](file:///d:/claude/nomad/nomad/state/state_store.go#L1728) |
 | `NodesByNodePool` | `s *StateStore` | `ws memdb.WatchSet, pool string` | `memdb.ResultIterator, error` | [L1745](file:///d:/claude/nomad/nomad/state/state_store.go#L1745) |
 | `Nodes` | `s *StateStore` | `ws memdb.WatchSet` | `memdb.ResultIterator, error` | [L1758](file:///d:/claude/nomad/nomad/state/state_store.go#L1758) |
-| `UpsertJob` | `s *StateStore` | `msgType structs.MessageType, index uint64, sub *structs.JobSubmission, job *...` | `error` | [L1771](file:///d:/claude/nomad/nomad/state/state_store.go#L1771) |
+| `UpsertJob` | `s *StateStore` | `msgType structs.MessageType, index uint64, sub *structs.JobSubmission, job *s...` | `error` | [L1771](file:///d:/claude/nomad/nomad/state/state_store.go#L1771) |
 | `UpsertJobTxn` | `s *StateStore` | `index uint64, sub *structs.JobSubmission, job *structs.Job, txn Txn` | `error` | [L1782](file:///d:/claude/nomad/nomad/state/state_store.go#L1782) |
 | `UpsertJobWithRequest` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.JobRegisterRequest` | `error` | [L1789](file:///d:/claude/nomad/nomad/state/state_store.go#L1789) |
-| `upsertJobImpl` | `s *StateStore` | `index uint64, sub *structs.JobSubmission, job *structs.Job, keepVersion bool...` | `error` | [L1799](file:///d:/claude/nomad/nomad/state/state_store.go#L1799) |
+| `upsertJobImpl` | `s *StateStore` | `index uint64, sub *structs.JobSubmission, job *structs.Job, keepVersion bool,...` | `error` | [L1799](file:///d:/claude/nomad/nomad/state/state_store.go#L1799) |
 | `CheckIdempotencyToken` | `s *StateStore` | `ns string, parentID string, idempotencyToken string` | `*structs.Job, error` | [L1922](file:///d:/claude/nomad/nomad/state/state_store.go#L1922) |
 | `DeleteJob` | `s *StateStore` | `index uint64, namespace string, jobID string` | `error` | [L1946](file:///d:/claude/nomad/nomad/state/state_store.go#L1946) |
 | `DeleteJobTxn` | `s *StateStore` | `index uint64, namespace string, jobID string, txn Txn` | `error` | [L1959](file:///d:/claude/nomad/nomad/state/state_store.go#L1959) |
@@ -207,7 +258,7 @@
 | `CSIVolumesByNodeID` | `s *StateStore` | `ws memdb.WatchSet, prefix string, nodeID string` | `memdb.ResultIterator, error` | [L2805](file:///d:/claude/nomad/nomad/state/state_store.go#L2805) |
 | `CSIVolumesByNamespace` | `s *StateStore` | `ws memdb.WatchSet, namespace string, prefix string` | `memdb.ResultIterator, error` | [L2848](file:///d:/claude/nomad/nomad/state/state_store.go#L2848) |
 | `csiVolumesByNamespaceImpl` | `s *StateStore` | `txn *txn, ws memdb.WatchSet, namespace string, prefix string` | `memdb.ResultIterator, error` | [L2854](file:///d:/claude/nomad/nomad/state/state_store.go#L2854) |
-| `CSIVolumeClaim` | `s *StateStore` | `index uint64, now int64, namespace string, id string, claim *structs.CSIVolu...` | `error` | [L2867](file:///d:/claude/nomad/nomad/state/state_store.go#L2867) |
+| `CSIVolumeClaim` | `s *StateStore` | `index uint64, now int64, namespace string, id string, claim *structs.CSIVolum...` | `error` | [L2867](file:///d:/claude/nomad/nomad/state/state_store.go#L2867) |
 | `CSIVolumeDeregister` | `s *StateStore` | `index uint64, namespace string, ids []string, force bool` | `error` | [L2941](file:///d:/claude/nomad/nomad/state/state_store.go#L2941) |
 | `volSafeToForce` | `s *StateStore` | `txn Txn, v *structs.CSIVolume` | `bool` | [L2984](file:///d:/claude/nomad/nomad/state/state_store.go#L2984) |
 | `CSIVolumeDenormalizePlugins` | `s *StateStore` | `ws memdb.WatchSet, vol *structs.CSIVolume` | `*structs.CSIVolume, error` | [L3010](file:///d:/claude/nomad/nomad/state/state_store.go#L3010) |
@@ -245,11 +296,11 @@
 | `EvalsByNamespaceOrdered` | `s *StateStore` | `ws memdb.WatchSet, namespace string, sort SortOption` | `memdb.ResultIterator, error` | [L4001](file:///d:/claude/nomad/nomad/state/state_store.go#L4001) |
 | `UpdateAllocsFromClient` | `s *StateStore` | `msgType structs.MessageType, index uint64, req structs.AllocUpdateRequest` | `error` | [L4031](file:///d:/claude/nomad/nomad/state/state_store.go#L4031) |
 | `nestedUpdateAllocFromClient` | `s *StateStore` | `txn *txn, index uint64, alloc *structs.Allocation` | `*structs.Allocation, error` | [L4097](file:///d:/claude/nomad/nomad/state/state_store.go#L4097) |
-| `cancelFollowupEvalsForReconnect` | `s *StateStore` | `txn *txn, index uint64, copyAlloc *structs.Allocation, alloc *structs.Alloca...` | `error` | [L4181](file:///d:/claude/nomad/nomad/state/state_store.go#L4181) |
+| `cancelFollowupEvalsForReconnect` | `s *StateStore` | `txn *txn, index uint64, copyAlloc *structs.Allocation, alloc *structs.Allocation` | `error` | [L4181](file:///d:/claude/nomad/nomad/state/state_store.go#L4181) |
 | `updateClientAllocUpdateIndex` | `s *StateStore` | `txn *txn, index uint64, nodeID string` | `error` | [L4225](file:///d:/claude/nomad/nomad/state/state_store.go#L4225) |
 | `UpsertAllocs` | `s *StateStore` | `msgType structs.MessageType, index uint64, allocs []*structs.Allocation` | `error` | [L4249](file:///d:/claude/nomad/nomad/state/state_store.go#L4249) |
 | `upsertAllocsImpl` | `s *StateStore` | `index uint64, allocs []*structs.Allocation, txn *txn` | `error` | [L4260](file:///d:/claude/nomad/nomad/state/state_store.go#L4260) |
-| `UpdateAllocsDesiredTransitions` | `s *StateStore` | `msgType structs.MessageType, index uint64, allocs map[string]*structs.Desire...` | `error` | [L4420](file:///d:/claude/nomad/nomad/state/state_store.go#L4420) |
+| `UpdateAllocsDesiredTransitions` | `s *StateStore` | `msgType structs.MessageType, index uint64, allocs map[string]*structs.Desired...` | `error` | [L4420](file:///d:/claude/nomad/nomad/state/state_store.go#L4420) |
 | `UpdateAllocDesiredTransitionTxn` | `s *StateStore` | `txn *txn, index uint64, allocID string, transition *structs.DesiredTransition` | `error` | [L4449](file:///d:/claude/nomad/nomad/state/state_store.go#L4449) |
 | `AllocByID` | `s *StateStore` | `ws memdb.WatchSet, id string` | `*structs.Allocation, error` | [L4484](file:///d:/claude/nomad/nomad/state/state_store.go#L4484) |
 | `allocByIDImpl` | `s *StateStore` | `txn Txn, ws memdb.WatchSet, id string` | `*structs.Allocation, error` | [L4492](file:///d:/claude/nomad/nomad/state/state_store.go#L4492) |
@@ -266,31 +317,31 @@
 | `AllocsByNamespaceOrdered` | `s *StateStore` | `ws memdb.WatchSet, namespace string, sort SortOption` | `memdb.ResultIterator, error` | [L4724](file:///d:/claude/nomad/nomad/state/state_store.go#L4724) |
 | `AllocsByNamespace` | `s *StateStore` | `ws memdb.WatchSet, namespace string` | `memdb.ResultIterator, error` | [L4751](file:///d:/claude/nomad/nomad/state/state_store.go#L4751) |
 | `allocsByNamespaceImpl` | `s *StateStore` | `ws memdb.WatchSet, txn *txn, namespace string` | `memdb.ResultIterator, error` | [L4758](file:///d:/claude/nomad/nomad/state/state_store.go#L4758) |
-| `UpdateDeploymentStatus` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.DeploymentStatusUpda...` | `error` | [L4774](file:///d:/claude/nomad/nomad/state/state_store.go#L4774) |
+| `UpdateDeploymentStatus` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.DeploymentStatusUpdat...` | `error` | [L4774](file:///d:/claude/nomad/nomad/state/state_store.go#L4774) |
 | `updateDeploymentStatusImpl` | `s *StateStore` | `index uint64, u *structs.DeploymentStatusUpdate, txn *txn` | `error` | [L4799](file:///d:/claude/nomad/nomad/state/state_store.go#L4799) |
 | `UpdateJobStability` | `s *StateStore` | `index uint64, namespace string, jobID string, jobVersion uint64, stable bool` | `error` | [L4851](file:///d:/claude/nomad/nomad/state/state_store.go#L4851) |
-| `updateJobStabilityImpl` | `s *StateStore` | `index uint64, namespace string, jobID string, jobVersion uint64, stable bool...` | `error` | [L4863](file:///d:/claude/nomad/nomad/state/state_store.go#L4863) |
+| `updateJobStabilityImpl` | `s *StateStore` | `index uint64, namespace string, jobID string, jobVersion uint64, stable bool,...` | `error` | [L4863](file:///d:/claude/nomad/nomad/state/state_store.go#L4863) |
 | `UpdateJobVersionTag` | `s *StateStore` | `index uint64, namespace string, req *structs.JobApplyTagRequest` | `error` | [L4885](file:///d:/claude/nomad/nomad/state/state_store.go#L4885) |
-| `updateJobVersionTagImpl` | `s *StateStore` | `index uint64, namespace string, jobID string, jobVersion uint64, tag *struct...` | `error` | [L4916](file:///d:/claude/nomad/nomad/state/state_store.go#L4916) |
+| `updateJobVersionTagImpl` | `s *StateStore` | `index uint64, namespace string, jobID string, jobVersion uint64, tag *structs...` | `error` | [L4916](file:///d:/claude/nomad/nomad/state/state_store.go#L4916) |
 | `unsetJobVersionTagImpl` | `s *StateStore` | `index uint64, namespace string, jobID string, name string, txn *txn` | `error` | [L4957](file:///d:/claude/nomad/nomad/state/state_store.go#L4957) |
-| `UpdateDeploymentPromotion` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.ApplyDeploymentPromo...` | `error` | [L4984](file:///d:/claude/nomad/nomad/state/state_store.go#L4984) |
-| `UpdateDeploymentAllocHealth` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.ApplyDeploymentAlloc...` | `error` | [L5133](file:///d:/claude/nomad/nomad/state/state_store.go#L5133) |
-| `LatestIndex` | `s *StateStore` | - | `uint64, error` | [L5228](file:///d:/claude/nomad/nomad/state/state_store.go#L5228) |
+| `UpdateDeploymentPromotion` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.ApplyDeploymentPromot...` | `error` | [L4984](file:///d:/claude/nomad/nomad/state/state_store.go#L4984) |
+| `UpdateDeploymentAllocHealth` | `s *StateStore` | `msgType structs.MessageType, index uint64, req *structs.ApplyDeploymentAllocH...` | `error` | [L5133](file:///d:/claude/nomad/nomad/state/state_store.go#L5133) |
+| `LatestIndex` | `s *StateStore` | `` | `uint64, error` | [L5228](file:///d:/claude/nomad/nomad/state/state_store.go#L5228) |
 | `Index` | `s *StateStore` | `name string` | `uint64, error` | [L5254](file:///d:/claude/nomad/nomad/state/state_store.go#L5254) |
-| `Indexes` | `s *StateStore` | - | `memdb.ResultIterator, error` | [L5269](file:///d:/claude/nomad/nomad/state/state_store.go#L5269) |
+| `Indexes` | `s *StateStore` | `` | `memdb.ResultIterator, error` | [L5269](file:///d:/claude/nomad/nomad/state/state_store.go#L5269) |
 | `ReconcileJobSummaries` | `s *StateStore` | `index uint64` | `error` | [L5282](file:///d:/claude/nomad/nomad/state/state_store.go#L5282) |
 | `setJobStatuses` | `s *StateStore` | `index uint64, txn *txn, jobs map[structs.NamespacedID]string, evalDelete bool` | `error` | [L5443](file:///d:/claude/nomad/nomad/state/state_store.go#L5443) |
 | `setJobStatus` | `s *StateStore` | `index uint64, txn *txn, job *structs.Job, evalDelete bool, forceStatus string` | `error` | [L5469](file:///d:/claude/nomad/nomad/state/state_store.go#L5469) |
-| `setJobSummary` | `s *StateStore` | `txn *txn, updated *structs.Job, index uint64, oldStatus string, newStatus st...` | `error` | [L5518](file:///d:/claude/nomad/nomad/state/state_store.go#L5518) |
+| `setJobSummary` | `s *StateStore` | `txn *txn, updated *structs.Job, index uint64, oldStatus string, newStatus string` | `error` | [L5518](file:///d:/claude/nomad/nomad/state/state_store.go#L5518) |
 | `getJobStatus` | `s *StateStore` | `txn *txn, job *structs.Job, evalDelete bool` | `string, error` | [L5581](file:///d:/claude/nomad/nomad/state/state_store.go#L5581) |
 | `updateSummaryWithJob` | `s *StateStore` | `index uint64, job *structs.Job, txn *txn` | `error` | [L5649](file:///d:/claude/nomad/nomad/state/state_store.go#L5649) |
 | `updatePreservedValues` | `s *StateStore` | `job *structs.Job, prev *structs.Job, req *structs.JobRegisterRequest` | `error` | [L5705](file:///d:/claude/nomad/nomad/state/state_store.go#L5705) |
 | `updateJobScalingPolicies` | `s *StateStore` | `index uint64, job *structs.Job, txn *txn` | `error` | [L5745](file:///d:/claude/nomad/nomad/state/state_store.go#L5745) |
-| `updateJobSubmission` | `s *StateStore` | `index uint64, sub *structs.JobSubmission, namespace string, jobID string, ve...` | `error` | [L5782](file:///d:/claude/nomad/nomad/state/state_store.go#L5782) |
+| `updateJobSubmission` | `s *StateStore` | `index uint64, sub *structs.JobSubmission, namespace string, jobID string, ver...` | `error` | [L5782](file:///d:/claude/nomad/nomad/state/state_store.go#L5782) |
 | `pruneJobSubmissions` | `s *StateStore` | `namespace string, jobID string, txn *txn` | `error` | [L5821](file:///d:/claude/nomad/nomad/state/state_store.go#L5821) |
 | `updateJobCSIPlugins` | `s *StateStore` | `index uint64, job *structs.Job, prev *structs.Job, txn *txn` | `error` | [L5876](file:///d:/claude/nomad/nomad/state/state_store.go#L5876) |
-| `updateDeploymentWithAlloc` | `s *StateStore` | `index uint64, alloc *structs.Allocation, existing *structs.Allocation, txn *...` | `error` | [L5941](file:///d:/claude/nomad/nomad/state/state_store.go#L5941) |
-| `updateSummaryWithAlloc` | `s *StateStore` | `index uint64, alloc *structs.Allocation, existingAlloc *structs.Allocation, ...` | `error` | [L6048](file:///d:/claude/nomad/nomad/state/state_store.go#L6048) |
+| `updateDeploymentWithAlloc` | `s *StateStore` | `index uint64, alloc *structs.Allocation, existing *structs.Allocation, txn *txn` | `error` | [L5941](file:///d:/claude/nomad/nomad/state/state_store.go#L5941) |
+| `updateSummaryWithAlloc` | `s *StateStore` | `index uint64, alloc *structs.Allocation, existingAlloc *structs.Allocation, t...` | `error` | [L6048](file:///d:/claude/nomad/nomad/state/state_store.go#L6048) |
 | `updatePluginForTerminalAlloc` | `s *StateStore` | `index uint64, alloc *structs.Allocation, txn *txn` | `error` | [L6173](file:///d:/claude/nomad/nomad/state/state_store.go#L6173) |
 | `updatePluginWithJobSummary` | `s *StateStore` | `index uint64, summary *structs.JobSummary, alloc *structs.Allocation, txn *txn` | `error` | [L6210](file:///d:/claude/nomad/nomad/state/state_store.go#L6210) |
 | `UpsertACLPolicies` | `s *StateStore` | `msgType structs.MessageType, index uint64, policies []*structs.ACLPolicy` | `error` | [L6245](file:///d:/claude/nomad/nomad/state/state_store.go#L6245) |
@@ -307,15 +358,15 @@
 | `ACLTokenByAccessorIDPrefix` | `s *StateStore` | `ws memdb.WatchSet, prefix string, sort SortOption` | `memdb.ResultIterator, error` | [L6494](file:///d:/claude/nomad/nomad/state/state_store.go#L6494) |
 | `ACLTokens` | `s *StateStore` | `ws memdb.WatchSet, sort SortOption` | `memdb.ResultIterator, error` | [L6515](file:///d:/claude/nomad/nomad/state/state_store.go#L6515) |
 | `ACLTokensByGlobal` | `s *StateStore` | `ws memdb.WatchSet, globalVal bool, sort SortOption` | `memdb.ResultIterator, error` | [L6536](file:///d:/claude/nomad/nomad/state/state_store.go#L6536) |
-| `CanBootstrapACLToken` | `s *StateStore` | - | `bool, uint64, error` | [L6558](file:///d:/claude/nomad/nomad/state/state_store.go#L6558) |
-| `BootstrapACLTokens` | `s *StateStore` | `msgType structs.MessageType, index uint64, resetIndex uint64, token *structs...` | `error` | [L6577](file:///d:/claude/nomad/nomad/state/state_store.go#L6577) |
+| `CanBootstrapACLToken` | `s *StateStore` | `` | `bool, uint64, error` | [L6558](file:///d:/claude/nomad/nomad/state/state_store.go#L6558) |
+| `BootstrapACLTokens` | `s *StateStore` | `msgType structs.MessageType, index uint64, resetIndex uint64, token *structs....` | `error` | [L6577](file:///d:/claude/nomad/nomad/state/state_store.go#L6577) |
 | `UpsertOneTimeToken` | `s *StateStore` | `msgType structs.MessageType, index uint64, token *structs.OneTimeToken` | `error` | [L6616](file:///d:/claude/nomad/nomad/state/state_store.go#L6616) |
 | `DeleteOneTimeTokens` | `s *StateStore` | `msgType structs.MessageType, index uint64, ids []string` | `error` | [L6642](file:///d:/claude/nomad/nomad/state/state_store.go#L6642) |
 | `ExpireOneTimeTokens` | `s *StateStore` | `msgType structs.MessageType, index uint64, timestamp time.Time` | `error` | [L6664](file:///d:/claude/nomad/nomad/state/state_store.go#L6664) |
 | `oneTimeTokensExpiredTxn` | `s *StateStore` | `txn *txn, ws memdb.WatchSet, timestamp time.Time` | `memdb.ResultIterator, error` | [L6699](file:///d:/claude/nomad/nomad/state/state_store.go#L6699) |
 | `OneTimeTokenBySecret` | `s *StateStore` | `ws memdb.WatchSet, secret string` | `*structs.OneTimeToken, error` | [L6711](file:///d:/claude/nomad/nomad/state/state_store.go#L6711) |
 | `expiredOneTimeTokenFilter` | - | `now time.Time` | `func(...)` | [L6732](file:///d:/claude/nomad/nomad/state/state_store.go#L6732) |
-| `SchedulerConfig` | `s *StateStore` | - | `uint64, *structs.SchedulerConfiguration, error` | [L6744](file:///d:/claude/nomad/nomad/state/state_store.go#L6744) |
+| `SchedulerConfig` | `s *StateStore` | `` | `uint64, *structs.SchedulerConfiguration, error` | [L6744](file:///d:/claude/nomad/nomad/state/state_store.go#L6744) |
 | `schedulerConfigTxn` | `s *StateStore` | `txn *txn` | `uint64, *structs.SchedulerConfiguration, error` | [L6750](file:///d:/claude/nomad/nomad/state/state_store.go#L6750) |
 | `SchedulerSetConfig` | `s *StateStore` | `index uint64, config *structs.SchedulerConfiguration` | `error` | [L6767](file:///d:/claude/nomad/nomad/state/state_store.go#L6767) |
 | `ClusterMetadata` | `s *StateStore` | `ws memdb.WatchSet` | `*structs.ClusterMetadata, error` | [L6776](file:///d:/claude/nomad/nomad/state/state_store.go#L6776) |
@@ -331,7 +382,7 @@
 | `namespaceExists` | `s *StateStore` | `txn *txn, namespace string` | `bool, error` | [L6984](file:///d:/claude/nomad/nomad/state/state_store.go#L6984) |
 | `NamespacesByNamePrefix` | `s *StateStore` | `ws memdb.WatchSet, namePrefix string` | `memdb.ResultIterator, error` | [L6998](file:///d:/claude/nomad/nomad/state/state_store.go#L6998) |
 | `Namespaces` | `s *StateStore` | `ws memdb.WatchSet` | `memdb.ResultIterator, error` | [L7011](file:///d:/claude/nomad/nomad/state/state_store.go#L7011) |
-| `NamespaceNames` | `s *StateStore` | - | `[]string, error` | [L7023](file:///d:/claude/nomad/nomad/state/state_store.go#L7023) |
+| `NamespaceNames` | `s *StateStore` | `` | `[]string, error` | [L7023](file:///d:/claude/nomad/nomad/state/state_store.go#L7023) |
 | `UpsertNamespaces` | `s *StateStore` | `index uint64, namespaces []*structs.Namespace` | `error` | [L7043](file:///d:/claude/nomad/nomad/state/state_store.go#L7043) |
 | `upsertNamespaceImpl` | `s *StateStore` | `index uint64, txn *txn, namespace *structs.Namespace` | `error` | [L7063](file:///d:/claude/nomad/nomad/state/state_store.go#L7063) |
 | `DeleteNamespaces` | `s *StateStore` | `index uint64, names []string` | `error` | [L7112](file:///d:/claude/nomad/nomad/state/state_store.go#L7112) |
@@ -359,11 +410,63 @@
 
 **位置**：[L95](file:///d:/claude/nomad/nomad/state/state_store.go#L95)
 
+**中文说明**：验证对象的有效性。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
+### NewStateStore()
+
+**签名**：`func NewStateStore(config *StateStoreConfig) *StateStore, error`
+
+**位置**：[L126](file:///d:/claude/nomad/nomad/state/state_store.go#L126)
+
+**中文说明**：创建并返回一个新的 StateStore 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `config` | `*StateStoreConfig` | 配置 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*StateStore` | — |
+| `error` | 错误信息 |
+
+### NewWatchSet()
+
+**签名**：`func (s *StateStore) NewWatchSet() memdb.WatchSet`
+
+**位置**：[L175](file:///d:/claude/nomad/nomad/state/state_store.go#L175)
+
+**中文说明**：创建并返回一个新的 WatchSet 实例。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `memdb.WatchSet` | — |
+
 ### Snapshot()
 
 **签名**：`func (s *StateStore) Snapshot() *StateSnapshot, error`
 
 **位置**：[L215](file:///d:/claude/nomad/nomad/state/state_store.go#L215)
+
+**中文说明**：创建对象的快照。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*StateSnapshot` | — |
+| `error` | 错误信息 |
 
 ### Restore()
 
@@ -371,17 +474,14 @@
 
 **位置**：[L288](file:///d:/claude/nomad/nomad/state/state_store.go#L288)
 
-### Deployments()
+**中文说明**：从快照恢复对象的状态。
 
-**签名**：`func (s *StateStore) Deployments(ws memdb.WatchSet, sort SortOption) memdb.ResultIterator, error`
+**返回值**：
 
-**位置**：[L619](file:///d:/claude/nomad/nomad/state/state_store.go#L619)
-
-### GetJobSubmissions()
-
-**签名**：`func (s *StateStore) GetJobSubmissions(ws memdb.WatchSet) memdb.ResultIterator, error`
-
-**位置**：[L2289](file:///d:/claude/nomad/nomad/state/state_store.go#L2289)
+| 类型 | 说明 |
+|------|------|
+| `*StateRestore` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -410,15 +510,20 @@
 
 ## 7. 设计模式与技术特点
 
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
-- **流式响应**：支持流式数据传输，用于事件订阅和长连接场景
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [state_store_test.go](file:///d:/claude/nomad/nomad/state/state_store_test.go) | 对应测试文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/state/autopilot.go) | 同目录源文件 |
+| [events.go](file:///d:/claude/nomad/nomad/state/events.go) | 同目录源文件 |
+| [events_ce.go](file:///d:/claude/nomad/nomad/state/events_ce.go) | 同目录源文件 |
+| [helpers.go](file:///d:/claude/nomad/nomad/state/helpers.go) | 同目录源文件 |
+| [iterator.go](file:///d:/claude/nomad/nomad/state/iterator.go) | 同目录源文件 |
 

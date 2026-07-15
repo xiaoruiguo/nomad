@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。支持变量插值、函数调用和 HCL 到 JSON 的转换。
+该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L35](file:///d:/claude/nomad/jobspec2/parse_map.go#L35)
 
+**中文说明**：walker 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type walker struct {
 	ctx *hcl.EvalContext
 	diags hcl.Diagnostics
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ctx` | `*hcl.EvalContext` | 上下文，用于控制请求的生命周期 |
+| `diags` | `hcl.Diagnostics` | — |
 
 **关联方法**（2 个）：`Map`, `MapElem`
 
@@ -31,9 +42,9 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `mapStringInterfaceType` | `reflect.TypeOf(map[string]interface{}{...})` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `mapStringInterfaceType` | `—` | `reflect.TypeOf(map[string]interface{}{...})` | — |
 
 ## 4. 方法与函数
 
@@ -48,6 +59,8 @@
 | `smallestNumber` | - | `b *big.Float` | `interface{}` | [L198](file:///d:/claude/nomad/jobspec2/parse_map.go#L198) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -71,4 +84,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [functions.go](file:///d:/claude/nomad/jobspec2/functions.go) | 同目录源文件 |
+| [hcl_conversions.go](file:///d:/claude/nomad/jobspec2/hcl_conversions.go) | 同目录源文件 |
+| [parse.go](file:///d:/claude/nomad/jobspec2/parse.go) | 同目录源文件 |
+| [parse_job.go](file:///d:/claude/nomad/jobspec2/parse_job.go) | 同目录源文件 |
+| [types.config.go](file:///d:/claude/nomad/jobspec2/types.config.go) | 同目录源文件 |
 

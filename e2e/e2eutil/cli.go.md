@@ -26,14 +26,16 @@
 |------|--------|------|--------|------|
 | `Command` | - | `cmd string, args ...string` | `string, error` | [L26](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L26) |
 | `Commandf` | - | `format string, args ...any` | `string, error` | [L38](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L38) |
-| `MustCommand` | - | `t *testing.T, format string, args ...any` | - | [L45](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L45) |
-| `CleanupCommand` | - | `t *testing.T, format string, args ...any` | - | [L53](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L53) |
+| `MustCommand` | - | `t *testing.T, format string, args ...any` | `` | [L45](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L45) |
+| `CleanupCommand` | - | `t *testing.T, format string, args ...any` | `` | [L53](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L53) |
 | `GetField` | - | `output string, key string` | `string, error` | [L68](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L68) |
 | `GetSection` | - | `output string, key string` | `string, error` | [L79](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L79) |
 | `ParseColumns` | - | `section string` | `[]map[string]string, error` | [L97](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L97) |
 | `ParseFields` | - | `section string` | `map[string]string, error` | [L134](file:///d:/claude/nomad/e2e/e2eutil/cli.go#L134) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -63,4 +65,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
+| [deployments.go](file:///d:/claude/nomad/e2e/e2eutil/deployments.go) | 同目录源文件 |
 

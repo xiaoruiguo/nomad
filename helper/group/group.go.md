@@ -1,6 +1,6 @@
 # group.go 代码说明文档
 
-> 文件路径：[group/group.go](file:///d:/claude/nomad/helper/group/group.go)
+> 文件路径：[helper/group/group.go](file:///d:/claude/nomad/helper/group/group.go)
 > 总行数：51 行
 > 所属包：`group`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **协程组子包**（`helper/group`），实现协程组管理，支持协程的启动、等待和错误收集。
+该文件属于 **工具包子包**（`helper/group`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/helper/group/group.go#L13)
 
+**中文说明**：Group 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Group struct {
 	wg sync.WaitGroup
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `wg` | `sync.WaitGroup` | 等待组，协调并发协程 |
 
 **关联方法**（4 个）：`Go`, `AddCh`, `Wait`, `WaitWithContext`
 
@@ -34,10 +44,10 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Go` | `g *Group` | `f func(...)` | - | [L18](file:///d:/claude/nomad/helper/group/group.go#L18) |
-| `AddCh` | `g *Group` | `ch chan struct{...}` | - | [L26](file:///d:/claude/nomad/helper/group/group.go#L26) |
-| `Wait` | `g *Group` | - | - | [L34](file:///d:/claude/nomad/helper/group/group.go#L34) |
-| `WaitWithContext` | `g *Group` | `ctx context.Context` | - | [L40](file:///d:/claude/nomad/helper/group/group.go#L40) |
+| `Go` | `g *Group` | `f func(...)` | `` | [L18](file:///d:/claude/nomad/helper/group/group.go#L18) |
+| `AddCh` | `g *Group` | `ch <-chan struct{...}` | `` | [L26](file:///d:/claude/nomad/helper/group/group.go#L26) |
+| `Wait` | `g *Group` | `` | `` | [L34](file:///d:/claude/nomad/helper/group/group.go#L34) |
+| `WaitWithContext` | `g *Group` | `ctx context.Context` | `` | [L40](file:///d:/claude/nomad/helper/group/group.go#L40) |
 
 ## 5. 核心方法详解
 
@@ -60,6 +70,7 @@
 
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
+- **后台协程**：启动 goroutine 执行后台任务
 
 ## 8. 相关文件
 

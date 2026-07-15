@@ -18,46 +18,89 @@
 
 **定义位置**：[L22](file:///d:/claude/nomad/e2e/framework/provisioner.go#L22)
 
+**中文说明**：ClusterInfo 是一个信息结构体，包含对象的元数据或描述信息。
+
 **类型**：struct
 
 ```go
+type ClusterInfo struct {
 	ID string
 	Name string
 	NomadClient *napi.Client
 	ConsulClient *capi.Client
 	VaultClient *vapi.Client
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `ID` | `string` | 唯一标识符 |
+| `Name` | `string` | 名称 |
+| `NomadClient` | `*napi.Client` | — |
+| `ConsulClient` | `*capi.Client` | — |
+| `VaultClient` | `*vapi.Client` | — |
 
 ### SetupOptions
 
 **定义位置**：[L34](file:///d:/claude/nomad/e2e/framework/provisioner.go#L34)
 
+**中文说明**：SetupOptions 是一个选项结构体，提供功能配置选项。
+
 **类型**：struct
 
 ```go
+type SetupOptions struct {
 	Name string
 	ExpectConsul bool
 	ExpectVault bool
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Name` | `string` | 名称 |
+| `ExpectConsul` | `bool` | 布尔值 |
+| `ExpectVault` | `bool` | 布尔值 |
 
 ### Provisioner
 
 **定义位置**：[L52](file:///d:/claude/nomad/e2e/framework/provisioner.go#L52)
 
+**中文说明**：Provisioner 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	SetupTestRun
-	SetupTestSuite
-	SetupTestCase
-	TearDownTestCase
-	TearDownTestSuite
-	TearDownTestRun
+type Provisioner interface {
+	SetupTestRun func(...)
+	SetupTestSuite func(...)
+	SetupTestCase func(...)
+	TearDownTestCase func(...)
+	TearDownTestSuite func(...)
+	TearDownTestRun func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `SetupTestRun` | `func(...)` | — |
+| `SetupTestSuite` | `func(...)` | — |
+| `SetupTestCase` | `func(...)` | — |
+| `TearDownTestCase` | `func(...)` | — |
+| `TearDownTestSuite` | `func(...)` | — |
+| `TearDownTestRun` | `func(...)` | — |
 
 ### singleClusterProvisioner
 
 **定义位置**：[L86](file:///d:/claude/nomad/e2e/framework/provisioner.go#L86)
+
+**中文说明**：singleClusterProvisioner 是一个结构体，封装相关数据和状态。
 
 **类型**：struct
 
@@ -67,9 +110,9 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `DefaultProvisioner` | `new(singleClusterProvisioner)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `DefaultProvisioner` | `Provisioner` | `new(singleClusterProvisioner)` | — |
 
 ## 4. 方法与函数
 
@@ -83,6 +126,8 @@
 | `TearDownTestRun` | `p *singleClusterProvisioner` | `_ *testing.T, _ string` | `error` | [L149](file:///d:/claude/nomad/e2e/framework/provisioner.go#L149) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -110,4 +155,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [case.go](file:///d:/claude/nomad/e2e/framework/case.go) | 同目录源文件 |
+| [context.go](file:///d:/claude/nomad/e2e/framework/context.go) | 同目录源文件 |
+| [doc.go](file:///d:/claude/nomad/e2e/framework/doc.go) | 同目录源文件 |
+| [framework.go](file:///d:/claude/nomad/e2e/framework/framework.go) | 同目录源文件 |
+| [interfaces.go](file:///d:/claude/nomad/e2e/framework/interfaces.go) | 同目录源文件 |
 

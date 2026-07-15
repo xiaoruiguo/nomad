@@ -1,6 +1,6 @@
 # ports.go 代码说明文档
 
-> 文件路径：[internal/testutil/ports.go](file:///d:/claude/nomad/api/internal/testutil/ports.go)
+> 文件路径：[api/internal/testutil/ports.go](file:///d:/claude/nomad/api/internal/testutil/ports.go)
 > 总行数：24 行
 > 所属包：`testutil`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,13 +10,15 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **测试工具子包**（`api/internal/testutil`），提供 API 客户端的测试辅助工具，包括测试服务器启动、端口分配、响应写入器等。这些工具仅用于内部测试，不对外暴露。
+该文件属于 **API 客户端包**（`api/`），提供 Go 语言客户端库，通过 HTTP API 与 Nomad Server 交互。当前文件 `ports.go` 实现相关 API 端点的客户端方法。
 
 ## 2. 类型定义
 
 ### fatalTester
 
 **定义位置**：[L12](file:///d:/claude/nomad/api/internal/testutil/ports.go#L12)
+
+**中文说明**：fatalTester 是一个结构体，封装相关数据和状态。
 
 **类型**：struct
 
@@ -26,17 +28,19 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `PortAllocator` | `*ast.CallExpr` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `PortAllocator` | `—` | `portal.New(new(fatalTester), portal.WithAddress("127.0.0....` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Fatalf` | `t *fatalTester` | `msg string, args ...any` | - | [L14](file:///d:/claude/nomad/api/internal/testutil/ports.go#L14) |
+| `Fatalf` | `t *fatalTester` | `msg string, args ...any` | `` | [L14](file:///d:/claude/nomad/api/internal/testutil/ports.go#L14) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -49,11 +53,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad API 客户端的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [api.go](file:///d:/claude/nomad/api/api.go) | API 客户端核心，定义 `Client` 和请求/响应类型 |
+| [responsewriter.go](file:///d:/claude/nomad/api/internal/testutil/responsewriter.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/api/internal/testutil/server.go) | 同目录源文件 |
+| [server_default.go](file:///d:/claude/nomad/api/internal/testutil/server_default.go) | 同目录源文件 |
+| [server_windows.go](file:///d:/claude/nomad/api/internal/testutil/server_windows.go) | 同目录源文件 |
+| [slow.go](file:///d:/claude/nomad/api/internal/testutil/slow.go) | 同目录源文件 |
 

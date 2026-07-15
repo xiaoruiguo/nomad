@@ -18,13 +18,25 @@
 
 **定义位置**：[L14](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go#L14)
 
+**中文说明**：Meta 是一个元数据结构体，包含对象的附加元信息。
+
 **类型**：struct
 
 ```go
+type Meta struct {
 	Ui cli.Ui
 	logger hclog.Logger
 	verbose bool
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Ui` | `cli.Ui` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `verbose` | `bool` | 布尔值 |
 
 **关联方法**（1 个）：`FlagSet`
 
@@ -38,7 +50,7 @@
 |------|--------|------|--------|------|
 | `NewMeta` | - | `ui cli.Ui, logger hclog.Logger` | `Meta` | [L21](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go#L21) |
 | `FlagSet` | `m *Meta` | `n string` | `*flag.FlagSet` | [L28](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go#L28) |
-| `generalOptionsUsage` | - | - | `string` | [L36](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go#L36) |
+| `generalOptionsUsage` | - | `` | `string` | [L36](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go#L36) |
 
 ## 5. 核心方法详解
 
@@ -47,6 +59,21 @@
 **签名**：`func NewMeta(ui cli.Ui, logger hclog.Logger) Meta`
 
 **位置**：[L21](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/meta.go#L21)
+
+**中文说明**：创建并返回一个新的 Meta 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ui` | `cli.Ui` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Meta` | — |
 
 ## 6. 依赖关系
 
@@ -63,9 +90,11 @@
 
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [device.go](file:///d:/claude/nomad/plugins/shared/cmd/launcher/command/device.go) | 同目录源文件 |
 

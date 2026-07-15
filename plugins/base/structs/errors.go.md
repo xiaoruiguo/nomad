@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **基础插件接口子包**（`plugins/base`），定义所有 Nomad 插件必须实现的基础接口，包括插件信息查询、配置设置、TLS 证书设置和 gRPC 通信协议。同时包含 gRPC protobuf 生成的客户端和服务端实现。
+该文件属于 **基础插件接口子包**（`plugins/base`），定义所有 Nomad 插件必须实现的基础接口，包括插件信息查询、配置设置、TLS 证书设置和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -20,21 +20,23 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `errPluginShutdown` | `"plugin is shut down"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `errPluginShutdown` | `—` | `"plugin is shut down"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ErrPluginShutdown` | `errors.New(errPluginShutdown)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ErrPluginShutdown` | `—` | `errors.New(errPluginShutdown)` | — |
 
 ## 4. 方法与函数
 
 该文件未定义方法。
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。支持变量插值、函数调用和 HCL 到 JSON 的转换。
+该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。
 
 ## 2. 类型定义
 
@@ -18,9 +18,12 @@
 
 **定义位置**：[L29](file:///d:/claude/nomad/jobspec2/types.config.go#L29)
 
+**中文说明**：jobConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type jobConfig struct {
 	JobID string `hcl:",label"`
 	Job *api.Job
 	ParseConfig *ParseConfig
@@ -30,7 +33,22 @@
 	InputVariables Variables
 	LocalVariables Variables
 	LocalBlocks []*LocalBlock
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `JobID` | `string `hcl:",label"`` | 字符串 |
+| `Job` | `*api.Job` | — |
+| `ParseConfig` | `*ParseConfig` | — |
+| `Vault` | `*api.Vault `hcl:"vault,block"`` | — |
+| `Secrets` | `[]*api.Secret `hcl:"secret,block"`` | 列表 |
+| `Tasks` | `[]*api.Task `hcl:"task,block"`` | 列表 |
+| `InputVariables` | `Variables` | — |
+| `LocalVariables` | `Variables` | — |
+| `LocalBlocks` | `[]*LocalBlock` | 列表 |
 
 **关联方法**（8 个）：`decodeBody`, `decodeInputVariables`, `parseLocalVariables`, `decodeTopLevelExtras`, `evaluateLocalVariables`, `evaluateLocalVariable`, `decodeJob`, `EvalContext`
 
@@ -38,22 +56,22 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `variablesLabel` | `"variables"` |
-| `variableLabel` | `"variable"` |
-| `localsLabel` | `"locals"` |
-| `vaultLabel` | `"vault"` |
-| `taskLabel` | `"task"` |
-| `secretLabel` | `"secret"` |
-| `inputVariablesAccessor` | `"var"` |
-| `localsAccessor` | `"local"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `variablesLabel` | `—` | `"variables"` | — |
+| `variableLabel` | `—` | `"variable"` | — |
+| `localsLabel` | `—` | `"locals"` | — |
+| `vaultLabel` | `—` | `"vault"` | — |
+| `taskLabel` | `—` | `"task"` | — |
+| `secretLabel` | `—` | `"secret"` | — |
+| `inputVariablesAccessor` | `—` | `"var"` | — |
+| `localsAccessor` | `—` | `"local"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `jobConfigSchema` | `&hcl.BodySchema{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `jobConfigSchema` | `—` | `&hcl.BodySchema{...}` | — |
 
 ## 4. 方法与函数
 
@@ -67,10 +85,12 @@
 | `evaluateLocalVariables` | `c *jobConfig` | `locals []*LocalBlock` | `hcl.Diagnostics` | [L192](file:///d:/claude/nomad/jobspec2/types.config.go#L192) |
 | `evaluateLocalVariable` | `c *jobConfig` | `local *LocalBlock` | `hcl.Diagnostics` | [L232](file:///d:/claude/nomad/jobspec2/types.config.go#L232) |
 | `decodeJob` | `c *jobConfig` | `content *hcl.BodyContent, ctx *hcl.EvalContext` | `hcl.Diagnostics` | [L253](file:///d:/claude/nomad/jobspec2/types.config.go#L253) |
-| `EvalContext` | `c *jobConfig` | - | `*hcl.EvalContext` | [L315](file:///d:/claude/nomad/jobspec2/types.config.go#L315) |
+| `EvalContext` | `c *jobConfig` | `` | `*hcl.EvalContext` | [L315](file:///d:/claude/nomad/jobspec2/types.config.go#L315) |
 | `toVars` | - | `vars []string` | `map[string]string` | [L363](file:///d:/claude/nomad/jobspec2/types.config.go#L363) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -95,4 +115,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [functions.go](file:///d:/claude/nomad/jobspec2/functions.go) | 同目录源文件 |
+| [hcl_conversions.go](file:///d:/claude/nomad/jobspec2/hcl_conversions.go) | 同目录源文件 |
+| [parse.go](file:///d:/claude/nomad/jobspec2/parse.go) | 同目录源文件 |
+| [parse_job.go](file:///d:/claude/nomad/jobspec2/parse_job.go) | 同目录源文件 |
+| [parse_map.go](file:///d:/claude/nomad/jobspec2/parse_map.go) | 同目录源文件 |
 

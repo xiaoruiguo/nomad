@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理，通过 gRPC 与 Nomad 通信。
+该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L19](file:///d:/claude/nomad/plugins/device/plugin.go#L19)
 
+**中文说明**：PluginDevice 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
-	plugin.NetRPCUnsupportedPlugin
+type PluginDevice struct {
+	plugin.NetRPCUnsupportedPlugin plugin.NetRPCUnsupportedPlugin
 	Impl DevicePlugin
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `plugin.NetRPCUnsupportedPlugin` | `plugin.NetRPCUnsupportedPlugin` | — |
+| `Impl` | `DevicePlugin` | — |
 
 **关联方法**（2 个）：`GRPCServer`, `GRPCClient`
 
@@ -37,7 +48,7 @@
 |------|--------|------|--------|------|
 | `GRPCServer` | `p *PluginDevice` | `broker *plugin.GRPCBroker, s *grpc.Server` | `error` | [L24](file:///d:/claude/nomad/plugins/device/plugin.go#L24) |
 | `GRPCClient` | `p *PluginDevice` | `ctx context.Context, broker *plugin.GRPCBroker, c *grpc.ClientConn` | `interface{}, error` | [L32](file:///d:/claude/nomad/plugins/device/plugin.go#L32) |
-| `Serve` | - | `dev DevicePlugin, logger log.Logger` | - | [L44](file:///d:/claude/nomad/plugins/device/plugin.go#L44) |
+| `Serve` | - | `dev DevicePlugin, logger log.Logger` | `` | [L44](file:///d:/claude/nomad/plugins/device/plugin.go#L44) |
 
 ## 5. 核心方法详解
 
@@ -46,6 +57,15 @@
 **签名**：`func Serve(dev DevicePlugin, logger log.Logger) `
 
 **位置**：[L44](file:///d:/claude/nomad/plugins/device/plugin.go#L44)
+
+**中文说明**：提供服务 用于 提供服务 设备 插件
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `dev` | `DevicePlugin` | — |
+| `logger` | `log.Logger` | 日志记录器 |
 
 ## 6. 依赖关系
 
@@ -74,4 +94,9 @@
 | 文件 | 关系 |
 |------|------|
 | [plugin_test.go](file:///d:/claude/nomad/plugins/device/plugin_test.go) | 对应测试文件 |
+| [client.go](file:///d:/claude/nomad/plugins/device/client.go) | 同目录源文件 |
+| [device.go](file:///d:/claude/nomad/plugins/device/device.go) | 同目录源文件 |
+| [mock.go](file:///d:/claude/nomad/plugins/device/mock.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/plugins/device/server.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/plugins/device/util.go) | 同目录源文件 |
 

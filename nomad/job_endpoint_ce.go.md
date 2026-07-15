@@ -1,6 +1,6 @@
 # job_endpoint_ce.go 代码说明文档
 
-> 文件路径：[job_endpoint_ce.go](file:///d:/claude/nomad/nomad/job_endpoint_ce.go)
+> 文件路径：[nomad/job_endpoint_ce.go](file:///d:/claude/nomad/nomad/job_endpoint_ce.go)
 > 总行数：59 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **作业 RPC 端点**，处理作业的 CRUD 操作（注册、查询、停止、调度等），是 Nomad API 的核心端点之一。包含作业验证、钩子链、状态查询等功能。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `job_endpoint_ce.go` 提供相关功能实现。
 
 **构建标签**：`!ent`
 
@@ -27,16 +27,18 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `enforceSubmitJob` | `j *Job` | `override bool, job *structs.Job, existingJob *structs.Job, nomadACLToken *st...` | `error, error` | [L14](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L14) |
+| `enforceSubmitJob` | `j *Job` | `override bool, job *structs.Job, existingJob *structs.Job, nomadACLToken *str...` | `error, error` | [L14](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L14) |
 | `multiregionCreateDeployment` | `j *Job` | `job *structs.Job, eval *structs.Evaluation` | `*structs.Deployment` | [L20](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L20) |
-| `multiregionRegister` | `j *Job` | `args *structs.JobRegisterRequest, reply *structs.JobRegisterResponse, newVer...` | `bool, error` | [L25](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L25) |
+| `multiregionRegister` | `j *Job` | `args *structs.JobRegisterRequest, reply *structs.JobRegisterResponse, newVers...` | `bool, error` | [L25](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L25) |
 | `multiregionStart` | `j *Job` | `args *structs.JobRegisterRequest, reply *structs.JobRegisterResponse` | `error` | [L30](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L30) |
 | `multiregionDrop` | `j *Job` | `args *structs.JobRegisterRequest, reply *structs.JobRegisterResponse` | `error` | [L36](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L36) |
-| `multiregionStop` | `j *Job` | `job *structs.Job, args *structs.JobDeregisterRequest, reply *structs.JobDere...` | `error` | [L42](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L42) |
+| `multiregionStop` | `j *Job` | `job *structs.Job, args *structs.JobDeregisterRequest, reply *structs.JobDereg...` | `error` | [L42](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L42) |
 | `interpolateMultiregionFields` | `j *Job` | `args *structs.JobPlanRequest` | `error` | [L47](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L47) |
 | `multiregionSpecChanged` | `j *Job` | `existingJob *structs.Job, args *structs.JobRegisterRequest` | `bool, error` | [L56](file:///d:/claude/nomad/nomad/job_endpoint_ce.go#L56) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -56,4 +58,9 @@
 | 文件 | 关系 |
 |------|------|
 | [job_endpoint_ce_test.go](file:///d:/claude/nomad/nomad/job_endpoint_ce_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

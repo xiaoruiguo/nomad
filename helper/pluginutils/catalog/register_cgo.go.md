@@ -1,6 +1,6 @@
 # register_cgo.go 代码说明文档
 
-> 文件路径：[pluginutils/catalog/register_cgo.go](file:///d:/claude/nomad/helper/pluginutils/catalog/register_cgo.go)
+> 文件路径：[helper/pluginutils/catalog/register_cgo.go](file:///d:/claude/nomad/helper/pluginutils/catalog/register_cgo.go)
 > 总行数：26 行
 > 所属包：`catalog`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **插件目录子包**（`helper/pluginutils/catalog`），实现 Nomad 插件的目录管理，支持内部和外部插件的注册、查找和初始化。
+该文件属于 **工具包子包**（`helper/pluginutils/catalog`），提供 Nomad 使用的通用工具函数和数据结构。
 
 **构建标签**：`cgo`
 
@@ -27,9 +27,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L19](file:///d:/claude/nomad/helper/pluginutils/catalog/register_cgo.go#L19) |
+| `init` | - | `` | `` | [L19](file:///d:/claude/nomad/helper/pluginutils/catalog/register_cgo.go#L19) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -45,10 +47,14 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 辅助工具的一部分
+- **Docker 集成**：与 Docker Engine API 交互，管理容器生命周期
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [catalog.go](file:///d:/claude/nomad/helper/pluginutils/catalog/catalog.go) | 同目录源文件 |
+| [register.go](file:///d:/claude/nomad/helper/pluginutils/catalog/register.go) | 同目录源文件 |
+| [register_testing.go](file:///d:/claude/nomad/helper/pluginutils/catalog/register_testing.go) | 同目录源文件 |
+| [testing.go](file:///d:/claude/nomad/helper/pluginutils/catalog/testing.go) | 同目录源文件 |
 

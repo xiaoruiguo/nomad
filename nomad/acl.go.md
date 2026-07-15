@@ -1,6 +1,6 @@
 # acl.go 代码说明文档
 
-> 文件路径：[acl.go](file:///d:/claude/nomad/nomad/acl.go)
+> 文件路径：[nomad/acl.go](file:///d:/claude/nomad/nomad/acl.go)
 > 总行数：57 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **ACL 管理器**，提供 ACL 令牌验证、策略解析、权限检查等核心 ACL 功能。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `acl.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -37,6 +37,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -49,11 +51,15 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
-- **ACL 集成**：集成访问控制列表，验证请求权限
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [acl_test.go](file:///d:/claude/nomad/nomad/acl_test.go) | 对应测试文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
+| [blocked_evals.go](file:///d:/claude/nomad/nomad/blocked_evals.go) | 同目录源文件 |
 

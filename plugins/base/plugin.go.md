@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **基础插件接口子包**（`plugins/base`），定义所有 Nomad 插件必须实现的基础接口，包括插件信息查询、配置设置、TLS 证书设置和 gRPC 通信协议。同时包含 gRPC protobuf 生成的客户端和服务端实现。
+该文件属于 **基础插件接口子包**（`plugins/base`），定义所有 Nomad 插件必须实现的基础接口，包括插件信息查询、配置设置、TLS 证书设置和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L42](file:///d:/claude/nomad/plugins/base/plugin.go#L42)
 
+**中文说明**：PluginBase 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
-	plugin.NetRPCUnsupportedPlugin
+type PluginBase struct {
+	plugin.NetRPCUnsupportedPlugin plugin.NetRPCUnsupportedPlugin
 	Impl BasePlugin
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `plugin.NetRPCUnsupportedPlugin` | `plugin.NetRPCUnsupportedPlugin` | — |
+| `Impl` | `BasePlugin` | — |
 
 **关联方法**（2 个）：`GRPCServer`, `GRPCClient`
 
@@ -31,18 +42,18 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `PluginTypeBase` | `"base"` |
-| `PluginTypeDriver` | `"driver"` |
-| `PluginTypeDevice` | `"device"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `PluginTypeBase` | `—` | `"base"` | — |
+| `PluginTypeDriver` | `—` | `"driver"` | — |
+| `PluginTypeDevice` | `—` | `"device"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `Handshake` | `plugin.HandshakeConfig{...}` |
-| `MsgpackHandle` | `*ast.FuncLit()` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `Handshake` | `—` | `plugin.HandshakeConfig{...}` | — |
+| `MsgpackHandle` | `—` | `*ast.FuncLit()` | — |
 
 ## 4. 方法与函数
 
@@ -54,6 +65,8 @@
 | `MsgPackEncode` | - | `b *[]byte, in interface{}` | `error` | [L84](file:///d:/claude/nomad/plugins/base/plugin.go#L84) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -81,4 +94,8 @@
 | 文件 | 关系 |
 |------|------|
 | [plugin_test.go](file:///d:/claude/nomad/plugins/base/plugin_test.go) | 对应测试文件 |
+| [base.go](file:///d:/claude/nomad/plugins/base/base.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/plugins/base/client.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/plugins/base/server.go) | 同目录源文件 |
+| [testing.go](file:///d:/claude/nomad/plugins/base/testing.go) | 同目录源文件 |
 

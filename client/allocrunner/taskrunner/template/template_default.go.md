@@ -1,6 +1,6 @@
 # template_default.go 代码说明文档
 
-> 文件路径：[allocrunner/taskrunner/template/template_default.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_default.go)
+> 文件路径：[client/allocrunner/taskrunner/template/template_default.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_default.go)
 > 总行数：191 行
 > 所属包：`template`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **模板渲染子包**（`client/allocrunner/taskrunner/template`），实现 Consul-Template 风格的配置模板渲染。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 **平台特定实现**：此文件为 **默认/其他平台** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -34,6 +34,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -55,7 +57,7 @@
 
 ## 7. 设计模式与技术特点
 
-- **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **IO 操作**：涉及文件或数据流的读写操作
 - **平台特定实现**：通过 build tag 机制实现 默认/其他平台 平台支持
 
 ## 8. 相关文件
@@ -63,4 +65,6 @@
 | 文件 | 关系 |
 |------|------|
 | [template_default_test.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_default_test.go) | 对应测试文件 |
+| [template.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template.go) | 同目录源文件 |
+| [template_windows.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/template/template_windows.go) | 同目录源文件 |
 

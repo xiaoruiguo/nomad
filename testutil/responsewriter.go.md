@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动（`server.go`）、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
+该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L19](file:///d:/claude/nomad/testutil/responsewriter.go#L19)
 
+**中文说明**：ResponseRecorder 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type ResponseRecorder struct {
 	rr *httptest.ResponseRecorder
 	mu sync.Mutex
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `rr` | `*httptest.ResponseRecorder` | — |
+| `mu` | `sync.Mutex` | 互斥锁，保护并发访问 |
 
 **关联方法**（7 个）：`Flush`, `Flushed`, `Header`, `HeaderMap`, `Write`, `WriteHeader`, `Read`
 
@@ -31,21 +42,21 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `_` | `(*ResponseRecorder)(nil)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `_` | `http.ResponseWriter` | `(*ResponseRecorder)(nil)` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `NewResponseRecorder` | - | - | `*ResponseRecorder` | [L24](file:///d:/claude/nomad/testutil/responsewriter.go#L24) |
-| `Flush` | `r *ResponseRecorder` | - | - | [L31](file:///d:/claude/nomad/testutil/responsewriter.go#L31) |
-| `Flushed` | `r *ResponseRecorder` | - | `bool` | [L38](file:///d:/claude/nomad/testutil/responsewriter.go#L38) |
-| `Header` | `r *ResponseRecorder` | - | `http.Header` | [L46](file:///d:/claude/nomad/testutil/responsewriter.go#L46) |
-| `HeaderMap` | `r *ResponseRecorder` | - | `http.Header` | [L53](file:///d:/claude/nomad/testutil/responsewriter.go#L53) |
+| `NewResponseRecorder` | - | `` | `*ResponseRecorder` | [L24](file:///d:/claude/nomad/testutil/responsewriter.go#L24) |
+| `Flush` | `r *ResponseRecorder` | `` | `` | [L31](file:///d:/claude/nomad/testutil/responsewriter.go#L31) |
+| `Flushed` | `r *ResponseRecorder` | `` | `bool` | [L38](file:///d:/claude/nomad/testutil/responsewriter.go#L38) |
+| `Header` | `r *ResponseRecorder` | `` | `http.Header` | [L46](file:///d:/claude/nomad/testutil/responsewriter.go#L46) |
+| `HeaderMap` | `r *ResponseRecorder` | `` | `http.Header` | [L53](file:///d:/claude/nomad/testutil/responsewriter.go#L53) |
 | `Write` | `r *ResponseRecorder` | `p []byte` | `int, error` | [L60](file:///d:/claude/nomad/testutil/responsewriter.go#L60) |
-| `WriteHeader` | `r *ResponseRecorder` | `statusCode int` | - | [L68](file:///d:/claude/nomad/testutil/responsewriter.go#L68) |
+| `WriteHeader` | `r *ResponseRecorder` | `statusCode int` | `` | [L68](file:///d:/claude/nomad/testutil/responsewriter.go#L68) |
 | `Read` | `r *ResponseRecorder` | `p []byte` | `int, error` | [L75](file:///d:/claude/nomad/testutil/responsewriter.go#L75) |
 
 ## 5. 核心方法详解
@@ -56,17 +67,59 @@
 
 **位置**：[L24](file:///d:/claude/nomad/testutil/responsewriter.go#L24)
 
+**中文说明**：创建并返回一个新的 ResponseRecorder 实例。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ResponseRecorder` | — |
+
+### Flush()
+
+**签名**：`func (r *ResponseRecorder) Flush() `
+
+**位置**：[L31](file:///d:/claude/nomad/testutil/responsewriter.go#L31)
+
+**中文说明**：刷新对象，清空缓存数据。
+
 ### Write()
 
 **签名**：`func (r *ResponseRecorder) Write(p []byte) int, error`
 
 **位置**：[L60](file:///d:/claude/nomad/testutil/responsewriter.go#L60)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `p` | `[]byte` | 字节数组 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+| `error` | 错误信息 |
+
 ### Read()
 
 **签名**：`func (r *ResponseRecorder) Read(p []byte) int, error`
 
 **位置**：[L75](file:///d:/claude/nomad/testutil/responsewriter.go#L75)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `p` | `[]byte` | 字节数组 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -82,9 +135,16 @@
 
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
 - **测试工具**：提供测试辅助工具，便于编写单元测试和集成测试
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [file.go](file:///d:/claude/nomad/testutil/file.go) | 同目录源文件 |
+| [mock_calls.go](file:///d:/claude/nomad/testutil/mock_calls.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/testutil/server.go) | 同目录源文件 |
+| [server_default.go](file:///d:/claude/nomad/testutil/server_default.go) | 同目录源文件 |
+| [server_windows.go](file:///d:/claude/nomad/testutil/server_windows.go) | 同目录源文件 |
 

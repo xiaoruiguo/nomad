@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理，通过 gRPC 与 Nomad 通信。
+该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理。
 
 ## 2. 类型定义
 
@@ -20,9 +20,9 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `ApiVersion010` | `"v0.1.0"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ApiVersion010` | `—` | `"v0.1.0"` | — |
 
 ## 4. 方法与函数
 
@@ -30,7 +30,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -40,4 +44,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/device/client.go) | 同目录源文件 |
+| [device.go](file:///d:/claude/nomad/plugins/device/device.go) | 同目录源文件 |
+| [mock.go](file:///d:/claude/nomad/plugins/device/mock.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/plugins/device/plugin.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/plugins/device/server.go) | 同目录源文件 |
 

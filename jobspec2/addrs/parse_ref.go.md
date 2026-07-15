@@ -18,13 +18,25 @@
 
 **定义位置**：[L14](file:///d:/claude/nomad/jobspec2/addrs/parse_ref.go#L14)
 
+**中文说明**：Reference 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Reference struct {
 	Subject Referenceable
 	SourceRange hcl.Range
 	Remaining hcl.Traversal
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Subject` | `Referenceable` | — |
+| `SourceRange` | `hcl.Range` | — |
+| `Remaining` | `hcl.Traversal` | — |
 
 ## 3. 常量与变量
 
@@ -39,6 +51,8 @@
 | `parseSingleAttrRef` | - | `traversal hcl.Traversal` | `string, hcl.Range, hcl.Traversal, hcl.Diagnostics` | [L71](file:///d:/claude/nomad/jobspec2/addrs/parse_ref.go#L71) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -57,4 +71,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [doc.go](file:///d:/claude/nomad/jobspec2/addrs/doc.go) | 同目录源文件 |
+| [input_variable.go](file:///d:/claude/nomad/jobspec2/addrs/input_variable.go) | 同目录源文件 |
+| [referenceable.go](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go) | 同目录源文件 |
 

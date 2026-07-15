@@ -18,15 +18,29 @@
 
 **定义位置**：[L25](file:///d:/claude/nomad/drivers/docker/cpuset.go#L25)
 
+**中文说明**：cpuset 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	doneCh chan bool
+type cpuset struct {
+	doneCh <-chan bool
 	source string
 	destination string
 	previous string
 	sync func(...)
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `doneCh` | `<-chan bool` | 通道 |
+| `source` | `string` | 字符串 |
+| `destination` | `string` | 字符串 |
+| `previous` | `string` | 字符串 |
+| `sync` | `func(...)` | — |
 
 **关联方法**（2 个）：`watch`, `copyCpuset`
 
@@ -34,19 +48,21 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `cpusetSyncPeriod` | `3 * time.Second` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `cpusetSyncPeriod` | `—` | `3 * time.Second` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `watch` | `c *cpuset` | - | - | [L33](file:///d:/claude/nomad/drivers/docker/cpuset.go#L33) |
-| `effectiveCpusetFile` | - | - | `string` | [L53](file:///d:/claude/nomad/drivers/docker/cpuset.go#L53) |
-| `copyCpuset` | `c *cpuset` | `source string, destination string` | - | [L62](file:///d:/claude/nomad/drivers/docker/cpuset.go#L62) |
+| `watch` | `c *cpuset` | `` | `` | [L33](file:///d:/claude/nomad/drivers/docker/cpuset.go#L33) |
+| `effectiveCpusetFile` | - | `` | `string` | [L53](file:///d:/claude/nomad/drivers/docker/cpuset.go#L53) |
+| `copyCpuset` | `c *cpuset` | `source string, destination string` | `` | [L62](file:///d:/claude/nomad/drivers/docker/cpuset.go#L62) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -70,4 +86,9 @@
 | 文件 | 关系 |
 |------|------|
 | [cpuset_test.go](file:///d:/claude/nomad/drivers/docker/cpuset_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
+| [driver_windows.go](file:///d:/claude/nomad/drivers/docker/driver_windows.go) | 同目录源文件 |
 

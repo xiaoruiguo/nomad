@@ -1,6 +1,6 @@
 # file.go 代码说明文档
 
-> 文件路径：[file.go](file:///d:/claude/nomad/helper/file.go)
+> 文件路径：[helper/file.go](file:///d:/claude/nomad/helper/file.go)
 > 总行数：49 行
 > 所属包：`helper`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **文件操作工具**，实现文件读取、写入和内容处理辅助函数，支持大文件分块读取。
+该文件属于 **工具包子包**（`helper/helper`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -27,6 +27,8 @@
 | `ReadFileContent` | - | `file *os.File` | `[]byte, error` | [L14](file:///d:/claude/nomad/helper/file.go#L14) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -46,4 +48,9 @@
 | 文件 | 关系 |
 |------|------|
 | [file_test.go](file:///d:/claude/nomad/helper/file_test.go) | 对应测试文件 |
+| [backoff.go](file:///d:/claude/nomad/helper/backoff.go) | 同目录源文件 |
+| [cluster.go](file:///d:/claude/nomad/helper/cluster.go) | 同目录源文件 |
+| [eof.go](file:///d:/claude/nomad/helper/eof.go) | 同目录源文件 |
+| [funcs.go](file:///d:/claude/nomad/helper/funcs.go) | 同目录源文件 |
+| [funcs_unix.go](file:///d:/claude/nomad/helper/funcs_unix.go) | 同目录源文件 |
 

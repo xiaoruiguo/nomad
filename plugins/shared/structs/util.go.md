@@ -45,6 +45,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -63,4 +65,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [attribute.go](file:///d:/claude/nomad/plugins/shared/structs/attribute.go) | 同目录源文件 |
+| [plugin_reattach_config.go](file:///d:/claude/nomad/plugins/shared/structs/plugin_reattach_config.go) | 同目录源文件 |
+| [stats.go](file:///d:/claude/nomad/plugins/shared/structs/stats.go) | 同目录源文件 |
+| [units.go](file:///d:/claude/nomad/plugins/shared/structs/units.go) | 同目录源文件 |
 

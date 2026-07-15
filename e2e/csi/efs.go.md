@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **CSI E2E 测试子包**（`e2e/csi`），测试容器存储接口（CSI）插件的注册、卷管理和挂载功能。
+该文件属于 **端到端测试子包**（`e2e/csi`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
 ## 2. 类型定义
 
@@ -18,15 +18,29 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/e2e/csi/efs.go#L18)
 
+**中文说明**：CSINodeOnlyPluginEFSTest 与节点（Node）相关，节点是 Nomad 客户端运行任务的载体。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type CSINodeOnlyPluginEFSTest struct {
+	framework.TC framework.TC
 	uuid string
 	testJobIDs []string
 	volumeIDs []string
 	pluginJobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `uuid` | `string` | 字符串 |
+| `testJobIDs` | `[]string` | 列表 |
+| `volumeIDs` | `[]string` | 列表 |
+| `pluginJobIDs` | `[]string` | 列表 |
 
 **关联方法**（3 个）：`BeforeAll`, `TestEFSVolumeClaim`, `AfterEach`
 
@@ -34,19 +48,21 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `efsPluginID` | `"aws-efs0"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `efsPluginID` | `—` | `"aws-efs0"` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `BeforeAll` | `tc *CSINodeOnlyPluginEFSTest` | `f *framework.F` | - | [L28](file:///d:/claude/nomad/e2e/csi/efs.go#L28) |
-| `TestEFSVolumeClaim` | `tc *CSINodeOnlyPluginEFSTest` | `f *framework.F` | - | [L46](file:///d:/claude/nomad/e2e/csi/efs.go#L46) |
-| `AfterEach` | `tc *CSINodeOnlyPluginEFSTest` | `f *framework.F` | - | [L125](file:///d:/claude/nomad/e2e/csi/efs.go#L125) |
+| `BeforeAll` | `tc *CSINodeOnlyPluginEFSTest` | `f *framework.F` | `` | [L28](file:///d:/claude/nomad/e2e/csi/efs.go#L28) |
+| `TestEFSVolumeClaim` | `tc *CSINodeOnlyPluginEFSTest` | `f *framework.F` | `` | [L46](file:///d:/claude/nomad/e2e/csi/efs.go#L46) |
+| `AfterEach` | `tc *CSINodeOnlyPluginEFSTest` | `f *framework.F` | `` | [L125](file:///d:/claude/nomad/e2e/csi/efs.go#L125) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -70,4 +86,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [csi.go](file:///d:/claude/nomad/e2e/csi/csi.go) | 同目录源文件 |
+| [ebs.go](file:///d:/claude/nomad/e2e/csi/ebs.go) | 同目录源文件 |
 

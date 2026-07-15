@@ -12,6 +12,14 @@
 
 该文件属于 **Docker 驱动子包**（`drivers/docker`），实现 Nomad 的 Docker 任务驱动，通过 Docker API 管理容器的生命周期（创建、启动、停止、销毁）、资源限制、网络配置和日志收集。支持 Docker API 版本协商、认证、健康检查和统计信息收集。
 
+**包注释**：
+
+This package provides a mechanism to build the Docker driver plugin as an
+external binary. The binary has two entry points; the docker driver and the
+docker plugin's logging child binary. An example of using this is `go build
+-o </nomad/plugin/dir/docker`. When Nomad agent is then launched, the
+external docker plugin will be used.
+
 ## 2. 类型定义
 
 该文件未定义类型。
@@ -24,10 +32,12 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L23](file:///d:/claude/nomad/drivers/docker/cmd/main.go#L23) |
+| `main` | - | `` | `` | [L23](file:///d:/claude/nomad/drivers/docker/cmd/main.go#L23) |
 | `factory` | - | `ctx context.Context, log log.Logger` | `interface{}` | [L53](file:///d:/claude/nomad/drivers/docker/cmd/main.go#L53) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

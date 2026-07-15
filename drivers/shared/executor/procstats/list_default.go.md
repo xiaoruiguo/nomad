@@ -31,6 +31,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -52,4 +54,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [getstats.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go) | 同目录源文件 |
+| [list_linux.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_linux.go) | 同目录源文件 |
+| [list_windows.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_windows.go) | 同目录源文件 |
+| [procstats.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go) | 同目录源文件 |
 

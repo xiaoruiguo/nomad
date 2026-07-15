@@ -20,21 +20,23 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `javaVersionCommand` | `[]string{...}` |
-| `macOSJavaTestCommand` | `"/usr/libexec/java_home"` |
-| `javaVersionRe` | `regexp.MustCompile(`([.\d_]+)`)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `javaVersionCommand` | `—` | `[]string{...}` | — |
+| `macOSJavaTestCommand` | `—` | `"/usr/libexec/java_home"` | — |
+| `javaVersionRe` | `—` | `regexp.MustCompile(`([.\d_]+)`)` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `checkForMacJVM` | - | - | `ok bool, err error` | [L18](file:///d:/claude/nomad/drivers/java/utils.go#L18) |
-| `javaVersionInfo` | - | - | `version string, runtime string, vm string, err error` | [L32](file:///d:/claude/nomad/drivers/java/utils.go#L32) |
+| `checkForMacJVM` | - | `` | `ok bool, err error` | [L18](file:///d:/claude/nomad/drivers/java/utils.go#L18) |
+| `javaVersionInfo` | - | `` | `version string, runtime string, vm string, err error` | [L32](file:///d:/claude/nomad/drivers/java/utils.go#L32) |
 | `parseJavaVersionOutput` | - | `infoString string` | `version string, runtime string, vm string` | [L60](file:///d:/claude/nomad/drivers/java/utils.go#L60) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -58,4 +60,7 @@
 | 文件 | 关系 |
 |------|------|
 | [utils_test.go](file:///d:/claude/nomad/drivers/java/utils_test.go) | 对应测试文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/java/driver.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/java/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/java/state.go) | 同目录源文件 |
 

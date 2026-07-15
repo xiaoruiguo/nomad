@@ -1,6 +1,6 @@
 # state_store_host_volumes_ce.go 代码说明文档
 
-> 文件路径：[state/state_store_host_volumes_ce.go](file:///d:/claude/nomad/nomad/state/state_store_host_volumes_ce.go)
+> 文件路径：[nomad/state/state_store_host_volumes_ce.go](file:///d:/claude/nomad/nomad/state/state_store_host_volumes_ce.go)
 > 总行数：21 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **状态存储子包**（`nomad/state`），实现 Nomad Server 的状态存储（基于 MemDB），管理所有集群状态的内存索引和快照恢复。是 Raft FSM 的数据后端。
+该文件属于 `state` 包，包含 3 个方法/函数。
 
 **构建标签**：`!ent`
 
@@ -33,6 +33,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -49,4 +51,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [autopilot.go](file:///d:/claude/nomad/nomad/state/autopilot.go) | 同目录源文件 |
+| [events.go](file:///d:/claude/nomad/nomad/state/events.go) | 同目录源文件 |
+| [events_ce.go](file:///d:/claude/nomad/nomad/state/events_ce.go) | 同目录源文件 |
+| [helpers.go](file:///d:/claude/nomad/nomad/state/helpers.go) | 同目录源文件 |
+| [iterator.go](file:///d:/claude/nomad/nomad/state/iterator.go) | 同目录源文件 |
 

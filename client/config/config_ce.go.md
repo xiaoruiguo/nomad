@@ -1,6 +1,6 @@
 # config_ce.go 代码说明文档
 
-> 文件路径：[config/config_ce.go](file:///d:/claude/nomad/client/config/config_ce.go)
+> 文件路径：[client/config/config_ce.go](file:///d:/claude/nomad/client/config/config_ce.go)
 > 总行数：39 行
 > 所属包：`config`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Client 配置子包**（`client/config`），定义 Client 节点的配置结构和默认值。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 **构建标签**：`!ent`
 
@@ -32,17 +32,7 @@
 
 ## 5. 核心方法详解
 
-### GetVaultConfigs()
-
-**签名**：`func (c *Config) GetVaultConfigs(logger hclog.Logger) map[string]*structsc.VaultConfig`
-
-**位置**：[L15](file:///d:/claude/nomad/client/config/config_ce.go#L15)
-
-### GetConsulConfigs()
-
-**签名**：`func (c *Config) GetConsulConfigs(logger hclog.Logger) map[string]*structsc.ConsulConfig`
-
-**位置**：[L28](file:///d:/claude/nomad/client/config/config_ce.go#L28)
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -55,10 +45,17 @@
 
 ## 7. 设计模式与技术特点
 
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **社区版存根**：为企业版功能提供社区版的空实现，通过 build tag 选择
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [arconfig.go](file:///d:/claude/nomad/client/config/arconfig.go) | 同目录源文件 |
+| [artifact.go](file:///d:/claude/nomad/client/config/artifact.go) | 同目录源文件 |
+| [config.go](file:///d:/claude/nomad/client/config/config.go) | 同目录源文件 |
+| [config_linux.go](file:///d:/claude/nomad/client/config/config_linux.go) | 同目录源文件 |
+| [config_nonlinux.go](file:///d:/claude/nomad/client/config/config_nonlinux.go) | 同目录源文件 |
 

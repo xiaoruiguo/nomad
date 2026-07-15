@@ -1,6 +1,6 @@
 # state_store_variables.go 代码说明文档
 
-> 文件路径：[state/state_store_variables.go](file:///d:/claude/nomad/nomad/state/state_store_variables.go)
+> 文件路径：[nomad/state/state_store_variables.go](file:///d:/claude/nomad/nomad/state/state_store_variables.go)
 > 总行数：597 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **状态存储子包**（`nomad/state`），实现 Nomad Server 的状态存储（基于 MemDB），管理所有集群状态的内存索引和快照恢复。是 Raft FSM 的数据后端。
+该文件属于 `state` 包，定义接口类型、包含 21 个方法/函数。
 
 ## 2. 类型定义
 
@@ -18,26 +18,41 @@
 
 **定义位置**：[L445](file:///d:/claude/nomad/nomad/state/state_store_variables.go#L445)
 
+**中文说明**：WriteTxn 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	ReadTxn
-	Defer
-	Delete
-	DeleteAll
-	DeletePrefix
-	Insert
+type WriteTxn interface {
+	ReadTxn ReadTxn
+	Defer func(...)
+	Delete func(...)
+	DeleteAll func(...)
+	DeletePrefix func(...)
+	Insert func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `ReadTxn` | `ReadTxn` | — |
+| `Defer` | `func(...)` | — |
+| `Delete` | `func(...)` | 删除指定的对象。 |
+| `DeleteAll` | `func(...)` | 删除指定的All。 |
+| `DeletePrefix` | `func(...)` | 删除指定的Prefix。 |
+| `Insert` | `func(...)` | — |
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `errVarAlreadyLocked` | `errors.New("variable already holds a lock")` |
-| `errVarNotFound` | `errors.New("variable doesn't exist")` |
-| `errLockNotFound` | `errors.New("variable doesn't hold a lock")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `errVarAlreadyLocked` | `—` | `errors.New("variable already holds a lock")` | — |
+| `errVarNotFound` | `—` | `errors.New("variable doesn't exist")` | — |
+| `errLockNotFound` | `—` | `errors.New("variable doesn't hold a lock")` | — |
 
 ## 4. 方法与函数
 
@@ -67,35 +82,7 @@
 
 ## 5. 核心方法详解
 
-### GetVariablesByNamespace()
-
-**签名**：`func (s *StateStore) GetVariablesByNamespace(ws memdb.WatchSet, namespace string) memdb.ResultIterator, error`
-
-**位置**：[L37](file:///d:/claude/nomad/nomad/state/state_store_variables.go#L37)
-
-### GetVariablesByNamespaceAndPrefix()
-
-**签名**：`func (s *StateStore) GetVariablesByNamespaceAndPrefix(ws memdb.WatchSet, namespace string, prefix string) memdb.ResultIterator, error`
-
-**位置**：[L57](file:///d:/claude/nomad/nomad/state/state_store_variables.go#L57)
-
-### GetVariablesByPrefix()
-
-**签名**：`func (s *StateStore) GetVariablesByPrefix(ws memdb.WatchSet, prefix string) memdb.ResultIterator, error`
-
-**位置**：[L74](file:///d:/claude/nomad/nomad/state/state_store_variables.go#L74)
-
-### GetVariablesByKeyID()
-
-**签名**：`func (s *StateStore) GetVariablesByKeyID(ws memdb.WatchSet, keyID string) memdb.ResultIterator, error`
-
-**位置**：[L90](file:///d:/claude/nomad/nomad/state/state_store_variables.go#L90)
-
-### GetVariable()
-
-**签名**：`func (s *StateStore) GetVariable(ws memdb.WatchSet, namespace string, path string) *structs.VariableEncrypted, error`
-
-**位置**：[L105](file:///d:/claude/nomad/nomad/state/state_store_variables.go#L105)
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -112,7 +99,6 @@
 ## 7. 设计模式与技术特点
 
 - **接口抽象**：定义接口类型，实现依赖倒置和解耦，便于测试模拟
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
 
 ## 8. 相关文件
@@ -120,4 +106,9 @@
 | 文件 | 关系 |
 |------|------|
 | [state_store_variables_test.go](file:///d:/claude/nomad/nomad/state/state_store_variables_test.go) | 对应测试文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/state/autopilot.go) | 同目录源文件 |
+| [events.go](file:///d:/claude/nomad/nomad/state/events.go) | 同目录源文件 |
+| [events_ce.go](file:///d:/claude/nomad/nomad/state/events_ce.go) | 同目录源文件 |
+| [helpers.go](file:///d:/claude/nomad/nomad/state/helpers.go) | 同目录源文件 |
+| [iterator.go](file:///d:/claude/nomad/nomad/state/iterator.go) | 同目录源文件 |
 

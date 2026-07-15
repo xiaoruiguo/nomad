@@ -1,6 +1,6 @@
 # utils.go 代码说明文档
 
-> 文件路径：[utils.go](file:///d:/claude/nomad/api/utils.go)
+> 文件路径：[api/utils.go](file:///d:/claude/nomad/api/utils.go)
 > 总行数：45 行
 > 所属包：`api`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **工具函数**，为 API 客户端提供通用辅助功能。
+该文件属于 **API 客户端包**（`api/`），提供 Go 语言客户端库，通过 HTTP API 与 Nomad Server 交互。当前文件 `utils.go` 实现相关 API 端点的客户端方法。
 
 ## 2. 类型定义
 
@@ -30,6 +30,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -41,12 +43,16 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad API 客户端的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [utils_test.go](file:///d:/claude/nomad/api/utils_test.go) | 对应测试文件 |
-| [api.go](file:///d:/claude/nomad/api/api.go) | API 客户端核心，定义 `Client` 和请求/响应类型 |
+| [acl.go](file:///d:/claude/nomad/api/acl.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/api/agent.go) | 同目录源文件 |
+| [allocations.go](file:///d:/claude/nomad/api/allocations.go) | 同目录源文件 |
+| [allocations_exec.go](file:///d:/claude/nomad/api/allocations_exec.go) | 同目录源文件 |
+| [api.go](file:///d:/claude/nomad/api/api.go) | 同目录源文件 |
 

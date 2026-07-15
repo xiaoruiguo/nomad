@@ -18,16 +18,31 @@
 
 **定义位置**：[L21](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L21)
 
+**中文说明**：execHelper 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type execHelper struct {
 	logger hclog.Logger
 	newTerminal func(...)
 	setTTY func(...)
 	setIO func(...)
 	processStart func(...)
 	processWait func(...)
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `newTerminal` | `func(...)` | — |
+| `setTTY` | `func(...)` | — |
+| `setIO` | `func(...)` | — |
+| `processStart` | `func(...)` | — |
+| `processWait` | `func(...)` | — |
 
 **关联方法**（3 个）：`run`, `runTTY`, `runNoTTY`
 
@@ -43,12 +58,14 @@
 | `runTTY` | `e *execHelper` | `ctx context.Context, stream drivers.ExecTaskStream` | `error` | [L48](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L48) |
 | `runNoTTY` | `e *execHelper` | `ctx context.Context, stream drivers.ExecTaskStream` | `error` | [L95](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L95) |
 | `cmdExitResult` | - | `ps *os.ProcessState, err error` | `*drivers.ExecTaskStreamingResponseMsg` | [L147](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L147) |
-| `handleStdin` | - | `logger hclog.Logger, stdin io.WriteCloser, stream drivers.ExecTaskStream, er...` | - | [L175](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L175) |
-| `handleStdout` | - | `logger hclog.Logger, reader io.Reader, wg *sync.WaitGroup, send func(...), e...` | - | [L206](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L206) |
-| `handleStderr` | - | `logger hclog.Logger, reader io.Reader, wg *sync.WaitGroup, send func(...), e...` | - | [L243](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L243) |
+| `handleStdin` | - | `logger hclog.Logger, stdin io.WriteCloser, stream drivers.ExecTaskStream, err...` | `` | [L175](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L175) |
+| `handleStdout` | - | `logger hclog.Logger, reader io.Reader, wg *sync.WaitGroup, send func(...), er...` | `` | [L206](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L206) |
+| `handleStderr` | - | `logger hclog.Logger, reader io.Reader, wg *sync.WaitGroup, send func(...), er...` | `` | [L243](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L243) |
 | `isClosedError` | - | `err error` | `bool` | [L280](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go#L280) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -80,4 +97,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
+| [executor_plugin.go](file:///d:/claude/nomad/drivers/shared/executor/executor_plugin.go) | 同目录源文件 |
 

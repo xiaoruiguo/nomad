@@ -18,12 +18,23 @@
 
 **定义位置**：[L7](file:///d:/claude/nomad/lib/lang/pair.go#L7)
 
+**中文说明**：Pair 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Pair struct {
 	First T
 	Second U
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `First` | `T` | — |
+| `Second` | `U` | — |
 
 ## 3. 常量与变量
 
@@ -35,7 +46,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -45,4 +60,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [doc.go](file:///d:/claude/nomad/lib/lang/doc.go) | 同目录源文件 |
+| [maps.go](file:///d:/claude/nomad/lib/lang/maps.go) | 同目录源文件 |
+| [stack.go](file:///d:/claude/nomad/lib/lang/stack.go) | 同目录源文件 |
 

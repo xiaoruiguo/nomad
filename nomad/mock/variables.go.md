@@ -1,6 +1,6 @@
 # variables.go 代码说明文档
 
-> 文件路径：[mock/variables.go](file:///d:/claude/nomad/nomad/mock/variables.go)
+> 文件路径：[nomad/mock/variables.go](file:///d:/claude/nomad/nomad/mock/variables.go)
 > 总行数：131 行
 > 所属包：`mock`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **模拟子包**（`nomad/mock`），提供测试用的模拟数据生成器，用于生成 Job、Node、Alloc 等对象的测试实例。
+该文件属于 `mock` 包，包含 8 个方法/函数。
 
 ## 2. 类型定义
 
@@ -18,7 +18,7 @@
 
 **定义位置**：[L15](file:///d:/claude/nomad/nomad/mock/variables.go#L15)
 
-**类型定义**：`map[string]*structs.VariableDecrypted`
+**类型定义**：`type MockVariables map[string]*structs.VariableDecrypted`
 
 **关联方法**（2 个）：`ListPaths`, `List`
 
@@ -26,7 +26,7 @@
 
 **定义位置**：[L71](file:///d:/claude/nomad/nomad/mock/variables.go#L71)
 
-**类型定义**：`map[string]*structs.VariableEncrypted`
+**类型定义**：`type MockVariablesEncrypted map[string]*structs.VariableEncrypted`
 
 **关联方法**（2 个）：`ListPaths`, `List`
 
@@ -38,22 +38,16 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Variable` | - | - | `*structs.VariableDecrypted` | [L17](file:///d:/claude/nomad/nomad/mock/variables.go#L17) |
+| `Variable` | - | `` | `*structs.VariableDecrypted` | [L17](file:///d:/claude/nomad/nomad/mock/variables.go#L17) |
 | `Variables` | - | `minU uint8, maxU uint8` | `MockVariables` | [L32](file:///d:/claude/nomad/nomad/mock/variables.go#L32) |
-| `ListPaths` | `svs *MockVariables` | - | `[]string` | [L53](file:///d:/claude/nomad/nomad/mock/variables.go#L53) |
-| `List` | `svs *MockVariables` | - | `[]*structs.VariableDecrypted` | [L62](file:///d:/claude/nomad/nomad/mock/variables.go#L62) |
-| `VariableEncrypted` | - | - | `*structs.VariableEncrypted` | [L73](file:///d:/claude/nomad/nomad/mock/variables.go#L73) |
+| `ListPaths` | `svs *MockVariables` | `` | `[]string` | [L53](file:///d:/claude/nomad/nomad/mock/variables.go#L53) |
+| `List` | `svs *MockVariables` | `` | `[]*structs.VariableDecrypted` | [L62](file:///d:/claude/nomad/nomad/mock/variables.go#L62) |
+| `VariableEncrypted` | - | `` | `*structs.VariableEncrypted` | [L73](file:///d:/claude/nomad/nomad/mock/variables.go#L73) |
 | `VariablesEncrypted` | - | `minU uint8, maxU uint8` | `MockVariablesEncrypted` | [L88](file:///d:/claude/nomad/nomad/mock/variables.go#L88) |
-| `ListPaths` | `svs *MockVariablesEncrypted` | - | `[]string` | [L114](file:///d:/claude/nomad/nomad/mock/variables.go#L114) |
-| `List` | `svs *MockVariablesEncrypted` | - | `[]*structs.VariableEncrypted` | [L123](file:///d:/claude/nomad/nomad/mock/variables.go#L123) |
+| `ListPaths` | `svs *MockVariablesEncrypted` | `` | `[]string` | [L114](file:///d:/claude/nomad/nomad/mock/variables.go#L114) |
+| `List` | `svs *MockVariablesEncrypted` | `` | `[]*structs.VariableEncrypted` | [L123](file:///d:/claude/nomad/nomad/mock/variables.go#L123) |
 
 ## 5. 核心方法详解
-
-### ListPaths()
-
-**签名**：`func (svs *MockVariables) ListPaths() []string`
-
-**位置**：[L53](file:///d:/claude/nomad/nomad/mock/variables.go#L53)
 
 ### List()
 
@@ -61,17 +55,27 @@
 
 **位置**：[L62](file:///d:/claude/nomad/nomad/mock/variables.go#L62)
 
-### ListPaths()
+**中文说明**：列出所有对象。
 
-**签名**：`func (svs *MockVariablesEncrypted) ListPaths() []string`
+**返回值**：
 
-**位置**：[L114](file:///d:/claude/nomad/nomad/mock/variables.go#L114)
+| 类型 | 说明 |
+|------|------|
+| `[]*structs.VariableDecrypted` | 列表 |
 
 ### List()
 
 **签名**：`func (svs *MockVariablesEncrypted) List() []*structs.VariableEncrypted`
 
 **位置**：[L123](file:///d:/claude/nomad/nomad/mock/variables.go#L123)
+
+**中文说明**：列出所有对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `[]*structs.VariableEncrypted` | 列表 |
 
 ## 6. 依赖关系
 
@@ -87,10 +91,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Server 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/mock/acl.go) | 同目录源文件 |
+| [alloc.go](file:///d:/claude/nomad/nomad/mock/alloc.go) | 同目录源文件 |
+| [connect.go](file:///d:/claude/nomad/nomad/mock/connect.go) | 同目录源文件 |
+| [csi.go](file:///d:/claude/nomad/nomad/mock/csi.go) | 同目录源文件 |
+| [host_volumes.go](file:///d:/claude/nomad/nomad/mock/host_volumes.go) | 同目录源文件 |
 

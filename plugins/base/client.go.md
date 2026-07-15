@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **基础插件接口子包**（`plugins/base`），定义所有 Nomad 插件必须实现的基础接口，包括插件信息查询、配置设置、TLS 证书设置和 gRPC 通信协议。同时包含 gRPC protobuf 生成的客户端和服务端实现。
+该文件属于 **基础插件接口子包**（`plugins/base`），定义所有 Nomad 插件必须实现的基础接口，包括插件信息查询、配置设置、TLS 证书设置和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L17](file:///d:/claude/nomad/plugins/base/client.go#L17)
 
+**中文说明**：BasePluginClient 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
+type BasePluginClient struct {
 	Client proto.BasePluginClient
 	DoneCtx context.Context
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Client` | `proto.BasePluginClient` | — |
+| `DoneCtx` | `context.Context` | 上下文，用于控制生命周期和取消 |
 
 **关联方法**（3 个）：`PluginInfo`, `ConfigSchema`, `SetConfig`
 
@@ -35,11 +46,13 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `PluginInfo` | `b *BasePluginClient` | - | `*PluginInfoResponse, error` | [L24](file:///d:/claude/nomad/plugins/base/client.go#L24) |
-| `ConfigSchema` | `b *BasePluginClient` | - | `*hclspec.Spec, error` | [L50](file:///d:/claude/nomad/plugins/base/client.go#L50) |
+| `PluginInfo` | `b *BasePluginClient` | `` | `*PluginInfoResponse, error` | [L24](file:///d:/claude/nomad/plugins/base/client.go#L24) |
+| `ConfigSchema` | `b *BasePluginClient` | `` | `*hclspec.Spec, error` | [L50](file:///d:/claude/nomad/plugins/base/client.go#L50) |
 | `SetConfig` | `b *BasePluginClient` | `c *Config` | `error` | [L59](file:///d:/claude/nomad/plugins/base/client.go#L59) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -62,4 +75,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [base.go](file:///d:/claude/nomad/plugins/base/base.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/plugins/base/plugin.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/plugins/base/server.go) | 同目录源文件 |
+| [testing.go](file:///d:/claude/nomad/plugins/base/testing.go) | 同目录源文件 |
 

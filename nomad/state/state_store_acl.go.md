@@ -1,6 +1,6 @@
 # state_store_acl.go 代码说明文档
 
-> 文件路径：[state/state_store_acl.go](file:///d:/claude/nomad/nomad/state/state_store_acl.go)
+> 文件路径：[nomad/state/state_store_acl.go](file:///d:/claude/nomad/nomad/state/state_store_acl.go)
 > 总行数：354 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **状态存储子包**（`nomad/state`），实现 Nomad Server 的状态存储（基于 MemDB），管理所有集群状态的内存索引和快照恢复。是 Raft FSM 的数据后端。
+该文件属于 `state` 包，包含 13 个方法/函数。
 
 ## 2. 类型定义
 
@@ -26,7 +26,7 @@
 |------|--------|------|--------|------|
 | `ACLTokensByExpired` | `s *StateStore` | `global bool` | `memdb.ResultIterator, error` | [L22](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L22) |
 | `expiresIndexName` | - | `global bool` | `string` | [L34](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L34) |
-| `UpsertACLRoles` | `s *StateStore` | `msgType structs.MessageType, index uint64, roles []*structs.ACLRole, allowMi...` | `error` | [L44](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L44) |
+| `UpsertACLRoles` | `s *StateStore` | `msgType structs.MessageType, index uint64, roles []*structs.ACLRole, allowMis...` | `error` | [L44](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L44) |
 | `upsertACLRoleTxn` | `s *StateStore` | `index uint64, txn *txn, role *structs.ACLRole, allowMissingPolicies bool` | `bool, error` | [L84](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L84) |
 | `validateACLRolePolicyLinksTxn` | `s *StateStore` | `txn *txn, role *structs.ACLRole` | `error` | [L165](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L165) |
 | `DeleteACLRolesByID` | `s *StateStore` | `msgType structs.MessageType, index uint64, roleIDs []string` | `error` | [L182](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L182) |
@@ -40,29 +40,7 @@
 
 ## 5. 核心方法详解
 
-### GetACLRoles()
-
-**签名**：`func (s *StateStore) GetACLRoles(ws memdb.WatchSet) memdb.ResultIterator, error`
-
-**位置**：[L224](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L224)
-
-### GetACLRoleByID()
-
-**签名**：`func (s *StateStore) GetACLRoleByID(ws memdb.WatchSet, roleID string) *structs.ACLRole, error`
-
-**位置**：[L240](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L240)
-
-### GetACLRoleByName()
-
-**签名**：`func (s *StateStore) GetACLRoleByName(ws memdb.WatchSet, roleName string) *structs.ACLRole, error`
-
-**位置**：[L267](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L267)
-
-### GetACLRoleByIDPrefix()
-
-**签名**：`func (s *StateStore) GetACLRoleByIDPrefix(ws memdb.WatchSet, idPrefix string) memdb.ResultIterator, error`
-
-**位置**：[L285](file:///d:/claude/nomad/nomad/state/state_store_acl.go#L285)
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -78,7 +56,6 @@
 
 ## 7. 设计模式与技术特点
 
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
 
 ## 8. 相关文件
@@ -86,4 +63,9 @@
 | 文件 | 关系 |
 |------|------|
 | [state_store_acl_test.go](file:///d:/claude/nomad/nomad/state/state_store_acl_test.go) | 对应测试文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/state/autopilot.go) | 同目录源文件 |
+| [events.go](file:///d:/claude/nomad/nomad/state/events.go) | 同目录源文件 |
+| [events_ce.go](file:///d:/claude/nomad/nomad/state/events_ce.go) | 同目录源文件 |
+| [helpers.go](file:///d:/claude/nomad/nomad/state/helpers.go) | 同目录源文件 |
+| [iterator.go](file:///d:/claude/nomad/nomad/state/iterator.go) | 同目录源文件 |
 

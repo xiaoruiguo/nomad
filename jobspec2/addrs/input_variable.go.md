@@ -18,12 +18,23 @@
 
 **定义位置**：[L7](file:///d:/claude/nomad/jobspec2/addrs/input_variable.go#L7)
 
+**中文说明**：InputVariable 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	referenceable
+type InputVariable struct {
+	referenceable referenceable
 	Name string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `referenceable` | `referenceable` | — |
+| `Name` | `string` | 名称 |
 
 **关联方法**（1 个）：`String`
 
@@ -35,11 +46,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `String` | `v *InputVariable` | - | `string` | [L12](file:///d:/claude/nomad/jobspec2/addrs/input_variable.go#L12) |
+| `String` | `v *InputVariable` | `` | `string` | [L12](file:///d:/claude/nomad/jobspec2/addrs/input_variable.go#L12) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -49,4 +64,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [doc.go](file:///d:/claude/nomad/jobspec2/addrs/doc.go) | 同目录源文件 |
+| [parse_ref.go](file:///d:/claude/nomad/jobspec2/addrs/parse_ref.go) | 同目录源文件 |
+| [referenceable.go](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go) | 同目录源文件 |
 

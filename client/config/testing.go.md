@@ -1,6 +1,6 @@
 # testing.go 代码说明文档
 
-> 文件路径：[config/testing.go](file:///d:/claude/nomad/client/config/testing.go)
+> 文件路径：[client/config/testing.go](file:///d:/claude/nomad/client/config/testing.go)
 > 总行数：92 行
 > 所属包：`config`
 > 版权：Copyright IBM Corp. 2015, 2025
@@ -10,13 +10,15 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Client 配置子包**（`client/config`），定义 Client 节点的配置结构和默认值。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 ## 2. 类型定义
 
 ### NoopAPIListenerRegistrar
 
 **定义位置**：[L87](file:///d:/claude/nomad/client/config/testing.go#L87)
+
+**中文说明**：NoopAPIListenerRegistrar 是一个结构体，封装相关数据和状态。
 
 **类型**：struct
 
@@ -34,6 +36,25 @@
 | `Serve` | ` *NoopAPIListenerRegistrar` | `_ context.Context, _ net.Listener` | `error` | [L89](file:///d:/claude/nomad/client/config/testing.go#L89) |
 
 ## 5. 核心方法详解
+
+### Serve()
+
+**签名**：`func ( *NoopAPIListenerRegistrar) Serve(_ context.Context, _ net.Listener) error`
+
+**位置**：[L89](file:///d:/claude/nomad/client/config/testing.go#L89)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `_` | `context.Context` | 上下文，用于控制生命周期和取消 |
+| `_` | `net.Listener` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -55,10 +76,15 @@
 ## 7. 设计模式与技术特点
 
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
-- **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **IO 操作**：涉及文件或数据流的读写操作
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [arconfig.go](file:///d:/claude/nomad/client/config/arconfig.go) | 同目录源文件 |
+| [artifact.go](file:///d:/claude/nomad/client/config/artifact.go) | 同目录源文件 |
+| [config.go](file:///d:/claude/nomad/client/config/config.go) | 同目录源文件 |
+| [config_ce.go](file:///d:/claude/nomad/client/config/config_ce.go) | 同目录源文件 |
+| [config_linux.go](file:///d:/claude/nomad/client/config/config_linux.go) | 同目录源文件 |
 

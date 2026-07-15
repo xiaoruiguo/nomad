@@ -1,6 +1,6 @@
 # syslog.go 代码说明文档
 
-> 文件路径：[syslog.go](file:///d:/claude/nomad/command/agent/syslog.go)
+> 文件路径：[command/agent/syslog.go](file:///d:/claude/nomad/command/agent/syslog.go)
 > 总行数：116 行
 > 所属包：`agent`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **syslog 输出**，将 Nomad 日志转发到系统 syslog 守护进程。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L50](file:///d:/claude/nomad/command/agent/syslog.go#L50)
 
+**中文说明**：syslogWrapper 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type syslogWrapper struct {
 	l gsyslog.Syslogger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `l` | `gsyslog.Syslogger` | 日志记录器 |
 
 **关联方法**（1 个）：`Write`
 
@@ -30,11 +40,21 @@
 
 **定义位置**：[L86](file:///d:/claude/nomad/command/agent/syslog.go#L86)
 
+**中文说明**：syslogJSONWrapper 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type syslogJSONWrapper struct {
 	logger gsyslog.Syslogger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `gsyslog.Syslogger` | 日志记录器 |
 
 **关联方法**（1 个）：`Write`
 
@@ -42,10 +62,10 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `levelPriority` | `*ast.CompositeLit` |
-| `jsonLogLineLevelRegex` | `*ast.CallExpr` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `levelPriority` | `—` | `map[string]gsyslog.Priority{...}` | — |
+| `jsonLogLineLevelRegex` | `—` | `regexp.MustCompile(`"@level":"\w+",`)` | — |
 
 ## 4. 方法与函数
 
@@ -57,6 +77,44 @@
 | `Write` | `s *syslogJSONWrapper` | `logBytes []byte` | `int, error` | [L96](file:///d:/claude/nomad/command/agent/syslog.go#L96) |
 
 ## 5. 核心方法详解
+
+### Write()
+
+**签名**：`func (s *syslogWrapper) Write(p []byte) int, error`
+
+**位置**：[L58](file:///d:/claude/nomad/command/agent/syslog.go#L58)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `p` | `[]byte` | 字节数组 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+| `error` | 错误信息 |
+
+### Write()
+
+**签名**：`func (s *syslogJSONWrapper) Write(logBytes []byte) int, error`
+
+**位置**：[L96](file:///d:/claude/nomad/command/agent/syslog.go#L96)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `logBytes` | `[]byte` | 字节数组 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -72,14 +130,16 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Agent 包的一部分
+- **IO 操作**：涉及文件或数据流的读写操作
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [syslog_test.go](file:///d:/claude/nomad/command/agent/syslog_test.go) | 对应测试文件 |
-| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | Agent 核心实现 |
-| [http.go](file:///d:/claude/nomad/command/agent/http.go) | HTTP 服务器实现 |
-| [config.go](file:///d:/claude/nomad/command/agent/config.go) | 配置定义 |
+| [acl_endpoint.go](file:///d:/claude/nomad/command/agent/acl_endpoint.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/command/agent/agent.go) | 同目录源文件 |
+| [agent_ce.go](file:///d:/claude/nomad/command/agent/agent_ce.go) | 同目录源文件 |
+| [agent_endpoint.go](file:///d:/claude/nomad/command/agent/agent_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/command/agent/alloc_endpoint.go) | 同目录源文件 |
 

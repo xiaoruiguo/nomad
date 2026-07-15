@@ -1,6 +1,6 @@
 # options.go 代码说明文档
 
-> 文件路径：[grpc-middleware/logging/options.go](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go)
+> 文件路径：[helper/grpc-middleware/logging/options.go](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go)
 > 总行数：93 行
 > 所属包：`logging`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **gRPC 中间件日志子包**（`helper/grpc-middleware/logging`），实现 gRPC 客户端拦截器的日志记录中间件。
+该文件属于 **工具包子包**（`helper/grpc-middleware/logging`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -18,31 +18,41 @@
 
 **定义位置**：[L11](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go#L11)
 
+**中文说明**：options 是一个选项结构体，提供功能配置选项。
+
 **类型**：struct
 
 ```go
+type options struct {
 	levelFunc CodeToLevel
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `levelFunc` | `CodeToLevel` | — |
 
 ### Option
 
 **定义位置**：[L17](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go#L17)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Option func(...)`
 
 ### CodeToLevel
 
 **定义位置**：[L36](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go#L36)
 
-**类型定义**：`func(...)`
+**类型定义**：`type CodeToLevel func(...)`
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `defaultOptions` | `&options{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `defaultOptions` | `—` | `&options{...}` | — |
 
 ## 4. 方法与函数
 
@@ -53,6 +63,8 @@
 | `DefaultCodeToLevel` | - | `code codes.Code` | `hclog.Level` | [L38](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go#L38) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -73,4 +85,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client_interceptors.go](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go) | 同目录源文件 |
 

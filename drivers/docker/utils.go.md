@@ -18,26 +18,36 @@
 
 **定义位置**：[L82](file:///d:/claude/nomad/drivers/docker/utils.go#L82)
 
+**中文说明**：repositoryInfo 是一个信息结构体，包含对象的元数据或描述信息。
+
 **类型**：struct
 
 ```go
+type repositoryInfo struct {
 	Index *registrytypes.IndexInfo
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Index` | `*registrytypes.IndexInfo` | 索引 |
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `dockerRegistryIndexName` | `"docker.io"` |
-| `dockerRegistryIndexServer` | `"https://index.docker.io/v1/"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `dockerRegistryIndexName` | `—` | `"docker.io"` | — |
+| `dockerRegistryIndexServer` | `—` | `"https://index.docker.io/v1/"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `NoPathInImageErr` | `errors.New("does not match registry specification")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `NoPathInImageErr` | `—` | `errors.New("does not match registry specification")` | — |
 
 ## 4. 方法与函数
 
@@ -56,9 +66,9 @@
 | `validateCgroupPermission` | - | `s string` | `bool` | [L258](file:///d:/claude/nomad/drivers/docker/utils.go#L258) |
 | `expandPath` | - | `base string, dir string` | `string` | [L272](file:///d:/claude/nomad/drivers/docker/utils.go#L272) |
 | `isParentPath` | - | `parent string, path string` | `bool` | [L292](file:///d:/claude/nomad/drivers/docker/utils.go#L292) |
-| `parseVolumeSpec` | - | `volBind string, os string` | `hostPath string, containerPath string, mode string, err ...` | [L297](file:///d:/claude/nomad/drivers/docker/utils.go#L297) |
-| `parseVolumeSpecWindows` | - | `volBind string` | `hostPath string, containerPath string, mode string, err ...` | [L304](file:///d:/claude/nomad/drivers/docker/utils.go#L304) |
-| `parseVolumeSpecLinux` | - | `volBind string` | `hostPath string, containerPath string, mode string, err ...` | [L327](file:///d:/claude/nomad/drivers/docker/utils.go#L327) |
+| `parseVolumeSpec` | - | `volBind string, os string` | `hostPath string, containerPath string, mode string, err e...` | [L297](file:///d:/claude/nomad/drivers/docker/utils.go#L297) |
+| `parseVolumeSpecWindows` | - | `volBind string` | `hostPath string, containerPath string, mode string, err e...` | [L304](file:///d:/claude/nomad/drivers/docker/utils.go#L304) |
+| `parseVolumeSpecLinux` | - | `volBind string` | `hostPath string, containerPath string, mode string, err e...` | [L327](file:///d:/claude/nomad/drivers/docker/utils.go#L327) |
 | `registryResolveAuthConfig` | - | `authConfigs map[string]types.AuthConfig, index *registrytypes.IndexInfo` | `types.AuthConfig` | [L348](file:///d:/claude/nomad/drivers/docker/utils.go#L348) |
 | `registryGetAuthConfigKey` | - | `index *registrytypes.IndexInfo` | `string` | [L367](file:///d:/claude/nomad/drivers/docker/utils.go#L367) |
 | `registryConvertToHostname` | - | `rawURL string` | `string` | [L377](file:///d:/claude/nomad/drivers/docker/utils.go#L377) |
@@ -66,6 +76,8 @@
 | `getValue` | - | `val string, defaultVal string` | `string` | [L396](file:///d:/claude/nomad/drivers/docker/utils.go#L396) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -100,4 +112,9 @@
 | 文件 | 关系 |
 |------|------|
 | [utils_test.go](file:///d:/claude/nomad/drivers/docker/utils_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

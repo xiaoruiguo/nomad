@@ -12,6 +12,10 @@
 
 该文件属于 **语言工具子包**（`lib/lang`），提供 Go 语言的通用工具函数，包括类型转换、反射辅助和泛型工具。
 
+**包注释**：
+
+Package lang provides some features that really 'ought to be part of the Go language
+
 ## 2. 类型定义
 
 该文件未定义类型。
@@ -26,7 +30,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -36,4 +44,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [maps.go](file:///d:/claude/nomad/lib/lang/maps.go) | 同目录源文件 |
+| [pair.go](file:///d:/claude/nomad/lib/lang/pair.go) | 同目录源文件 |
+| [stack.go](file:///d:/claude/nomad/lib/lang/stack.go) | 同目录源文件 |
 

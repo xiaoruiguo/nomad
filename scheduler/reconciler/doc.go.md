@@ -1,6 +1,6 @@
 # doc.go 代码说明文档
 
-> 文件路径：[reconciler/doc.go](file:///d:/claude/nomad/scheduler/reconciler/doc.go)
+> 文件路径：[scheduler/reconciler/doc.go](file:///d:/claude/nomad/scheduler/reconciler/doc.go)
 > 总行数：6 行
 > 所属包：`reconciler`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,11 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **协调器子包**（`scheduler/reconciler`），实现服务/批处理作业的状态协调逻辑。比较现有分配状态与期望状态的差异，计算需要创建、更新、停止、迁移的分配集合。是 GenericScheduler 的第一阶段，将期望状态转换为具体的放置计划。
+该文件属于 **调度器包**（`scheduler/`），实现 Nomad 的调度逻辑和算法。
+
+**包注释**：
+
+Package reconciler contains the reconciliation logic for all scheduler types.
 
 ## 2. 类型定义
 
@@ -26,14 +30,23 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 调度器的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [allocs.go](file:///d:/claude/nomad/scheduler/reconciler/allocs.go) | 同目录源文件 |
+| [filters.go](file:///d:/claude/nomad/scheduler/reconciler/filters.go) | 同目录源文件 |
+| [reconcile_cluster.go](file:///d:/claude/nomad/scheduler/reconciler/reconcile_cluster.go) | 同目录源文件 |
+| [reconcile_node.go](file:///d:/claude/nomad/scheduler/reconciler/reconcile_node.go) | 同目录源文件 |
+| [reconnecting_picker.go](file:///d:/claude/nomad/scheduler/reconciler/reconnecting_picker.go) | 同目录源文件 |
 

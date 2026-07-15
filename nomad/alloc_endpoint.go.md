@@ -1,6 +1,6 @@
 # alloc_endpoint.go 代码说明文档
 
-> 文件路径：[alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go)
+> 文件路径：[nomad/alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go)
 > 总行数：709 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **分配 RPC 端点**，处理分配的查询、停止、重启、信号等操作。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `alloc_endpoint.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,13 +18,25 @@
 
 **定义位置**：[L25](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L25)
 
+**中文说明**：Alloc 与分配（Allocation）相关，分配是作业在节点上的运行实例。
+
 **类型**：struct
 
 ```go
+type Alloc struct {
 	srv *Server
 	ctx *RPCContext
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（10 个）：`List`, `GetAlloc`, `GetAllocs`, `Stop`, `UpdateDesiredTransition`, `GetServiceRegistrations`, `SignIdentities`, `signTasks`, `signServices`, `signClaims`
 
@@ -41,14 +53,35 @@
 | `GetAlloc` | `a *Alloc` | `args *structs.AllocSpecificRequest, reply *structs.SingleAllocResponse` | `error` | [L131](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L131) |
 | `GetAllocs` | `a *Alloc` | `args *structs.AllocsGetRequest, reply *structs.AllocsGetResponse` | `error` | [L191](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L191) |
 | `Stop` | `a *Alloc` | `args *structs.AllocStopRequest, reply *structs.AllocStopResponse` | `error` | [L279](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L279) |
-| `UpdateDesiredTransition` | `a *Alloc` | `args *structs.AllocUpdateDesiredTransitionRequest, reply *structs.GenericRes...` | `error` | [L346](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L346) |
-| `GetServiceRegistrations` | `a *Alloc` | `args *structs.AllocServiceRegistrationsRequest, reply *structs.AllocServiceR...` | `error` | [L384](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L384) |
+| `UpdateDesiredTransition` | `a *Alloc` | `args *structs.AllocUpdateDesiredTransitionRequest, reply *structs.GenericResp...` | `error` | [L346](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L346) |
+| `GetServiceRegistrations` | `a *Alloc` | `args *structs.AllocServiceRegistrationsRequest, reply *structs.AllocServiceRe...` | `error` | [L384](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L384) |
 | `SignIdentities` | `a *Alloc` | `args *structs.AllocIdentitiesRequest, reply *structs.AllocIdentitiesResponse` | `error` | [L454](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L454) |
-| `signTasks` | `a *Alloc` | `task *structs.Task, alloc *structs.Allocation, ns *structs.Namespace, idReq ...` | `widFound bool, err error` | [L616](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L616) |
-| `signServices` | `a *Alloc` | `job *structs.Job, alloc *structs.Allocation, ns *structs.Namespace, idReq *s...` | `widFound bool, err error` | [L653](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L653) |
-| `signClaims` | `a *Alloc` | `claims *structs.IdentityClaims, idReq *structs.WorkloadIdentityRequest, repl...` | `error` | [L692](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L692) |
+| `signTasks` | `a *Alloc` | `task *structs.Task, alloc *structs.Allocation, ns *structs.Namespace, idReq *...` | `widFound bool, err error` | [L616](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L616) |
+| `signServices` | `a *Alloc` | `job *structs.Job, alloc *structs.Allocation, ns *structs.Namespace, idReq *st...` | `widFound bool, err error` | [L653](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L653) |
+| `signClaims` | `a *Alloc` | `claims *structs.IdentityClaims, idReq *structs.WorkloadIdentityRequest, reply...` | `error` | [L692](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L692) |
 
 ## 5. 核心方法详解
+
+### NewAllocEndpoint()
+
+**签名**：`func NewAllocEndpoint(srv *Server, ctx *RPCContext) *Alloc`
+
+**位置**：[L31](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L31)
+
+**中文说明**：创建并返回一个新的 AllocEndpoint 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Alloc` | — |
 
 ### List()
 
@@ -56,17 +89,20 @@
 
 **位置**：[L36](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L36)
 
-### GetAlloc()
+**中文说明**：列出所有对象。
 
-**签名**：`func (a *Alloc) GetAlloc(args *structs.AllocSpecificRequest, reply *structs.SingleAllocResponse) error`
+**参数说明**：
 
-**位置**：[L131](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L131)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.AllocListRequest` | 参数 |
+| `reply` | `*structs.AllocListResponse` | — |
 
-### GetAllocs()
+**返回值**：
 
-**签名**：`func (a *Alloc) GetAllocs(args *structs.AllocsGetRequest, reply *structs.AllocsGetResponse) error`
-
-**位置**：[L191](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L191)
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ### Stop()
 
@@ -74,11 +110,20 @@
 
 **位置**：[L279](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L279)
 
-### GetServiceRegistrations()
+**中文说明**：停止对象。
 
-**签名**：`func (a *Alloc) GetServiceRegistrations(args *structs.AllocServiceRegistrationsRequest, reply *structs.AllocServiceRegistrationsResponse) error`
+**参数说明**：
 
-**位置**：[L384](file:///d:/claude/nomad/nomad/alloc_endpoint.go#L384)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.AllocStopRequest` | 参数 |
+| `reply` | `*structs.AllocStopResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -102,17 +147,21 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **指标收集**：使用 `go-metrics` 收集运行时指标
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [alloc_endpoint_test.go](file:///d:/claude/nomad/nomad/alloc_endpoint_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
+| [blocked_evals.go](file:///d:/claude/nomad/nomad/blocked_evals.go) | 同目录源文件 |
 

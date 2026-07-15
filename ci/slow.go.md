@@ -20,18 +20,20 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `TinyChroot` | `map[string]string{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `TinyChroot` | `—` | `map[string]string{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `SkipSlow` | - | `t *testing.T, reason string` | - | [L13](file:///d:/claude/nomad/ci/slow.go#L13) |
-| `Parallel` | - | `t *testing.T` | - | [L25](file:///d:/claude/nomad/ci/slow.go#L25) |
+| `SkipSlow` | - | `t *testing.T, reason string` | `` | [L13](file:///d:/claude/nomad/ci/slow.go#L13) |
+| `Parallel` | - | `t *testing.T` | `` | [L25](file:///d:/claude/nomad/ci/slow.go#L25) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -51,4 +53,6 @@
 
 | 文件 | 关系 |
 |------|------|
+| [ports.go](file:///d:/claude/nomad/ci/ports.go) | 同目录源文件 |
+| [skip_non_root.go](file:///d:/claude/nomad/ci/skip_non_root.go) | 同目录源文件 |
 

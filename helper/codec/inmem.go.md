@@ -1,6 +1,6 @@
 # inmem.go 代码说明文档
 
-> 文件路径：[codec/inmem.go](file:///d:/claude/nomad/helper/codec/inmem.go)
+> 文件路径：[helper/codec/inmem.go](file:///d:/claude/nomad/helper/codec/inmem.go)
 > 总行数：49 行
 > 所属包：`codec`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **编解码器子包**（`helper/codec`），实现内存中的 RPC 编解码器，用于测试和内部通信。
+该文件属于 **编解码子包**（`helper/codec`），提供消息编解码功能，用于 RPC 通信的序列化。
 
 ## 2. 类型定义
 
@@ -18,14 +18,27 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/helper/codec/inmem.go#L13)
 
+**中文说明**：InmemCodec 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type InmemCodec struct {
 	Method string
 	Args interface{}
 	Reply interface{}
 	Err error
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Method` | `string` | 字符串 |
+| `Args` | `interface{}` | 参数 |
+| `Reply` | `interface{}` | 接口类型，可持有任意值 |
+| `Err` | `error` | 错误信息 |
 
 **关联方法**（4 个）：`ReadRequestHeader`, `ReadRequestBody`, `WriteResponse`, `Close`
 
@@ -40,7 +53,7 @@
 | `ReadRequestHeader` | `i *InmemCodec` | `req *rpc.Request` | `error` | [L20](file:///d:/claude/nomad/helper/codec/inmem.go#L20) |
 | `ReadRequestBody` | `i *InmemCodec` | `args interface{}` | `error` | [L25](file:///d:/claude/nomad/helper/codec/inmem.go#L25) |
 | `WriteResponse` | `i *InmemCodec` | `resp *rpc.Response, reply interface{}` | `error` | [L35](file:///d:/claude/nomad/helper/codec/inmem.go#L35) |
-| `Close` | `i *InmemCodec` | - | `error` | [L46](file:///d:/claude/nomad/helper/codec/inmem.go#L46) |
+| `Close` | `i *InmemCodec` | `` | `error` | [L46](file:///d:/claude/nomad/helper/codec/inmem.go#L46) |
 
 ## 5. 核心方法详解
 
@@ -49,6 +62,14 @@
 **签名**：`func (i *InmemCodec) Close() error`
 
 **位置**：[L46](file:///d:/claude/nomad/helper/codec/inmem.go#L46)
+
+**中文说明**：关闭对象。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 

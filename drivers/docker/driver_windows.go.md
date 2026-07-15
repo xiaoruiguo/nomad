@@ -23,18 +23,20 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `containerAdminErrMsg` | `"running container as ContainerAdmin is unsafe; change th...` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `containerAdminErrMsg` | `—` | `"running container as ContainerAdmin is unsafe; change th...` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `getPortBinding` | - | `ip string, port string` | `nat.PortBinding` | [L15](file:///d:/claude/nomad/drivers/docker/driver_windows.go#L15) |
-| `validateImageUser` | - | `user string, taskUser string, taskDriverConfig *TaskConfig, driverConfig *Dr...` | `error` | [L21](file:///d:/claude/nomad/drivers/docker/driver_windows.go#L21) |
+| `validateImageUser` | - | `user string, taskUser string, taskDriverConfig *TaskConfig, driverConfig *Dri...` | `error` | [L21](file:///d:/claude/nomad/drivers/docker/driver_windows.go#L21) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -56,4 +58,9 @@
 | 文件 | 关系 |
 |------|------|
 | [driver_windows_test.go](file:///d:/claude/nomad/drivers/docker/driver_windows_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

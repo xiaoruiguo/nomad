@@ -1,6 +1,6 @@
 # upgrade.go 代码说明文档
 
-> 文件路径：[state/upgrade.go](file:///d:/claude/nomad/client/state/upgrade.go)
+> 文件路径：[client/state/upgrade.go](file:///d:/claude/nomad/client/state/upgrade.go)
 > 总行数：353 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Client 状态子包**（`client/state`），使用 BoltDB 持久化 Client 的本地状态（分配、任务状态等）。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 ## 2. 类型定义
 
@@ -35,6 +35,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -55,6 +57,8 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 
 ## 8. 相关文件
@@ -62,4 +66,9 @@
 | 文件 | 关系 |
 |------|------|
 | [upgrade_test.go](file:///d:/claude/nomad/client/state/upgrade_test.go) | 对应测试文件 |
+| [08types.go](file:///d:/claude/nomad/client/state/08types.go) | 同目录源文件 |
+| [12types.go](file:///d:/claude/nomad/client/state/12types.go) | 同目录源文件 |
+| [db_bolt.go](file:///d:/claude/nomad/client/state/db_bolt.go) | 同目录源文件 |
+| [db_error.go](file:///d:/claude/nomad/client/state/db_error.go) | 同目录源文件 |
+| [db_mem.go](file:///d:/claude/nomad/client/state/db_mem.go) | 同目录源文件 |
 

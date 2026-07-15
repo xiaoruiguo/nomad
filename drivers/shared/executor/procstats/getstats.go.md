@@ -18,21 +18,36 @@
 
 **定义位置**：[L28](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L28)
 
+**中文说明**：stats 是一个统计结构体，记录相关指标的运行时数据。
+
 **类型**：struct
 
 ```go
+type stats struct {
 	TotalCPU *cpustats.Tracker
 	UserCPU *cpustats.Tracker
 	SystemCPU *cpustats.Tracker
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `TotalCPU` | `*cpustats.Tracker` | — |
+| `UserCPU` | `*cpustats.Tracker` | — |
+| `SystemCPU` | `*cpustats.Tracker` | — |
 
 ### taskProcStats
 
 **定义位置**：[L34](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L34)
 
+**中文说明**：taskProcStats 是一个统计结构体，记录相关指标的运行时数据。
+
 **类型**：struct
 
 ```go
+type taskProcStats struct {
 	cacheTTL time.Duration
 	procList ProcessList
 	compute cpustats.Compute
@@ -40,7 +55,20 @@
 	latest map[ProcessID]*stats
 	cache ProcUsages
 	at time.Time
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `cacheTTL` | `time.Duration` | 时间间隔 |
+| `procList` | `ProcessList` | — |
+| `compute` | `cpustats.Compute` | — |
+| `lock` | `sync.Mutex` | 互斥锁，保护并发访问 |
+| `latest` | `map[ProcessID]*stats` | 映射表 |
+| `cache` | `ProcUsages` | — |
+| `at` | `time.Time` | 时间点 |
 
 **关联方法**（3 个）：`expired`, `scanPIDs`, `StatProcesses`
 
@@ -54,7 +82,7 @@
 |------|--------|------|--------|------|
 | `New` | - | `compute cpustats.Compute, pl ProcessList` | `ProcessStats` | [L17](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L17) |
 | `expired` | `lps *taskProcStats` | `t time.Time` | `bool` | [L45](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L45) |
-| `scanPIDs` | `lps *taskProcStats` | - | - | [L51](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L51) |
+| `scanPIDs` | `lps *taskProcStats` | `` | `` | [L51](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L51) |
 | `StatProcesses` | `lps *taskProcStats` | `now time.Time` | `ProcUsages` | [L73](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L73) |
 
 ## 5. 核心方法详解
@@ -64,6 +92,21 @@
 **签名**：`func New(compute cpustats.Compute, pl ProcessList) ProcessStats`
 
 **位置**：[L17](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go#L17)
+
+**中文说明**：创建并返回一个新实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `compute` | `cpustats.Compute` | — |
+| `pl` | `ProcessList` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `ProcessStats` | — |
 
 ## 6. 依赖关系
 
@@ -83,10 +126,15 @@
 
 - **并发安全**：使用 `sync.Mutex`/`sync.RWMutex`/`sync.atomic` 保护共享状态
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [getstats_test.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats_test.go) | 对应测试文件 |
+| [list_default.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_default.go) | 同目录源文件 |
+| [list_linux.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_linux.go) | 同目录源文件 |
+| [list_windows.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_windows.go) | 同目录源文件 |
+| [procstats.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go) | 同目录源文件 |
 

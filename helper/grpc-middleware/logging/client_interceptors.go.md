@@ -1,6 +1,6 @@
 # client_interceptors.go 代码说明文档
 
-> 文件路径：[grpc-middleware/logging/client_interceptors.go](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go)
+> 文件路径：[helper/grpc-middleware/logging/client_interceptors.go](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go)
 > 总行数：46 行
 > 所属包：`logging`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **gRPC 中间件日志子包**（`helper/grpc-middleware/logging`），实现 gRPC 客户端拦截器的日志记录中间件。
+该文件属于 **工具包子包**（`helper/grpc-middleware/logging`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -26,9 +26,11 @@
 |------|--------|------|--------|------|
 | `UnaryClientInterceptor` | - | `logger hclog.Logger, opts ...Option` | `grpc.UnaryClientInterceptor` | [L17](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go#L17) |
 | `StreamClientInterceptor` | - | `logger hclog.Logger, opts ...Option` | `grpc.StreamClientInterceptor` | [L28](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go#L28) |
-| `emitClientLog` | - | `logger hclog.Logger, o *options, fullMethodString string, startTime time.Tim...` | - | [L38](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go#L38) |
+| `emitClientLog` | - | `logger hclog.Logger, o *options, fullMethodString string, startTime time.Time...` | `` | [L38](file:///d:/claude/nomad/helper/grpc-middleware/logging/client_interceptors.go#L38) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -53,4 +55,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [options.go](file:///d:/claude/nomad/helper/grpc-middleware/logging/options.go) | 同目录源文件 |
 

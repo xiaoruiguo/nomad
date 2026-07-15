@@ -1,6 +1,6 @@
 # host_volumes.go 代码说明文档
 
-> 文件路径：[mock/host_volumes.go](file:///d:/claude/nomad/nomad/mock/host_volumes.go)
+> 文件路径：[nomad/mock/host_volumes.go](file:///d:/claude/nomad/nomad/mock/host_volumes.go)
 > 总行数：65 行
 > 所属包：`mock`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **模拟子包**（`nomad/mock`），提供测试用的模拟数据生成器，用于生成 Job、Node、Alloc 等对象的测试实例。
+该文件属于 `mock` 包，包含 4 个方法/函数。
 
 ## 2. 类型定义
 
@@ -26,10 +26,12 @@
 |------|--------|------|--------|------|
 | `HostVolumeRequest` | - | `ns string` | `*structs.HostVolume` | [L11](file:///d:/claude/nomad/nomad/mock/host_volumes.go#L11) |
 | `HostVolumeRequestForNode` | - | `ns string, node *structs.Node` | `*structs.HostVolume` | [L33](file:///d:/claude/nomad/nomad/mock/host_volumes.go#L33) |
-| `HostVolume` | - | - | `*structs.HostVolume` | [L40](file:///d:/claude/nomad/nomad/mock/host_volumes.go#L40) |
+| `HostVolume` | - | `` | `*structs.HostVolume` | [L40](file:///d:/claude/nomad/nomad/mock/host_volumes.go#L40) |
 | `TaskGroupHostVolumeClaim` | - | `job *structs.Job, alloc *structs.Allocation, dhv *structs.HostVolume` | `*structs.TaskGroupHostVolumeClaim` | [L52](file:///d:/claude/nomad/nomad/mock/host_volumes.go#L52) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -42,10 +44,15 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Server 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/mock/acl.go) | 同目录源文件 |
+| [alloc.go](file:///d:/claude/nomad/nomad/mock/alloc.go) | 同目录源文件 |
+| [connect.go](file:///d:/claude/nomad/nomad/mock/connect.go) | 同目录源文件 |
+| [csi.go](file:///d:/claude/nomad/nomad/mock/csi.go) | 同目录源文件 |
+| [job.go](file:///d:/claude/nomad/nomad/mock/job.go) | 同目录源文件 |
 

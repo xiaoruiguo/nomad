@@ -18,12 +18,23 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L18)
 
+**中文说明**：LifecycleE2ETest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type LifecycleE2ETest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（3 个）：`BeforeAll`, `TestBatchJob`, `TestServiceJob`
 
@@ -35,13 +46,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L23](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L23) |
-| `BeforeAll` | `tc *LifecycleE2ETest` | `f *framework.F` | - | [L33](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L33) |
-| `TestBatchJob` | `tc *LifecycleE2ETest` | `f *framework.F` | - | [L39](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L39) |
-| `TestServiceJob` | `tc *LifecycleE2ETest` | `f *framework.F` | - | [L68](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L68) |
+| `init` | - | `` | `` | [L23](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L23) |
+| `BeforeAll` | `tc *LifecycleE2ETest` | `f *framework.F` | `` | [L33](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L33) |
+| `TestBatchJob` | `tc *LifecycleE2ETest` | `f *framework.F` | `` | [L39](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L39) |
+| `TestServiceJob` | `tc *LifecycleE2ETest` | `f *framework.F` | `` | [L68](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L68) |
 | `checkFiles` | - | `expected map[string]bool, got []*api.AllocFileInfo` | `map[string]bool` | [L137](file:///d:/claude/nomad/e2e/lifecycle/lifecycle.go#L137) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

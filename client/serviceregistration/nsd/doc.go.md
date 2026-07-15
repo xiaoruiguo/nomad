@@ -1,6 +1,6 @@
 # doc.go 代码说明文档
 
-> 文件路径：[serviceregistration/nsd/doc.go](file:///d:/claude/nomad/client/serviceregistration/nsd/doc.go)
+> 文件路径：[client/serviceregistration/nsd/doc.go](file:///d:/claude/nomad/client/serviceregistration/nsd/doc.go)
 > 总行数：8 行
 > 所属包：`nsd`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,13 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Nomad 服务发现子包**（`client/serviceregistration/nsd`），实现 Nomad 内置的服务发现机制。
+该文件属于 **服务注册子包**（`client/serviceregistration`），将任务暴露的服务注册到 Consul 或 Nomad 内置服务发现，支持健康检查和负载均衡。
+
+**包注释**：
+
+Package nsd provides Nomad service registration and therefore discovery
+capabilities for Nomad clients. The name nsd was used instead of Nomad to
+avoid conflict with the existing nomad package.
 
 ## 2. 类型定义
 
@@ -26,14 +32,20 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad Client 的一部分
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [nsd.go](file:///d:/claude/nomad/client/serviceregistration/nsd/nsd.go) | 同目录源文件 |
+| [statuses.go](file:///d:/claude/nomad/client/serviceregistration/nsd/statuses.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # switch_default.go 代码说明文档
 
-> 文件路径：[lib/cgroupslib/switch_default.go](file:///d:/claude/nomad/client/lib/cgroupslib/switch_default.go)
+> 文件路径：[client/lib/cgroupslib/switch_default.go](file:///d:/claude/nomad/client/lib/cgroupslib/switch_default.go)
 > 总行数：12 行
 > 所属包：`cgroupslib`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **cgroups 库子包**（`client/lib/cgroupslib`），封装 Linux cgroups 操作，用于资源限制和隔离。
+该文件属于 **客户端库子包**（`client/lib`），提供客户端使用的通用库函数和数据结构。
 
 **平台特定实现**：此文件为 **默认/其他平台** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -27,17 +27,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `GetMode` | - | - | `Mode` | [L9](file:///d:/claude/nomad/client/lib/cgroupslib/switch_default.go#L9) |
+| `GetMode` | - | `` | `Mode` | [L9](file:///d:/claude/nomad/client/lib/cgroupslib/switch_default.go#L9) |
 
 ## 5. 核心方法详解
 
-### GetMode()
-
-**签名**：`func GetMode() Mode`
-
-**位置**：[L9](file:///d:/claude/nomad/client/lib/cgroupslib/switch_default.go#L9)
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -47,4 +45,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [default.go](file:///d:/claude/nomad/client/lib/cgroupslib/default.go) | 同目录源文件 |
+| [editor.go](file:///d:/claude/nomad/client/lib/cgroupslib/editor.go) | 同目录源文件 |
+| [init.go](file:///d:/claude/nomad/client/lib/cgroupslib/init.go) | 同目录源文件 |
+| [init_default.go](file:///d:/claude/nomad/client/lib/cgroupslib/init_default.go) | 同目录源文件 |
+| [memory.go](file:///d:/claude/nomad/client/lib/cgroupslib/memory.go) | 同目录源文件 |
 

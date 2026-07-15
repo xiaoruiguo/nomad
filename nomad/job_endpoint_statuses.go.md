@@ -1,6 +1,6 @@
 # job_endpoint_statuses.go 代码说明文档
 
-> 文件路径：[job_endpoint_statuses.go](file:///d:/claude/nomad/nomad/job_endpoint_statuses.go)
+> 文件路径：[nomad/job_endpoint_statuses.go](file:///d:/claude/nomad/nomad/job_endpoint_statuses.go)
 > 总行数：300 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **作业状态查询**，提供作业及其分配、评估、部署的聚合状态视图。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `job_endpoint_statuses.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -28,6 +28,8 @@
 | `jobStatusesJobFromJob` | - | `ws memdb.WatchSet, store *state.StateStore, job *structs.Job` | `structs.JobStatusesJob, uint64, error` | [L191](file:///d:/claude/nomad/nomad/job_endpoint_statuses.go#L191) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -48,13 +50,17 @@
 
 ## 7. 设计模式与技术特点
 
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **指标收集**：使用 `go-metrics` 收集运行时指标
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **HTTP 服务**：提供 HTTP API 端点或客户端
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [job_endpoint_statuses_test.go](file:///d:/claude/nomad/nomad/job_endpoint_statuses_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # scaling_endpoint.go 代码说明文档
 
-> 文件路径：[scaling_endpoint.go](file:///d:/claude/nomad/nomad/scaling_endpoint.go)
+> 文件路径：[nomad/scaling_endpoint.go](file:///d:/claude/nomad/nomad/scaling_endpoint.go)
 > 总行数：221 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **自动伸缩 RPC 端点**，处理作业任务组的伸缩操作。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `scaling_endpoint.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,13 +18,25 @@
 
 **定义位置**：[L19](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L19)
 
+**中文说明**：Scaling 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Scaling struct {
 	srv *Server
 	ctx *RPCContext
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（3 个）：`ListPolicies`, `GetPolicy`, `listAllNamespaces`
 
@@ -37,23 +49,32 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewScalingEndpoint` | - | `srv *Server, ctx *RPCContext` | `*Scaling` | [L25](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L25) |
-| `ListPolicies` | `p *Scaling` | `args *structs.ScalingPolicyListRequest, reply *structs.ScalingPolicyListResp...` | `error` | [L30](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L30) |
-| `GetPolicy` | `p *Scaling` | `args *structs.ScalingPolicySpecificRequest, reply *structs.SingleScalingPoli...` | `error` | [L101](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L101) |
-| `listAllNamespaces` | `p *Scaling` | `args *structs.ScalingPolicyListRequest, reply *structs.ScalingPolicyListResp...` | `error` | [L156](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L156) |
+| `ListPolicies` | `p *Scaling` | `args *structs.ScalingPolicyListRequest, reply *structs.ScalingPolicyListResponse` | `error` | [L30](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L30) |
+| `GetPolicy` | `p *Scaling` | `args *structs.ScalingPolicySpecificRequest, reply *structs.SingleScalingPolic...` | `error` | [L101](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L101) |
+| `listAllNamespaces` | `p *Scaling` | `args *structs.ScalingPolicyListRequest, reply *structs.ScalingPolicyListResponse` | `error` | [L156](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L156) |
 
 ## 5. 核心方法详解
 
-### ListPolicies()
+### NewScalingEndpoint()
 
-**签名**：`func (p *Scaling) ListPolicies(args *structs.ScalingPolicyListRequest, reply *structs.ScalingPolicyListResponse) error`
+**签名**：`func NewScalingEndpoint(srv *Server, ctx *RPCContext) *Scaling`
 
-**位置**：[L30](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L30)
+**位置**：[L25](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L25)
 
-### GetPolicy()
+**中文说明**：创建并返回一个新的 ScalingEndpoint 实例。
 
-**签名**：`func (p *Scaling) GetPolicy(args *structs.ScalingPolicySpecificRequest, reply *structs.SingleScalingPolicyResponse) error`
+**参数说明**：
 
-**位置**：[L101](file:///d:/claude/nomad/nomad/scaling_endpoint.go#L101)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Scaling` | — |
 
 ## 6. 依赖关系
 
@@ -72,16 +93,19 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **指标收集**：使用 `go-metrics` 收集运行时指标
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [scaling_endpoint_test.go](file:///d:/claude/nomad/nomad/scaling_endpoint_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

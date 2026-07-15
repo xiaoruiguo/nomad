@@ -18,9 +18,12 @@
 
 **定义位置**：[L117](file:///d:/claude/nomad/drivers/mock/driver.go#L117)
 
+**中文说明**：Driver 与任务驱动（Driver）相关，驱动负责任务的实际执行。
+
 **类型**：struct
 
 ```go
+type Driver struct {
 	eventer *eventer.Eventer
 	capabilities *drivers.Capabilities
 	config *Config
@@ -31,7 +34,23 @@
 	lastTaskConfig *TaskConfig
 	lastMu sync.Mutex
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `eventer` | `*eventer.Eventer` | — |
+| `capabilities` | `*drivers.Capabilities` | — |
+| `config` | `*Config` | 配置 |
+| `tasks` | `*taskStore` | — |
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `shutdownFingerprintTime` | `time.Time` | 时间点 |
+| `lastDriverTaskConfig` | `*drivers.TaskConfig` | — |
+| `lastTaskConfig` | `*TaskConfig` | — |
+| `lastMu` | `sync.Mutex` | 互斥锁，保护并发访问 |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（25 个）：`PluginInfo`, `ConfigSchema`, `SetConfig`, `TaskConfigSchema`, `Capabilities`, `Fingerprint`, `handleFingerprint`, `buildFingerprint`, `RecoverTask`, `StartTask`, `WaitTask`, `handleWait`, `StopTask`, `DestroyTask`, `InspectTask`, `TaskStats`, `handleStats`, `TaskEvents`, `SignalTask`, `ExecTask`, `ExecTaskStreaming`, `GetTaskConfig`, `GetHandle`, `CreateNetwork`, `DestroyNetwork`
 
@@ -39,21 +58,36 @@
 
 **定义位置**：[L173](file:///d:/claude/nomad/drivers/mock/driver.go#L173)
 
+**中文说明**：Config 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type Config struct {
 	FSIsolation string `codec:"fs_isolation"`
 	ShutdownPeriodicAfter bool `codec:"shutdown_periodic_after"`
 	ShutdownPeriodicDuration time.Duration `codec:"shutdown_periodic_duration"`
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `FSIsolation` | `string `codec:"fs_isolation"`` | 字符串 |
+| `ShutdownPeriodicAfter` | `bool `codec:"shutdown_periodic_after"`` | 布尔值 |
+| `ShutdownPeriodicDuration` | `time.Duration `codec:"shutdown_periodic_duration"`` | 时间间隔 |
 
 ### Command
 
 **定义位置**：[L187](file:///d:/claude/nomad/drivers/mock/driver.go#L187)
 
+**中文说明**：Command 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Command struct {
 	RunFor string `codec:"run_for"`
 	runForDuration time.Duration
 	ExitCode int `codec:"exit_code"`
@@ -68,7 +102,27 @@
 	StderrRepeat int `codec:"stderr_repeat"`
 	StderrRepeatDur string `codec:"stderr_repeat_duration"`
 	stderrRepeatDuration time.Duration
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `RunFor` | `string `codec:"run_for"`` | 字符串 |
+| `runForDuration` | `time.Duration` | 时间间隔 |
+| `ExitCode` | `int `codec:"exit_code"`` | — |
+| `ExitSignal` | `int `codec:"exit_signal"`` | — |
+| `ExitErrMsg` | `string `codec:"exit_err_msg"`` | 字符串 |
+| `SignalErr` | `string `codec:"signal_error"`` | 字符串 |
+| `StdoutString` | `string `codec:"stdout_string"`` | 字符串 |
+| `StdoutRepeat` | `int `codec:"stdout_repeat"`` | — |
+| `StdoutRepeatDur` | `string `codec:"stdout_repeat_duration"`` | 字符串 |
+| `stdoutRepeatDuration` | `time.Duration` | 时间间隔 |
+| `StderrString` | `string `codec:"stderr_string"`` | 字符串 |
+| `StderrRepeat` | `int `codec:"stderr_repeat"`` | — |
+| `StderrRepeatDur` | `string `codec:"stderr_repeat_duration"`` | 字符串 |
+| `stderrRepeatDuration` | `time.Duration` | 时间间隔 |
 
 **关联方法**（1 个）：`parseDurations`
 
@@ -76,10 +130,13 @@
 
 **定义位置**：[L230](file:///d:/claude/nomad/drivers/mock/driver.go#L230)
 
+**中文说明**：TaskConfig 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
-	Command
+type TaskConfig struct {
+	Command Command
 	ExecCommand *Command `codec:"exec_command"`
 	PluginExitAfter string `codec:"plugin_exit_after"`
 	pluginExitAfterDuration time.Duration
@@ -92,74 +149,108 @@
 	DriverIP string `codec:"driver_ip"`
 	DriverAdvertise bool `codec:"driver_advertise"`
 	DriverPortMap string `codec:"driver_port_map"`
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Command` | `Command` | — |
+| `ExecCommand` | `*Command `codec:"exec_command"`` | — |
+| `PluginExitAfter` | `string `codec:"plugin_exit_after"`` | 字符串 |
+| `pluginExitAfterDuration` | `time.Duration` | 时间间隔 |
+| `StartErr` | `string `codec:"start_error"`` | 字符串 |
+| `StartErrRecoverable` | `bool `codec:"start_error_recoverable"`` | 布尔值 |
+| `StartBlockFor` | `string `codec:"start_block_for"`` | 字符串 |
+| `startBlockForDuration` | `time.Duration` | 时间间隔 |
+| `KillAfter` | `string `codec:"kill_after"`` | 字符串 |
+| `killAfterDuration` | `time.Duration` | 时间间隔 |
+| `DriverIP` | `string `codec:"driver_ip"`` | 字符串 |
+| `DriverAdvertise` | `bool `codec:"driver_advertise"`` | 布尔值 |
+| `DriverPortMap` | `string `codec:"driver_port_map"`` | 字符串 |
 
 ### MockTaskState
 
 **定义位置**：[L268](file:///d:/claude/nomad/drivers/mock/driver.go#L268)
 
+**中文说明**：MockTaskState 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type MockTaskState struct {
 	StartedAt time.Time
 	Command Command
 	ExecCommand *Command
 	PluginExitAfter time.Duration
 	KillAfter time.Duration
 	ProcState drivers.TaskState
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `StartedAt` | `time.Time` | 时间点 |
+| `Command` | `Command` | — |
+| `ExecCommand` | `*Command` | — |
+| `PluginExitAfter` | `time.Duration` | 时间间隔 |
+| `KillAfter` | `time.Duration` | 时间间隔 |
+| `ProcState` | `drivers.TaskState` | — |
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `pluginName` | `"mock_driver"` |
-| `fingerprintPeriod` | `500 * time.Millisecond` |
-| `taskHandleVersion` | `1` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `pluginName` | `—` | `"mock_driver"` | — |
+| `fingerprintPeriod` | `—` | `500 * time.Millisecond` | — |
+| `taskHandleVersion` | `—` | `1` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `PluginID` | `loader.PluginID{...}` |
-| `PluginConfig` | `&loader.InternalPluginConfig{...}` |
-| `pluginInfo` | `&base.PluginInfoResponse{...}` |
-| `configSpec` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` |
-| `taskConfigSpec` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` |
-| `_` | `(*Driver)(nil)` |
-| `_` | `(*Driver)(nil)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `PluginID` | `—` | `loader.PluginID{...}` | — |
+| `PluginConfig` | `—` | `&loader.InternalPluginConfig{...}` | — |
+| `pluginInfo` | `—` | `&base.PluginInfoResponse{...}` | — |
+| `configSpec` | `—` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` | — |
+| `taskConfigSpec` | `—` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` | — |
+| `_` | `drivers.ExecTaskStreamingDriver` | `(*Driver)(nil)` | — |
+| `_` | `drivers.DriverNetworkManager` | `(*Driver)(nil)` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewMockDriver` | - | `ctx context.Context, logger hclog.Logger` | `drivers.DriverPlugin` | [L152](file:///d:/claude/nomad/drivers/mock/driver.go#L152) |
-| `PluginInfo` | `d *Driver` | - | `*base.PluginInfoResponse, error` | [L281](file:///d:/claude/nomad/drivers/mock/driver.go#L281) |
-| `ConfigSchema` | `d *Driver` | - | `*hclspec.Spec, error` | [L285](file:///d:/claude/nomad/drivers/mock/driver.go#L285) |
+| `PluginInfo` | `d *Driver` | `` | `*base.PluginInfoResponse, error` | [L281](file:///d:/claude/nomad/drivers/mock/driver.go#L281) |
+| `ConfigSchema` | `d *Driver` | `` | `*hclspec.Spec, error` | [L285](file:///d:/claude/nomad/drivers/mock/driver.go#L285) |
 | `SetConfig` | `d *Driver` | `cfg *base.Config` | `error` | [L289](file:///d:/claude/nomad/drivers/mock/driver.go#L289) |
-| `TaskConfigSchema` | `d *Driver` | - | `*hclspec.Spec, error` | [L310](file:///d:/claude/nomad/drivers/mock/driver.go#L310) |
-| `Capabilities` | `d *Driver` | - | `*drivers.Capabilities, error` | [L314](file:///d:/claude/nomad/drivers/mock/driver.go#L314) |
-| `Fingerprint` | `d *Driver` | `ctx context.Context` | `chan *drivers.Fingerprint, error` | [L318](file:///d:/claude/nomad/drivers/mock/driver.go#L318) |
-| `handleFingerprint` | `d *Driver` | `ctx context.Context, ch chan *drivers.Fingerprint` | - | [L324](file:///d:/claude/nomad/drivers/mock/driver.go#L324) |
-| `buildFingerprint` | `d *Driver` | - | `*drivers.Fingerprint` | [L339](file:///d:/claude/nomad/drivers/mock/driver.go#L339) |
+| `TaskConfigSchema` | `d *Driver` | `` | `*hclspec.Spec, error` | [L310](file:///d:/claude/nomad/drivers/mock/driver.go#L310) |
+| `Capabilities` | `d *Driver` | `` | `*drivers.Capabilities, error` | [L314](file:///d:/claude/nomad/drivers/mock/driver.go#L314) |
+| `Fingerprint` | `d *Driver` | `ctx context.Context` | `<-chan *drivers.Fingerprint, error` | [L318](file:///d:/claude/nomad/drivers/mock/driver.go#L318) |
+| `handleFingerprint` | `d *Driver` | `ctx context.Context, ch chan *drivers.Fingerprint` | `` | [L324](file:///d:/claude/nomad/drivers/mock/driver.go#L324) |
+| `buildFingerprint` | `d *Driver` | `` | `*drivers.Fingerprint` | [L339](file:///d:/claude/nomad/drivers/mock/driver.go#L339) |
 | `RecoverTask` | `d *Driver` | `handle *drivers.TaskHandle` | `error` | [L359](file:///d:/claude/nomad/drivers/mock/driver.go#L359) |
-| `parseDurations` | `c *Command` | - | `error` | [L409](file:///d:/claude/nomad/drivers/mock/driver.go#L409) |
+| `parseDurations` | `c *Command` | `` | `error` | [L409](file:///d:/claude/nomad/drivers/mock/driver.go#L409) |
 | `parseDriverConfig` | - | `cfg *drivers.TaskConfig` | `*TaskConfig, error` | [L426](file:///d:/claude/nomad/drivers/mock/driver.go#L426) |
 | `StartTask` | `d *Driver` | `cfg *drivers.TaskConfig` | `*drivers.TaskHandle, *drivers.DriverNetwork, error` | [L454](file:///d:/claude/nomad/drivers/mock/driver.go#L454) |
-| `WaitTask` | `d *Driver` | `ctx context.Context, taskID string` | `chan *drivers.ExitResult, error` | [L527](file:///d:/claude/nomad/drivers/mock/driver.go#L527) |
-| `handleWait` | `d *Driver` | `ctx context.Context, handle *taskHandle, ch chan *drivers.ExitResult` | - | [L539](file:///d:/claude/nomad/drivers/mock/driver.go#L539) |
+| `WaitTask` | `d *Driver` | `ctx context.Context, taskID string` | `<-chan *drivers.ExitResult, error` | [L527](file:///d:/claude/nomad/drivers/mock/driver.go#L527) |
+| `handleWait` | `d *Driver` | `ctx context.Context, handle *taskHandle, ch chan *drivers.ExitResult` | `` | [L539](file:///d:/claude/nomad/drivers/mock/driver.go#L539) |
 | `StopTask` | `d *Driver` | `taskID string, timeout time.Duration, signal string` | `error` | [L551](file:///d:/claude/nomad/drivers/mock/driver.go#L551) |
 | `DestroyTask` | `d *Driver` | `taskID string, force bool` | `error` | [L569](file:///d:/claude/nomad/drivers/mock/driver.go#L569) |
 | `InspectTask` | `d *Driver` | `taskID string` | `*drivers.TaskStatus, error` | [L583](file:///d:/claude/nomad/drivers/mock/driver.go#L583) |
-| `TaskStats` | `d *Driver` | `ctx context.Context, taskID string, interval time.Duration` | `chan *drivers.TaskResourceUsage, error` | [L593](file:///d:/claude/nomad/drivers/mock/driver.go#L593) |
-| `handleStats` | `d *Driver` | `ctx context.Context, ch chan *drivers.TaskResourceUsage` | - | [L599](file:///d:/claude/nomad/drivers/mock/driver.go#L599) |
-| `TaskEvents` | `d *Driver` | `ctx context.Context` | `chan *drivers.TaskEvent, error` | [L626](file:///d:/claude/nomad/drivers/mock/driver.go#L626) |
+| `TaskStats` | `d *Driver` | `ctx context.Context, taskID string, interval time.Duration` | `<-chan *drivers.TaskResourceUsage, error` | [L593](file:///d:/claude/nomad/drivers/mock/driver.go#L593) |
+| `handleStats` | `d *Driver` | `ctx context.Context, ch chan<- *drivers.TaskResourceUsage` | `` | [L599](file:///d:/claude/nomad/drivers/mock/driver.go#L599) |
+| `TaskEvents` | `d *Driver` | `ctx context.Context` | `<-chan *drivers.TaskEvent, error` | [L626](file:///d:/claude/nomad/drivers/mock/driver.go#L626) |
 | `SignalTask` | `d *Driver` | `taskID string, signal string` | `error` | [L630](file:///d:/claude/nomad/drivers/mock/driver.go#L630) |
 | `ExecTask` | `d *Driver` | `taskID string, cmd []string, timeout time.Duration` | `*drivers.ExecTaskResult, error` | [L643](file:///d:/claude/nomad/drivers/mock/driver.go#L643) |
 | `ExecTaskStreaming` | `d *Driver` | `ctx context.Context, taskID string, execOpts *drivers.ExecOptions` | `*drivers.ExitResult, error` | [L658](file:///d:/claude/nomad/drivers/mock/driver.go#L658) |
-| `GetTaskConfig` | `d *Driver` | - | `*drivers.TaskConfig, *TaskConfig` | [L691](file:///d:/claude/nomad/drivers/mock/driver.go#L691) |
+| `GetTaskConfig` | `d *Driver` | `` | `*drivers.TaskConfig, *TaskConfig` | [L691](file:///d:/claude/nomad/drivers/mock/driver.go#L691) |
 | `GetHandle` | `d *Driver` | `taskID string` | `*taskHandle` | [L699](file:///d:/claude/nomad/drivers/mock/driver.go#L699) |
 | `CreateNetwork` | `d *Driver` | `allocID string, request *drivers.NetworkCreateRequest` | `*drivers.NetworkIsolationSpec, bool, error` | [L706](file:///d:/claude/nomad/drivers/mock/driver.go#L706) |
 | `DestroyNetwork` | `d *Driver` | `allocID string, spec *drivers.NetworkIsolationSpec` | `error` | [L710](file:///d:/claude/nomad/drivers/mock/driver.go#L710) |
@@ -172,11 +263,39 @@
 
 **位置**：[L152](file:///d:/claude/nomad/drivers/mock/driver.go#L152)
 
+**中文说明**：创建并返回一个新的 MockDriver 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `drivers.DriverPlugin` | — |
+
 ### Fingerprint()
 
-**签名**：`func (d *Driver) Fingerprint(ctx context.Context) chan *drivers.Fingerprint, error`
+**签名**：`func (d *Driver) Fingerprint(ctx context.Context) <-chan *drivers.Fingerprint, error`
 
 **位置**：[L318](file:///d:/claude/nomad/drivers/mock/driver.go#L318)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *drivers.Fingerprint` | 通道 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -212,10 +331,15 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [driver_test.go](file:///d:/claude/nomad/drivers/mock/driver_test.go) | 对应测试文件 |
+| [command.go](file:///d:/claude/nomad/drivers/mock/command.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/mock/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/mock/state.go) | 同目录源文件 |
+| [utils.go](file:///d:/claude/nomad/drivers/mock/utils.go) | 同目录源文件 |
 

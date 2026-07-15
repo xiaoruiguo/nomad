@@ -23,9 +23,9 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `maxSocketPathLen` | `0` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `maxSocketPathLen` | `—` | `0` | — |
 
 ## 4. 方法与函数
 
@@ -33,7 +33,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -43,4 +47,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [driver.go](file:///d:/claude/nomad/drivers/qemu/driver.go) | 同目录源文件 |
+| [driver_bsd.go](file:///d:/claude/nomad/drivers/qemu/driver_bsd.go) | 同目录源文件 |
+| [driver_linux.go](file:///d:/claude/nomad/drivers/qemu/driver_linux.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/qemu/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/qemu/state.go) | 同目录源文件 |
 

@@ -12,6 +12,10 @@
 
 该文件属于 **E2E 测试框架子包**（`e2e/framework`），实现端到端测试的框架基础设施，包括测试套件组织、Setup/Teardown 机制、断言工具和测试运行器。
 
+**包注释**：
+
+Deprecated: no longer use e2e/framework for new tests; see TestExample for new e2e test structure.
+
 ## 2. 类型定义
 
 该文件未定义类型。
@@ -26,7 +30,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -36,4 +44,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [case.go](file:///d:/claude/nomad/e2e/framework/case.go) | 同目录源文件 |
+| [context.go](file:///d:/claude/nomad/e2e/framework/context.go) | 同目录源文件 |
+| [framework.go](file:///d:/claude/nomad/e2e/framework/framework.go) | 同目录源文件 |
+| [interfaces.go](file:///d:/claude/nomad/e2e/framework/interfaces.go) | 同目录源文件 |
+| [provisioner.go](file:///d:/claude/nomad/e2e/framework/provisioner.go) | 同目录源文件 |
 

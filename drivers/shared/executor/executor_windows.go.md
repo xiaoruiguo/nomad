@@ -23,17 +23,17 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `_LOGON_SERVICE` | `5` |
-| `_PROVIDER_DEFAULT` | `0` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `_LOGON_SERVICE` | `uint32` | `5` | — |
+| `_PROVIDER_DEFAULT` | `uint32` | `0` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `advapiDll` | `windows.NewLazySystemDLL("advapi32.dll")` |
-| `procLogonUserW` | `advapiDll.NewProc("LogonUserW")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `advapiDll` | `—` | `windows.NewLazySystemDLL("advapi32.dll")` | — |
+| `procLogonUserW` | `—` | `advapiDll.NewProc("LogonUserW")` | — |
 
 ## 4. 方法与函数
 
@@ -45,9 +45,9 @@
 | `withNetworkIsolation` | - | `f func(...), _ *drivers.NetworkIsolationSpec` | `error` | [L42](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L42) |
 | `setCmdUser` | - | `cmd *exec.Cmd, user string` | `error` | [L46](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L46) |
 | `createUserToken` | - | `domain string, username string` | `*syscall.Token, error` | [L81](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L81) |
-| `ListProcesses` | `e *UniversalExecutor` | - | `set.Collection[int]` | [L106](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L106) |
+| `ListProcesses` | `e *UniversalExecutor` | `` | `set.Collection[int]` | [L106](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L106) |
 | `setSubCmdCgroup` | `e *UniversalExecutor` | `*exec.Cmd, string` | `func(...), error` | [L110](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L110) |
-| `setNewProcessGroup` | `e *UniversalExecutor` | - | `error` | [L117](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L117) |
+| `setNewProcessGroup` | `e *UniversalExecutor` | `` | `error` | [L117](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L117) |
 | `killProcessTree` | `e *UniversalExecutor` | `proc *os.Process` | `error` | [L155](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L155) |
 | `sendCtrlBreak` | - | `pid int` | `error` | [L178](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L178) |
 | `shutdownProcess` | `e *UniversalExecutor` | `_ os.Signal, proc *os.Process` | `error` | [L188](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L188) |
@@ -59,6 +59,21 @@
 **签名**：`func NewExecutorWithIsolation(logger hclog.Logger, compute cpustats.Compute) Executor`
 
 **位置**：[L26](file:///d:/claude/nomad/drivers/shared/executor/executor_windows.go#L26)
+
+**中文说明**：创建并返回一个新的 ExecutorWithIsolation 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `compute` | `cpustats.Compute` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Executor` | — |
 
 ## 6. 依赖关系
 
@@ -89,10 +104,16 @@
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **平台特定实现**：通过 build tag 机制实现 Windows 平台支持
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [executor_windows_test.go](file:///d:/claude/nomad/drivers/shared/executor/executor_windows_test.go) | 对应测试文件 |
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

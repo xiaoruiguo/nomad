@@ -1,6 +1,6 @@
 # volume_status_host.go 代码说明文档
 
-> 文件路径：[volume_status_host.go](file:///d:/claude/nomad/command/volume_status_host.go)
+> 文件路径：[command/volume_status_host.go](file:///d:/claude/nomad/command/volume_status_host.go)
 > 总行数：201 行
 > 所属包：`command`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,29 +10,45 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 Nomad CLI `command` 包的源码文件，提供命令实现或辅助功能。
+该文件属于 **CLI 命令包**（`command/`），实现 `nomad volume_status_host` 命令，通过 Nomad API 客户端与 Server 交互，提供作业管理、节点查询、集群运维等命令行功能。
 
 ## 2. 类型定义
 
 ### formatOpts
 
+**定义位置**：[L157](file:///d:/claude/nomad/command/volume_status_host.go#L157)
+
+**中文说明**：formatOpts 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type formatOpts struct {
 	verbose bool
 	short bool
 	length int
 	json bool
 	template string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `verbose` | `bool` | 布尔值 |
+| `short` | `bool` | 布尔值 |
+| `length` | `int` | — |
+| `json` | `bool` | 布尔值 |
+| `template` | `string` | 字符串 |
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `hostVolumeListError` | `*ast.CallExpr` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `hostVolumeListError` | `—` | `errors.New("Error listing host volumes")` | — |
 
 ## 4. 方法与函数
 
@@ -47,6 +63,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -57,25 +75,21 @@
 | `fmt` | 标准库 |
 | `sort` | 标准库 |
 | `strings` | 标准库 |
-| `github.com/dustin/go-humanize` | 第三方库 |
 | `github.com/hashicorp/nomad/api` | 内部包 |
+| `github.com/dustin/go-humanize` | 第三方库 |
 
-## 7. 设计模式与约定
+## 7. 设计模式与技术特点
 
-该文件遵循 Nomad CLI 命令的标准实现模式：
-
-1. **嵌入 Meta**：命令结构体嵌入 `Meta`，获取 API 客户端、UI 输出、flag 解析等通用能力
-2. **实现 cli.Command 接口**：`Name()`、`Run()`、`Help()`、`Synopsis()` 四个必需方法
-3. **可选自动补全**：实现 `AutocompleteFlags()` / `AutocompleteArgs()` 提供 shell 补全
-4. **Flag 解析**：通过 `m.FlagSet()` 创建 flag 集，支持 `-address`、`-region`、`-namespace` 等通用 flag
+- **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [meta.go](file:///d:/claude/nomad/command/meta.go) | `Meta` 结构体定义，提供通用 CLI 基础设施 |
-| [helpers.go](file:///d:/claude/nomad/command/helpers.go) | CLI 辅助函数（格式化、Job 解析等） |
-| [../api/api.go](file:///d:/claude/nomad/api/api.go) | Go API 客户端库 |
 | [volume_status_host_test.go](file:///d:/claude/nomad/command/volume_status_host_test.go) | 对应测试文件 |
-| [volume.go](file:///d:/claude/nomad/command/volume.go) | 父命令文件 |
+| [acl.go](file:///d:/claude/nomad/command/acl.go) | 同目录源文件 |
+| [acl_auth_method.go](file:///d:/claude/nomad/command/acl_auth_method.go) | 同目录源文件 |
+| [acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go) | 同目录源文件 |
+| [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
+| [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 

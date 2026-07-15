@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Consul 集成 E2E 测试子包**（`e2e/consul`），测试 Nomad 与 Consul 的服务发现、服务注册和 Connect 集成功能。
+该文件属于 **端到端测试子包**（`e2e/consul`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
 **构建标签**：`!ent`
 
@@ -27,17 +27,19 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `AfterEach` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L24](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L24) |
-| `TestConsulRegisterGroupServices` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L44](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L44) |
-| `TestConsulRegisterTaskServices` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L93](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L93) |
-| `TestConsulTemplateKV` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L144](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L144) |
-| `TestConsulConnectSidecars` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L173](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L173) |
-| `TestConsulConnectIngressGateway` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L220](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L220) |
-| `TestConsulConnectTerminatingGateway` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L263](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L263) |
-| `TestConsulScriptChecksTask` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L309](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L309) |
-| `TestConsulScriptChecksGroup` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | - | [L361](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L361) |
+| `AfterEach` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L24](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L24) |
+| `TestConsulRegisterGroupServices` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L44](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L44) |
+| `TestConsulRegisterTaskServices` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L93](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L93) |
+| `TestConsulTemplateKV` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L144](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L144) |
+| `TestConsulConnectSidecars` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L173](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L173) |
+| `TestConsulConnectIngressGateway` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L220](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L220) |
+| `TestConsulConnectTerminatingGateway` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L263](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L263) |
+| `TestConsulScriptChecksTask` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L309](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L309) |
+| `TestConsulScriptChecksGroup` | `tc *ConsulNamespacesE2ETest` | `f *framework.F` | `` | [L361](file:///d:/claude/nomad/e2e/consul/namespaces_ce.go#L361) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -62,4 +64,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [check_restart.go](file:///d:/claude/nomad/e2e/consul/check_restart.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/consul/consul.go) | 同目录源文件 |
+| [namespaces.go](file:///d:/claude/nomad/e2e/consul/namespaces.go) | 同目录源文件 |
+| [on_update.go](file:///d:/claude/nomad/e2e/consul/on_update.go) | 同目录源文件 |
+| [script_checks.go](file:///d:/claude/nomad/e2e/consul/script_checks.go) | 同目录源文件 |
 

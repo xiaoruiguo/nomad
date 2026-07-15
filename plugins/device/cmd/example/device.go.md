@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理，通过 gRPC 与 Nomad 通信。
+该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理。
 
 ## 2. 类型定义
 
@@ -18,28 +18,55 @@
 
 **定义位置**：[L67](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L67)
 
+**中文说明**：Config 是一个配置结构体，包含相关功能的配置参数。
+
 **类型**：struct
 
 ```go
+type Config struct {
 	Dir string `codec:"dir"`
 	ListPeriod string `codec:"list_period"`
 	UnhealthyPerm string `codec:"unhealthy_perm"`
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Dir` | `string `codec:"dir"`` | 字符串 |
+| `ListPeriod` | `string `codec:"list_period"`` | 字符串 |
+| `UnhealthyPerm` | `string `codec:"unhealthy_perm"`` | 字符串 |
 
 ### FsDevice
 
 **定义位置**：[L77](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L77)
 
+**中文说明**：FsDevice 与设备（Device）相关，管理硬件资源如 GPU/FPGA。
+
 **类型**：struct
 
 ```go
+type FsDevice struct {
 	logger log.Logger
 	deviceDir string
 	unhealthyPerm string
 	listPeriod time.Duration
 	devices map[string]bool
 	deviceLock sync.RWMutex
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `log.Logger` | 日志记录器 |
+| `deviceDir` | `string` | 字符串 |
+| `unhealthyPerm` | `string` | 字符串 |
+| `listPeriod` | `time.Duration` | 时间间隔 |
+| `devices` | `map[string]bool` | 映射表 |
+| `deviceLock` | `sync.RWMutex` | 互斥锁，保护并发访问 |
 
 **关联方法**（10 个）：`PluginInfo`, `ConfigSchema`, `SetConfig`, `Fingerprint`, `fingerprint`, `diffFiles`, `Reserve`, `Stats`, `stats`, `collectStats`
 
@@ -47,36 +74,36 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `pluginName` | `"example-fs-device"` |
-| `vendor` | `"nomad"` |
-| `deviceType` | `"file"` |
-| `deviceName` | `"mock"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `pluginName` | `—` | `"example-fs-device"` | — |
+| `vendor` | `—` | `"nomad"` | — |
+| `deviceType` | `—` | `"file"` | — |
+| `deviceName` | `—` | `"mock"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `pluginInfo` | `&base.PluginInfoResponse{...}` |
-| `configSpec` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `pluginInfo` | `—` | `&base.PluginInfoResponse{...}` | — |
+| `configSpec` | `—` | `hclspec.NewObject(map[string]*hclspec.Spec{...})` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewExampleDevice` | - | `log log.Logger` | `*FsDevice` | [L96](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L96) |
-| `PluginInfo` | `d *FsDevice` | - | `*base.PluginInfoResponse, error` | [L104](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L104) |
-| `ConfigSchema` | `d *FsDevice` | - | `*hclspec.Spec, error` | [L109](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L109) |
+| `PluginInfo` | `d *FsDevice` | `` | `*base.PluginInfoResponse, error` | [L104](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L104) |
+| `ConfigSchema` | `d *FsDevice` | `` | `*hclspec.Spec, error` | [L109](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L109) |
 | `SetConfig` | `d *FsDevice` | `c *base.Config` | `error` | [L114](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L114) |
-| `Fingerprint` | `d *FsDevice` | `ctx context.Context` | `chan *device.FingerprintResponse, error` | [L138](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L138) |
-| `fingerprint` | `d *FsDevice` | `ctx context.Context, devices chan *device.FingerprintResponse` | - | [L149](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L149) |
+| `Fingerprint` | `d *FsDevice` | `ctx context.Context` | `<-chan *device.FingerprintResponse, error` | [L138](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L138) |
+| `fingerprint` | `d *FsDevice` | `ctx context.Context, devices chan *device.FingerprintResponse` | `` | [L149](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L149) |
 | `diffFiles` | `d *FsDevice` | `files []os.FileInfo` | `[]*device.Device` | [L182](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L182) |
 | `getDeviceGroup` | - | `devices []*device.Device` | `*device.DeviceGroup` | [L246](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L246) |
 | `Reserve` | `d *FsDevice` | `deviceIDs []string` | `*device.ContainerReservation, error` | [L261](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L261) |
-| `Stats` | `d *FsDevice` | `ctx context.Context, interval time.Duration` | `chan *device.StatsResponse, error` | [L291](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L291) |
-| `stats` | `d *FsDevice` | `ctx context.Context, stats chan *device.StatsResponse, interval time.Duration` | - | [L298](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L298) |
-| `collectStats` | `d *FsDevice` | - | `*device.DeviceGroupStats, error` | [L329](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L329) |
+| `Stats` | `d *FsDevice` | `ctx context.Context, interval time.Duration` | `<-chan *device.StatsResponse, error` | [L291](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L291) |
+| `stats` | `d *FsDevice` | `ctx context.Context, stats chan *device.StatsResponse, interval time.Duration` | `` | [L298](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L298) |
+| `collectStats` | `d *FsDevice` | `` | `*device.DeviceGroupStats, error` | [L329](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L329) |
 
 ## 5. 核心方法详解
 
@@ -86,17 +113,60 @@
 
 **位置**：[L96](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L96)
 
+**中文说明**：创建并返回一个新的 ExampleDevice 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `log` | `log.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*FsDevice` | — |
+
 ### Fingerprint()
 
-**签名**：`func (d *FsDevice) Fingerprint(ctx context.Context) chan *device.FingerprintResponse, error`
+**签名**：`func (d *FsDevice) Fingerprint(ctx context.Context) <-chan *device.FingerprintResponse, error`
 
 **位置**：[L138](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L138)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *device.FingerprintResponse` | 通道 |
+| `error` | 错误信息 |
+
 ### Stats()
 
-**签名**：`func (d *FsDevice) Stats(ctx context.Context, interval time.Duration) chan *device.StatsResponse, error`
+**签名**：`func (d *FsDevice) Stats(ctx context.Context, interval time.Duration) <-chan *device.StatsResponse, error`
 
 **位置**：[L291](file:///d:/claude/nomad/plugins/device/cmd/example/device.go#L291)
+
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `interval` | `time.Duration` | 时间间隔 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *device.StatsResponse` | 通道 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -130,6 +200,8 @@
 - **gRPC 通信**：使用 gRPC 进行进程间通信
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **后台协程**：启动 goroutine 执行后台任务
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 

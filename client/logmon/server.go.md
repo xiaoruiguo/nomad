@@ -1,6 +1,6 @@
 # server.go 代码说明文档
 
-> 文件路径：[logmon/server.go](file:///d:/claude/nomad/client/logmon/server.go)
+> 文件路径：[client/logmon/server.go](file:///d:/claude/nomad/client/logmon/server.go)
 > 总行数：40 行
 > 所属包：`logmon`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **日志监控子包**（`client/logmon`），监控任务的日志输出并进行轮转。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/client/logmon/server.go#L13)
 
+**中文说明**：logmonServer 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type logmonServer struct {
 	broker *plugin.GRPCBroker
 	impl LogMon
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `broker` | `*plugin.GRPCBroker` | — |
+| `impl` | `LogMon` | — |
 
 **关联方法**（2 个）：`Start`, `Stop`
 
@@ -46,11 +57,43 @@
 
 **位置**：[L18](file:///d:/claude/nomad/client/logmon/server.go#L18)
 
+**中文说明**：启动对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.StartRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.StartResponse` | — |
+| `error` | 错误信息 |
+
 ### Stop()
 
 **签名**：`func (s *logmonServer) Stop(ctx context.Context, req *proto.StopRequest) *proto.StopResponse, error`
 
 **位置**：[L37](file:///d:/claude/nomad/client/logmon/server.go#L37)
+
+**中文说明**：停止对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.StopRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.StopResponse` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -65,11 +108,14 @@
 ## 7. 设计模式与技术特点
 
 - **Context 传递**：使用 `context.Context` 实现请求取消和超时控制
-- **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **插件架构**：使用 `go-plugin` 框架实现插件化扩展
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/client/logmon/client.go) | 同目录源文件 |
+| [logmon.go](file:///d:/claude/nomad/client/logmon/logmon.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/client/logmon/plugin.go) | 同目录源文件 |
+| [z_logmon_cmd.go](file:///d:/claude/nomad/client/logmon/z_logmon_cmd.go) | 同目录源文件 |
 

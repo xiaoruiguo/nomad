@@ -1,6 +1,6 @@
 # util.go 代码说明文档
 
-> 文件路径：[pluginutils/hclutils/util.go](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go)
+> 文件路径：[helper/pluginutils/hclutils/util.go](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go)
 > 总行数：227 行
 > 所属包：`hclutils`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **HCL 工具子包**（`helper/pluginutils/hclutils`），提供 HCL 相关的工具函数和类型定义，辅助插件配置处理。
+该文件属于 **工具包子包**（`helper/pluginutils/hclutils`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -28,10 +28,12 @@
 | `CtyValueToMapInterface` | - | `val cty.Value` | `map[string]any, error` | [L71](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go#L71) |
 | `ctyValueToInterface` | - | `val cty.Value` | `interface{}, error` | [L98](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go#L98) |
 | `smallestNumber` | - | `b *big.Float` | `interface{}` | [L180](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go#L180) |
-| `GetStdlibFuncs` | - | - | `map[string]function.Function` | [L193](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go#L193) |
+| `GetStdlibFuncs` | - | `` | `map[string]function.Function` | [L193](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go#L193) |
 | `formattedDiagnosticErrors` | - | `diag hcl.Diagnostics` | `[]error` | [L216](file:///d:/claude/nomad/helper/pluginutils/hclutils/util.go#L216) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -63,4 +65,6 @@
 | 文件 | 关系 |
 |------|------|
 | [util_test.go](file:///d:/claude/nomad/helper/pluginutils/hclutils/util_test.go) | 对应测试文件 |
+| [testing.go](file:///d:/claude/nomad/helper/pluginutils/hclutils/testing.go) | 同目录源文件 |
+| [types.go](file:///d:/claude/nomad/helper/pluginutils/hclutils/types.go) | 同目录源文件 |
 

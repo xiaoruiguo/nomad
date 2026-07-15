@@ -18,9 +18,12 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/drivers/java/handle.go#L18)
 
+**中文说明**：taskHandle 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type taskHandle struct {
 	exec executor.Executor
 	pid int
 	pluginClient *plugin.Client
@@ -31,7 +34,23 @@
 	startedAt time.Time
 	completedAt time.Time
 	exitResult *drivers.ExitResult
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `exec` | `executor.Executor` | — |
+| `pid` | `int` | — |
+| `pluginClient` | `*plugin.Client` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `stateLock` | `sync.RWMutex` | 互斥锁，保护并发访问 |
+| `taskConfig` | `*drivers.TaskConfig` | — |
+| `procState` | `drivers.TaskState` | — |
+| `startedAt` | `time.Time` | 时间点 |
+| `completedAt` | `time.Time` | 时间点 |
+| `exitResult` | `*drivers.ExitResult` | — |
 
 **关联方法**（3 个）：`TaskStatus`, `IsRunning`, `run`
 
@@ -43,11 +62,13 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `TaskStatus` | `h *taskHandle` | - | `*drivers.TaskStatus` | [L34](file:///d:/claude/nomad/drivers/java/handle.go#L34) |
-| `IsRunning` | `h *taskHandle` | - | `bool` | [L51](file:///d:/claude/nomad/drivers/java/handle.go#L51) |
-| `run` | `h *taskHandle` | - | - | [L57](file:///d:/claude/nomad/drivers/java/handle.go#L57) |
+| `TaskStatus` | `h *taskHandle` | `` | `*drivers.TaskStatus` | [L34](file:///d:/claude/nomad/drivers/java/handle.go#L34) |
+| `IsRunning` | `h *taskHandle` | `` | `bool` | [L51](file:///d:/claude/nomad/drivers/java/handle.go#L51) |
+| `run` | `h *taskHandle` | `` | `` | [L57](file:///d:/claude/nomad/drivers/java/handle.go#L57) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -76,4 +97,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [driver.go](file:///d:/claude/nomad/drivers/java/driver.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/java/state.go) | 同目录源文件 |
+| [utils.go](file:///d:/claude/nomad/drivers/java/utils.go) | 同目录源文件 |
 

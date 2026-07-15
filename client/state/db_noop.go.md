@@ -1,6 +1,6 @@
 # db_noop.go 代码说明文档
 
-> 文件路径：[state/db_noop.go](file:///d:/claude/nomad/client/state/db_noop.go)
+> 文件路径：[client/state/db_noop.go](file:///d:/claude/nomad/client/state/db_noop.go)
 > 总行数：179 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,13 +10,15 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Client 状态子包**（`client/state`），使用 BoltDB 持久化 Client 的本地状态（分配、任务状态等）。
+该文件属于 **客户端子包**（`client/`），实现 Nomad 客户端的功能组件。
 
 ## 2. 类型定义
 
 ### NoopDB
 
 **定义位置**：[L20](file:///d:/claude/nomad/client/state/db_noop.go#L20)
+
+**中文说明**：NoopDB 是一个结构体，封装相关数据和状态。
 
 **类型**：struct
 
@@ -26,17 +28,17 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `_` | `&NoopDB{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `_` | `StateDB` | `&NoopDB{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Name` | `n *NoopDB` | - | `string` | [L22](file:///d:/claude/nomad/client/state/db_noop.go#L22) |
-| `Upgrade` | `n *NoopDB` | - | `error` | [L26](file:///d:/claude/nomad/client/state/db_noop.go#L26) |
-| `GetAllAllocations` | `n *NoopDB` | - | `[]*structs.Allocation, map[string]error, error` | [L30](file:///d:/claude/nomad/client/state/db_noop.go#L30) |
+| `Name` | `n *NoopDB` | `` | `string` | [L22](file:///d:/claude/nomad/client/state/db_noop.go#L22) |
+| `Upgrade` | `n *NoopDB` | `` | `error` | [L26](file:///d:/claude/nomad/client/state/db_noop.go#L26) |
+| `GetAllAllocations` | `n *NoopDB` | `` | `[]*structs.Allocation, map[string]error, error` | [L30](file:///d:/claude/nomad/client/state/db_noop.go#L30) |
 | `PutAllocation` | `n *NoopDB` | `alloc *structs.Allocation, opts ...WriteOption` | `error` | [L34](file:///d:/claude/nomad/client/state/db_noop.go#L34) |
 | `GetDeploymentStatus` | `n *NoopDB` | `allocID string` | `*structs.AllocDeploymentStatus, error` | [L38](file:///d:/claude/nomad/client/state/db_noop.go#L38) |
 | `PutDeploymentStatus` | `n *NoopDB` | `allocID string, ds *structs.AllocDeploymentStatus` | `error` | [L42](file:///d:/claude/nomad/client/state/db_noop.go#L42) |
@@ -54,77 +56,43 @@
 | `DeleteTaskBucket` | `n *NoopDB` | `allocID string, taskName string` | `error` | [L86](file:///d:/claude/nomad/client/state/db_noop.go#L86) |
 | `DeleteAllocationBucket` | `n *NoopDB` | `allocID string, opts ...WriteOption` | `error` | [L90](file:///d:/claude/nomad/client/state/db_noop.go#L90) |
 | `PutDevicePluginState` | `n *NoopDB` | `ps *dmstate.PluginState` | `error` | [L94](file:///d:/claude/nomad/client/state/db_noop.go#L94) |
-| `GetDevicePluginState` | `n *NoopDB` | - | `*dmstate.PluginState, error` | [L98](file:///d:/claude/nomad/client/state/db_noop.go#L98) |
+| `GetDevicePluginState` | `n *NoopDB` | `` | `*dmstate.PluginState, error` | [L98](file:///d:/claude/nomad/client/state/db_noop.go#L98) |
 | `PutDriverPluginState` | `n *NoopDB` | `ps *driverstate.PluginState` | `error` | [L102](file:///d:/claude/nomad/client/state/db_noop.go#L102) |
-| `GetDriverPluginState` | `n *NoopDB` | - | `*driverstate.PluginState, error` | [L106](file:///d:/claude/nomad/client/state/db_noop.go#L106) |
+| `GetDriverPluginState` | `n *NoopDB` | `` | `*driverstate.PluginState, error` | [L106](file:///d:/claude/nomad/client/state/db_noop.go#L106) |
 | `PutDynamicPluginRegistryState` | `n *NoopDB` | `ps *dynamicplugins.RegistryState` | `error` | [L110](file:///d:/claude/nomad/client/state/db_noop.go#L110) |
-| `GetDynamicPluginRegistryState` | `n *NoopDB` | - | `*dynamicplugins.RegistryState, error` | [L114](file:///d:/claude/nomad/client/state/db_noop.go#L114) |
+| `GetDynamicPluginRegistryState` | `n *NoopDB` | `` | `*dynamicplugins.RegistryState, error` | [L114](file:///d:/claude/nomad/client/state/db_noop.go#L114) |
 | `PutCheckResult` | `n *NoopDB` | `allocID string, qr *structs.CheckQueryResult` | `error` | [L118](file:///d:/claude/nomad/client/state/db_noop.go#L118) |
-| `GetCheckResults` | `n *NoopDB` | - | `checks.ClientResults, error` | [L122](file:///d:/claude/nomad/client/state/db_noop.go#L122) |
+| `GetCheckResults` | `n *NoopDB` | `` | `checks.ClientResults, error` | [L122](file:///d:/claude/nomad/client/state/db_noop.go#L122) |
 | `DeleteCheckResults` | `n *NoopDB` | `allocID string, checkIDs []structs.CheckID` | `error` | [L126](file:///d:/claude/nomad/client/state/db_noop.go#L126) |
 | `PurgeCheckResults` | `n *NoopDB` | `allocID string` | `error` | [L130](file:///d:/claude/nomad/client/state/db_noop.go#L130) |
 | `PutNodeMeta` | `n *NoopDB` | `map[string]*string` | `error` | [L134](file:///d:/claude/nomad/client/state/db_noop.go#L134) |
-| `GetNodeMeta` | `n *NoopDB` | - | `map[string]*string, error` | [L138](file:///d:/claude/nomad/client/state/db_noop.go#L138) |
+| `GetNodeMeta` | `n *NoopDB` | `` | `map[string]*string, error` | [L138](file:///d:/claude/nomad/client/state/db_noop.go#L138) |
 | `PutNodeRegistration` | `n *NoopDB` | `reg *cstructs.NodeRegistration` | `error` | [L142](file:///d:/claude/nomad/client/state/db_noop.go#L142) |
-| `GetNodeRegistration` | `n *NoopDB` | - | `*cstructs.NodeRegistration, error` | [L146](file:///d:/claude/nomad/client/state/db_noop.go#L146) |
+| `GetNodeRegistration` | `n *NoopDB` | `` | `*cstructs.NodeRegistration, error` | [L146](file:///d:/claude/nomad/client/state/db_noop.go#L146) |
 | `PutDynamicHostVolume` | `n *NoopDB` | `_ *cstructs.HostVolumeState` | `error` | [L150](file:///d:/claude/nomad/client/state/db_noop.go#L150) |
-| `GetDynamicHostVolumes` | `n *NoopDB` | - | `[]*cstructs.HostVolumeState, error` | [L153](file:///d:/claude/nomad/client/state/db_noop.go#L153) |
+| `GetDynamicHostVolumes` | `n *NoopDB` | `` | `[]*cstructs.HostVolumeState, error` | [L153](file:///d:/claude/nomad/client/state/db_noop.go#L153) |
 | `DeleteDynamicHostVolume` | `n *NoopDB` | `_ string` | `error` | [L156](file:///d:/claude/nomad/client/state/db_noop.go#L156) |
 | `PutNodeIdentity` | `n *NoopDB` | `_ string` | `error` | [L160](file:///d:/claude/nomad/client/state/db_noop.go#L160) |
-| `GetNodeIdentity` | `n *NoopDB` | - | `string, error` | [L164](file:///d:/claude/nomad/client/state/db_noop.go#L164) |
+| `GetNodeIdentity` | `n *NoopDB` | `` | `string, error` | [L164](file:///d:/claude/nomad/client/state/db_noop.go#L164) |
 | `PutAllocConsulACLTokens` | `n *NoopDB` | `allocID string, tokens []*cstructs.ConsulACLToken, opts ...WriteOption` | `error` | [L168](file:///d:/claude/nomad/client/state/db_noop.go#L168) |
 | `GetAllocConsulACLTokens` | `n *NoopDB` | `allocID string` | `[]*cstructs.ConsulACLToken, error` | [L172](file:///d:/claude/nomad/client/state/db_noop.go#L172) |
-| `Close` | `n *NoopDB` | - | `error` | [L176](file:///d:/claude/nomad/client/state/db_noop.go#L176) |
+| `Close` | `n *NoopDB` | `` | `error` | [L176](file:///d:/claude/nomad/client/state/db_noop.go#L176) |
 
 ## 5. 核心方法详解
 
-### GetAllAllocations()
+### Close()
 
-**签名**：`func (n *NoopDB) GetAllAllocations() []*structs.Allocation, map[string]error, error`
+**签名**：`func (n *NoopDB) Close() error`
 
-**位置**：[L30](file:///d:/claude/nomad/client/state/db_noop.go#L30)
+**位置**：[L176](file:///d:/claude/nomad/client/state/db_noop.go#L176)
 
-### GetDeploymentStatus()
+**中文说明**：关闭对象。
 
-**签名**：`func (n *NoopDB) GetDeploymentStatus(allocID string) *structs.AllocDeploymentStatus, error`
+**返回值**：
 
-**位置**：[L38](file:///d:/claude/nomad/client/state/db_noop.go#L38)
-
-### GetNetworkStatus()
-
-**签名**：`func (n *NoopDB) GetNetworkStatus(allocID string) *structs.AllocNetworkStatus, error`
-
-**位置**：[L46](file:///d:/claude/nomad/client/state/db_noop.go#L46)
-
-### GetAcknowledgedState()
-
-**签名**：`func (n *NoopDB) GetAcknowledgedState(allocID string) *arstate.State, error`
-
-**位置**：[L58](file:///d:/claude/nomad/client/state/db_noop.go#L58)
-
-### GetAllocVolumes()
-
-**签名**：`func (n *NoopDB) GetAllocVolumes(allocID string) *arstate.AllocVolumes, error`
-
-**位置**：[L64](file:///d:/claude/nomad/client/state/db_noop.go#L64)
-
-### GetAllocIdentities()
-
-**签名**：`func (n *NoopDB) GetAllocIdentities(_ string) []*structs.SignedWorkloadIdentity, error`
-
-**位置**：[L70](file:///d:/claude/nomad/client/state/db_noop.go#L70)
-
-### GetTaskRunnerState()
-
-**签名**：`func (n *NoopDB) GetTaskRunnerState(allocID string, taskName string) *state.LocalState, *structs.TaskState, error`
-
-**位置**：[L74](file:///d:/claude/nomad/client/state/db_noop.go#L74)
-
-### GetDevicePluginState()
-
-**签名**：`func (n *NoopDB) GetDevicePluginState() *dmstate.PluginState, error`
-
-**位置**：[L98](file:///d:/claude/nomad/client/state/db_noop.go#L98)
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -149,4 +117,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [08types.go](file:///d:/claude/nomad/client/state/08types.go) | 同目录源文件 |
+| [12types.go](file:///d:/claude/nomad/client/state/12types.go) | 同目录源文件 |
+| [db_bolt.go](file:///d:/claude/nomad/client/state/db_bolt.go) | 同目录源文件 |
+| [db_error.go](file:///d:/claude/nomad/client/state/db_error.go) | 同目录源文件 |
+| [db_mem.go](file:///d:/claude/nomad/client/state/db_mem.go) | 同目录源文件 |
 

@@ -21,11 +21,21 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_linux.go#L13)
 
+**中文说明**：Cgrouper 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	StatsCgroup
+type Cgrouper interface {
+	StatsCgroup func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `StatsCgroup` | `func(...)` | 返回Cgroup的统计信息。 |
 
 ## 3. 常量与变量
 
@@ -44,6 +54,20 @@
 **签名**：`func List(cg Cgrouper) *set.Set[ProcessID]`
 
 **位置**：[L17](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_linux.go#L17)
+
+**中文说明**：列出所有对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `cg` | `Cgrouper` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*set.Set[ProcessID]` | — |
 
 ## 6. 依赖关系
 
@@ -64,4 +88,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [getstats.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go) | 同目录源文件 |
+| [list_default.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_default.go) | 同目录源文件 |
+| [list_windows.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_windows.go) | 同目录源文件 |
+| [procstats.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go) | 同目录源文件 |
 

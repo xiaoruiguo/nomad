@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理，通过 gRPC 与 Nomad 通信。
+该文件属于 **设备插件接口子包**（`plugins/device`），定义设备插件的接口规范，用于发现和管理硬件设备（GPU、FPGA 等），包括设备指纹采集、资源预留和挂载管理。
 
 ## 2. 类型定义
 
@@ -18,12 +18,23 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/plugins/device/server.go#L18)
 
+**中文说明**：devicePluginServer 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
+type devicePluginServer struct {
 	broker *plugin.GRPCBroker
 	impl DevicePlugin
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `broker` | `*plugin.GRPCBroker` | — |
+| `impl` | `DevicePlugin` | — |
 
 **关联方法**（3 个）：`Fingerprint`, `Reserve`, `Stats`
 
@@ -47,11 +58,39 @@
 
 **位置**：[L23](file:///d:/claude/nomad/plugins/device/server.go#L23)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `req` | `*proto.FingerprintRequest` | — |
+| `stream` | `proto.DevicePlugin_FingerprintServer` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Stats()
 
 **签名**：`func (d *devicePluginServer) Stats(req *proto.StatsRequest, stream proto.DevicePlugin_StatsServer) error`
 
 **位置**：[L75](file:///d:/claude/nomad/plugins/device/server.go#L75)
+
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `req` | `*proto.StatsRequest` | — |
+| `stream` | `proto.DevicePlugin_StatsServer` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -76,4 +115,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/device/client.go) | 同目录源文件 |
+| [device.go](file:///d:/claude/nomad/plugins/device/device.go) | 同目录源文件 |
+| [mock.go](file:///d:/claude/nomad/plugins/device/mock.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/plugins/device/plugin.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/plugins/device/util.go) | 同目录源文件 |
 

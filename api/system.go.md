@@ -1,6 +1,6 @@
 # system.go 代码说明文档
 
-> 文件路径：[system.go](file:///d:/claude/nomad/api/system.go)
+> 文件路径：[api/system.go](file:///d:/claude/nomad/api/system.go)
 > 总行数：27 行
 > 所属包：`api`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **系统（System）API 客户端**，触发 GC 和协调操作的客户端方法。
+该文件属于 **API 客户端包**（`api/`），提供 Go 语言客户端库，通过 HTTP API 与 Nomad Server 交互。当前文件 `system.go` 实现相关 API 端点的客户端方法。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L7](file:///d:/claude/nomad/api/system.go#L7)
 
+**中文说明**：System 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type System struct {
 	client *Client
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `client` | `*Client` | 关联的 Client 实例 |
 
 **关联方法**（2 个）：`GarbageCollect`, `ReconcileSummaries`
 
@@ -34,22 +44,30 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `System` | `c *Client` | - | `*System` | [L12](file:///d:/claude/nomad/api/system.go#L12) |
-| `GarbageCollect` | `s *System` | - | `error` | [L16](file:///d:/claude/nomad/api/system.go#L16) |
-| `ReconcileSummaries` | `s *System` | - | `error` | [L22](file:///d:/claude/nomad/api/system.go#L22) |
+| `System` | `c *Client` | `` | `*System` | [L12](file:///d:/claude/nomad/api/system.go#L12) |
+| `GarbageCollect` | `s *System` | `` | `error` | [L16](file:///d:/claude/nomad/api/system.go#L16) |
+| `ReconcileSummaries` | `s *System` | `` | `error` | [L22](file:///d:/claude/nomad/api/system.go#L22) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
-- **子客户端模式**：结构体嵌入 `client *Client` 字段，通过主 `Client` 获取子客户端实例，所有方法委托给底层 HTTP 客户端
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [system_test.go](file:///d:/claude/nomad/api/system_test.go) | 对应测试文件 |
-| [api.go](file:///d:/claude/nomad/api/api.go) | API 客户端核心，定义 `Client` 和请求/响应类型 |
+| [acl.go](file:///d:/claude/nomad/api/acl.go) | 同目录源文件 |
+| [agent.go](file:///d:/claude/nomad/api/agent.go) | 同目录源文件 |
+| [allocations.go](file:///d:/claude/nomad/api/allocations.go) | 同目录源文件 |
+| [allocations_exec.go](file:///d:/claude/nomad/api/allocations_exec.go) | 同目录源文件 |
+| [api.go](file:///d:/claude/nomad/api/api.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # network_manager_nonlinux.go 代码说明文档
 
-> 文件路径：[allocrunner/network_manager_nonlinux.go](file:///d:/claude/nomad/client/allocrunner/network_manager_nonlinux.go)
+> 文件路径：[client/allocrunner/network_manager_nonlinux.go](file:///d:/claude/nomad/client/allocrunner/network_manager_nonlinux.go)
 > 总行数：37 行
 > 所属包：`allocrunner`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **分配运行器子包**（`client/allocrunner`），实现分配（Allocation）的运行生命周期管理，包括预启动钩子、网络配置、Consul 集成、CSI 卷挂载、健康检查等。AllocRunner 是 Client 节点上每个分配的控制器。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 **构建标签**：`!linux`
 
@@ -20,6 +20,8 @@
 ### noopNetworkManager
 
 **定义位置**：[L19](file:///d:/claude/nomad/client/allocrunner/network_manager_nonlinux.go#L19)
+
+**中文说明**：noopNetworkManager 是一个管理器，负责协调和管理相关资源的生命周期。
 
 **类型**：struct
 
@@ -40,6 +42,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -55,10 +59,16 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [alloc_runner.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner.go) | 同目录源文件 |
+| [alloc_runner_ce.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner_ce.go) | 同目录源文件 |
+| [alloc_runner_hooks.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner_hooks.go) | 同目录源文件 |
+| [allocdir_hook.go](file:///d:/claude/nomad/client/allocrunner/allocdir_hook.go) | 同目录源文件 |
+| [checks_hook.go](file:///d:/claude/nomad/client/allocrunner/checks_hook.go) | 同目录源文件 |
 

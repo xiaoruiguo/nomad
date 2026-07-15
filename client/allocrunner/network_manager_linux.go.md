@@ -1,6 +1,6 @@
 # network_manager_linux.go 代码说明文档
 
-> 文件路径：[allocrunner/network_manager_linux.go](file:///d:/claude/nomad/client/allocrunner/network_manager_linux.go)
+> 文件路径：[client/allocrunner/network_manager_linux.go](file:///d:/claude/nomad/client/allocrunner/network_manager_linux.go)
 > 总行数：212 行
 > 所属包：`allocrunner`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **分配运行器子包**（`client/allocrunner`），实现分配（Allocation）的运行生命周期管理，包括预启动钩子、网络配置、Consul 集成、CSI 卷挂载、健康检查等。AllocRunner 是 Client 节点上每个分配的控制器。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 **平台特定实现**：此文件为 **Linux** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -19,6 +19,8 @@
 ### defaultNetworkManager
 
 **定义位置**：[L114](file:///d:/claude/nomad/client/allocrunner/network_manager_linux.go#L114)
+
+**中文说明**：defaultNetworkManager 是一个管理器，负责协调和管理相关资源的生命周期。
 
 **类型**：struct
 
@@ -39,6 +41,8 @@
 | `newNetworkConfigurator` | - | `log hclog.Logger, alloc *structs.Allocation, config *clientconfig.Config` | `NetworkConfigurator, error` | [L178](file:///d:/claude/nomad/client/allocrunner/network_manager_linux.go#L178) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -61,6 +65,8 @@
 ## 7. 设计模式与技术特点
 
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **平台特定实现**：通过 build tag 机制实现 Linux 平台支持
 
@@ -69,4 +75,9 @@
 | 文件 | 关系 |
 |------|------|
 | [network_manager_linux_test.go](file:///d:/claude/nomad/client/allocrunner/network_manager_linux_test.go) | 对应测试文件 |
+| [alloc_runner.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner.go) | 同目录源文件 |
+| [alloc_runner_ce.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner_ce.go) | 同目录源文件 |
+| [alloc_runner_hooks.go](file:///d:/claude/nomad/client/allocrunner/alloc_runner_hooks.go) | 同目录源文件 |
+| [allocdir_hook.go](file:///d:/claude/nomad/client/allocrunner/allocdir_hook.go) | 同目录源文件 |
+| [checks_hook.go](file:///d:/claude/nomad/client/allocrunner/checks_hook.go) | 同目录源文件 |
 

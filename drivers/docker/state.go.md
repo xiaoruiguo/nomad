@@ -18,12 +18,23 @@
 
 **定义位置**：[L12](file:///d:/claude/nomad/drivers/docker/state.go#L12)
 
+**中文说明**：taskStore 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type taskStore struct {
 	store map[string]*taskHandle
 	lock sync.RWMutex
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `store` | `map[string]*taskHandle` | 映射表 |
+| `lock` | `sync.RWMutex` | 互斥锁，保护并发访问 |
 
 **关联方法**（4 个）：`Set`, `Get`, `IDs`, `Delete`
 
@@ -35,13 +46,26 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `newTaskStore` | - | - | `*taskStore` | [L17](file:///d:/claude/nomad/drivers/docker/state.go#L17) |
-| `Set` | `ts *taskStore` | `id string, handle *taskHandle` | - | [L21](file:///d:/claude/nomad/drivers/docker/state.go#L21) |
+| `newTaskStore` | - | `` | `*taskStore` | [L17](file:///d:/claude/nomad/drivers/docker/state.go#L17) |
+| `Set` | `ts *taskStore` | `id string, handle *taskHandle` | `` | [L21](file:///d:/claude/nomad/drivers/docker/state.go#L21) |
 | `Get` | `ts *taskStore` | `id string` | `*taskHandle, bool` | [L27](file:///d:/claude/nomad/drivers/docker/state.go#L27) |
-| `IDs` | `ts *taskStore` | - | `*set.Set[string]` | [L34](file:///d:/claude/nomad/drivers/docker/state.go#L34) |
-| `Delete` | `ts *taskStore` | `id string` | - | [L45](file:///d:/claude/nomad/drivers/docker/state.go#L45) |
+| `IDs` | `ts *taskStore` | `` | `*set.Set[string]` | [L34](file:///d:/claude/nomad/drivers/docker/state.go#L34) |
+| `Delete` | `ts *taskStore` | `id string` | `` | [L45](file:///d:/claude/nomad/drivers/docker/state.go#L45) |
 
 ## 5. 核心方法详解
+
+### Set()
+
+**签名**：`func (ts *taskStore) Set(id string, handle *taskHandle) `
+
+**位置**：[L21](file:///d:/claude/nomad/drivers/docker/state.go#L21)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `id` | `string` | 唯一标识符 |
+| `handle` | `*taskHandle` | — |
 
 ### Get()
 
@@ -49,11 +73,34 @@
 
 **位置**：[L27](file:///d:/claude/nomad/drivers/docker/state.go#L27)
 
+**中文说明**：获取对象的信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `id` | `string` | 唯一标识符 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*taskHandle` | — |
+| `bool` | 布尔值 |
+
 ### Delete()
 
 **签名**：`func (ts *taskStore) Delete(id string) `
 
 **位置**：[L45](file:///d:/claude/nomad/drivers/docker/state.go#L45)
+
+**中文说明**：删除指定的对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `id` | `string` | 唯一标识符 |
 
 ## 6. 依赖关系
 
@@ -73,4 +120,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

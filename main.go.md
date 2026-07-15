@@ -20,20 +20,20 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `hidden` | `[]string{...}` |
-| `aliases` | `[]string{...}` |
-| `commonCommands` | `[]string{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `hidden` | `—` | `[]string{...}` | — |
+| `aliases` | `—` | `[]string{...}` | — |
+| `commonCommands` | `—` | `[]string{...}` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L81](file:///d:/claude/nomad/main.go#L81) |
+| `main` | - | `` | `` | [L81](file:///d:/claude/nomad/main.go#L81) |
 | `Run` | - | `args []string` | `int` | [L86](file:///d:/claude/nomad/main.go#L86) |
 | `groupedHelpFunc` | - | `f cli.HelpFunc` | `cli.HelpFunc` | [L122](file:///d:/claude/nomad/main.go#L122) |
-| `printCommand` | - | `w io.Writer, name string, cmdFn cli.CommandFactory` | - | [L171](file:///d:/claude/nomad/main.go#L171) |
+| `printCommand` | - | `w io.Writer, name string, cmdFn cli.CommandFactory` | `` | [L171](file:///d:/claude/nomad/main.go#L171) |
 
 ## 5. 核心方法详解
 
@@ -42,6 +42,20 @@
 **签名**：`func Run(args []string) int`
 
 **位置**：[L86](file:///d:/claude/nomad/main.go#L86)
+
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
 
 ## 6. 依赖关系
 

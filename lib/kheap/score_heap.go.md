@@ -18,23 +18,45 @@
 
 **定义位置**：[L11](file:///d:/claude/nomad/lib/kheap/score_heap.go#L11)
 
+**中文说明**：HeapItem 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	Data
-	Score
+type HeapItem interface {
+	Data func(...)
+	Score func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `Data` | `func(...)` | — |
+| `Score` | `func(...)` | — |
 
 ### ScoreHeap
 
 **定义位置**：[L19](file:///d:/claude/nomad/lib/kheap/score_heap.go#L19)
 
+**中文说明**：ScoreHeap 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type ScoreHeap struct {
 	items []HeapItem
 	capacity int
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `items` | `[]HeapItem` | 列表 |
+| `capacity` | `int` | — |
 
 **关联方法**（6 个）：`Len`, `Less`, `Swap`, `Push`, `Pop`, `GetItemsReverse`
 
@@ -47,12 +69,12 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewScoreHeap` | - | `capacity uint32` | `*ScoreHeap` | [L24](file:///d:/claude/nomad/lib/kheap/score_heap.go#L24) |
-| `Len` | `pq *ScoreHeap` | - | `int` | [L28](file:///d:/claude/nomad/lib/kheap/score_heap.go#L28) |
+| `Len` | `pq *ScoreHeap` | `` | `int` | [L28](file:///d:/claude/nomad/lib/kheap/score_heap.go#L28) |
 | `Less` | `pq *ScoreHeap` | `i int, j int` | `bool` | [L30](file:///d:/claude/nomad/lib/kheap/score_heap.go#L30) |
-| `Swap` | `pq *ScoreHeap` | `i int, j int` | - | [L34](file:///d:/claude/nomad/lib/kheap/score_heap.go#L34) |
-| `Push` | `pq *ScoreHeap` | `x interface{}` | - | [L40](file:///d:/claude/nomad/lib/kheap/score_heap.go#L40) |
-| `Pop` | `pq *ScoreHeap` | - | `interface{}` | [L60](file:///d:/claude/nomad/lib/kheap/score_heap.go#L60) |
-| `GetItemsReverse` | `pq *ScoreHeap` | - | `[]interface{}` | [L70](file:///d:/claude/nomad/lib/kheap/score_heap.go#L70) |
+| `Swap` | `pq *ScoreHeap` | `i int, j int` | `` | [L34](file:///d:/claude/nomad/lib/kheap/score_heap.go#L34) |
+| `Push` | `pq *ScoreHeap` | `x interface{}` | `` | [L40](file:///d:/claude/nomad/lib/kheap/score_heap.go#L40) |
+| `Pop` | `pq *ScoreHeap` | `` | `interface{}` | [L60](file:///d:/claude/nomad/lib/kheap/score_heap.go#L60) |
+| `GetItemsReverse` | `pq *ScoreHeap` | `` | `[]interface{}` | [L70](file:///d:/claude/nomad/lib/kheap/score_heap.go#L70) |
 
 ## 5. 核心方法详解
 
@@ -61,6 +83,20 @@
 **签名**：`func NewScoreHeap(capacity uint32) *ScoreHeap`
 
 **位置**：[L24](file:///d:/claude/nomad/lib/kheap/score_heap.go#L24)
+
+**中文说明**：创建并返回一个新的 ScoreHeap 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `capacity` | `uint32` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ScoreHeap` | — |
 
 ## 6. 依赖关系
 
@@ -73,6 +109,7 @@
 ## 7. 设计模式与技术特点
 
 - **接口抽象**：定义接口类型，实现依赖倒置和解耦，便于测试模拟
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 

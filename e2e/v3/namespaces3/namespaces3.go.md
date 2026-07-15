@@ -18,9 +18,12 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L18)
 
+**中文说明**：Names 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Names struct {
 	t *testing.T
 	nomadClient *nomadapi.Client
 	noCleanup bool
@@ -28,7 +31,20 @@
 	verbose bool
 	apply *set.HashSet[*Namespace, string]
 	remove *set.Set[string]
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `t` | `*testing.T` | — |
+| `nomadClient` | `*nomadapi.Client` | — |
+| `noCleanup` | `bool` | 布尔值 |
+| `timeout` | `time.Duration` | 超时时间 |
+| `verbose` | `bool` | 布尔值 |
+| `apply` | `*set.HashSet[*Namespace, string]` | 字符串 |
+| `remove` | `*set.Set[string]` | 字符串 |
 
 **关联方法**（4 个）：`logf`, `cleanup`, `setClient`, `run`
 
@@ -36,24 +52,35 @@
 
 **定义位置**：[L51](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L51)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Option func(...)`
 
 ### Cleanup
 
 **定义位置**：[L53](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L53)
 
-**类型定义**：`func(...)`
+**类型定义**：`type Cleanup func(...)`
 
 ### Namespace
 
 **定义位置**：[L55](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L55)
 
+**中文说明**：Namespace 与命名空间（Namespace）相关，提供资源隔离。
+
 **类型**：struct
 
 ```go
+type Namespace struct {
 	Name string
 	Description string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Name` | `string` | 名称 |
+| `Description` | `string` | 描述信息 |
 
 **关联方法**（2 个）：`Hash`, `String`
 
@@ -65,23 +92,35 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `logf` | `g *Names` | `msg string, args ...any` | - | [L31](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L31) |
-| `cleanup` | `g *Names` | - | - | [L35](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L35) |
-| `Hash` | `ns *Namespace` | - | `string` | [L60](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L60) |
-| `String` | `ns *Namespace` | - | `string` | [L64](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L64) |
-| `setClient` | `g *Names` | - | - | [L68](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L68) |
+| `logf` | `g *Names` | `msg string, args ...any` | `` | [L31](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L31) |
+| `cleanup` | `g *Names` | `` | `` | [L35](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L35) |
+| `Hash` | `ns *Namespace` | `` | `string` | [L60](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L60) |
+| `String` | `ns *Namespace` | `` | `string` | [L64](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L64) |
+| `setClient` | `g *Names` | `` | `` | [L68](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L68) |
 | `configure` | - | `t *testing.T, opts ...Option` | `Cleanup` | [L74](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L74) |
-| `run` | `g *Names` | - | - | [L92](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L92) |
+| `run` | `g *Names` | `` | `` | [L92](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L92) |
 | `Create` | - | `t *testing.T, name string, opts ...Option` | `Cleanup` | [L114](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L114) |
 | `CreateN` | - | `t *testing.T, names []string, opts ...Option` | `Cleanup` | [L121](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L121) |
 | `Delete` | - | `t *testing.T, name string, opts ...Option` | `Cleanup` | [L130](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L130) |
 | `apply` | - | `namespace *Namespace` | `Option` | [L135](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L135) |
 | `remove` | - | `name string` | `Option` | [L141](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L141) |
-| `DisableCleanup` | - | - | `Option` | [L149](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L149) |
+| `DisableCleanup` | - | `` | `Option` | [L149](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L149) |
 | `Timeout` | - | `timeout time.Duration` | `Option` | [L155](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L155) |
 | `Verbose` | - | `on bool` | `Option` | [L162](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L162) |
 
 ## 5. 核心方法详解
+
+### Hash()
+
+**签名**：`func (ns *Namespace) Hash() string`
+
+**位置**：[L60](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L60)
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `string` | 字符串 |
 
 ### Create()
 
@@ -89,11 +128,43 @@
 
 **位置**：[L114](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L114)
 
+**中文说明**：创建新的对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `*testing.T` | — |
+| `name` | `string` | 名称 |
+| `opts` | `...Option` | 选项 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Cleanup` | — |
+
 ### Delete()
 
 **签名**：`func Delete(t *testing.T, name string, opts ...Option) Cleanup`
 
 **位置**：[L130](file:///d:/claude/nomad/e2e/v3/namespaces3/namespaces3.go#L130)
+
+**中文说明**：删除指定的对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `t` | `*testing.T` | — |
+| `name` | `string` | 名称 |
+| `opts` | `...Option` | 选项 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `Cleanup` | — |
 
 ## 6. 依赖关系
 

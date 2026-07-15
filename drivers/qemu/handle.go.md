@@ -18,9 +18,12 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/drivers/qemu/handle.go#L18)
 
+**中文说明**：taskHandle 与任务（Task）相关，任务是 Nomad 执行的最小单元。
+
 **类型**：struct
 
 ```go
+type taskHandle struct {
 	exec executor.Executor
 	pid int
 	pluginClient *plugin.Client
@@ -32,7 +35,24 @@
 	startedAt time.Time
 	completedAt time.Time
 	exitResult *drivers.ExitResult
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `exec` | `executor.Executor` | — |
+| `pid` | `int` | — |
+| `pluginClient` | `*plugin.Client` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `monitorPath` | `string` | 字符串 |
+| `stateLock` | `sync.RWMutex` | 互斥锁，保护并发访问 |
+| `taskConfig` | `*drivers.TaskConfig` | — |
+| `procState` | `drivers.TaskState` | — |
+| `startedAt` | `time.Time` | 时间点 |
+| `completedAt` | `time.Time` | 时间点 |
+| `exitResult` | `*drivers.ExitResult` | — |
 
 **关联方法**（3 个）：`TaskStatus`, `IsRunning`, `run`
 
@@ -44,11 +64,13 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `TaskStatus` | `h *taskHandle` | - | `*drivers.TaskStatus` | [L35](file:///d:/claude/nomad/drivers/qemu/handle.go#L35) |
-| `IsRunning` | `h *taskHandle` | - | `bool` | [L52](file:///d:/claude/nomad/drivers/qemu/handle.go#L52) |
-| `run` | `h *taskHandle` | - | - | [L58](file:///d:/claude/nomad/drivers/qemu/handle.go#L58) |
+| `TaskStatus` | `h *taskHandle` | `` | `*drivers.TaskStatus` | [L35](file:///d:/claude/nomad/drivers/qemu/handle.go#L35) |
+| `IsRunning` | `h *taskHandle` | `` | `bool` | [L52](file:///d:/claude/nomad/drivers/qemu/handle.go#L52) |
+| `run` | `h *taskHandle` | `` | `` | [L58](file:///d:/claude/nomad/drivers/qemu/handle.go#L58) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -77,4 +99,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [driver.go](file:///d:/claude/nomad/drivers/qemu/driver.go) | 同目录源文件 |
+| [driver_bsd.go](file:///d:/claude/nomad/drivers/qemu/driver_bsd.go) | 同目录源文件 |
+| [driver_fallback.go](file:///d:/claude/nomad/drivers/qemu/driver_fallback.go) | 同目录源文件 |
+| [driver_linux.go](file:///d:/claude/nomad/drivers/qemu/driver_linux.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/qemu/state.go) | 同目录源文件 |
 

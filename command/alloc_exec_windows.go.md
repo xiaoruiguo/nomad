@@ -1,6 +1,6 @@
 # alloc_exec_windows.go 代码说明文档
 
-> 文件路径：[alloc_exec_windows.go](file:///d:/claude/nomad/command/alloc_exec_windows.go)
+> 文件路径：[command/alloc_exec_windows.go](file:///d:/claude/nomad/command/alloc_exec_windows.go)
 > 总行数：13 行
 > 所属包：`command`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,9 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 Nomad CLI `command` 包的源码文件，提供命令实现或辅助功能。
+该文件属于 **CLI 命令包**（`command/`），实现 `nomad alloc_exec` 命令，通过 Nomad API 客户端与 Server 交互，提供作业管理、节点查询、集群运维等命令行功能。
+
+**平台特定实现**：此文件为 **Windows** 平台专用，通过 build tag 机制在编译时选择。
 
 ## 2. 类型定义
 
@@ -24,9 +26,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `setupWindowNotification` | - | `ch *ast.ChanType` | - | [L10](file:///d:/claude/nomad/command/alloc_exec_windows.go#L10) |
+| `setupWindowNotification` | - | `ch chan<- os.Signal` | `` | [L10](file:///d:/claude/nomad/command/alloc_exec_windows.go#L10) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -36,21 +40,18 @@
 |--------|------|
 | `os` | 标准库 |
 
-## 7. 设计模式与约定
+## 7. 设计模式与技术特点
 
-该文件遵循 Nomad CLI 命令的标准实现模式：
-
-1. **嵌入 Meta**：命令结构体嵌入 `Meta`，获取 API 客户端、UI 输出、flag 解析等通用能力
-2. **实现 cli.Command 接口**：`Name()`、`Run()`、`Help()`、`Synopsis()` 四个必需方法
-3. **可选自动补全**：实现 `AutocompleteFlags()` / `AutocompleteArgs()` 提供 shell 补全
-4. **Flag 解析**：通过 `m.FlagSet()` 创建 flag 集，支持 `-address`、`-region`、`-namespace` 等通用 flag
+- **IO 操作**：涉及文件或数据流的读写操作
+- **平台特定实现**：通过 build tag 机制实现 Windows 平台支持
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [meta.go](file:///d:/claude/nomad/command/meta.go) | `Meta` 结构体定义，提供通用 CLI 基础设施 |
-| [helpers.go](file:///d:/claude/nomad/command/helpers.go) | CLI 辅助函数（格式化、Job 解析等） |
-| [../api/api.go](file:///d:/claude/nomad/api/api.go) | Go API 客户端库 |
-| [alloc.go](file:///d:/claude/nomad/command/alloc.go) | 父命令文件 |
+| [acl.go](file:///d:/claude/nomad/command/acl.go) | 同目录源文件 |
+| [acl_auth_method.go](file:///d:/claude/nomad/command/acl_auth_method.go) | 同目录源文件 |
+| [acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go) | 同目录源文件 |
+| [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
+| [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 

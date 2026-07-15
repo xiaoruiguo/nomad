@@ -18,42 +18,62 @@
 
 **定义位置**：[L23](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go#L23)
 
-**类型定义**：`int`
+**类型定义**：`type ProcessID int`
 
 ### ProcUsages
 
 **定义位置**：[L28](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go#L28)
 
-**类型定义**：`map[string]*drivers.ResourceUsage`
+**类型定义**：`type ProcUsages map[string]*drivers.ResourceUsage`
 
 ### ProcessStats
 
 **定义位置**：[L33](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go#L33)
 
+**中文说明**：ProcessStats 是一个统计结构体，记录相关指标的运行时数据。
+
 **类型**：interface
 
 ```go
-	StatProcesses
+type ProcessStats interface {
+	StatProcesses func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `StatProcesses` | `func(...)` | — |
 
 ### ProcessList
 
 **定义位置**：[L39](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go#L39)
 
+**中文说明**：ProcessList 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	ListProcesses
+type ProcessList interface {
+	ListProcesses func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `ListProcesses` | `func(...)` | 列出所有Processes。 |
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ExecutorBasicMeasuredMemStats` | `[]string{...}` |
-| `ExecutorBasicMeasuredCpuStats` | `[]string{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ExecutorBasicMeasuredMemStats` | `—` | `[]string{...}` | — |
+| `ExecutorBasicMeasuredCpuStats` | `—` | `[]string{...}` | — |
 
 ## 4. 方法与函数
 
@@ -63,6 +83,8 @@
 | `list` | - | `executorPID int, processes func(...)` | `set.Collection[ProcessID]` | [L101](file:///d:/claude/nomad/drivers/shared/executor/procstats/procstats.go#L101) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -85,4 +107,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [getstats.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/getstats.go) | 同目录源文件 |
+| [list_default.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_default.go) | 同目录源文件 |
+| [list_linux.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_linux.go) | 同目录源文件 |
+| [list_windows.go](file:///d:/claude/nomad/drivers/shared/executor/procstats/list_windows.go) | 同目录源文件 |
 

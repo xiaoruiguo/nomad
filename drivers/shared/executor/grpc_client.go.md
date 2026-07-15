@@ -18,13 +18,25 @@
 
 **定义位置**：[L28](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L28)
 
+**中文说明**：grpcExecutorClient 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type grpcExecutorClient struct {
 	client proto.ExecutorClient
 	logger hclog.Logger
 	doneCtx context.Context
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `client` | `proto.ExecutorClient` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `doneCtx` | `context.Context` | 上下文，用于控制生命周期和取消 |
 
 **关联方法**（11 个）：`Launch`, `Wait`, `Shutdown`, `UpdateResources`, `Version`, `Stats`, `handleStats`, `Signal`, `Exec`, `ExecStreaming`, `execStreaming`
 
@@ -32,9 +44,9 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `_` | `(*grpcExecutorClient)(nil)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `_` | `Executor` | `(*grpcExecutorClient)(nil)` | — |
 
 ## 4. 方法与函数
 
@@ -44,13 +56,13 @@
 | `Wait` | `c *grpcExecutorClient` | `ctx context.Context` | `*ProcessState, error` | [L72](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L72) |
 | `Shutdown` | `c *grpcExecutorClient` | `signal string, gracePeriod time.Duration` | `error` | [L89](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L89) |
 | `UpdateResources` | `c *grpcExecutorClient` | `r *drivers.Resources` | `error` | [L102](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L102) |
-| `Version` | `c *grpcExecutorClient` | - | `*ExecutorVersion, error` | [L112](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L112) |
-| `Stats` | `c *grpcExecutorClient` | `ctx context.Context, interval time.Duration` | `chan *cstructs.TaskResourceUsage, error` | [L121](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L121) |
-| `handleStats` | `c *grpcExecutorClient` | `ctx context.Context, stream proto.Executor_StatsClient, ch chan *cstructs.Ta...` | - | [L134](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L134) |
+| `Version` | `c *grpcExecutorClient` | `` | `*ExecutorVersion, error` | [L112](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L112) |
+| `Stats` | `c *grpcExecutorClient` | `ctx context.Context, interval time.Duration` | `<-chan *cstructs.TaskResourceUsage, error` | [L121](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L121) |
+| `handleStats` | `c *grpcExecutorClient` | `ctx context.Context, stream proto.Executor_StatsClient, ch chan<- *cstructs.T...` | `` | [L134](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L134) |
 | `Signal` | `c *grpcExecutorClient` | `s os.Signal` | `error` | [L168](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L168) |
 | `Exec` | `c *grpcExecutorClient` | `deadline time.Time, cmd string, args []string` | `[]byte, int, error` | [L184](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L184) |
-| `ExecStreaming` | `c *grpcExecutorClient` | `ctx context.Context, command []string, tty bool, execStream drivers.ExecTask...` | `error` | [L204](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L204) |
-| `execStreaming` | `c *grpcExecutorClient` | `ctx context.Context, command []string, tty bool, execStream drivers.ExecTask...` | `error` | [L216](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L216) |
+| `ExecStreaming` | `c *grpcExecutorClient` | `ctx context.Context, command []string, tty bool, execStream drivers.ExecTaskS...` | `error` | [L204](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L204) |
+| `execStreaming` | `c *grpcExecutorClient` | `ctx context.Context, command []string, tty bool, execStream drivers.ExecTaskS...` | `error` | [L216](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L216) |
 
 ## 5. 核心方法详解
 
@@ -60,11 +72,37 @@
 
 **位置**：[L36](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L36)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `cmd` | `*ExecCommand` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ProcessState` | — |
+| `error` | 错误信息 |
+
 ### Wait()
 
 **签名**：`func (c *grpcExecutorClient) Wait(ctx context.Context) *ProcessState, error`
 
 **位置**：[L72](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L72)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*ProcessState` | — |
+| `error` | 错误信息 |
 
 ### Shutdown()
 
@@ -72,17 +110,60 @@
 
 **位置**：[L89](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L89)
 
+**中文说明**：关闭对象，释放相关资源。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `signal` | `string` | 字符串 |
+| `gracePeriod` | `time.Duration` | 时间间隔 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Stats()
 
-**签名**：`func (c *grpcExecutorClient) Stats(ctx context.Context, interval time.Duration) chan *cstructs.TaskResourceUsage, error`
+**签名**：`func (c *grpcExecutorClient) Stats(ctx context.Context, interval time.Duration) <-chan *cstructs.TaskResourceUsage, error`
 
 **位置**：[L121](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L121)
+
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `interval` | `time.Duration` | 时间间隔 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *cstructs.TaskResourceUsage` | 通道 |
+| `error` | 错误信息 |
 
 ### Signal()
 
 **签名**：`func (c *grpcExecutorClient) Signal(s os.Signal) error`
 
 **位置**：[L168](file:///d:/claude/nomad/drivers/shared/executor/grpc_client.go#L168)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `s` | `os.Signal` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -121,4 +202,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

@@ -20,44 +20,46 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `retries` | `500` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `retries` | `—` | `500` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `EvalTemplate` | `template.Must(template.New("dump_eval").Parse(`{{.Index}}...` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `EvalTemplate` | `—` | `template.Must(template.New("dump_eval").Parse(`{{.Index}}...` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `WaitForLeader` | - | `t *testing.T, nomadClient *api.Client` | - | [L26](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L26) |
-| `WaitForNodesReady` | - | `t *testing.T, nomadClient *api.Client, nodes int` | - | [L39](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L39) |
+| `WaitForLeader` | - | `t *testing.T, nomadClient *api.Client` | `` | [L26](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L26) |
+| `WaitForNodesReady` | - | `t *testing.T, nomadClient *api.Client, nodes int` | `` | [L39](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L39) |
 | `stringToPtrOrNil` | - | `s string` | `*string` | [L62](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L62) |
 | `Parse2` | - | `t *testing.T, jobFile string` | `*api.Job, error` | [L69](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L69) |
-| `RegisterAllocs` | - | `t *testing.T, nomadClient *api.Client, jobFile string, jobID string, cToken ...` | `[]*api.AllocationListStub` | [L75](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L75) |
-| `RegisterAndWaitForAllocs` | - | `t *testing.T, nomadClient *api.Client, jobFile string, jobID string, cToken ...` | `[]*api.AllocationListStub` | [L105](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L105) |
-| `WaitForAllocRunning` | - | `t *testing.T, nomadClient *api.Client, allocID string` | - | [L140](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L140) |
-| `WaitForAllocTaskRunning` | - | `t *testing.T, nomadClient *api.Client, allocID string, task string` | - | [L156](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L156) |
-| `WaitForAllocTaskComplete` | - | `t *testing.T, nomadClient *api.Client, allocID string, task string` | - | [L160](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L160) |
-| `WaitForAllocTaskState` | - | `t *testing.T, nomadClient *api.Client, allocID string, task string, state st...` | - | [L164](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L164) |
-| `WaitForAllocsRunning` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string` | - | [L181](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L181) |
-| `WaitForAllocsNotPending` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string` | - | [L187](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L187) |
-| `WaitForAllocNotPending` | - | `t *testing.T, nomadClient *api.Client, allocID string` | - | [L193](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L193) |
-| `WaitForJobStopped` | - | `t *testing.T, nomadClient *api.Client, job string` | - | [L208](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L208) |
-| `WaitForAllocsStopped` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string` | - | [L213](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L213) |
+| `RegisterAllocs` | - | `t *testing.T, nomadClient *api.Client, jobFile string, jobID string, cToken s...` | `[]*api.AllocationListStub` | [L75](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L75) |
+| `RegisterAndWaitForAllocs` | - | `t *testing.T, nomadClient *api.Client, jobFile string, jobID string, cToken s...` | `[]*api.AllocationListStub` | [L105](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L105) |
+| `WaitForAllocRunning` | - | `t *testing.T, nomadClient *api.Client, allocID string` | `` | [L140](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L140) |
+| `WaitForAllocTaskRunning` | - | `t *testing.T, nomadClient *api.Client, allocID string, task string` | `` | [L156](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L156) |
+| `WaitForAllocTaskComplete` | - | `t *testing.T, nomadClient *api.Client, allocID string, task string` | `` | [L160](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L160) |
+| `WaitForAllocTaskState` | - | `t *testing.T, nomadClient *api.Client, allocID string, task string, state string` | `` | [L164](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L164) |
+| `WaitForAllocsRunning` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string` | `` | [L181](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L181) |
+| `WaitForAllocsNotPending` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string` | `` | [L187](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L187) |
+| `WaitForAllocNotPending` | - | `t *testing.T, nomadClient *api.Client, allocID string` | `` | [L193](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L193) |
+| `WaitForJobStopped` | - | `t *testing.T, nomadClient *api.Client, job string` | `` | [L208](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L208) |
+| `WaitForAllocsStopped` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string` | `` | [L213](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L213) |
 | `WaitForAllocStopped` | - | `t *testing.T, nomadClient *api.Client, allocID string` | `*api.Allocation` | [L219](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L219) |
-| `WaitForAllocStatus` | - | `t *testing.T, nomadClient *api.Client, allocID string, status string` | - | [L245](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L245) |
-| `WaitForAllocsStatus` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string, status string` | - | [L263](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L263) |
+| `WaitForAllocStatus` | - | `t *testing.T, nomadClient *api.Client, allocID string, status string` | `` | [L245](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L245) |
+| `WaitForAllocsStatus` | - | `t *testing.T, nomadClient *api.Client, allocIDs []string, status string` | `` | [L263](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L263) |
 | `AllocIDsFromAllocationListStubs` | - | `allocs []*api.AllocationListStub` | `[]string` | [L269](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L269) |
 | `DeploymentsForJob` | - | `t *testing.T, nomadClient *api.Client, jobID string` | `[]*api.Deployment` | [L277](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L277) |
-| `WaitForDeployment` | - | `t *testing.T, nomadClient *api.Client, deployID string, status string, statu...` | - | [L291](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L291) |
+| `WaitForDeployment` | - | `t *testing.T, nomadClient *api.Client, deployID string, status string, status...` | `` | [L291](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L291) |
 | `DumpEvals` | - | `c *api.Client, jobID string` | `string` | [L316](file:///d:/claude/nomad/e2e/e2eutil/utils.go#L316) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -88,4 +90,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [allocs.go](file:///d:/claude/nomad/e2e/e2eutil/allocs.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
 

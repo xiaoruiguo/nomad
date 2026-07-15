@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Agent 进程（Server 和/或 Client 模式），加载配置、初始化日志和信号处理。
+该文件属于 **Agent 命令子包**（`command/agent`），实现 `nomad agent` 命令，启动 Nomad Server 或 Client 进程。包含配置加载、HTTP/RPC 服务启动、信号处理和日志初始化等逻辑，是 Nomad 节点的启动入口。
 
 ## 2. 类型定义
 
@@ -18,13 +18,25 @@
 
 **定义位置**：[L16](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L16)
 
+**中文说明**：MockConfigsAPI 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type MockConfigsAPI struct {
 	logger hclog.Logger
 	lock sync.Mutex
 	state struct{...}
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `lock` | `sync.Mutex` | 互斥锁，保护并发访问 |
+| `state` | `struct{...}` | 状态 |
 
 **关联方法**（3 个）：`Set`, `SetError`, `GetEntry`
 
@@ -32,9 +44,9 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `_` | `(*MockConfigsAPI)(nil)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `_` | `ConfigAPI` | `(*MockConfigsAPI)(nil)` | — |
 
 ## 4. 方法与函数
 
@@ -42,7 +54,7 @@
 |------|--------|------|--------|------|
 | `NewMockConfigsAPI` | - | `l hclog.Logger` | `*MockConfigsAPI` | [L26](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L26) |
 | `Set` | `m *MockConfigsAPI` | `entry api.ConfigEntry, w *api.WriteOptions` | `bool, *api.WriteMeta, error` | [L37](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L37) |
-| `SetError` | `m *MockConfigsAPI` | `err error` | - | [L54](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L54) |
+| `SetError` | `m *MockConfigsAPI` | `err error` | `` | [L54](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L54) |
 | `GetEntry` | `m *MockConfigsAPI` | `kind string` | `api.ConfigEntry, *api.WriteOptions` | [L62](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L62) |
 
 ## 5. 核心方法详解
@@ -52,6 +64,41 @@
 **签名**：`func NewMockConfigsAPI(l hclog.Logger) *MockConfigsAPI`
 
 **位置**：[L26](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L26)
+
+**中文说明**：创建并返回一个新的 MockConfigsAPI 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `l` | `hclog.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*MockConfigsAPI` | — |
+
+### Set()
+
+**签名**：`func (m *MockConfigsAPI) Set(entry api.ConfigEntry, w *api.WriteOptions) bool, *api.WriteMeta, error`
+
+**位置**：[L37](file:///d:/claude/nomad/command/agent/consul/config_entries_testing.go#L37)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `entry` | `api.ConfigEntry` | — |
+| `w` | `*api.WriteOptions` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `bool` | 布尔值 |
+| `*api.WriteMeta` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -70,9 +117,15 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **测试工具**：提供测试辅助工具，便于编写单元测试和集成测试
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [catalog_testing.go](file:///d:/claude/nomad/command/agent/consul/catalog_testing.go) | 同目录源文件 |
+| [connect.go](file:///d:/claude/nomad/command/agent/consul/connect.go) | 同目录源文件 |
+| [connect_proxies.go](file:///d:/claude/nomad/command/agent/consul/connect_proxies.go) | 同目录源文件 |
+| [connect_proxies_testing.go](file:///d:/claude/nomad/command/agent/consul/connect_proxies_testing.go) | 同目录源文件 |
+| [namespaces_client.go](file:///d:/claude/nomad/command/agent/consul/namespaces_client.go) | 同目录源文件 |
 

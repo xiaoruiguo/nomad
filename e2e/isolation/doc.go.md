@@ -12,6 +12,11 @@
 
 该文件属于 **端到端测试子包**（`e2e/isolation`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
+**包注释**：
+
+Package isolation provides tests around various kinds of isolation, such as
+artifact downloading, PID namespacing, and chroot task environments.
+
 ## 2. 类型定义
 
 该文件未定义类型。
@@ -26,7 +31,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 

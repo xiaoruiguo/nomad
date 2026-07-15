@@ -1,6 +1,6 @@
 # acl_endpoint.go 代码说明文档
 
-> 文件路径：[acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go)
+> 文件路径：[nomad/acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go)
 > 总行数：3250 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **ACL RPC 端点**，处理 ACL 策略、令牌、角色、绑定规则的 CRUD 操作。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `acl_endpoint.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,15 +18,29 @@
 
 **定义位置**：[L65](file:///d:/claude/nomad/nomad/acl_endpoint.go#L65)
 
+**中文说明**：ACL 与访问控制列表（ACL）相关，管理权限和认证。
+
 **类型**：struct
 
 ```go
+type ACL struct {
 	srv *Server
 	ctx *RPCContext
 	logger hclog.Logger
 	oidcProviderCache *oidc.ProviderCache
 	oidcRequestCache *oidc.RequestCache
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `oidcProviderCache` | `*oidc.ProviderCache` | OIDC 提供者缓存 |
+| `oidcRequestCache` | `*oidc.RequestCache` | OIDC 请求缓存 |
 
 **关联方法**（45 个）：`UpsertPolicies`, `DeletePolicies`, `ListPolicies`, `GetPolicy`, `requestACLToken`, `GetPolicies`, `GetClaimPolicies`, `Bootstrap`, `fileBootstrapResetIndex`, `UpsertTokens`, `upsertTokens`, `DeleteTokens`, `ListTokens`, `GetToken`, `GetTokens`, `ResolveToken`, `UpsertOneTimeToken`, `ExchangeOneTimeToken`, `ExpireOneTimeTokens`, `UpsertRoles`, `DeleteRolesByID`, `ListRoles`, `GetRolesByID`, `GetRoleByID`, `GetRoleByName`, `getPolicyAuthorizationFunc`, `getPoliciesForIdentity`, `policyNamesFromRoleLinks`, `UpsertAuthMethods`, `DeleteAuthMethods`, `ListAuthMethods`, `GetAuthMethod`, `GetAuthMethods`, `WhoAmI`, `UpsertBindingRules`, `DeleteBindingRules`, `ListBindingRules`, `GetBindingRules`, `GetBindingRule`, `OIDCAuthURL`, `OIDCCompleteAuth`, `Login`, `oidcRequest`, `oidcClientAssertion`, `CreateClientIntroductionToken`
 
@@ -34,19 +48,19 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `aclBootstrapReset` | `"acl-bootstrap-reset"` |
-| `aclOIDCAuthURLRequestExpiryTime` | `60 * time.Second` |
-| `aclOIDCCallbackRequestExpiryTime` | `60 * time.Second` |
-| `aclLoginRequestExpiryTime` | `60 * time.Second` |
-| `verboseLoggingMessage` | `"attempting login with verbose logging enabled"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `aclBootstrapReset` | `—` | `"acl-bootstrap-reset"` | — |
+| `aclOIDCAuthURLRequestExpiryTime` | `—` | `60 * time.Second` | — |
+| `aclOIDCCallbackRequestExpiryTime` | `—` | `60 * time.Second` | — |
+| `aclLoginRequestExpiryTime` | `—` | `60 * time.Second` | — |
+| `verboseLoggingMessage` | `—` | `"attempting login with verbose logging enabled"` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `aclDisabled` | `structs.NewErrRPCCoded(400, "ACL support disabled")` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `aclDisabled` | `—` | `structs.NewErrRPCCoded(400, "ACL support disabled")` | — |
 
 ## 4. 方法与函数
 
@@ -61,19 +75,19 @@
 | `GetPolicies` | `a *ACL` | `args *structs.ACLPolicySetRequest, reply *structs.ACLPolicySetResponse` | `error` | [L331](file:///d:/claude/nomad/nomad/acl_endpoint.go#L331) |
 | `GetClaimPolicies` | `a *ACL` | `args *structs.GenericRequest, reply *structs.ACLPolicySetResponse` | `error` | [L402](file:///d:/claude/nomad/nomad/acl_endpoint.go#L402) |
 | `Bootstrap` | `a *ACL` | `args *structs.ACLTokenBootstrapRequest, reply *structs.ACLTokenUpsertResponse` | `error` | [L442](file:///d:/claude/nomad/nomad/acl_endpoint.go#L442) |
-| `fileBootstrapResetIndex` | `a *ACL` | - | `uint64` | [L532](file:///d:/claude/nomad/nomad/acl_endpoint.go#L532) |
+| `fileBootstrapResetIndex` | `a *ACL` | `` | `uint64` | [L532](file:///d:/claude/nomad/nomad/acl_endpoint.go#L532) |
 | `UpsertTokens` | `a *ACL` | `args *structs.ACLTokenUpsertRequest, reply *structs.ACLTokenUpsertResponse` | `error` | [L558](file:///d:/claude/nomad/nomad/acl_endpoint.go#L558) |
-| `upsertTokens` | `a *ACL` | `args *structs.ACLTokenUpsertRequest, reply *structs.ACLTokenUpsertResponse, ...` | `error` | [L622](file:///d:/claude/nomad/nomad/acl_endpoint.go#L622) |
+| `upsertTokens` | `a *ACL` | `args *structs.ACLTokenUpsertRequest, reply *structs.ACLTokenUpsertResponse, s...` | `error` | [L622](file:///d:/claude/nomad/nomad/acl_endpoint.go#L622) |
 | `DeleteTokens` | `a *ACL` | `args *structs.ACLTokenDeleteRequest, reply *structs.GenericResponse` | `error` | [L740](file:///d:/claude/nomad/nomad/acl_endpoint.go#L740) |
 | `ListTokens` | `a *ACL` | `args *structs.ACLTokenListRequest, reply *structs.ACLTokenListResponse` | `error` | [L824](file:///d:/claude/nomad/nomad/acl_endpoint.go#L824) |
 | `GetToken` | `a *ACL` | `args *structs.ACLTokenSpecificRequest, reply *structs.SingleACLTokenResponse` | `error` | [L900](file:///d:/claude/nomad/nomad/acl_endpoint.go#L900) |
 | `GetTokens` | `a *ACL` | `args *structs.ACLTokenSetRequest, reply *structs.ACLTokenSetResponse` | `error` | [L966](file:///d:/claude/nomad/nomad/acl_endpoint.go#L966) |
 | `ResolveToken` | `a *ACL` | `args *structs.ResolveACLTokenRequest, reply *structs.ResolveACLTokenResponse` | `error` | [L1021](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1021) |
-| `UpsertOneTimeToken` | `a *ACL` | `args *structs.OneTimeTokenUpsertRequest, reply *structs.OneTimeTokenUpsertRe...` | `error` | [L1061](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1061) |
-| `ExchangeOneTimeToken` | `a *ACL` | `args *structs.OneTimeTokenExchangeRequest, reply *structs.OneTimeTokenExchan...` | `error` | [L1120](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1120) |
+| `UpsertOneTimeToken` | `a *ACL` | `args *structs.OneTimeTokenUpsertRequest, reply *structs.OneTimeTokenUpsertRes...` | `error` | [L1061](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1061) |
+| `ExchangeOneTimeToken` | `a *ACL` | `args *structs.OneTimeTokenExchangeRequest, reply *structs.OneTimeTokenExchang...` | `error` | [L1120](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1120) |
 | `ExpireOneTimeTokens` | `a *ACL` | `args *structs.OneTimeTokenExpireRequest, reply *structs.GenericResponse` | `error` | [L1186](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1186) |
 | `UpsertRoles` | `a *ACL` | `args *structs.ACLRolesUpsertRequest, reply *structs.ACLRolesUpsertResponse` | `error` | [L1233](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1233) |
-| `DeleteRolesByID` | `a *ACL` | `args *structs.ACLRolesDeleteByIDRequest, reply *structs.ACLRolesDeleteByIDRe...` | `error` | [L1375](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1375) |
+| `DeleteRolesByID` | `a *ACL` | `args *structs.ACLRolesDeleteByIDRequest, reply *structs.ACLRolesDeleteByIDRes...` | `error` | [L1375](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1375) |
 | `ListRoles` | `a *ACL` | `args *structs.ACLRolesListRequest, reply *structs.ACLRolesListResponse` | `error` | [L1428](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1428) |
 | `GetRolesByID` | `a *ACL` | `args *structs.ACLRolesByIDRequest, reply *structs.ACLRolesByIDResponse` | `error` | [L1527](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1527) |
 | `GetRoleByID` | `a *ACL` | `args *structs.ACLRoleByIDRequest, reply *structs.ACLRoleByIDResponse` | `error` | [L1585](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1585) |
@@ -81,15 +95,15 @@
 | `getPolicyAuthorizationFunc` | `a *ACL` | `aclObj *acl.ACL, identity structs.AuthenticatedIdentity` | `func(...), error` | [L1769](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1769) |
 | `getPoliciesForIdentity` | `a *ACL` | `identity structs.AuthenticatedIdentity` | `*set.Set[string], error` | [L1790](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1790) |
 | `policyNamesFromRoleLinks` | `a *ACL` | `roleLinks []*structs.ACLTokenRoleLink` | `*set.Set[string], error` | [L1827](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1827) |
-| `UpsertAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodUpsertRequest, reply *structs.ACLAuthMethodUpsert...` | `error` | [L1879](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1879) |
-| `DeleteAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodDeleteRequest, reply *structs.ACLAuthMethodDelete...` | `error` | [L1993](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1993) |
-| `ListAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodListRequest, reply *structs.ACLAuthMethodListResp...` | `error` | [L2045](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2045) |
+| `UpsertAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodUpsertRequest, reply *structs.ACLAuthMethodUpsertR...` | `error` | [L1879](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1879) |
+| `DeleteAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodDeleteRequest, reply *structs.ACLAuthMethodDeleteR...` | `error` | [L1993](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1993) |
+| `ListAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodListRequest, reply *structs.ACLAuthMethodListResponse` | `error` | [L2045](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2045) |
 | `GetAuthMethod` | `a *ACL` | `args *structs.ACLAuthMethodGetRequest, reply *structs.ACLAuthMethodGetResponse` | `error` | [L2090](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2090) |
-| `GetAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodsGetRequest, reply *structs.ACLAuthMethodsGetResp...` | `error` | [L2151](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2151) |
+| `GetAuthMethods` | `a *ACL` | `args *structs.ACLAuthMethodsGetRequest, reply *structs.ACLAuthMethodsGetResponse` | `error` | [L2151](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2151) |
 | `WhoAmI` | `a *ACL` | `args *structs.GenericRequest, reply *structs.ACLWhoAmIResponse` | `error` | [L2211](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2211) |
-| `UpsertBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesUpsertRequest, reply *structs.ACLBindingRulesUp...` | `error` | [L2254](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2254) |
-| `DeleteBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesDeleteRequest, reply *structs.ACLBindingRulesDe...` | `error` | [L2387](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2387) |
-| `ListBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesListRequest, reply *structs.ACLBindingRulesList...` | `error` | [L2438](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2438) |
+| `UpsertBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesUpsertRequest, reply *structs.ACLBindingRulesUps...` | `error` | [L2254](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2254) |
+| `DeleteBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesDeleteRequest, reply *structs.ACLBindingRulesDel...` | `error` | [L2387](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2387) |
+| `ListBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesListRequest, reply *structs.ACLBindingRulesListR...` | `error` | [L2438](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2438) |
 | `GetBindingRules` | `a *ACL` | `args *structs.ACLBindingRulesRequest, reply *structs.ACLBindingRulesResponse` | `error` | [L2495](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2495) |
 | `GetBindingRule` | `a *ACL` | `args *structs.ACLBindingRuleRequest, reply *structs.ACLBindingRuleResponse` | `error` | [L2552](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2552) |
 | `OIDCAuthURL` | `a *ACL` | `args *structs.ACLOIDCAuthURLRequest, reply *structs.ACLOIDCAuthURLResponse` | `error` | [L2613](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2613) |
@@ -98,57 +112,49 @@
 | `formatTokenName` | - | `format string, authType string, authName string, claims map[string]string` | `string, error` | [L3098](file:///d:/claude/nomad/nomad/acl_endpoint.go#L3098) |
 | `oidcRequest` | `a *ACL` | `nonce string, redirect string, config *structs.ACLAuthMethodConfig` | `*capOIDC.Req, error` | [L3121](file:///d:/claude/nomad/nomad/acl_endpoint.go#L3121) |
 | `oidcClientAssertion` | `a *ACL` | `config *structs.ACLAuthMethodConfig` | `*cass.JWT, error` | [L3161](file:///d:/claude/nomad/nomad/acl_endpoint.go#L3161) |
-| `CreateClientIntroductionToken` | `a *ACL` | `args *structs.ACLCreateClientIntroductionTokenRequest, reply *structs.ACLCre...` | `error` | [L3188](file:///d:/claude/nomad/nomad/acl_endpoint.go#L3188) |
+| `CreateClientIntroductionToken` | `a *ACL` | `args *structs.ACLCreateClientIntroductionTokenRequest, reply *structs.ACLCrea...` | `error` | [L3188](file:///d:/claude/nomad/nomad/acl_endpoint.go#L3188) |
 
 ## 5. 核心方法详解
 
-### ListPolicies()
+### NewACLEndpoint()
 
-**签名**：`func (a *ACL) ListPolicies(args *structs.ACLPolicyListRequest, reply *structs.ACLPolicyListResponse) error`
+**签名**：`func NewACLEndpoint(srv *Server, ctx *RPCContext) *ACL`
 
-**位置**：[L182](file:///d:/claude/nomad/nomad/acl_endpoint.go#L182)
+**位置**：[L81](file:///d:/claude/nomad/nomad/acl_endpoint.go#L81)
 
-### GetPolicy()
+**中文说明**：创建并返回一个新的 ACLEndpoint 实例。
 
-**签名**：`func (a *ACL) GetPolicy(args *structs.ACLPolicySpecificRequest, reply *structs.SingleACLPolicyResponse) error`
+**参数说明**：
 
-**位置**：[L253](file:///d:/claude/nomad/nomad/acl_endpoint.go#L253)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
 
-### GetPolicies()
+**返回值**：
 
-**签名**：`func (a *ACL) GetPolicies(args *structs.ACLPolicySetRequest, reply *structs.ACLPolicySetResponse) error`
+| 类型 | 说明 |
+|------|------|
+| `*ACL` | — |
 
-**位置**：[L331](file:///d:/claude/nomad/nomad/acl_endpoint.go#L331)
+### Login()
 
-### GetClaimPolicies()
+**签名**：`func (a *ACL) Login(args *structs.ACLLoginRequest, reply *structs.ACLLoginResponse) error`
 
-**签名**：`func (a *ACL) GetClaimPolicies(args *structs.GenericRequest, reply *structs.ACLPolicySetResponse) error`
+**位置**：[L2917](file:///d:/claude/nomad/nomad/acl_endpoint.go#L2917)
 
-**位置**：[L402](file:///d:/claude/nomad/nomad/acl_endpoint.go#L402)
+**参数说明**：
 
-### ListTokens()
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.ACLLoginRequest` | 参数 |
+| `reply` | `*structs.ACLLoginResponse` | — |
 
-**签名**：`func (a *ACL) ListTokens(args *structs.ACLTokenListRequest, reply *structs.ACLTokenListResponse) error`
+**返回值**：
 
-**位置**：[L824](file:///d:/claude/nomad/nomad/acl_endpoint.go#L824)
-
-### GetToken()
-
-**签名**：`func (a *ACL) GetToken(args *structs.ACLTokenSpecificRequest, reply *structs.SingleACLTokenResponse) error`
-
-**位置**：[L900](file:///d:/claude/nomad/nomad/acl_endpoint.go#L900)
-
-### GetTokens()
-
-**签名**：`func (a *ACL) GetTokens(args *structs.ACLTokenSetRequest, reply *structs.ACLTokenSetResponse) error`
-
-**位置**：[L966](file:///d:/claude/nomad/nomad/acl_endpoint.go#L966)
-
-### ListRoles()
-
-**签名**：`func (a *ACL) ListRoles(args *structs.ACLRolesListRequest, reply *structs.ACLRolesListResponse) error`
-
-**位置**：[L1428](file:///d:/claude/nomad/nomad/acl_endpoint.go#L1428)
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -185,17 +191,22 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **IO 操作**：涉及文件或数据流的读写操作
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **指标收集**：使用 `go-metrics` 收集运行时指标
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [acl_endpoint_test.go](file:///d:/claude/nomad/nomad/acl_endpoint_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
+| [blocked_evals.go](file:///d:/claude/nomad/nomad/blocked_evals.go) | 同目录源文件 |
 

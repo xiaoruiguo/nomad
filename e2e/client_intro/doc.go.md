@@ -12,6 +12,17 @@
 
 该文件属于 **端到端测试子包**（`e2e/client_intro`），针对 Nomad 的特定功能领域编写端到端测试，通过真实的 Nomad 集群验证功能正确性。
 
+**包注释**：
+
+Package clientintro provides end-to-end tests for Nomad's client introduction
+feature. This does not involve running jobs and does not run against the
+nightly cluster. Instead it uses local agents to verify client introduction
+behavior.
+//
+In order to run this test suite only, from the e2e directory you can trigger
+'go test -v -run '^TestClientIntro$' ./client_intro' or from the top
+level you can use the 'integration-test-client-intro' make target.
+
 ## 2. 类型定义
 
 该文件未定义类型。
@@ -26,7 +37,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 

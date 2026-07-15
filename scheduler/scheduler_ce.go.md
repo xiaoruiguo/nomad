@@ -1,6 +1,6 @@
 # scheduler_ce.go 代码说明文档
 
-> 文件路径：[scheduler_ce.go](file:///d:/claude/nomad/scheduler/scheduler_ce.go)
+> 文件路径：[scheduler/scheduler_ce.go](file:///d:/claude/nomad/scheduler/scheduler_ce.go)
 > 总行数：13 行
 > 所属包：`scheduler`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件是 **调度器核心入口**，定义 `Scheduler` 接口、`Factory` 工厂函数和 `BuiltinSchedulers` 注册表。提供服务（service）、批处理（batch）、系统（system）、系统批处理（sysbatch）四种内置调度器的工厂函数，是整个调度器子系统的入口点。
+该文件属于 **调度器包**（`scheduler/`），实现 Nomad 的调度逻辑，包括评估处理、节点筛选、分配计划和抢占策略。当前文件 `scheduler_ce.go` 提供相关调度功能。
 
 **构建标签**：`!ent`
 
@@ -20,6 +20,8 @@
 ### StateEnterprise
 
 **定义位置**：[L11](file:///d:/claude/nomad/scheduler/scheduler_ce.go#L11)
+
+**中文说明**：StateEnterprise 是一个接口，定义相关功能的契约规范。
 
 **类型**：interface
 
@@ -33,7 +35,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -44,4 +50,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [annotate.go](file:///d:/claude/nomad/scheduler/annotate.go) | 同目录源文件 |
+| [doc.go](file:///d:/claude/nomad/scheduler/doc.go) | 同目录源文件 |
+| [generic_sched.go](file:///d:/claude/nomad/scheduler/generic_sched.go) | 同目录源文件 |
+| [scheduler.go](file:///d:/claude/nomad/scheduler/scheduler.go) | 同目录源文件 |
+| [scheduler_sysbatch.go](file:///d:/claude/nomad/scheduler/scheduler_sysbatch.go) | 同目录源文件 |
 

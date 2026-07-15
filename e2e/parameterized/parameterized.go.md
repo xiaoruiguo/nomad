@@ -18,12 +18,23 @@
 
 **定义位置**：[L16](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L16)
 
+**中文说明**：ParameterizedTest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type ParameterizedTest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（3 个）：`BeforeAll`, `AfterEach`, `TestParameterizedDispatch_Basic`
 
@@ -35,12 +46,14 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L21](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L21) |
-| `BeforeAll` | `tc *ParameterizedTest` | `f *framework.F` | - | [L31](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L31) |
-| `AfterEach` | `tc *ParameterizedTest` | `f *framework.F` | - | [L35](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L35) |
-| `TestParameterizedDispatch_Basic` | `tc *ParameterizedTest` | `f *framework.F` | - | [L46](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L46) |
+| `init` | - | `` | `` | [L21](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L21) |
+| `BeforeAll` | `tc *ParameterizedTest` | `f *framework.F` | `` | [L31](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L31) |
+| `AfterEach` | `tc *ParameterizedTest` | `f *framework.F` | `` | [L35](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L35) |
+| `TestParameterizedDispatch_Basic` | `tc *ParameterizedTest` | `f *framework.F` | `` | [L46](file:///d:/claude/nomad/e2e/parameterized/parameterized.go#L46) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

@@ -18,12 +18,23 @@
 
 **定义位置**：[L10](file:///d:/claude/nomad/lib/auth/identity.go#L10)
 
+**中文说明**：Identity 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Identity struct {
 	Claims interface{}
 	ClaimMappings map[string]string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Claims` | `interface{}` | 接口类型，可持有任意值 |
+| `ClaimMappings` | `map[string]string` | 映射表 |
 
 ## 3. 常量与变量
 
@@ -33,7 +44,7 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `NewIdentity` | - | `authMethodConfig *structs.ACLAuthMethodConfig, authClaims *structs.ACLAuthCl...` | `*Identity` | [L22](file:///d:/claude/nomad/lib/auth/identity.go#L22) |
+| `NewIdentity` | - | `authMethodConfig *structs.ACLAuthMethodConfig, authClaims *structs.ACLAuthClaims` | `*Identity` | [L22](file:///d:/claude/nomad/lib/auth/identity.go#L22) |
 
 ## 5. 核心方法详解
 
@@ -42,6 +53,21 @@
 **签名**：`func NewIdentity(authMethodConfig *structs.ACLAuthMethodConfig, authClaims *structs.ACLAuthClaims) *Identity`
 
 **位置**：[L22](file:///d:/claude/nomad/lib/auth/identity.go#L22)
+
+**中文说明**：创建并返回一个新的 Identity 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `authMethodConfig` | `*structs.ACLAuthMethodConfig` | — |
+| `authClaims` | `*structs.ACLAuthClaims` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Identity` | — |
 
 ## 6. 依赖关系
 
@@ -53,11 +79,13 @@
 
 ## 7. 设计模式与技术特点
 
-- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [identity_test.go](file:///d:/claude/nomad/lib/auth/identity_test.go) | 对应测试文件 |
+| [binder.go](file:///d:/claude/nomad/lib/auth/binder.go) | 同目录源文件 |
+| [claims.go](file:///d:/claude/nomad/lib/auth/claims.go) | 同目录源文件 |
 

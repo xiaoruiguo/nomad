@@ -18,12 +18,23 @@
 
 **定义位置**：[L20](file:///d:/claude/nomad/e2e/events/events.go#L20)
 
+**中文说明**：EventsTest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type EventsTest struct {
+	framework.TC framework.TC
 	jobIDs []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIDs` | `[]string` | 列表 |
 
 **关联方法**（5 个）：`BeforeAll`, `AfterEach`, `TestDeploymentEvents`, `TestBlockedEvalEvents`, `TestStartIndex`
 
@@ -35,14 +46,16 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L25](file:///d:/claude/nomad/e2e/events/events.go#L25) |
-| `BeforeAll` | `tc *EventsTest` | `f *framework.F` | - | [L35](file:///d:/claude/nomad/e2e/events/events.go#L35) |
-| `AfterEach` | `tc *EventsTest` | `f *framework.F` | - | [L39](file:///d:/claude/nomad/e2e/events/events.go#L39) |
-| `TestDeploymentEvents` | `tc *EventsTest` | `f *framework.F` | - | [L53](file:///d:/claude/nomad/e2e/events/events.go#L53) |
-| `TestBlockedEvalEvents` | `tc *EventsTest` | `f *framework.F` | - | [L121](file:///d:/claude/nomad/e2e/events/events.go#L121) |
-| `TestStartIndex` | `tc *EventsTest` | `f *framework.F` | - | [L189](file:///d:/claude/nomad/e2e/events/events.go#L189) |
+| `init` | - | `` | `` | [L25](file:///d:/claude/nomad/e2e/events/events.go#L25) |
+| `BeforeAll` | `tc *EventsTest` | `f *framework.F` | `` | [L35](file:///d:/claude/nomad/e2e/events/events.go#L35) |
+| `AfterEach` | `tc *EventsTest` | `f *framework.F` | `` | [L39](file:///d:/claude/nomad/e2e/events/events.go#L39) |
+| `TestDeploymentEvents` | `tc *EventsTest` | `f *framework.F` | `` | [L53](file:///d:/claude/nomad/e2e/events/events.go#L53) |
+| `TestBlockedEvalEvents` | `tc *EventsTest` | `f *framework.F` | `` | [L121](file:///d:/claude/nomad/e2e/events/events.go#L121) |
+| `TestStartIndex` | `tc *EventsTest` | `f *framework.F` | `` | [L189](file:///d:/claude/nomad/e2e/events/events.go#L189) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

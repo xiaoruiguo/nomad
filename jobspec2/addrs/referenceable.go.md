@@ -18,16 +18,29 @@
 
 **定义位置**：[L8](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go#L8)
 
+**中文说明**：Referenceable 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	referenceableSigil
-	String
+type Referenceable interface {
+	referenceableSigil func(...)
+	String func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `referenceableSigil` | `func(...)` | — |
+| `String` | `func(...)` | — |
 
 ### referenceable
 
 **定义位置**：[L21](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go#L21)
+
+**中文说明**：referenceable 是一个结构体，封装相关数据和状态。
 
 **类型**：struct
 
@@ -41,11 +54,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `referenceableSigil` | `r *referenceable` | - | - | [L24](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go#L24) |
+| `referenceableSigil` | `r *referenceable` | `` | `` | [L24](file:///d:/claude/nomad/jobspec2/addrs/referenceable.go#L24) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -55,4 +72,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [doc.go](file:///d:/claude/nomad/jobspec2/addrs/doc.go) | 同目录源文件 |
+| [input_variable.go](file:///d:/claude/nomad/jobspec2/addrs/input_variable.go) | 同目录源文件 |
+| [parse_ref.go](file:///d:/claude/nomad/jobspec2/addrs/parse_ref.go) | 同目录源文件 |
 

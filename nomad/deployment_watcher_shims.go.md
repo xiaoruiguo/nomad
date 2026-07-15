@@ -1,6 +1,6 @@
 # deployment_watcher_shims.go 代码说明文档
 
-> 文件路径：[deployment_watcher_shims.go](file:///d:/claude/nomad/nomad/deployment_watcher_shims.go)
+> 文件路径：[nomad/deployment_watcher_shims.go](file:///d:/claude/nomad/nomad/deployment_watcher_shims.go)
 > 总行数：60 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **部署监视器适配层**，为部署监视器提供 Server 接口的适配实现。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `deployment_watcher_shims.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L13](file:///d:/claude/nomad/nomad/deployment_watcher_shims.go#L13)
 
+**中文说明**：deploymentWatcherRaftShim 与部署（Deployment）相关，部署管理作业的滚动更新过程。
+
 **类型**：struct
 
 ```go
+type deploymentWatcherRaftShim struct {
 	apply raftApplyFn
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `apply` | `raftApplyFn` | — |
 
 **关联方法**（6 个）：`convertApplyErrors`, `UpsertJob`, `UpdateDeploymentStatus`, `UpdateDeploymentPromotion`, `UpdateDeploymentAllocHealth`, `UpdateAllocDesiredTransition`
 
@@ -43,6 +53,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -59,4 +71,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

@@ -37,6 +37,20 @@
 
 **位置**：[L12](file:///d:/claude/nomad/drivers/rawexec/driver_windows.go#L12)
 
+**中文说明**：验证对象的有效性。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `cfg` | `drivers.TaskConfig` | 配置 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -55,4 +69,8 @@
 | 文件 | 关系 |
 |------|------|
 | [driver_windows_test.go](file:///d:/claude/nomad/drivers/rawexec/driver_windows_test.go) | 对应测试文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/rawexec/driver.go) | 同目录源文件 |
+| [driver_unix.go](file:///d:/claude/nomad/drivers/rawexec/driver_unix.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/rawexec/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/rawexec/state.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # reporting_ce.go 代码说明文档
 
-> 文件路径：[reporting/reporting_ce.go](file:///d:/claude/nomad/nomad/reporting/reporting_ce.go)
+> 文件路径：[nomad/reporting/reporting_ce.go](file:///d:/claude/nomad/nomad/reporting/reporting_ce.go)
 > 总行数：9 行
 > 所属包：`reporting`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **报告子包**（`nomad/reporting`），实现 Nomad 企业版的报告生成功能（社区版存根）。
+该文件属于 `reporting` 包，定义结构体类型。
 
 **构建标签**：`!ent`
 
@@ -20,6 +20,8 @@
 ### Manager
 
 **定义位置**：[L8](file:///d:/claude/nomad/nomad/reporting/reporting_ce.go#L8)
+
+**中文说明**：Manager 是一个管理器，负责协调和管理相关资源的生命周期。
 
 **类型**：struct
 
@@ -33,7 +35,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 

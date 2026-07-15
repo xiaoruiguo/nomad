@@ -18,34 +18,63 @@
 
 **定义位置**：[L32](file:///d:/claude/nomad/drivers/docker/progress.go#L32)
 
+**中文说明**：layerProgress 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type layerProgress struct {
 	id string
 	status layerProgressStatus
 	currentBytes int64
 	totalBytes int64
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `id` | `string` | 唯一标识符 |
+| `status` | `layerProgressStatus` | 状态 |
+| `currentBytes` | `int64` | — |
+| `totalBytes` | `int64` | — |
 
 ### layerProgressStatus
 
 **定义位置**：[L39](file:///d:/claude/nomad/drivers/docker/progress.go#L39)
 
-**类型定义**：`int`
+**中文说明**：layerProgressStatus 是一个状态结构体，描述对象或操作的当前状态。
+
+**类型定义**：`type layerProgressStatus int`
 
 ### imageProgress
 
 **定义位置**：[L78](file:///d:/claude/nomad/drivers/docker/progress.go#L78)
 
+**中文说明**：imageProgress 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	sync.RWMutex
+type imageProgress struct {
+	sync.RWMutex sync.RWMutex
 	lastMessage *jsonstream.Message
 	timestamp time.Time
 	layers map[string]*layerProgress
 	pullStart time.Time
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `sync.RWMutex` | `sync.RWMutex` | 读写锁，保护并发访问 |
+| `lastMessage` | `*jsonstream.Message` | — |
+| `timestamp` | `time.Time` | 时间戳 |
+| `layers` | `map[string]*layerProgress` | 映射表 |
+| `pullStart` | `time.Time` | 时间点 |
 
 **关联方法**（4 个）：`get`, `set`, `currentBytes`, `totalBytes`
 
@@ -53,15 +82,18 @@
 
 **定义位置**：[L181](file:///d:/claude/nomad/drivers/docker/progress.go#L181)
 
-**类型定义**：`func(...)`
+**类型定义**：`type progressReporterFunc func(...)`
 
 ### imageProgressManager
 
 **定义位置**：[L188](file:///d:/claude/nomad/drivers/docker/progress.go#L188)
 
+**中文说明**：imageProgressManager 是一个管理器，负责协调和管理相关资源的生命周期。
+
 **类型**：struct
 
 ```go
+type imageProgressManager struct {
 	imageProgress *imageProgress
 	image string
 	activityDeadline time.Duration
@@ -74,7 +106,25 @@
 	cancel context.CancelFunc
 	stopCh chan struct{...}
 	buf bytes.Buffer
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `imageProgress` | `*imageProgress` | — |
+| `image` | `string` | 字符串 |
+| `activityDeadline` | `time.Duration` | 时间间隔 |
+| `inactivityFunc` | `progressReporterFunc` | — |
+| `reportInterval` | `time.Duration` | 时间间隔 |
+| `reporter` | `progressReporterFunc` | — |
+| `slowReportInterval` | `time.Duration` | 时间间隔 |
+| `slowReporter` | `progressReporterFunc` | — |
+| `lastSlowReport` | `time.Time` | 时间点 |
+| `cancel` | `context.CancelFunc` | 取消 |
+| `stopCh` | `chan struct{...}` | 信号通道 |
+| `buf` | `bytes.Buffer` | — |
 
 **关联方法**（3 个）：`start`, `stop`, `Write`
 
@@ -82,32 +132,32 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `dockerImageProgressReportInterval` | `10 * time.Second` |
-| `dockerImageSlowProgressReportInterval` | `2 * time.Minute` |
-| `layerProgressStatusUnknown` | `iota` |
-| `layerProgressStatusStarting` | `` |
-| `layerProgressStatusWaiting` | `` |
-| `layerProgressStatusDownloading` | `` |
-| `layerProgressStatusVerifying` | `` |
-| `layerProgressStatusDownloaded` | `` |
-| `layerProgressStatusExtracting` | `` |
-| `layerProgressStatusComplete` | `` |
-| `layerProgressStatusExists` | `` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `dockerImageProgressReportInterval` | `—` | `10 * time.Second` | — |
+| `dockerImageSlowProgressReportInterval` | `—` | `2 * time.Minute` | — |
+| `layerProgressStatusUnknown` | `layerProgressStatus` | `iota` | — |
+| `layerProgressStatusStarting` | `—` | `` | — |
+| `layerProgressStatusWaiting` | `—` | `` | — |
+| `layerProgressStatusDownloading` | `—` | `` | — |
+| `layerProgressStatusVerifying` | `—` | `` | — |
+| `layerProgressStatusDownloaded` | `—` | `` | — |
+| `layerProgressStatusExtracting` | `—` | `` | — |
+| `layerProgressStatusComplete` | `—` | `` | — |
+| `layerProgressStatusExists` | `—` | `` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `lpsFromString` | - | `status string` | `layerProgressStatus` | [L53](file:///d:/claude/nomad/drivers/docker/progress.go#L53) |
-| `get` | `p *imageProgress` | - | `string, time.Time` | [L87](file:///d:/claude/nomad/drivers/docker/progress.go#L87) |
-| `set` | `p *imageProgress` | `msg *jsonstream.Message` | - | [L130](file:///d:/claude/nomad/drivers/docker/progress.go#L130) |
-| `currentBytes` | `p *imageProgress` | - | `int64` | [L159](file:///d:/claude/nomad/drivers/docker/progress.go#L159) |
-| `totalBytes` | `p *imageProgress` | - | `int64` | [L170](file:///d:/claude/nomad/drivers/docker/progress.go#L170) |
-| `newImageProgressManager` | - | `image string, cancel context.CancelFunc, pullActivityTimeout time.Duration, ...` | `*imageProgressManager` | [L203](file:///d:/claude/nomad/drivers/docker/progress.go#L203) |
-| `start` | `pm *imageProgressManager` | - | - | [L228](file:///d:/claude/nomad/drivers/docker/progress.go#L228) |
-| `stop` | `pm *imageProgressManager` | - | - | [L256](file:///d:/claude/nomad/drivers/docker/progress.go#L256) |
+| `get` | `p *imageProgress` | `` | `string, time.Time` | [L87](file:///d:/claude/nomad/drivers/docker/progress.go#L87) |
+| `set` | `p *imageProgress` | `msg *jsonstream.Message` | `` | [L130](file:///d:/claude/nomad/drivers/docker/progress.go#L130) |
+| `currentBytes` | `p *imageProgress` | `` | `int64` | [L159](file:///d:/claude/nomad/drivers/docker/progress.go#L159) |
+| `totalBytes` | `p *imageProgress` | `` | `int64` | [L170](file:///d:/claude/nomad/drivers/docker/progress.go#L170) |
+| `newImageProgressManager` | - | `image string, cancel context.CancelFunc, pullActivityTimeout time.Duration, i...` | `*imageProgressManager` | [L203](file:///d:/claude/nomad/drivers/docker/progress.go#L203) |
+| `start` | `pm *imageProgressManager` | `` | `` | [L228](file:///d:/claude/nomad/drivers/docker/progress.go#L228) |
+| `stop` | `pm *imageProgressManager` | `` | `` | [L256](file:///d:/claude/nomad/drivers/docker/progress.go#L256) |
 | `Write` | `pm *imageProgressManager` | `p []byte` | `n int, err error` | [L260](file:///d:/claude/nomad/drivers/docker/progress.go#L260) |
 
 ## 5. 核心方法详解
@@ -117,6 +167,19 @@
 **签名**：`func (pm *imageProgressManager) Write(p []byte) n int, err error`
 
 **位置**：[L260](file:///d:/claude/nomad/drivers/docker/progress.go#L260)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `p` | `[]byte` | 字节数组 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `n int` | — |
+| `err error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -147,4 +210,9 @@
 | 文件 | 关系 |
 |------|------|
 | [progress_test.go](file:///d:/claude/nomad/drivers/docker/progress_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

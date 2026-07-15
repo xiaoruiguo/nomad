@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动（`server.go`）、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
+该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
 
 **平台特定实现**：此文件为 **默认/其他平台** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -27,9 +27,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `gracefulStop` | `s *TestServer` | - | `error` | [L14](file:///d:/claude/nomad/testutil/server_default.go#L14) |
+| `gracefulStop` | `s *TestServer` | `` | `error` | [L14](file:///d:/claude/nomad/testutil/server_default.go#L14) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -49,4 +51,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [file.go](file:///d:/claude/nomad/testutil/file.go) | 同目录源文件 |
+| [mock_calls.go](file:///d:/claude/nomad/testutil/mock_calls.go) | 同目录源文件 |
+| [responsewriter.go](file:///d:/claude/nomad/testutil/responsewriter.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/testutil/server.go) | 同目录源文件 |
+| [server_windows.go](file:///d:/claude/nomad/testutil/server_windows.go) | 同目录源文件 |
 

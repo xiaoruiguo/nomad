@@ -20,18 +20,18 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `ExecutorDefaultMaxPort` | `14512` |
-| `ExecutorDefaultMinPort` | `14000` |
-| `MemoryNoLimit` | `-1` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ExecutorDefaultMaxPort` | `—` | `14512` | — |
+| `ExecutorDefaultMinPort` | `—` | `14000` | — |
+| `MemoryNoLimit` | `—` | `-1` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `CreateExecutor` | - | `logger hclog.Logger, driverConfig *base.ClientDriverConfig, executorConfig *...` | `Executor, *plugin.Client, error` | [L33](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L33) |
-| `ReattachToExecutor` | - | `reattachConfig *plugin.ReattachConfig, logger hclog.Logger, compute cpustats...` | `Executor, *plugin.Client, error` | [L84](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L84) |
+| `CreateExecutor` | - | `logger hclog.Logger, driverConfig *base.ClientDriverConfig, executorConfig *E...` | `Executor, *plugin.Client, error` | [L33](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L33) |
+| `ReattachToExecutor` | - | `reattachConfig *plugin.ReattachConfig, logger hclog.Logger, compute cpustats....` | `Executor, *plugin.Client, error` | [L84](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L84) |
 | `newExecutorClient` | - | `config *plugin.ClientConfig, logger hclog.Logger` | `Executor, *plugin.Client, error` | [L102](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L102) |
 | `processStateToProto` | - | `ps *ProcessState` | `*proto.ProcessState, error` | [L120](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L120) |
 | `processStateFromProto` | - | `pb *proto.ProcessState` | `*ProcessState, error` | [L136](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L136) |
@@ -40,6 +40,8 @@
 | `memoryLimits` | - | `memory structs.AllocatedMemoryResources` | `int64, int64` | [L182](file:///d:/claude/nomad/drivers/shared/executor/utils.go#L182) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -74,4 +76,9 @@
 | 文件 | 关系 |
 |------|------|
 | [utils_test.go](file:///d:/claude/nomad/drivers/shared/executor/utils_test.go) | 对应测试文件 |
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

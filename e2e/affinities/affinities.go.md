@@ -18,12 +18,23 @@
 
 **定义位置**：[L17](file:///d:/claude/nomad/e2e/affinities/affinities.go#L17)
 
+**中文说明**：BasicAffinityTest 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type BasicAffinityTest struct {
+	framework.TC framework.TC
 	jobIds []string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `jobIds` | `[]string` | 列表 |
 
 **关联方法**（5 个）：`BeforeAll`, `TestSingleAffinities`, `TestMultipleAffinities`, `TestAntiAffinities`, `AfterEach`
 
@@ -35,14 +46,16 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L22](file:///d:/claude/nomad/e2e/affinities/affinities.go#L22) |
-| `BeforeAll` | `tc *BasicAffinityTest` | `f *framework.F` | - | [L32](file:///d:/claude/nomad/e2e/affinities/affinities.go#L32) |
-| `TestSingleAffinities` | `tc *BasicAffinityTest` | `f *framework.F` | - | [L39](file:///d:/claude/nomad/e2e/affinities/affinities.go#L39) |
-| `TestMultipleAffinities` | `tc *BasicAffinityTest` | `f *framework.F` | - | [L75](file:///d:/claude/nomad/e2e/affinities/affinities.go#L75) |
-| `TestAntiAffinities` | `tc *BasicAffinityTest` | `f *framework.F` | - | [L117](file:///d:/claude/nomad/e2e/affinities/affinities.go#L117) |
-| `AfterEach` | `tc *BasicAffinityTest` | `f *framework.F` | - | [L160](file:///d:/claude/nomad/e2e/affinities/affinities.go#L160) |
+| `init` | - | `` | `` | [L22](file:///d:/claude/nomad/e2e/affinities/affinities.go#L22) |
+| `BeforeAll` | `tc *BasicAffinityTest` | `f *framework.F` | `` | [L32](file:///d:/claude/nomad/e2e/affinities/affinities.go#L32) |
+| `TestSingleAffinities` | `tc *BasicAffinityTest` | `f *framework.F` | `` | [L39](file:///d:/claude/nomad/e2e/affinities/affinities.go#L39) |
+| `TestMultipleAffinities` | `tc *BasicAffinityTest` | `f *framework.F` | `` | [L75](file:///d:/claude/nomad/e2e/affinities/affinities.go#L75) |
+| `TestAntiAffinities` | `tc *BasicAffinityTest` | `f *framework.F` | `` | [L117](file:///d:/claude/nomad/e2e/affinities/affinities.go#L117) |
+| `AfterEach` | `tc *BasicAffinityTest` | `f *framework.F` | `` | [L160](file:///d:/claude/nomad/e2e/affinities/affinities.go#L160) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

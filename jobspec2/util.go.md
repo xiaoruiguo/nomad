@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。支持变量插值、函数调用和 HCL 到 JSON 的转换。
+该文件属于 **Jobspec v2 解析子包**（`jobspec2/`），实现 Nomad 作业规范（jobspec）的 HCL 解析、验证和转换，将用户编写的 HCL 配置转换为内部 API 对象。
 
 ## 2. 类型定义
 
@@ -28,7 +28,11 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -38,4 +42,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [functions.go](file:///d:/claude/nomad/jobspec2/functions.go) | 同目录源文件 |
+| [hcl_conversions.go](file:///d:/claude/nomad/jobspec2/hcl_conversions.go) | 同目录源文件 |
+| [parse.go](file:///d:/claude/nomad/jobspec2/parse.go) | 同目录源文件 |
+| [parse_job.go](file:///d:/claude/nomad/jobspec2/parse_job.go) | 同目录源文件 |
+| [parse_map.go](file:///d:/claude/nomad/jobspec2/parse_map.go) | 同目录源文件 |
 

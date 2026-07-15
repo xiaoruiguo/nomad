@@ -18,15 +18,29 @@
 
 **定义位置**：[L28](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L28)
 
+**中文说明**：Eventer 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type Eventer struct {
 	events chan *drivers.TaskEvent
 	consumers []*eventConsumer
 	consumersLock sync.RWMutex
 	ctx context.Context
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `events` | `chan *drivers.TaskEvent` | 通道 |
+| `consumers` | `[]*eventConsumer` | 列表 |
+| `consumersLock` | `sync.RWMutex` | 互斥锁，保护并发访问 |
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 **关联方法**（6 个）：`eventLoop`, `iterateConsumers`, `gcConsumers`, `newConsumer`, `TaskEvents`, `EmitEvent`
 
@@ -34,34 +48,47 @@
 
 **定义位置**：[L47](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L47)
 
+**中文说明**：eventConsumer 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type eventConsumer struct {
 	timeout time.Duration
 	ctx context.Context
 	ch chan *drivers.TaskEvent
 	logger hclog.Logger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `timeout` | `time.Duration` | 超时时间 |
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `ch` | `chan *drivers.TaskEvent` | 通道 |
+| `logger` | `hclog.Logger` | 日志记录器 |
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `DefaultSendEventTimeout` | `2 * time.Second` |
-| `ConsumerGCInterval` | `time.Minute` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `DefaultSendEventTimeout` | `—` | `2 * time.Second` | — |
+| `ConsumerGCInterval` | `—` | `time.Minute` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `NewEventer` | - | `ctx context.Context, logger hclog.Logger` | `*Eventer` | [L56](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L56) |
-| `eventLoop` | `e *Eventer` | - | - | [L68](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L68) |
-| `iterateConsumers` | `e *Eventer` | `event *drivers.TaskEvent` | - | [L89](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L89) |
-| `gcConsumers` | `e *Eventer` | - | - | [L117](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L117) |
+| `eventLoop` | `e *Eventer` | `` | `` | [L68](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L68) |
+| `iterateConsumers` | `e *Eventer` | `event *drivers.TaskEvent` | `` | [L89](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L89) |
+| `gcConsumers` | `e *Eventer` | `` | `` | [L117](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L117) |
 | `newConsumer` | `e *Eventer` | `ctx context.Context` | `*eventConsumer` | [L132](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L132) |
-| `TaskEvents` | `e *Eventer` | `ctx context.Context` | `chan *drivers.TaskEvent, error` | [L148](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L148) |
+| `TaskEvents` | `e *Eventer` | `ctx context.Context` | `<-chan *drivers.TaskEvent, error` | [L148](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L148) |
 | `EmitEvent` | `e *Eventer` | `event *drivers.TaskEvent` | `error` | [L154](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L154) |
 
 ## 5. 核心方法详解
@@ -71,6 +98,21 @@
 **签名**：`func NewEventer(ctx context.Context, logger hclog.Logger) *Eventer`
 
 **位置**：[L56](file:///d:/claude/nomad/drivers/shared/eventer/eventer.go#L56)
+
+**中文说明**：创建并返回一个新的 Eventer 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Eventer` | — |
 
 ## 6. 依赖关系
 
@@ -92,6 +134,7 @@
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 

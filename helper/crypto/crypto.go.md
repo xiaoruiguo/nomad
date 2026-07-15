@@ -1,6 +1,6 @@
 # crypto.go 代码说明文档
 
-> 文件路径：[crypto/crypto.go](file:///d:/claude/nomad/helper/crypto/crypto.go)
+> 文件路径：[helper/crypto/crypto.go](file:///d:/claude/nomad/helper/crypto/crypto.go)
 > 总行数：28 行
 > 所属包：`crypto`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **加密工具子包**（`helper/crypto`），提供加密和解密工具函数，支持密钥管理和数据加密。
+该文件属于 **加密工具子包**（`helper/crypto`），提供加密、解密和哈希等安全相关的工具函数。
 
 ## 2. 类型定义
 
@@ -27,6 +27,8 @@
 | `Bytes` | - | `length int` | `[]byte, error` | [L17](file:///d:/claude/nomad/helper/crypto/crypto.go#L17) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

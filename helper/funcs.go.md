@@ -1,6 +1,6 @@
 # funcs.go 代码说明文档
 
-> 文件路径：[funcs.go](file:///d:/claude/nomad/helper/funcs.go)
+> 文件路径：[helper/funcs.go](file:///d:/claude/nomad/helper/funcs.go)
 > 总行数：580 行
 > 所属包：`helper`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **通用工具函数集合**，包含 UUID 验证、字符串处理、文件名清理、Map 复制、切片操作、时间格式化等常用辅助函数。是 Nomad 中最常用的工具函数集合。
+该文件属于 **工具包子包**（`helper/helper`），提供 Nomad 使用的通用工具函数和数据结构。
 
 ## 2. 类型定义
 
@@ -18,39 +18,59 @@
 
 **定义位置**：[L44](file:///d:/claude/nomad/helper/funcs.go#L44)
 
+**中文说明**：Copyable 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	Copy
+type Copyable interface {
+	Copy func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `Copy` | `func(...)` | 创建对象的副本。 |
 
 ### StopFunc
 
 **定义位置**：[L362](file:///d:/claude/nomad/helper/funcs.go#L362)
 
-**类型定义**：`func(...)`
+**类型定义**：`type StopFunc func(...)`
 
 ### EqualFunc
 
 **定义位置**：[L461](file:///d:/claude/nomad/helper/funcs.go#L461)
 
+**中文说明**：EqualFunc 是一个接口，定义相关功能的契约规范。
+
 **类型**：interface
 
 ```go
-	Equal
+type EqualFunc interface {
+	Equal func(...)
+}
 ```
+
+#### 接口方法说明表
+
+| 方法名 | 签名 | 中文说明 |
+|--------|------|----------|
+| `Equal` | `func(...)` | — |
 
 ## 3. 常量与变量
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `validUUID` | `regexp.MustCompile(`(?i)^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}...` |
-| `validInterpVarKey` | `regexp.MustCompile(`^[^.]+(\.[^.]+)*$`)` |
-| `invalidFilename` | `regexp.MustCompile(`[/\\<>:"\|?*]`)` |
-| `invalidFilenameNonASCII` | `regexp.MustCompile(`[[:^ascii:]/\\<>:"\|?*]`)` |
-| `invalidFilenameStrict` | `regexp.MustCompile(`[/\\<>:"\|?*$()+=[\];#@~,&']`)` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `validUUID` | `—` | `regexp.MustCompile(`(?i)^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}...` | — |
+| `validInterpVarKey` | `—` | `regexp.MustCompile(`^[^.]+(\.[^.]+)*$`)` | — |
+| `invalidFilename` | `—` | `regexp.MustCompile(`[/\\<>:"\|?*]`)` | — |
+| `invalidFilenameNonASCII` | `—` | `regexp.MustCompile(`[[:^ascii:]/\\<>:"\|?*]`)` | — |
+| `invalidFilenameStrict` | `—` | `regexp.MustCompile(`[/\\<>:"\|?*$()+=[\];#@~,&']`)` | — |
 
 ## 4. 方法与函数
 
@@ -75,17 +95,17 @@
 | `CheckHCLKeys` | - | `node ast.Node, valid []string` | `error` | [L241](file:///d:/claude/nomad/helper/funcs.go#L241) |
 | `UnusedKeys` | - | `obj interface{}` | `error` | [L270](file:///d:/claude/nomad/helper/funcs.go#L270) |
 | `unusedKeysImpl` | - | `path []string, val reflect.Value` | `error` | [L278](file:///d:/claude/nomad/helper/funcs.go#L278) |
-| `RemoveEqualFold` | - | `xs *[]string, search string` | - | [L326](file:///d:/claude/nomad/helper/funcs.go#L326) |
+| `RemoveEqualFold` | - | `xs *[]string, search string` | `` | [L326](file:///d:/claude/nomad/helper/funcs.go#L326) |
 | `CheckNamespaceScope` | - | `provided string, requested []string` | `[]string` | [L344](file:///d:/claude/nomad/helper/funcs.go#L344) |
 | `NewSafeTimer` | - | `duration time.Duration` | `*time.Timer, StopFunc` | [L374](file:///d:/claude/nomad/helper/funcs.go#L374) |
 | `NewSafeTicker` | - | `duration time.Duration` | `*time.Ticker, StopFunc` | [L395](file:///d:/claude/nomad/helper/funcs.go#L395) |
-| `NewStoppedTimer` | - | - | `*time.Timer, StopFunc` | [L414](file:///d:/claude/nomad/helper/funcs.go#L414) |
+| `NewStoppedTimer` | - | `` | `*time.Timer, StopFunc` | [L414](file:///d:/claude/nomad/helper/funcs.go#L414) |
 | `ConvertSlice` | - | `original []A, conversion func(...)` | `[]B` | [L423](file:///d:/claude/nomad/helper/funcs.go#L423) |
 | `ConvertMap` | - | `original map[K]A, conversion func(...)` | `map[K]B` | [L434](file:///d:/claude/nomad/helper/funcs.go#L434) |
 | `IsMethodHTTP` | - | `s string` | `bool` | [L443](file:///d:/claude/nomad/helper/funcs.go#L443) |
 | `ElementsEqual` | - | `a []T, b []T` | `bool` | [L468](file:///d:/claude/nomad/helper/funcs.go#L468) |
 | `SliceSetEq` | - | `a []T, b []T` | `bool` | [L489](file:///d:/claude/nomad/helper/funcs.go#L489) |
-| `WithLock` | - | `lock sync.Locker, f func(...)` | - | [L513](file:///d:/claude/nomad/helper/funcs.go#L513) |
+| `WithLock` | - | `lock sync.Locker, f func(...)` | `` | [L513](file:///d:/claude/nomad/helper/funcs.go#L513) |
 | `Merge` | - | `a T, b T` | `T` | [L521](file:///d:/claude/nomad/helper/funcs.go#L521) |
 | `FlattenMultierror` | - | `err error` | `error` | [L531](file:///d:/claude/nomad/helper/funcs.go#L531) |
 | `FindExecutableFiles` | - | `path string` | `map[string]string, error` | [L548](file:///d:/claude/nomad/helper/funcs.go#L548) |
@@ -99,17 +119,56 @@
 
 **位置**：[L374](file:///d:/claude/nomad/helper/funcs.go#L374)
 
+**中文说明**：创建并返回一个新的 SafeTimer 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `duration` | `time.Duration` | 持续时间 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*time.Timer` | 时间点 |
+| `StopFunc` | — |
+
 ### NewSafeTicker()
 
 **签名**：`func NewSafeTicker(duration time.Duration) *time.Ticker, StopFunc`
 
 **位置**：[L395](file:///d:/claude/nomad/helper/funcs.go#L395)
 
+**中文说明**：创建并返回一个新的 SafeTicker 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `duration` | `time.Duration` | 持续时间 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*time.Ticker` | — |
+| `StopFunc` | — |
+
 ### NewStoppedTimer()
 
 **签名**：`func NewStoppedTimer() *time.Timer, StopFunc`
 
 **位置**：[L414](file:///d:/claude/nomad/helper/funcs.go#L414)
+
+**中文说明**：创建并返回一个新的 StoppedTimer 实例。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*time.Timer` | 时间点 |
+| `StopFunc` | — |
 
 ## 6. 依赖关系
 
@@ -142,10 +201,18 @@
 - **IO 操作**：涉及文件或数据流的读写操作
 - **加密安全**：使用 Go crypto 标准库实现加密、签名或 TLS 通信
 - **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **后台协程**：启动 goroutine 执行后台任务
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [funcs_test.go](file:///d:/claude/nomad/helper/funcs_test.go) | 对应测试文件 |
+| [backoff.go](file:///d:/claude/nomad/helper/backoff.go) | 同目录源文件 |
+| [cluster.go](file:///d:/claude/nomad/helper/cluster.go) | 同目录源文件 |
+| [eof.go](file:///d:/claude/nomad/helper/eof.go) | 同目录源文件 |
+| [file.go](file:///d:/claude/nomad/helper/file.go) | 同目录源文件 |
+| [funcs_unix.go](file:///d:/claude/nomad/helper/funcs_unix.go) | 同目录源文件 |
 

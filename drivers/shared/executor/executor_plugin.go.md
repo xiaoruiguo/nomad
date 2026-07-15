@@ -18,14 +18,27 @@
 
 **定义位置**：[L16](file:///d:/claude/nomad/drivers/shared/executor/executor_plugin.go#L16)
 
+**中文说明**：ExecutorPlugin 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
-	plugin.NetRPCUnsupportedPlugin
+type ExecutorPlugin struct {
+	plugin.NetRPCUnsupportedPlugin plugin.NetRPCUnsupportedPlugin
 	logger hclog.Logger
 	fsIsolation bool
 	compute cpustats.Compute
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `plugin.NetRPCUnsupportedPlugin` | `plugin.NetRPCUnsupportedPlugin` | — |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `fsIsolation` | `bool` | 布尔值 |
+| `compute` | `cpustats.Compute` | — |
 
 **关联方法**（2 个）：`GRPCServer`, `GRPCClient`
 
@@ -41,6 +54,8 @@
 | `GRPCClient` | `p *ExecutorPlugin` | `ctx context.Context, broker *plugin.GRPCBroker, c *grpc.ClientConn` | `interface{}, error` | [L33](file:///d:/claude/nomad/drivers/shared/executor/executor_plugin.go#L33) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -68,4 +83,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

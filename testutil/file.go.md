@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动（`server.go`）、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
+该文件属于 **测试工具子包**（`testutil/`），提供 Nomad 测试的基础设施，包括测试服务器启动、TLS 配置、Vault 集成、HTTP 响应记录器和等待/重试工具，用于单元测试和集成测试。
 
 ## 2. 类型定义
 
@@ -27,6 +27,8 @@
 | `MustReadFile` | - | `t testing.TB, path ...string` | `[]byte` | [L16](file:///d:/claude/nomad/testutil/file.go#L16) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -48,4 +50,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [mock_calls.go](file:///d:/claude/nomad/testutil/mock_calls.go) | 同目录源文件 |
+| [responsewriter.go](file:///d:/claude/nomad/testutil/responsewriter.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/testutil/server.go) | 同目录源文件 |
+| [server_default.go](file:///d:/claude/nomad/testutil/server_default.go) | 同目录源文件 |
+| [server_windows.go](file:///d:/claude/nomad/testutil/server_windows.go) | 同目录源文件 |
 

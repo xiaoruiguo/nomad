@@ -20,18 +20,20 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `NomadPluginLauncherCli` | `"nomad-plugin-launcher"` |
-| `NomadPluginLauncherCliVersion` | `"0.0.1"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `NomadPluginLauncherCli` | `—` | `"nomad-plugin-launcher"` | — |
+| `NomadPluginLauncherCliVersion` | `—` | `"0.0.1"` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `main` | - | - | - | [L19](file:///d:/claude/nomad/plugins/shared/cmd/launcher/main.go#L19) |
+| `main` | - | `` | `` | [L19](file:///d:/claude/nomad/plugins/shared/cmd/launcher/main.go#L19) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

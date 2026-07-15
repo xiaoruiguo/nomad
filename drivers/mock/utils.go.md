@@ -28,6 +28,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -45,4 +47,8 @@
 | 文件 | 关系 |
 |------|------|
 | [utils_test.go](file:///d:/claude/nomad/drivers/mock/utils_test.go) | 对应测试文件 |
+| [command.go](file:///d:/claude/nomad/drivers/mock/command.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/mock/driver.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/mock/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/mock/state.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # state_store_acl_sso.go 代码说明文档
 
-> 文件路径：[state/state_store_acl_sso.go](file:///d:/claude/nomad/nomad/state/state_store_acl_sso.go)
+> 文件路径：[nomad/state/state_store_acl_sso.go](file:///d:/claude/nomad/nomad/state/state_store_acl_sso.go)
 > 总行数：220 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **状态存储子包**（`nomad/state`），实现 Nomad Server 的状态存储（基于 MemDB），管理所有集群状态的内存索引和快照恢复。是 Raft FSM 的数据后端。
+该文件属于 `state` 包，包含 7 个方法/函数。
 
 ## 2. 类型定义
 
@@ -34,23 +34,7 @@
 
 ## 5. 核心方法详解
 
-### GetACLAuthMethods()
-
-**签名**：`func (s *StateStore) GetACLAuthMethods(ws memdb.WatchSet) memdb.ResultIterator, error`
-
-**位置**：[L158](file:///d:/claude/nomad/nomad/state/state_store_acl_sso.go#L158)
-
-### GetACLAuthMethodByName()
-
-**签名**：`func (s *StateStore) GetACLAuthMethodByName(ws memdb.WatchSet, authMethod string) *structs.ACLAuthMethod, error`
-
-**位置**：[L174](file:///d:/claude/nomad/nomad/state/state_store_acl_sso.go#L174)
-
-### GetDefaultACLAuthMethod()
-
-**签名**：`func (s *StateStore) GetDefaultACLAuthMethod(ws memdb.WatchSet) *structs.ACLAuthMethod, error`
-
-**位置**：[L193](file:///d:/claude/nomad/nomad/state/state_store_acl_sso.go#L193)
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -65,7 +49,6 @@
 
 ## 7. 设计模式与技术特点
 
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
 
 ## 8. 相关文件
@@ -73,4 +56,9 @@
 | 文件 | 关系 |
 |------|------|
 | [state_store_acl_sso_test.go](file:///d:/claude/nomad/nomad/state/state_store_acl_sso_test.go) | 对应测试文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/state/autopilot.go) | 同目录源文件 |
+| [events.go](file:///d:/claude/nomad/nomad/state/events.go) | 同目录源文件 |
+| [events_ce.go](file:///d:/claude/nomad/nomad/state/events_ce.go) | 同目录源文件 |
+| [helpers.go](file:///d:/claude/nomad/nomad/state/helpers.go) | 同目录源文件 |
+| [iterator.go](file:///d:/claude/nomad/nomad/state/iterator.go) | 同目录源文件 |
 

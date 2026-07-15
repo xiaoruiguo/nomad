@@ -18,7 +18,9 @@
 
 **定义位置**：[L23](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L23)
 
-**类型定义**：`[]*api.AllocationListStub`
+**中文说明**：AllocsByName 与分配（Allocation）相关，分配是作业在节点上的运行实例。
+
+**类型定义**：`type AllocsByName []*api.AllocationListStub`
 
 **关联方法**（3 个）：`Len`, `Less`, `Swap`
 
@@ -26,24 +28,24 @@
 
 **定义位置**：[L265](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L265)
 
-**类型定义**：`int`
+**类型定义**：`type LogStream int`
 
 ## 3. 常量与变量
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `LogsStdErr` | `iota` |
-| `LogsStdOut` | `` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `LogsStdErr` | `LogStream` | `iota` | — |
+| `LogsStdOut` | `—` | `` | — |
 
 ## 4. 方法与函数
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Len` | `a *AllocsByName` | - | `int` | [L25](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L25) |
+| `Len` | `a *AllocsByName` | `` | `int` | [L25](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L25) |
 | `Less` | `a *AllocsByName` | `i int, j int` | `bool` | [L29](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L29) |
-| `Swap` | `a *AllocsByName` | `i int, j int` | - | [L33](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L33) |
+| `Swap` | `a *AllocsByName` | `i int, j int` | `` | [L33](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L33) |
 | `WaitForAllocStatusExpected` | - | `jobID string, ns string, expected []string` | `error` | [L40](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L40) |
 | `WaitForAllocStatusComparison` | - | `query func(...), comparison func(...), wc *WaitConfig` | `error` | [L55](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L55) |
 | `SingleAllocID` | - | `t *testing.T, jobID string, namespace string, version int` | `string` | [L77](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L77) |
@@ -59,6 +61,8 @@
 | `WaitForAllocFile` | - | `allocID string, path string, test func(...), wc *WaitConfig` | `error` | [L329](file:///d:/claude/nomad/e2e/e2eutil/allocs.go#L329) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -88,4 +92,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/e2e/e2eutil/acl.go) | 同目录源文件 |
+| [cli.go](file:///d:/claude/nomad/e2e/e2eutil/cli.go) | 同目录源文件 |
+| [client.go](file:///d:/claude/nomad/e2e/e2eutil/client.go) | 同目录源文件 |
+| [consul.go](file:///d:/claude/nomad/e2e/e2eutil/consul.go) | 同目录源文件 |
+| [deployments.go](file:///d:/claude/nomad/e2e/e2eutil/deployments.go) | 同目录源文件 |
 

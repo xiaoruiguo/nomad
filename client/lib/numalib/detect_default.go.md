@@ -1,6 +1,6 @@
 # detect_default.go 代码说明文档
 
-> 文件路径：[lib/numalib/detect_default.go](file:///d:/claude/nomad/client/lib/numalib/detect_default.go)
+> 文件路径：[client/lib/numalib/detect_default.go](file:///d:/claude/nomad/client/lib/numalib/detect_default.go)
 > 总行数：23 行
 > 所属包：`numalib`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **NUMA 库子包**（`client/lib/numalib`），处理 NUMA（非统一内存访问）拓扑和 CPU 绑定。
+该文件属于 **客户端库子包**（`client/lib`），提供客户端使用的通用库函数和数据结构。
 
 **平台特定实现**：此文件为 **默认/其他平台** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -20,6 +20,8 @@
 ### Generic
 
 **定义位置**：[L18](file:///d:/claude/nomad/client/lib/numalib/detect_default.go#L18)
+
+**中文说明**：Generic 是一个结构体，封装相关数据和状态。
 
 **类型**：struct
 
@@ -34,11 +36,15 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `PlatformScanners` | - | `_ bool` | `[]SystemScanner` | [L10](file:///d:/claude/nomad/client/lib/numalib/detect_default.go#L10) |
-| `ScanSystem` | `g *Generic` | `top *Topology` | - | [L20](file:///d:/claude/nomad/client/lib/numalib/detect_default.go#L20) |
+| `ScanSystem` | `g *Generic` | `top *Topology` | `` | [L20](file:///d:/claude/nomad/client/lib/numalib/detect_default.go#L20) |
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -48,4 +54,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [detect.go](file:///d:/claude/nomad/client/lib/numalib/detect.go) | 同目录源文件 |
+| [detect_darwin.go](file:///d:/claude/nomad/client/lib/numalib/detect_darwin.go) | 同目录源文件 |
+| [detect_generic.go](file:///d:/claude/nomad/client/lib/numalib/detect_generic.go) | 同目录源文件 |
+| [detect_linux.go](file:///d:/claude/nomad/client/lib/numalib/detect_linux.go) | 同目录源文件 |
+| [detect_noimpl.go](file:///d:/claude/nomad/client/lib/numalib/detect_noimpl.go) | 同目录源文件 |
 

@@ -28,9 +28,11 @@
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
 | `getPortBinding` | - | `ip string, port string` | `nat.PortBinding` | [L12](file:///d:/claude/nomad/drivers/docker/driver_default.go#L12) |
-| `validateImageUser` | - | `imageUser string, taskUser string, taskDriverConfig *TaskConfig, driverConfi...` | `error` | [L16](file:///d:/claude/nomad/drivers/docker/driver_default.go#L16) |
+| `validateImageUser` | - | `imageUser string, taskUser string, taskDriverConfig *TaskConfig, driverConfig...` | `error` | [L16](file:///d:/claude/nomad/drivers/docker/driver_default.go#L16) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -50,4 +52,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_windows.go](file:///d:/claude/nomad/drivers/docker/driver_windows.go) | 同目录源文件 |
 

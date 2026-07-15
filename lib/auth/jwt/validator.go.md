@@ -37,6 +37,23 @@
 
 **位置**：[L22](file:///d:/claude/nomad/lib/auth/jwt/validator.go#L22)
 
+**中文说明**：验证对象的有效性。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `token` | `string` | 令牌，用于认证或标识 |
+| `methodConf` | `*structs.ACLAuthMethodConfig` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `map[string]any` | 映射表 |
+| `error` | 错误信息 |
+
 ## 6. 依赖关系
 
 ### 导入包

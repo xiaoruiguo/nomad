@@ -18,11 +18,21 @@
 
 **定义位置**：[L22](file:///d:/claude/nomad/drivers/shared/executor/grpc_server.go#L22)
 
+**中文说明**：grpcExecutorServer 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type grpcExecutorServer struct {
 	impl Executor
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `impl` | `Executor` | — |
 
 **关联方法**（9 个）：`Launch`, `Wait`, `Shutdown`, `UpdateResources`, `Version`, `Stats`, `Signal`, `Exec`, `ExecStreaming`
 
@@ -52,11 +62,39 @@
 
 **位置**：[L26](file:///d:/claude/nomad/drivers/shared/executor/grpc_server.go#L26)
 
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.LaunchRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.LaunchResponse` | — |
+| `error` | 错误信息 |
+
 ### Wait()
 
 **签名**：`func (s *grpcExecutorServer) Wait(ctx context.Context, req *proto.WaitRequest) *proto.WaitResponse, error`
 
 **位置**：[L64](file:///d:/claude/nomad/drivers/shared/executor/grpc_server.go#L64)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.WaitRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.WaitResponse` | — |
+| `error` | 错误信息 |
 
 ### Shutdown()
 
@@ -64,17 +102,62 @@
 
 **位置**：[L80](file:///d:/claude/nomad/drivers/shared/executor/grpc_server.go#L80)
 
+**中文说明**：关闭对象，释放相关资源。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.ShutdownRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.ShutdownResponse` | — |
+| `error` | 错误信息 |
+
 ### Stats()
 
 **签名**：`func (s *grpcExecutorServer) Stats(req *proto.StatsRequest, stream proto.Executor_StatsServer) error`
 
 **位置**：[L107](file:///d:/claude/nomad/drivers/shared/executor/grpc_server.go#L107)
 
+**中文说明**：返回对象的统计信息。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `req` | `*proto.StatsRequest` | — |
+| `stream` | `proto.Executor_StatsServer` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Signal()
 
 **签名**：`func (s *grpcExecutorServer) Signal(ctx context.Context, req *proto.SignalRequest) *proto.SignalResponse, error`
 
 **位置**：[L146](file:///d:/claude/nomad/drivers/shared/executor/grpc_server.go#L146)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+| `req` | `*proto.SignalRequest` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*proto.SignalResponse` | — |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -105,4 +188,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [exec_utils.go](file:///d:/claude/nomad/drivers/shared/executor/exec_utils.go) | 同目录源文件 |
+| [executor.go](file:///d:/claude/nomad/drivers/shared/executor/executor.go) | 同目录源文件 |
+| [executor_basic.go](file:///d:/claude/nomad/drivers/shared/executor/executor_basic.go) | 同目录源文件 |
+| [executor_linux.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux.go) | 同目录源文件 |
+| [executor_linux_cgo.go](file:///d:/claude/nomad/drivers/shared/executor/executor_linux_cgo.go) | 同目录源文件 |
 

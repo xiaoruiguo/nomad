@@ -1,6 +1,6 @@
 # search_endpoint_ce.go 代码说明文档
 
-> 文件路径：[search_endpoint_ce.go](file:///d:/claude/nomad/nomad/search_endpoint_ce.go)
+> 文件路径：[nomad/search_endpoint_ce.go](file:///d:/claude/nomad/nomad/search_endpoint_ce.go)
 > 总行数：57 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **搜索 RPC 端点**，处理模糊搜索作业、节点、分配等资源的 RPC 请求。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `search_endpoint_ce.go` 提供相关功能实现。
 
 **构建标签**：`!ent`
 
@@ -23,9 +23,9 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `allContexts` | `ossContexts` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `allContexts` | `—` | `ossContexts` | — |
 
 ## 4. 方法与函数
 
@@ -33,11 +33,13 @@
 |------|--------|------|--------|------|
 | `contextToIndex` | - | `ctx structs.Context` | `string` | [L25](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L25) |
 | `getEnterpriseMatch` | - | `match interface{}` | `id string, ok bool` | [L36](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L36) |
-| `getEnterpriseResourceIter` | - | `context structs.Context, _ *acl.ACL, namespace string, prefix string, ws mem...` | `memdb.ResultIterator, error` | [L42](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L42) |
-| `getEnterpriseFuzzyResourceIter` | - | `context structs.Context, _ *acl.ACL, _ string, _ memdb.WatchSet, _ *state.St...` | `memdb.ResultIterator, error` | [L50](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L50) |
+| `getEnterpriseResourceIter` | - | `context structs.Context, _ *acl.ACL, namespace string, prefix string, ws memd...` | `memdb.ResultIterator, error` | [L42](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L42) |
+| `getEnterpriseFuzzyResourceIter` | - | `context structs.Context, _ *acl.ACL, _ string, _ memdb.WatchSet, _ *state.Sta...` | `memdb.ResultIterator, error` | [L50](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L50) |
 | `filteredSearchContextsEnt` | - | `aclObj *acl.ACL, namespace string, context structs.Context` | `bool` | [L54](file:///d:/claude/nomad/nomad/search_endpoint_ce.go#L54) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -53,12 +55,15 @@
 
 ## 7. 设计模式与技术特点
 
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **社区版存根**：为企业版功能提供社区版的空实现，通过 build tag 选择
-- **ACL 集成**：集成访问控制列表，验证请求权限
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

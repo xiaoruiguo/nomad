@@ -1,6 +1,6 @@
 # testing.go 代码说明文档
 
-> 文件路径：[allocrunner/taskrunner/getter/testing.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/testing.go)
+> 文件路径：[client/allocrunner/taskrunner/getter/testing.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/testing.go)
 > 总行数：50 行
 > 所属包：`getter`
 > 版权：Copyright IBM Corp. 2015, 2025
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Artifact 下载子包**（`client/allocrunner/taskrunner/getter`），实现任务 artifact 的下载和校验功能。
+该文件属于 **分配运行器子包**（`client/allocrunner`），管理单个分配（Allocation）的完整生命周期，包括任务启动、停止、监控和状态上报。使用状态机模式驱动分配状态转换。
 
 ## 2. 类型定义
 
@@ -29,6 +29,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -46,10 +48,15 @@
 
 ## 7. 设计模式与技术特点
 
-- **结构化日志**：使用 `hclog` 进行结构化日志记录
+- **IO 操作**：涉及文件或数据流的读写操作
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [error.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/error.go) | 同目录源文件 |
+| [params.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/params.go) | 同目录源文件 |
+| [sandbox.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/sandbox.go) | 同目录源文件 |
+| [util.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/util.go) | 同目录源文件 |
+| [util_default.go](file:///d:/claude/nomad/client/allocrunner/taskrunner/getter/util_default.go) | 同目录源文件 |
 

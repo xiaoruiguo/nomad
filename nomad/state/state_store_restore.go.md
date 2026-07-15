@@ -1,6 +1,6 @@
 # state_store_restore.go 代码说明文档
 
-> 文件路径：[state/state_store_restore.go](file:///d:/claude/nomad/nomad/state/state_store_restore.go)
+> 文件路径：[nomad/state/state_store_restore.go](file:///d:/claude/nomad/nomad/state/state_store_restore.go)
 > 总行数：286 行
 > 所属包：`state`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **状态存储子包**（`nomad/state`），实现 Nomad Server 的状态存储（基于 MemDB），管理所有集群状态的内存索引和快照恢复。是 Raft FSM 的数据后端。
+该文件属于 `state` 包，定义结构体类型、包含 32 个方法/函数。
 
 ## 2. 类型定义
 
@@ -18,11 +18,21 @@
 
 **定义位置**：[L15](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L15)
 
+**中文说明**：StateRestore 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type StateRestore struct {
 	txn *txn
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `txn` | `*txn` | — |
 
 **关联方法**（32 个）：`Abort`, `Commit`, `NodeRestore`, `NodePoolRestore`, `JobRestore`, `EvalRestore`, `AllocRestore`, `IndexRestore`, `PeriodicLaunchRestore`, `JobSummaryRestore`, `JobVersionRestore`, `DeploymentRestore`, `ACLPolicyRestore`, `ACLTokenRestore`, `OneTimeTokenRestore`, `SchedulerConfigRestore`, `ClusterMetadataRestore`, `ScalingPolicyRestore`, `CSIPluginRestore`, `CSIVolumeRestore`, `ScalingEventsRestore`, `NamespaceRestore`, `ServiceRegistrationRestore`, `VariablesRestore`, `VariablesQuotaRestore`, `RootKeyMetaRestore`, `RootKeyRestore`, `ACLRoleRestore`, `ACLAuthMethodRestore`, `ACLBindingRuleRestore`, `JobSubmissionRestore`, `HostVolumeRestore`
 
@@ -34,8 +44,8 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Abort` | `r *StateRestore` | - | - | [L20](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L20) |
-| `Commit` | `r *StateRestore` | - | `error` | [L25](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L25) |
+| `Abort` | `r *StateRestore` | `` | `` | [L20](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L20) |
+| `Commit` | `r *StateRestore` | `` | `error` | [L25](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L25) |
 | `NodeRestore` | `r *StateRestore` | `node *structs.Node` | `error` | [L30](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L30) |
 | `NodePoolRestore` | `r *StateRestore` | `pool *structs.NodePool` | `error` | [L38](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L38) |
 | `JobRestore` | `r *StateRestore` | `job *structs.Job` | `error` | [L46](file:///d:/claude/nomad/nomad/state/state_store_restore.go#L46) |
@@ -69,6 +79,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -87,4 +99,9 @@
 | 文件 | 关系 |
 |------|------|
 | [state_store_restore_test.go](file:///d:/claude/nomad/nomad/state/state_store_restore_test.go) | 对应测试文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/state/autopilot.go) | 同目录源文件 |
+| [events.go](file:///d:/claude/nomad/nomad/state/events.go) | 同目录源文件 |
+| [events_ce.go](file:///d:/claude/nomad/nomad/state/events_ce.go) | 同目录源文件 |
+| [helpers.go](file:///d:/claude/nomad/nomad/state/helpers.go) | 同目录源文件 |
+| [iterator.go](file:///d:/claude/nomad/nomad/state/iterator.go) | 同目录源文件 |
 

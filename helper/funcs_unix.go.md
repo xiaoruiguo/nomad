@@ -1,6 +1,6 @@
 # funcs_unix.go 代码说明文档
 
-> 文件路径：[funcs_unix.go](file:///d:/claude/nomad/helper/funcs_unix.go)
+> 文件路径：[helper/funcs_unix.go](file:///d:/claude/nomad/helper/funcs_unix.go)
 > 总行数：14 行
 > 所属包：`helper`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件提供 **通用工具函数集合**，包含 UUID 验证、字符串处理、文件名清理、Map 复制、切片操作、时间格式化等常用辅助函数。是 Nomad 中最常用的工具函数集合。
+该文件属于 **工具包子包**（`helper/helper`），提供 Nomad 使用的通用工具函数和数据结构。
 
 **平台特定实现**：此文件为 **Unix-like** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -31,6 +31,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -48,4 +50,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [backoff.go](file:///d:/claude/nomad/helper/backoff.go) | 同目录源文件 |
+| [cluster.go](file:///d:/claude/nomad/helper/cluster.go) | 同目录源文件 |
+| [eof.go](file:///d:/claude/nomad/helper/eof.go) | 同目录源文件 |
+| [file.go](file:///d:/claude/nomad/helper/file.go) | 同目录源文件 |
+| [funcs.go](file:///d:/claude/nomad/helper/funcs.go) | 同目录源文件 |
 

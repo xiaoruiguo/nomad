@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。是所有任务驱动（Docker、Java、QEMU 等）的接口契约。
+该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。
 
 **平台特定实现**：此文件为 **Unix-like** 平台专用，通过 build tag 机制在编译时选择。
 
@@ -27,9 +27,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `IsUnixRoot` | - | - | `bool` | [L14](file:///d:/claude/nomad/plugins/drivers/utils/utils_unix.go#L14) |
+| `IsUnixRoot` | - | `` | `bool` | [L14](file:///d:/claude/nomad/plugins/drivers/utils/utils_unix.go#L14) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -47,4 +49,5 @@
 
 | 文件 | 关系 |
 |------|------|
+| [utils_windows.go](file:///d:/claude/nomad/plugins/drivers/utils/utils_windows.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # windows_service_uninstall.go 代码说明文档
 
-> 文件路径：[windows_service_uninstall.go](file:///d:/claude/nomad/command/windows_service_uninstall.go)
+> 文件路径：[command/windows_service_uninstall.go](file:///d:/claude/nomad/command/windows_service_uninstall.go)
 > 总行数：122 行
 > 所属包：`command`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,21 +10,35 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 Nomad CLI 命令 **`windows service uninstall`**，功能简述：
-
-> Uninstall the nomad Windows system service
+该文件属于 **CLI 命令包**（`command/`），实现 `nomad windows_service_uninstall` 命令，通过 Nomad API 客户端与 Server 交互，提供作业管理、节点查询、集群运维等命令行功能。
 
 ## 2. 类型定义
 
 ### WindowsServiceUninstallCommand
 
+**定义位置**：[L14](file:///d:/claude/nomad/command/windows_service_uninstall.go#L14)
+
+**中文说明**：WindowsServiceUninstallCommand 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
-	Meta
+type WindowsServiceUninstallCommand struct {
+	Meta Meta
 	serviceManagerFn func(...)
 	privilegedCheckFn func(...)
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `Meta` | `Meta` | 元数据 |
+| `serviceManagerFn` | `func(...)` | — |
+| `privilegedCheckFn` | `func(...)` | — |
+
+**关联方法**（6 个）：`AutoCompleteFlags`, `Synopsis`, `Name`, `Help`, `Run`, `performUninstall`
 
 ## 3. 常量与变量
 
@@ -34,32 +48,34 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `AutoCompleteFlags` | `c *WindowsServiceUninstallCommand` | - | `complete.Flags` | [L20](file:///d:/claude/nomad/command/windows_service_uninstall.go#L20) |
-| `Synopsis` | `c *WindowsServiceUninstallCommand` | - | `string` | [L24](file:///d:/claude/nomad/command/windows_service_uninstall.go#L24) |
-| `Name` | `c *WindowsServiceUninstallCommand` | - | `string` | [L28](file:///d:/claude/nomad/command/windows_service_uninstall.go#L28) |
-| `Help` | `c *WindowsServiceUninstallCommand` | - | `string` | [L30](file:///d:/claude/nomad/command/windows_service_uninstall.go#L30) |
+| `AutoCompleteFlags` | `c *WindowsServiceUninstallCommand` | `` | `complete.Flags` | [L20](file:///d:/claude/nomad/command/windows_service_uninstall.go#L20) |
+| `Synopsis` | `c *WindowsServiceUninstallCommand` | `` | `string` | [L24](file:///d:/claude/nomad/command/windows_service_uninstall.go#L24) |
+| `Name` | `c *WindowsServiceUninstallCommand` | `` | `string` | [L28](file:///d:/claude/nomad/command/windows_service_uninstall.go#L28) |
+| `Help` | `c *WindowsServiceUninstallCommand` | `` | `string` | [L30](file:///d:/claude/nomad/command/windows_service_uninstall.go#L30) |
 | `Run` | `c *WindowsServiceUninstallCommand` | `args []string` | `int` | [L42](file:///d:/claude/nomad/command/windows_service_uninstall.go#L42) |
 | `performUninstall` | `c *WindowsServiceUninstallCommand` | `m winsvc.WindowsServiceManager` | `error` | [L88](file:///d:/claude/nomad/command/windows_service_uninstall.go#L88) |
 
 ## 5. 核心方法详解
 
-### Synopsis()
-
-**简述**：`Uninstall the nomad Windows system service`
-
-### Name()
-
-**命令名**：`windows service uninstall`
-
-### Help()
-
-**功能**：返回命令的帮助文本，包含用法说明和参数列表。
-
 ### Run()
 
 **签名**：`func (c *WindowsServiceUninstallCommand) Run(args []string) int`
 
-**行为**：执行命令核心逻辑，包括参数解析、API 调用、结果格式化输出。
+**位置**：[L42](file:///d:/claude/nomad/command/windows_service_uninstall.go#L42)
+
+**中文说明**：运行对象的主循环。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `[]string` | 参数 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `int` | — |
 
 ## 6. 依赖关系
 
@@ -72,22 +88,18 @@
 | `github.com/hashicorp/nomad/helper/winsvc` | 内部包 |
 | `github.com/posener/complete` | 第三方库 |
 
-## 7. 设计模式与约定
+## 7. 设计模式与技术特点
 
-该文件遵循 Nomad CLI 命令的标准实现模式：
-
-1. **嵌入 Meta**：命令结构体嵌入 `Meta`，获取 API 客户端、UI 输出、flag 解析等通用能力
-2. **实现 cli.Command 接口**：`Name()`、`Run()`、`Help()`、`Synopsis()` 四个必需方法
-3. **可选自动补全**：实现 `AutocompleteFlags()` / `AutocompleteArgs()` 提供 shell 补全
-4. **Flag 解析**：通过 `m.FlagSet()` 创建 flag 集，支持 `-address`、`-region`、`-namespace` 等通用 flag
+- 遵循 Go 标准代码组织规范，作为 Nomad 项目的一部分
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
-| [meta.go](file:///d:/claude/nomad/command/meta.go) | `Meta` 结构体定义，提供通用 CLI 基础设施 |
-| [helpers.go](file:///d:/claude/nomad/command/helpers.go) | CLI 辅助函数（格式化、Job 解析等） |
-| [../api/api.go](file:///d:/claude/nomad/api/api.go) | Go API 客户端库 |
 | [windows_service_uninstall_test.go](file:///d:/claude/nomad/command/windows_service_uninstall_test.go) | 对应测试文件 |
-| [windows.go](file:///d:/claude/nomad/command/windows.go) | 父命令文件 |
+| [acl.go](file:///d:/claude/nomad/command/acl.go) | 同目录源文件 |
+| [acl_auth_method.go](file:///d:/claude/nomad/command/acl_auth_method.go) | 同目录源文件 |
+| [acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go) | 同目录源文件 |
+| [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
+| [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 

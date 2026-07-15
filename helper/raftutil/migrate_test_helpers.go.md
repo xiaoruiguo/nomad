@@ -1,6 +1,6 @@
 # migrate_test_helpers.go 代码说明文档
 
-> 文件路径：[raftutil/migrate_test_helpers.go](file:///d:/claude/nomad/helper/raftutil/migrate_test_helpers.go)
+> 文件路径：[helper/raftutil/migrate_test_helpers.go](file:///d:/claude/nomad/helper/raftutil/migrate_test_helpers.go)
 > 总行数：65 行
 > 所属包：`raftutil`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **Raft 工具子包**（`helper/raftutil`），提供 Raft 相关的工具函数，包括 FSM 快照管理、日志消息类型定义、状态迁移、快照归档等，用于 Raft 状态的离线检查和恢复。
+该文件属于 **Raft 工具子包**（`helper/raftutil`），提供 Raft 相关的辅助工具，包括传输层实现和存储后端配置。
 
 ## 2. 类型定义
 
@@ -24,10 +24,12 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `newTestBoltStore` | - | `t *testing.T, raftDir string, logs []*raft.Log, stableKVs map[string]string,...` | - | [L19](file:///d:/claude/nomad/helper/raftutil/migrate_test_helpers.go#L19) |
+| `newTestBoltStore` | - | `t *testing.T, raftDir string, logs []*raft.Log, stableKVs map[string]string, ...` | `` | [L19](file:///d:/claude/nomad/helper/raftutil/migrate_test_helpers.go#L19) |
 | `makeLogs` | - | `start uint64, count uint64` | `[]*raft.Log` | [L53](file:///d:/claude/nomad/helper/raftutil/migrate_test_helpers.go#L53) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -49,4 +51,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [fsm.go](file:///d:/claude/nomad/helper/raftutil/fsm.go) | 同目录源文件 |
+| [fsm_ce.go](file:///d:/claude/nomad/helper/raftutil/fsm_ce.go) | 同目录源文件 |
+| [generate.go](file:///d:/claude/nomad/helper/raftutil/generate.go) | 同目录源文件 |
+| [migrate.go](file:///d:/claude/nomad/helper/raftutil/migrate.go) | 同目录源文件 |
+| [msgpack.go](file:///d:/claude/nomad/helper/raftutil/msgpack.go) | 同目录源文件 |
 

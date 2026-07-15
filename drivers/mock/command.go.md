@@ -24,10 +24,12 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `runCommand` | - | `c Command, stdout io.WriteCloser, stderr io.WriteCloser, cancelCh chan struc...` | `*drivers.ExitResult` | [L17](file:///d:/claude/nomad/drivers/mock/command.go#L17) |
-| `runCommandOutput` | - | `writer io.WriteCloser, output string, outputRepeat int, repeatDuration time....` | - | [L67](file:///d:/claude/nomad/drivers/mock/command.go#L67) |
+| `runCommand` | - | `c Command, stdout io.WriteCloser, stderr io.WriteCloser, cancelCh <-chan stru...` | `*drivers.ExitResult` | [L17](file:///d:/claude/nomad/drivers/mock/command.go#L17) |
+| `runCommandOutput` | - | `writer io.WriteCloser, output string, outputRepeat int, repeatDuration time.D...` | `` | [L67](file:///d:/claude/nomad/drivers/mock/command.go#L67) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -55,4 +57,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [driver.go](file:///d:/claude/nomad/drivers/mock/driver.go) | 同目录源文件 |
+| [handle.go](file:///d:/claude/nomad/drivers/mock/handle.go) | 同目录源文件 |
+| [state.go](file:///d:/claude/nomad/drivers/mock/state.go) | 同目录源文件 |
+| [utils.go](file:///d:/claude/nomad/drivers/mock/utils.go) | 同目录源文件 |
 

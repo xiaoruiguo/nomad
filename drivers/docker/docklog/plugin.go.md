@@ -18,12 +18,23 @@
 
 **定义位置**：[L82](file:///d:/claude/nomad/drivers/docker/docklog/plugin.go#L82)
 
+**中文说明**：Plugin 与插件（Plugin）相关，实现可扩展的功能模块。
+
 **类型**：struct
 
 ```go
-	plugin.NetRPCUnsupportedPlugin
+type Plugin struct {
+	plugin.NetRPCUnsupportedPlugin plugin.NetRPCUnsupportedPlugin
 	impl DockerLogger
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `plugin.NetRPCUnsupportedPlugin` | `plugin.NetRPCUnsupportedPlugin` | — |
+| `impl` | `DockerLogger` | 日志记录器 |
 
 **关联方法**（2 个）：`GRPCServer`, `GRPCClient`
 
@@ -31,9 +42,9 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `PluginName` | `"docker_logger"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `PluginName` | `—` | `"docker_logger"` | — |
 
 ## 4. 方法与函数
 
@@ -52,6 +63,20 @@
 **签名**：`func NewPlugin(impl DockerLogger) *Plugin`
 
 **位置**：[L87](file:///d:/claude/nomad/drivers/docker/docklog/plugin.go#L87)
+
+**中文说明**：创建并返回一个新的 Plugin 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `impl` | `DockerLogger` | 日志记录器 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Plugin` | — |
 
 ## 6. 依赖关系
 
@@ -79,9 +104,14 @@
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **任务驱动**：实现 Nomad 任务驱动接口，管理任务的完整生命周期
 - **Docker 集成**：与 Docker Engine API 交互，管理容器生命周期
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/drivers/docker/docklog/client.go) | 同目录源文件 |
+| [docker_logger.go](file:///d:/claude/nomad/drivers/docker/docklog/docker_logger.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/drivers/docker/docklog/server.go) | 同目录源文件 |
+| [z_docker_logger_cmd.go](file:///d:/claude/nomad/drivers/docker/docklog/z_docker_logger_cmd.go) | 同目录源文件 |
 

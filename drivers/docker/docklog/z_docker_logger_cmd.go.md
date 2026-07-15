@@ -24,9 +24,11 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L19](file:///d:/claude/nomad/drivers/docker/docklog/z_docker_logger_cmd.go#L19) |
+| `init` | - | `` | `` | [L19](file:///d:/claude/nomad/drivers/docker/docklog/z_docker_logger_cmd.go#L19) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -51,4 +53,8 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/drivers/docker/docklog/client.go) | 同目录源文件 |
+| [docker_logger.go](file:///d:/claude/nomad/drivers/docker/docklog/docker_logger.go) | 同目录源文件 |
+| [plugin.go](file:///d:/claude/nomad/drivers/docker/docklog/plugin.go) | 同目录源文件 |
+| [server.go](file:///d:/claude/nomad/drivers/docker/docklog/server.go) | 同目录源文件 |
 

@@ -1,6 +1,6 @@
 # job_endpoint.go 代码说明文档
 
-> 文件路径：[job_endpoint.go](file:///d:/claude/nomad/nomad/job_endpoint.go)
+> 文件路径：[nomad/job_endpoint.go](file:///d:/claude/nomad/nomad/job_endpoint.go)
 > 总行数：2434 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件实现 **作业 RPC 端点**，处理作业的 CRUD 操作（注册、查询、停止、调度等），是 Nomad API 的核心端点之一。包含作业验证、钩子链、状态查询等功能。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `job_endpoint.go` 提供相关功能实现。
 
 ## 2. 类型定义
 
@@ -18,15 +18,29 @@
 
 **定义位置**：[L51](file:///d:/claude/nomad/nomad/job_endpoint.go#L51)
 
+**中文说明**：Job 与作业（Job）相关，作业是 Nomad 调度的目标对象。
+
 **类型**：struct
 
 ```go
+type Job struct {
 	srv *Server
 	ctx *RPCContext
 	logger hclog.Logger
 	mutators []jobMutator
 	validators []jobValidator
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `srv` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+| `logger` | `hclog.Logger` | 日志记录器 |
+| `mutators` | `[]jobMutator` | 列表 |
+| `validators` | `[]jobValidator` | 列表 |
 
 **关联方法**（24 个）：`Register`, `doRegister`, `Summary`, `Validate`, `Revert`, `Stable`, `Evaluate`, `Deregister`, `BatchDeregister`, `Scale`, `GetJobSubmission`, `GetJob`, `GetJobVersions`, `List`, `Allocations`, `Evaluations`, `Deployments`, `LatestDeployment`, `GetActions`, `Plan`, `Dispatch`, `ScaleStatus`, `GetServiceRegistrations`, `TagVersion`
 
@@ -34,16 +48,16 @@
 
 ### 常量
 
-| 名称 | 值 |
-|------|----|
-| `DispatchPayloadSizeLimit` | `16 * 1024` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `DispatchPayloadSizeLimit` | `—` | `16 * 1024` | — |
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ErrMultipleNamespaces` | `errors.New("multiple Vault namespaces requires Nomad Ente...` |
-| `allowForceRescheduleTransition` | `&structs.DesiredTransition{...}` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ErrMultipleNamespaces` | `—` | `errors.New("multiple Vault namespaces requires Nomad Ente...` | — |
+| `allowForceRescheduleTransition` | `—` | `&structs.DesiredTransition{...}` | — |
 
 ## 4. 方法与函数
 
@@ -51,7 +65,7 @@
 |------|--------|------|--------|------|
 | `NewJobEndpoints` | - | `s *Server, ctx *RPCContext` | `*Job` | [L62](file:///d:/claude/nomad/nomad/job_endpoint.go#L62) |
 | `Register` | `j *Job` | `args *structs.JobRegisterRequest, reply *structs.JobRegisterResponse` | `error` | [L94](file:///d:/claude/nomad/nomad/job_endpoint.go#L94) |
-| `doRegister` | `j *Job` | `aclObj *acl.ACL, additionalAllowedPermissions []string, args *structs.JobReg...` | `error` | [L116](file:///d:/claude/nomad/nomad/job_endpoint.go#L116) |
+| `doRegister` | `j *Job` | `aclObj *acl.ACL, additionalAllowedPermissions []string, args *structs.JobRegi...` | `error` | [L116](file:///d:/claude/nomad/nomad/job_endpoint.go#L116) |
 | `propagateScalingPolicyIDs` | - | `old *structs.Job, new *structs.Job` | `error` | [L399](file:///d:/claude/nomad/nomad/job_endpoint.go#L399) |
 | `getSignalConstraint` | - | `signals []string` | `*structs.Constraint` | [L424](file:///d:/claude/nomad/nomad/job_endpoint.go#L424) |
 | `Summary` | `j *Job` | `args *structs.JobSummaryRequest, reply *structs.JobSummaryResponse` | `error` | [L434](file:///d:/claude/nomad/nomad/job_endpoint.go#L434) |
@@ -60,7 +74,7 @@
 | `Stable` | `j *Job` | `args *structs.JobStabilityRequest, reply *structs.JobStabilityResponse` | `error` | [L624](file:///d:/claude/nomad/nomad/job_endpoint.go#L624) |
 | `Evaluate` | `j *Job` | `args *structs.JobEvaluateRequest, reply *structs.JobRegisterResponse` | `error` | [L678](file:///d:/claude/nomad/nomad/job_endpoint.go#L678) |
 | `Deregister` | `j *Job` | `args *structs.JobDeregisterRequest, reply *structs.JobDeregisterResponse` | `error` | [L782](file:///d:/claude/nomad/nomad/job_endpoint.go#L782) |
-| `BatchDeregister` | `j *Job` | `args *structs.JobBatchDeregisterRequest, reply *structs.JobBatchDeregisterRe...` | `error` | [L891](file:///d:/claude/nomad/nomad/job_endpoint.go#L891) |
+| `BatchDeregister` | `j *Job` | `args *structs.JobBatchDeregisterRequest, reply *structs.JobBatchDeregisterRes...` | `error` | [L891](file:///d:/claude/nomad/nomad/job_endpoint.go#L891) |
 | `Scale` | `j *Job` | `args *structs.JobScaleRequest, reply *structs.JobRegisterResponse` | `error` | [L932](file:///d:/claude/nomad/nomad/job_endpoint.go#L932) |
 | `GetJobSubmission` | `j *Job` | `args *structs.JobSubmissionRequest, reply *structs.JobSubmissionResponse` | `error` | [L1141](file:///d:/claude/nomad/nomad/job_endpoint.go#L1141) |
 | `GetJob` | `j *Job` | `args *structs.JobSpecificRequest, reply *structs.SingleJobResponse` | `error` | [L1188](file:///d:/claude/nomad/nomad/job_endpoint.go#L1188) |
@@ -78,10 +92,31 @@
 | `Dispatch` | `j *Job` | `args *structs.JobDispatchRequest, reply *structs.JobDispatchResponse` | `error` | [L1985](file:///d:/claude/nomad/nomad/job_endpoint.go#L1985) |
 | `validateDispatchRequest` | - | `req *structs.JobDispatchRequest, job *structs.Job, config *Config` | `error` | [L2133](file:///d:/claude/nomad/nomad/job_endpoint.go#L2133) |
 | `ScaleStatus` | `j *Job` | `args *structs.JobScaleStatusRequest, reply *structs.JobScaleStatusResponse` | `error` | [L2203](file:///d:/claude/nomad/nomad/job_endpoint.go#L2203) |
-| `GetServiceRegistrations` | `j *Job` | `args *structs.JobServiceRegistrationsRequest, reply *structs.JobServiceRegis...` | `error` | [L2327](file:///d:/claude/nomad/nomad/job_endpoint.go#L2327) |
+| `GetServiceRegistrations` | `j *Job` | `args *structs.JobServiceRegistrationsRequest, reply *structs.JobServiceRegist...` | `error` | [L2327](file:///d:/claude/nomad/nomad/job_endpoint.go#L2327) |
 | `TagVersion` | `j *Job` | `args *structs.JobApplyTagRequest, reply *structs.JobTagResponse` | `error` | [L2390](file:///d:/claude/nomad/nomad/job_endpoint.go#L2390) |
 
 ## 5. 核心方法详解
+
+### NewJobEndpoints()
+
+**签名**：`func NewJobEndpoints(s *Server, ctx *RPCContext) *Job`
+
+**位置**：[L62](file:///d:/claude/nomad/nomad/job_endpoint.go#L62)
+
+**中文说明**：创建并返回一个新的 JobEndpoints 实例。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `s` | `*Server` | 关联的 Server 实例 |
+| `ctx` | `*RPCContext` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `*Job` | — |
 
 ### Register()
 
@@ -89,11 +124,20 @@
 
 **位置**：[L94](file:///d:/claude/nomad/nomad/job_endpoint.go#L94)
 
-### Summary()
+**中文说明**：注册对象。
 
-**签名**：`func (j *Job) Summary(args *structs.JobSummaryRequest, reply *structs.JobSummaryResponse) error`
+**参数说明**：
 
-**位置**：[L434](file:///d:/claude/nomad/nomad/job_endpoint.go#L434)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobRegisterRequest` | 参数 |
+| `reply` | `*structs.JobRegisterResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ### Validate()
 
@@ -101,17 +145,20 @@
 
 **位置**：[L487](file:///d:/claude/nomad/nomad/job_endpoint.go#L487)
 
-### Revert()
+**中文说明**：验证对象的有效性。
 
-**签名**：`func (j *Job) Revert(args *structs.JobRevertRequest, reply *structs.JobRegisterResponse) error`
+**参数说明**：
 
-**位置**：[L539](file:///d:/claude/nomad/nomad/job_endpoint.go#L539)
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobValidateRequest` | 参数 |
+| `reply` | `*structs.JobValidateResponse` | — |
 
-### Stable()
+**返回值**：
 
-**签名**：`func (j *Job) Stable(args *structs.JobStabilityRequest, reply *structs.JobStabilityResponse) error`
-
-**位置**：[L624](file:///d:/claude/nomad/nomad/job_endpoint.go#L624)
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ### Evaluate()
 
@@ -119,17 +166,119 @@
 
 **位置**：[L678](file:///d:/claude/nomad/nomad/job_endpoint.go#L678)
 
+**中文说明**：评估 用于 强制 job 用于 re-评估
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobEvaluateRequest` | 参数 |
+| `reply` | `*structs.JobRegisterResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Deregister()
 
 **签名**：`func (j *Job) Deregister(args *structs.JobDeregisterRequest, reply *structs.JobDeregisterResponse) error`
 
 **位置**：[L782](file:///d:/claude/nomad/nomad/job_endpoint.go#L782)
 
+**中文说明**：注销 用于 移除 job 集群.
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobDeregisterRequest` | 参数 |
+| `reply` | `*structs.JobDeregisterResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ### Scale()
 
 **签名**：`func (j *Job) Scale(args *structs.JobScaleRequest, reply *structs.JobRegisterResponse) error`
 
 **位置**：[L932](file:///d:/claude/nomad/nomad/job_endpoint.go#L932)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobScaleRequest` | 参数 |
+| `reply` | `*structs.JobRegisterResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
+### List()
+
+**签名**：`func (j *Job) List(args *structs.JobListRequest, reply *structs.JobListResponse) error`
+
+**位置**：[L1400](file:///d:/claude/nomad/nomad/job_endpoint.go#L1400)
+
+**中文说明**：列出所有对象。
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobListRequest` | 参数 |
+| `reply` | `*structs.JobListResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
+### Plan()
+
+**签名**：`func (j *Job) Plan(args *structs.JobPlanRequest, reply *structs.JobPlanResponse) error`
+
+**位置**：[L1765](file:///d:/claude/nomad/nomad/job_endpoint.go#L1765)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobPlanRequest` | 参数 |
+| `reply` | `*structs.JobPlanResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
+### Dispatch()
+
+**签名**：`func (j *Job) Dispatch(args *structs.JobDispatchRequest, reply *structs.JobDispatchResponse) error`
+
+**位置**：[L1985](file:///d:/claude/nomad/nomad/job_endpoint.go#L1985)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `args` | `*structs.JobDispatchRequest` | 参数 |
+| `reply` | `*structs.JobDispatchResponse` | — |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -162,17 +311,21 @@
 
 ## 7. 设计模式与技术特点
 
-- **组合模式**：结构体嵌入 Server 引用，通过组合获取 Server 上下文
-- **RPC 端点模式**：定义 RPC 端点结构体，将 Server 引用注入端点，处理特定资源的 RPC 请求
-- **内存数据库**：使用 MemDB 实现内存索引，支持事务和多版本并发控制（MVCC）
 - **错误返回**：函数普遍返回 `error` 类型，遵循 Go 错误处理惯例
+- **HCL 解析**：使用 HCL（HashiCorp 配置语言）进行配置解析
 - **结构化日志**：使用 `hclog` 进行结构化日志记录
 - **指标收集**：使用 `go-metrics` 收集运行时指标
-- **ACL 集成**：集成访问控制列表，验证请求权限
+- **HTTP 服务**：提供 HTTP API 端点或客户端
+- **工厂模式**：提供 `New*` 构造函数创建对象实例
 
 ## 8. 相关文件
 
 | 文件 | 关系 |
 |------|------|
 | [job_endpoint_test.go](file:///d:/claude/nomad/nomad/job_endpoint_test.go) | 对应测试文件 |
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

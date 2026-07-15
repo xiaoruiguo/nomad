@@ -31,6 +31,8 @@
 
 ## 5. 核心方法详解
 
+该文件无导出的核心方法。
+
 ## 6. 依赖关系
 
 ### 导入包
@@ -49,4 +51,7 @@
 
 | 文件 | 关系 |
 |------|------|
+| [defaults.go](file:///d:/claude/nomad/drivers/shared/capabilities/defaults.go) | 同目录源文件 |
+| [defaults_default.go](file:///d:/claude/nomad/drivers/shared/capabilities/defaults_default.go) | 同目录源文件 |
+| [set.go](file:///d:/claude/nomad/drivers/shared/capabilities/set.go) | 同目录源文件 |
 

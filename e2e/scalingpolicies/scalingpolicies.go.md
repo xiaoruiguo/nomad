@@ -18,13 +18,25 @@
 
 **定义位置**：[L16](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L16)
 
+**中文说明**：ScalingPolicyE2ETest 与策略（Policy）相关，定义权限规则。
+
 **类型**：struct
 
 ```go
-	framework.TC
+type ScalingPolicyE2ETest struct {
+	framework.TC framework.TC
 	namespaceIDs []string
-	namespacedJobIDs [][]string
+	namespacedJobIDs [][2]string
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `framework.TC` | `framework.TC` | — |
+| `namespaceIDs` | `[]string` | 列表 |
+| `namespacedJobIDs` | `[][2]string` | 列表 |
 
 **关联方法**（4 个）：`BeforeAll`, `AfterEach`, `TestScalingPolicies`, `run`
 
@@ -36,13 +48,15 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `init` | - | - | - | [L22](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L22) |
-| `BeforeAll` | `tc *ScalingPolicyE2ETest` | `f *framework.F` | - | [L33](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L33) |
-| `AfterEach` | `tc *ScalingPolicyE2ETest` | `f *framework.F` | - | [L38](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L38) |
-| `TestScalingPolicies` | `tc *ScalingPolicyE2ETest` | `f *framework.F` | - | [L62](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L62) |
+| `init` | - | `` | `` | [L22](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L22) |
+| `BeforeAll` | `tc *ScalingPolicyE2ETest` | `f *framework.F` | `` | [L33](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L33) |
+| `AfterEach` | `tc *ScalingPolicyE2ETest` | `f *framework.F` | `` | [L38](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L38) |
+| `TestScalingPolicies` | `tc *ScalingPolicyE2ETest` | `f *framework.F` | `` | [L62](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L62) |
 | `run` | `tc *ScalingPolicyE2ETest` | `f *framework.F, jobSpec string, ns string, expected []string` | `string` | [L185](file:///d:/claude/nomad/e2e/scalingpolicies/scalingpolicies.go#L185) |
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 

@@ -1,6 +1,6 @@
 # license_config_ce.go 代码说明文档
 
-> 文件路径：[license_config_ce.go](file:///d:/claude/nomad/nomad/license_config_ce.go)
+> 文件路径：[nomad/license_config_ce.go](file:///d:/claude/nomad/nomad/license_config_ce.go)
 > 总行数：11 行
 > 所属包：`nomad`
 > 版权：Copyright IBM Corp. 2015, 2026
@@ -11,7 +11,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件定义 **许可证配置**，管理 Nomad 企业版的许可证配置（社区版存根）。
+该文件属于 **Nomad 核心包**（`nomad/`），实现 Server/Client 核心功能，包括 Raft 共识、状态管理、调度系统、RPC 处理等。当前文件 `license_config_ce.go` 提供相关功能实现。
 
 **构建标签**：`!ent`
 
@@ -27,7 +27,7 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Validate` | `c *LicenseConfig` | - | `error` | [L8](file:///d:/claude/nomad/nomad/license_config_ce.go#L8) |
+| `Validate` | `c *LicenseConfig` | `` | `error` | [L8](file:///d:/claude/nomad/nomad/license_config_ce.go#L8) |
 
 ## 5. 核心方法详解
 
@@ -37,7 +37,17 @@
 
 **位置**：[L8](file:///d:/claude/nomad/nomad/license_config_ce.go#L8)
 
+**中文说明**：验证对象的有效性。
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `error` | 错误信息 |
+
 ## 6. 依赖关系
+
+该文件无导入包。
 
 ## 7. 设计模式与技术特点
 
@@ -47,4 +57,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [acl.go](file:///d:/claude/nomad/nomad/acl.go) | 同目录源文件 |
+| [acl_endpoint.go](file:///d:/claude/nomad/nomad/acl_endpoint.go) | 同目录源文件 |
+| [alloc_endpoint.go](file:///d:/claude/nomad/nomad/alloc_endpoint.go) | 同目录源文件 |
+| [autopilot.go](file:///d:/claude/nomad/nomad/autopilot.go) | 同目录源文件 |
+| [autopilot_ce.go](file:///d:/claude/nomad/nomad/autopilot_ce.go) | 同目录源文件 |
 

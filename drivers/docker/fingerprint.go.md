@@ -24,22 +24,35 @@
 
 | 方法 | 接收者 | 参数 | 返回值 | 行号 |
 |------|--------|------|--------|------|
-| `Fingerprint` | `d *Driver` | `ctx context.Context` | `chan *drivers.Fingerprint, error` | [L20](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L20) |
-| `previouslyDetected` | `d *Driver` | - | `bool` | [L30](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L30) |
-| `setDetected` | `d *Driver` | `detected bool` | - | [L37](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L37) |
-| `setFingerprintSuccess` | `d *Driver` | - | - | [L45](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L45) |
-| `setFingerprintFailure` | `d *Driver` | - | - | [L52](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L52) |
-| `fingerprintSuccessful` | `d *Driver` | - | `bool` | [L60](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L60) |
-| `handleFingerprint` | `d *Driver` | `ctx context.Context, ch chan *drivers.Fingerprint` | - | [L66](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L66) |
-| `buildFingerprint` | `d *Driver` | - | `*drivers.Fingerprint` | [L85](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L85) |
+| `Fingerprint` | `d *Driver` | `ctx context.Context` | `<-chan *drivers.Fingerprint, error` | [L20](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L20) |
+| `previouslyDetected` | `d *Driver` | `` | `bool` | [L30](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L30) |
+| `setDetected` | `d *Driver` | `detected bool` | `` | [L37](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L37) |
+| `setFingerprintSuccess` | `d *Driver` | `` | `` | [L45](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L45) |
+| `setFingerprintFailure` | `d *Driver` | `` | `` | [L52](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L52) |
+| `fingerprintSuccessful` | `d *Driver` | `` | `bool` | [L60](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L60) |
+| `handleFingerprint` | `d *Driver` | `ctx context.Context, ch chan *drivers.Fingerprint` | `` | [L66](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L66) |
+| `buildFingerprint` | `d *Driver` | `` | `*drivers.Fingerprint` | [L85](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L85) |
 
 ## 5. 核心方法详解
 
 ### Fingerprint()
 
-**签名**：`func (d *Driver) Fingerprint(ctx context.Context) chan *drivers.Fingerprint, error`
+**签名**：`func (d *Driver) Fingerprint(ctx context.Context) <-chan *drivers.Fingerprint, error`
 
 **位置**：[L20](file:///d:/claude/nomad/drivers/docker/fingerprint.go#L20)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `ctx` | `context.Context` | 上下文，用于控制请求的生命周期 |
+
+**返回值**：
+
+| 类型 | 说明 |
+|------|------|
+| `<-chan *drivers.Fingerprint` | 通道 |
+| `error` | 错误信息 |
 
 ## 6. 依赖关系
 
@@ -68,4 +81,9 @@
 | 文件 | 关系 |
 |------|------|
 | [fingerprint_test.go](file:///d:/claude/nomad/drivers/docker/fingerprint_test.go) | 对应测试文件 |
+| [config.go](file:///d:/claude/nomad/drivers/docker/config.go) | 同目录源文件 |
+| [coordinator.go](file:///d:/claude/nomad/drivers/docker/coordinator.go) | 同目录源文件 |
+| [cpuset.go](file:///d:/claude/nomad/drivers/docker/cpuset.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/drivers/docker/driver.go) | 同目录源文件 |
+| [driver_default.go](file:///d:/claude/nomad/drivers/docker/driver_default.go) | 同目录源文件 |
 

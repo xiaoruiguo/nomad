@@ -18,15 +18,29 @@
 
 **定义位置**：[L18](file:///d:/claude/nomad/e2e/framework/context.go#L18)
 
+**中文说明**：F 是一个结构体，封装相关数据和状态。
+
 **类型**：struct
 
 ```go
+type F struct {
 	id string
-	*require.Assertions
+	*require.Assertions *require.Assertions
 	assert *assert.Assertions
 	t *testing.T
 	data map[interface{}]interface{}
+}
 ```
+
+#### 字段说明表
+
+| 字段名 | 类型 | 中文说明 |
+|--------|------|----------|
+| `id` | `string` | 唯一标识符 |
+| `*require.Assertions` | `*require.Assertions` | — |
+| `assert` | `*assert.Assertions` | — |
+| `t` | `*testing.T` | — |
+| `data` | `map[interface{}]interface{}` | 数据 |
 
 **关联方法**（5 个）：`Assert`, `T`, `ID`, `Set`, `Value`
 
@@ -41,13 +55,26 @@
 | `newF` | - | `t *testing.T` | `*F` | [L27](file:///d:/claude/nomad/e2e/framework/context.go#L27) |
 | `newFFromParent` | - | `f *F, t *testing.T` | `*F` | [L31](file:///d:/claude/nomad/e2e/framework/context.go#L31) |
 | `newFWithID` | - | `id string, t *testing.T` | `*F` | [L39](file:///d:/claude/nomad/e2e/framework/context.go#L39) |
-| `Assert` | `f *F` | - | `*assert.Assertions` | [L54](file:///d:/claude/nomad/e2e/framework/context.go#L54) |
-| `T` | `f *F` | - | `*testing.T` | [L59](file:///d:/claude/nomad/e2e/framework/context.go#L59) |
-| `ID` | `f *F` | - | `string` | [L64](file:///d:/claude/nomad/e2e/framework/context.go#L64) |
-| `Set` | `f *F` | `key interface{}, val interface{}` | - | [L69](file:///d:/claude/nomad/e2e/framework/context.go#L69) |
+| `Assert` | `f *F` | `` | `*assert.Assertions` | [L54](file:///d:/claude/nomad/e2e/framework/context.go#L54) |
+| `T` | `f *F` | `` | `*testing.T` | [L59](file:///d:/claude/nomad/e2e/framework/context.go#L59) |
+| `ID` | `f *F` | `` | `string` | [L64](file:///d:/claude/nomad/e2e/framework/context.go#L64) |
+| `Set` | `f *F` | `key interface{}, val interface{}` | `` | [L69](file:///d:/claude/nomad/e2e/framework/context.go#L69) |
 | `Value` | `f *F` | `key interface{}` | `interface{}` | [L74](file:///d:/claude/nomad/e2e/framework/context.go#L74) |
 
 ## 5. 核心方法详解
+
+### Set()
+
+**签名**：`func (f *F) Set(key interface{}, val interface{}) `
+
+**位置**：[L69](file:///d:/claude/nomad/e2e/framework/context.go#L69)
+
+**参数说明**：
+
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `key` | `interface{}` | 键 |
+| `val` | `interface{}` | 接口类型，可持有任意值 |
 
 ## 6. 依赖关系
 
@@ -68,4 +95,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [case.go](file:///d:/claude/nomad/e2e/framework/case.go) | 同目录源文件 |
+| [doc.go](file:///d:/claude/nomad/e2e/framework/doc.go) | 同目录源文件 |
+| [framework.go](file:///d:/claude/nomad/e2e/framework/framework.go) | 同目录源文件 |
+| [interfaces.go](file:///d:/claude/nomad/e2e/framework/interfaces.go) | 同目录源文件 |
+| [provisioner.go](file:///d:/claude/nomad/e2e/framework/provisioner.go) | 同目录源文件 |
 

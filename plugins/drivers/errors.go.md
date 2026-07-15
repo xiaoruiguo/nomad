@@ -10,7 +10,7 @@
 
 ## 1. 文件定位与核心职责
 
-该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。是所有任务驱动（Docker、Java、QEMU 等）的接口契约。
+该文件属于 **驱动插件接口子包**（`plugins/drivers`），定义任务驱动插件的接口规范，包括任务生命周期管理（Fingerprint、Launch、Stop、Destroy、Signal）、统计信息收集、能力声明和 gRPC 通信协议。
 
 ## 2. 类型定义
 
@@ -20,19 +20,21 @@
 
 ### 变量
 
-| 名称 | 值 |
-|------|----|
-| `ErrTaskNotFound` | `errors.New("task not found for given id")` |
-| `ErrChannelClosed` | `errors.New("channel closed")` |
-| `DriverRequiresRootMessage` | `"Driver must run as root"` |
-| `NoCgroupMountMessage` | `"Failed to discover cgroup mount point"` |
-| `CgroupMountEmpty` | `"Cgroup mount point unavailable"` |
+| 名称 | 类型 | 值 | 中文说明 |
+|------|------|----|----------|
+| `ErrTaskNotFound` | `—` | `errors.New("task not found for given id")` | — |
+| `ErrChannelClosed` | `—` | `errors.New("channel closed")` | — |
+| `DriverRequiresRootMessage` | `—` | `"Driver must run as root"` | — |
+| `NoCgroupMountMessage` | `—` | `"Failed to discover cgroup mount point"` | — |
+| `CgroupMountEmpty` | `—` | `"Cgroup mount point unavailable"` | — |
 
 ## 4. 方法与函数
 
 该文件未定义方法。
 
 ## 5. 核心方法详解
+
+该文件无导出的核心方法。
 
 ## 6. 依赖关系
 
@@ -50,4 +52,9 @@
 
 | 文件 | 关系 |
 |------|------|
+| [client.go](file:///d:/claude/nomad/plugins/drivers/client.go) | 同目录源文件 |
+| [cstructs.go](file:///d:/claude/nomad/plugins/drivers/cstructs.go) | 同目录源文件 |
+| [driver.go](file:///d:/claude/nomad/plugins/drivers/driver.go) | 同目录源文件 |
+| [execstreaming.go](file:///d:/claude/nomad/plugins/drivers/execstreaming.go) | 同目录源文件 |
+| [mock.go](file:///d:/claude/nomad/plugins/drivers/mock.go) | 同目录源文件 |
 
