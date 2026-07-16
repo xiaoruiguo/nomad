@@ -16,6 +16,7 @@ const (
 	SubCommand = "artifact-isolation"
 )
 
+// GetterCmd is the entry point for the artifact isolation subprocess.
 func init() {
 	subproc.Do(SubCommand, func() int {
 		l := log.New(&log.LoggerOptions{
