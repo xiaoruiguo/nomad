@@ -3,4 +3,6 @@
 # SPDX-License-Identifier: BUSL-1.1
 
 
-cd /opt/gopath/src/github.com/hashicorp/nomad && make bootstrap
+# cd /opt/gopath/src/github.com/hashicorp/nomad && make bootstrap
+cd /opt/gopath/src/github.com/hashicorp/nomad 
+#&& make bootstrap

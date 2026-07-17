@@ -1,13 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-#
+# ubuntu/jammy64
+# bento/ubuntu-18.04
 
-LINUX_BASE_BOX = "bento/ubuntu-18.04"
+LINUX_BASE_BOX = "ubuntu/jammy64"
 FREEBSD_BASE_BOX = "freebsd/FreeBSD-11.3-STABLE"
 
 LINUX_IP_ADDRESS = "192.168.56.200"
 
 Vagrant.configure(2) do |config|
+	config.vm.boot_timeout = 600
 	# Compilation and development boxes
 	config.vm.define "linux", autostart: true, primary: true do |vmCfg|
 		vmCfg.vm.box = LINUX_BASE_BOX
