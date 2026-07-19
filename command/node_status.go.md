@@ -173,3 +173,126 @@ type NodeStatusCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[node_status.go](file:///d:/claude/nomad/command/node_status.go)
+> Run 函数数量：1
+
+### 1. *NodeStatusCommand.Run
+
+**定义位置**：[L158-L387](file:///d:/claude/nomad/command/node_status.go#L158-L387)
+
+**函数签名**：
+
+```go
+func (*NodeStatusCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 13 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 3 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L162 | `short` | 命令行参数 |
+| L163 | `os` | 命令行参数 |
+| L164 | `quiet` | 命令行参数 |
+| L165 | `verbose` | 命令行参数 |
+| L166 | `allocs` | 命令行参数 |
+| L167 | `self` | 命令行参数 |
+| L168 | `stats` | 命令行参数 |
+| L169 | `json` | 命令行参数 |
+| L170 | `t` | 命令行参数 |
+| L171 | `filter` | 命令行参数 |
+| L172 | `per-page` | 命令行参数 |
+| L173 | `page-token` | 命令行参数 |
+| L174 | `ui` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L160 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L160 | `c.Name` | 业务调用 |
+| L161 | `c.Help` | 业务调用 |
+| L195 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L223 | `client.Nodes().List` | 调用 Nodes API |
+| L223 | `client.Nodes` | 业务调用 |
+| L233 | `err.Error` | 输出错误信息 |
+| L301 | `getRunningAllocs` | 业务调用 |
+| L321 | `c.Meta.showUIPath` | 业务调用 |
+| L322 | `c.Name` | 业务调用 |
+| L339 | `err.Error` | 输出错误信息 |
+| L349 | `client.Nodes().PrefixList` | 调用 Nodes API |
+| L349 | `client.Nodes` | 业务调用 |
+| L367 | `client.Nodes().Info` | 调用 Nodes API |
+| L367 | `client.Nodes` | 业务调用 |
+| L377 | `err.Error` | 输出错误信息 |
+| L385 | `c.formatNode` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Nodes API.List`
+- `Nodes API.PrefixList`
+- `Nodes API.Info`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L177 | `return 1` | 错误退出 |
+| L185 | `return 1` | 错误退出 |
+| L198 | `return 1` | 错误退出 |
+| L205 | `return 1` | 错误退出 |
+| L226 | `return 1` | 错误退出 |
+| L234 | `return 1` | 错误退出 |
+| L238 | `return 0` | 成功退出 |
+| L244 | `return 0` | 成功退出 |
+| L262 | `return 0` | 成功退出 |
+| L304 | `return 1` | 错误退出 |
+| L329 | `return 0` | 成功退出 |
+| L340 | `return 1` | 错误退出 |
+| L345 | `return 1` | 错误退出 |
+| L352 | `return 1` | 错误退出 |
+| L357 | `return 1` | 错误退出 |
+| L363 | `return 1` | 错误退出 |
+| L370 | `return 1` | 错误退出 |
+| L378 | `return 1` | 错误退出 |
+| L382 | `return 0` | 成功退出 |
+| L385 | `return c.formatNode(client, node)` | 返回值 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L180 | Check that we got either a single node or none |
+| L188 | Truncate the id unless full length is requested |
+| L194 | Get the HTTP client |
+| L201 | Use list mode if no node name was provided |
+| L208 | Set up the options to capture any filter passed and pagination |
+| L209 | details. |
+| L216 | If the user requested showing the node OS, include this within the |
+| L217 | query params. |
+| L222 | Query the node info |
+| L229 | If output format is specified, format and output the node data list |
+| L241 | Return nothing if no nodes found |
+| L254 | Format the nodes list |
+| L311 | Dump the output |
+| L332 | Query the specific node |
+| L354 | Return error if no nodes are found |
+| L360 | Dump the output |
+| L366 | Prefix lookup matched a single node |
+| L373 | If output format is specified, format and output the data |
+

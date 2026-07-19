@@ -103,3 +103,76 @@ type ACLRoleDeleteCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[acl_role_delete.go](file:///d:/claude/nomad/command/acl_role_delete.go)
+> Run 函数数量：1
+
+### 1. *ACLRoleDeleteCommand.Run
+
+**定义位置**：[L53-L88](file:///d:/claude/nomad/command/acl_role_delete.go#L53-L88)
+
+**函数签名**：
+
+```go
+func (*ACLRoleDeleteCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L55 | `a.Meta.FlagSet` | 创建 flag 解析器 |
+| L55 | `a.Name` | 业务调用 |
+| L56 | `a.Ui.Output` | 输出信息到用户 |
+| L56 | `a.Help` | 业务调用 |
+| L64 | `a.Ui.Error` | 输出错误信息 |
+| L65 | `a.Ui.Error` | 输出错误信息 |
+| L72 | `a.Meta.Client` | 获取 Nomad API 客户端 |
+| L74 | `a.Ui.Error` | 输出错误信息 |
+| L79 | `client.ACLRoles().Delete` | 业务调用 |
+| L79 | `client.ACLRoles` | 业务调用 |
+| L81 | `a.Ui.Error` | 输出错误信息 |
+| L86 | `a.Ui.Output` | 输出信息到用户 |
+
+**涉及的 Nomad API 端点**：
+
+- `ACL Roles API.Delete`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L59 | `return 1` | 错误退出 |
+| L66 | `return 1` | 错误退出 |
+| L75 | `return 1` | 错误退出 |
+| L82 | `return 1` | 错误退出 |
+| L87 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L62 | Check that the last argument is the role ID to delete. |
+| L71 | Get the HTTP client. |
+| L78 | Delete the specified ACL role. |
+| L85 | Give some feedback to indicate the deletion was successful. |
+

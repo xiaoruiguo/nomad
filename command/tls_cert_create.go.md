@@ -126,3 +126,108 @@ type TLSCertCreateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[tls_cert_create.go](file:///d:/claude/nomad/command/tls_cert_create.go)
+> Run 函数数量：1
+
+### 1. *TLSCertCreateCommand.Run
+
+**定义位置**：[L128-L290](file:///d:/claude/nomad/command/tls_cert_create.go#L128-L290)
+
+**函数签名**：
+
+```go
+func (*TLSCertCreateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 9 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L132 | `additional-dnsname` | 命令行参数 |
+| L133 | `additional-ipaddress` | 命令行参数 |
+| L134 | `ca` | 命令行参数 |
+| L135 | `cli` | 命令行参数 |
+| L136 | `client` | 命令行参数 |
+| L137 | `days` | 命令行参数 |
+| L138 | `domain` | 命令行参数 |
+| L139 | `key` | 命令行参数 |
+| L140 | `server` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L130 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L130 | `c.Name` | 业务调用 |
+| L131 | `c.Help` | 业务调用 |
+| L132 | `flagSet.Var` | 业务调用 |
+| L133 | `flagSet.Var` | 业务调用 |
+| L134 | `flagSet.StringVar` | 业务调用 |
+| L135 | `flagSet.BoolVar` | 业务调用 |
+| L136 | `flagSet.BoolVar` | 业务调用 |
+| L137 | `flagSet.IntVar` | 业务调用 |
+| L138 | `flagSet.StringVar` | 业务调用 |
+| L139 | `flagSet.StringVar` | 业务调用 |
+| L140 | `flagSet.BoolVar` | 业务调用 |
+| L141 | `flagSet.Parse` | 业务调用 |
+| L146 | `flagSet.Args` | 业务调用 |
+| L180 | `net.ParseIP` | 业务调用 |
+| L186 | `c.clientConfig` | 业务调用 |
+| L245 | `tlsutil.ParseSigner` | 业务调用 |
+| L247 | `err.Error` | 输出错误信息 |
+| L250 | `tlsutil.GenerateCert` | 业务调用 |
+| L255 | `err.Error` | 输出错误信息 |
+| L259 | `tlsutil.Verify` | 业务调用 |
+| L260 | `err.Error` | 输出错误信息 |
+| L264 | `file.WriteAtomicWithPerms` | 业务调用 |
+| L265 | `err.Error` | 输出错误信息 |
+| L277 | `file.WriteAtomicWithPerms` | 业务调用 |
+| L278 | `err.Error` | 输出错误信息 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L142 | `return 1` | 错误退出 |
+| L150 | `return 1` | 错误退出 |
+| L154 | `return 1` | 错误退出 |
+| L158 | `return 1` | 错误退出 |
+| L164 | `return 1` | 错误退出 |
+| L201 | `return 1` | 错误退出 |
+| L212 | `return 1` | 错误退出 |
+| L217 | `return 1` | 错误退出 |
+| L228 | `return 1` | 错误退出 |
+| L233 | `return 1` | 错误退出 |
+| L248 | `return 1` | 错误退出 |
+| L256 | `return 1` | 错误退出 |
+| L261 | `return 1` | 错误退出 |
+| L266 | `return 1` | 错误退出 |
+| L279 | `return 1` | 错误退出 |
+| L289 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L145 | Check that we got no arguments |
+| L190 | Set dnsNames and ipAddresses based on whether this is a client, server or |
+| L191 | cli. |
+| L209 | Check if the CA file already exists |
+| L214 | Check if the Key file file already exists |
+

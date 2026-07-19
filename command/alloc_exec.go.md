@@ -121,3 +121,98 @@ type AllocExecCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[alloc_exec.go](file:///d:/claude/nomad/command/alloc_exec.go)
+> Run 函数数量：1
+
+### 1. *AllocExecCommand.Run
+
+**定义位置**：[L108-L244](file:///d:/claude/nomad/command/alloc_exec.go#L108-L244)
+
+**函数签名**：
+
+```go
+func (*AllocExecCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 6 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：出错返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L114 | `job` | 命令行参数 |
+| L115 | `i` | 命令行参数 |
+| L116 | `t` | 命令行参数 |
+| L117 | `e` | 命令行参数 |
+| L118 | `task` | 命令行参数 |
+| L119 | `group` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L112 | `l.Meta.FlagSet` | 创建 flag 解析器 |
+| L112 | `l.Name` | 业务调用 |
+| L113 | `l.Ui.Output` | 输出信息到用户 |
+| L113 | `l.Help` | 业务调用 |
+| L130 | `l.Ui.Error` | 输出错误信息 |
+| L132 | `l.Ui.Error` | 输出错误信息 |
+| L134 | `l.Ui.Error` | 输出错误信息 |
+| L139 | `l.Ui.Error` | 输出错误信息 |
+| L144 | `l.Ui.Error` | 输出错误信息 |
+| L145 | `l.Ui.Error` | 输出错误信息 |
+| L150 | `l.Ui.Error` | 输出错误信息 |
+| L159 | `l.Ui.Error` | 输出错误信息 |
+| L163 | `l.Meta.Client` | 获取 Nomad API 客户端 |
+| L165 | `l.Ui.Error` | 输出错误信息 |
+| L171 | `l.JobIDByPrefix` | 业务调用 |
+| L173 | `l.Ui.Error` | 输出错误信息 |
+| L173 | `err.Error` | 输出错误信息 |
+| L179 | `l.Ui.Error` | 输出错误信息 |
+| L184 | `client.Allocations` | 业务调用 |
+| L186 | `l.Ui.Error` | 输出错误信息 |
+| L191 | `l.Ui.Error` | 输出错误信息 |
+| L197 | `l.Ui.Error` | 输出错误信息 |
+| L205 | `client.Allocations` | 业务调用 |
+| L207 | `l.Ui.Error` | 输出错误信息 |
+| L217 | `l.Ui.Error` | 输出错误信息 |
+| L217 | `err.Error` | 输出错误信息 |
+| L222 | `bytes.NewReader` | 业务调用 |
+| L237 | `l.execImpl` | 业务调用 |
+| L239 | `l.Ui.Error` | 输出错误信息 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L123 | `return 1` | 错误退出 |
+| L135 | `return 1` | 错误退出 |
+| L140 | `return 1` | 错误退出 |
+| L146 | `return 1` | 错误退出 |
+| L151 | `return 1` | 错误退出 |
+| L160 | `return 1` | 错误退出 |
+| L166 | `return 1` | 错误退出 |
+| L174 | `return 1` | 错误退出 |
+| L180 | `return 1` | 错误退出 |
+| L187 | `return 1` | 错误退出 |
+| L192 | `return 1` | 错误退出 |
+| L198 | `return 1` | 错误退出 |
+| L208 | `return 1` | 错误退出 |
+| L218 | `return 1` | 错误退出 |
+| L240 | `return 1` | 错误退出 |
+| L243 | `return code` | 返回值 |
+

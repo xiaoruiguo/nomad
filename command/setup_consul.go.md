@@ -149,3 +149,169 @@ type SetupConsulCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[setup_consul.go](file:///d:/claude/nomad/command/setup_consul.go)
+> Run 函数数量：1
+
+### 1. *SetupConsulCommand.Run
+
+**定义位置**：[L109-L411](file:///d:/claude/nomad/command/setup_consul.go#L109-L411)
+
+**函数签名**：
+
+```go
+func (*SetupConsulCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L113 | `destroy` | 命令行参数 |
+| L114 | `y` | 命令行参数 |
+| L115 | `jwks-url` | 命令行参数 |
+| L116 | `jwks-ca-file` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L111 | `s.Meta.FlagSet` | 创建 flag 解析器 |
+| L111 | `s.Name` | 业务调用 |
+| L112 | `s.Ui.Output` | 输出信息到用户 |
+| L112 | `s.Help` | 业务调用 |
+| L123 | `s.Ui.Error` | 输出错误信息 |
+| L124 | `s.Ui.Error` | 输出错误信息 |
+| L129 | `s.Ui.Error` | 输出错误信息 |
+| L134 | `s.Ui.Output` | 输出信息到用户 |
+| L143 | `api.DefaultConfig` | 业务调用 |
+| L145 | `s.askQuestion` | 业务调用 |
+| L146 | `s.Ui.Warn` | 输出警告信息 |
+| L154 | `api.NewClient` | 业务调用 |
+| L156 | `s.Ui.Error` | 输出错误信息 |
+| L161 | `s.client.Operator().LicenseGet` | 调用 Operator API |
+| L161 | `s.client.Operator` | 业务调用 |
+| L170 | `s.askQuestion` | 业务调用 |
+| L171 | `s.Ui.Warn` | 输出警告信息 |
+| L180 | `api.NewClient` | 业务调用 |
+| L182 | `s.Ui.Error` | 输出错误信息 |
+| L189 | `s.removeConfiguredComponents` | 业务调用 |
+| L201 | `s.namespaceExists` | 业务调用 |
+| L202 | `s.Ui.Info` | 输出信息到用户 |
+| L204 | `s.Ui.Output` | 输出信息到用户 |
+| L206 | `s.askQuestion` | 业务调用 |
+| L209 | `s.handleNo` | 业务调用 |
+| L212 | `s.createNamespace` | 业务调用 |
+| L214 | `s.Ui.Error` | 输出错误信息 |
+| L214 | `err.Error` | 输出错误信息 |
+| L227 | `s.Ui.Output` | 输出信息到用户 |
+| L229 | `s.authMethodExists` | 业务调用 |
+| L230 | `s.Ui.Info` | 输出信息到用户 |
+| L234 | `s.Ui.Output` | 输出信息到用户 |
+| L236 | `s.renderAuthMethod` | 业务调用 |
+| L238 | `s.Ui.Error` | 输出错误信息 |
+| L238 | `err.Error` | 输出错误信息 |
+| L241 | `json.MarshalIndent` | 业务调用 |
+| L243 | `s.Ui.Output` | 输出信息到用户 |
+| L245 | `s.askQuestion` | 业务调用 |
+| L248 | `s.handleNo` | 业务调用 |
+| L251 | `s.createAuthMethod` | 业务调用 |
+| L253 | `s.Ui.Error` | 输出错误信息 |
+| L253 | `err.Error` | 输出错误信息 |
+| L278 | `s.Ui.Output` | 输出信息到用户 |
+| L284 | `s.bindingRuleExists` | 业务调用 |
+| L285 | `s.Ui.Info` | 输出信息到用户 |
+| L288 | `s.Ui.Output` | 输出信息到用户 |
+| L290 | `json.MarshalIndent` | 业务调用 |
+| L291 | `s.Ui.Output` | 输出信息到用户 |
+| L293 | `s.askQuestion` | 业务调用 |
+| L294 | `s.handleNo` | 业务调用 |
+| L297 | `s.createBindingRules` | 业务调用 |
+| L299 | `s.Ui.Error` | 输出错误信息 |
+| L299 | `err.Error` | 输出错误信息 |
+| L304 | `s.bindingRuleExists` | 业务调用 |
+| L305 | `s.Ui.Info` | 输出信息到用户 |
+| L308 | `s.Ui.Output` | 输出信息到用户 |
+| L312 | `json.MarshalIndent` | 业务调用 |
+| L313 | `s.Ui.Output` | 输出信息到用户 |
+| L315 | `s.askQuestion` | 业务调用 |
+| L316 | `s.handleNo` | 业务调用 |
+| L319 | `s.createBindingRules` | 业务调用 |
+| L321 | `s.Ui.Error` | 输出错误信息 |
+| L321 | `err.Error` | 输出错误信息 |
+| L329 | `s.Ui.Output` | 输出信息到用户 |
+| L335 | `s.policyExists` | 业务调用 |
+| L336 | `s.Ui.Info` | 输出信息到用户 |
+| L338 | `s.Ui.Output` | 输出信息到用户 |
+| L339 | `s.Ui.Output` | 输出信息到用户 |
+| L341 | `s.askQuestion` | 业务调用 |
+| L342 | `s.handleNo` | 业务调用 |
+| L345 | `s.createPolicy` | 业务调用 |
+| L347 | `s.Ui.Error` | 输出错误信息 |
+| L347 | `err.Error` | 输出错误信息 |
+| L352 | `s.roleExists` | 业务调用 |
+| L353 | `s.Ui.Info` | 输出信息到用户 |
+| L355 | `s.Ui.Output` | 输出信息到用户 |
+| L361 | `s.askQuestion` | 业务调用 |
+| L362 | `s.handleNo` | 业务调用 |
+| L365 | `s.createRoleForTasks` | 业务调用 |
+| L367 | `s.Ui.Error` | 输出错误信息 |
+| L367 | `err.Error` | 输出错误信息 |
+| L372 | `s.Ui.Output` | 输出信息到用户 |
+
+**涉及的 Nomad API 端点**：
+
+- `Operator API.LicenseGet`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L118 | `return 1` | 错误退出 |
+| L125 | `return 1` | 错误退出 |
+| L130 | `return 1` | 错误退出 |
+| L148 | `return 0` | 成功退出 |
+| L157 | `return 1` | 错误退出 |
+| L173 | `return 0` | 成功退出 |
+| L183 | `return 1` | 错误退出 |
+| L189 | `return s.removeConfiguredComponents()` | 返回值 |
+| L215 | `return 1` | 错误退出 |
+| L239 | `return 1` | 错误退出 |
+| L254 | `return 1` | 错误退出 |
+| L300 | `return 1` | 错误退出 |
+| L322 | `return 1` | 错误退出 |
+| L348 | `return 1` | 错误退出 |
+| L368 | `return 1` | 错误退出 |
+| L410 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L121 | Check that we got no arguments. |
+| L152 | Get the Consul client. |
+| L160 | check if we're connecting to Consul ent |
+| L165 | Setup Consul client namespace. |
+| L168 | Confirm CONSUL_NAMESPACE will be used. |
+| L177 | Update client with default namespace if CONSUL_NAMESPACE is not |
+| L178 | defined. |
+

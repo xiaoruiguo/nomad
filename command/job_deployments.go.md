@@ -99,3 +99,92 @@ type JobDeploymentsCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_deployments.go](file:///d:/claude/nomad/command/job_deployments.go)
+> Run 函数数量：1
+
+### 1. *JobDeploymentsCommand.Run
+
+**定义位置**：[L74-L162](file:///d:/claude/nomad/command/job_deployments.go#L74-L162)
+
+**函数签名**：
+
+```go
+func (*JobDeploymentsCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 5 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L80 | `latest` | 命令行参数 |
+| L81 | `verbose` | 命令行参数 |
+| L82 | `all` | 命令行参数 |
+| L83 | `json` | 命令行参数 |
+| L84 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L78 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L78 | `c.Name` | 业务调用 |
+| L79 | `c.Help` | 业务调用 |
+| L99 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L107 | `c.JobIDByPrefix` | 业务调用 |
+| L109 | `err.Error` | 输出错误信息 |
+| L122 | `client.Jobs().LatestDeployment` | 调用 Jobs API |
+| L122 | `client.Jobs` | 业务调用 |
+| L131 | `err.Error` | 输出错误信息 |
+| L139 | `c.Colorize` | 业务调用 |
+| L143 | `client.Jobs().Deployments` | 调用 Jobs API |
+| L143 | `client.Jobs` | 业务调用 |
+| L152 | `err.Error` | 输出错误信息 |
+| L160 | `formatDeployments` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.LatestDeployment`
+- `Jobs API.Deployments`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L87 | `return 1` | 错误退出 |
+| L95 | `return 1` | 错误退出 |
+| L102 | `return 1` | 错误退出 |
+| L110 | `return 1` | 错误退出 |
+| L125 | `return 1` | 错误退出 |
+| L132 | `return 1` | 错误退出 |
+| L136 | `return 0` | 成功退出 |
+| L140 | `return 0` | 成功退出 |
+| L146 | `return 1` | 错误退出 |
+| L153 | `return 1` | 错误退出 |
+| L157 | `return 0` | 成功退出 |
+| L161 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L90 | Check that we got exactly one node |
+| L98 | Get the HTTP client |
+| L105 | Check if the job exists |
+| L115 | Truncate the id unless full length is requested |
+

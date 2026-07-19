@@ -112,3 +112,90 @@ type JobActionCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_action.go](file:///d:/claude/nomad/command/job_action.go)
+> Run 函数数量：1
+
+### 1. *JobActionCommand.Run
+
+**定义位置**：[L111-L259](file:///d:/claude/nomad/command/job_action.go#L111-L259)
+
+**函数签名**：
+
+```go
+func (*JobActionCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 7 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：出错返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L118 | `task` | 命令行参数 |
+| L119 | `group` | 命令行参数 |
+| L120 | `alloc` | 命令行参数 |
+| L121 | `job` | 命令行参数 |
+| L122 | `i` | 命令行参数 |
+| L123 | `t` | 命令行参数 |
+| L124 | `e` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L116 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L116 | `c.Name` | 业务调用 |
+| L117 | `c.Help` | 业务调用 |
+| L161 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L185 | `c.JobIDByPrefix` | 业务调用 |
+| L187 | `err.Error` | 输出错误信息 |
+| L197 | `client.Allocations` | 业务调用 |
+| L218 | `client.Allocations` | 业务调用 |
+| L230 | `err.Error` | 输出错误信息 |
+| L235 | `bytes.NewReader` | 业务调用 |
+| L252 | `c.execImpl` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L128 | `return 1` | 错误退出 |
+| L136 | `return 1` | 错误退出 |
+| L142 | `return 1` | 错误退出 |
+| L148 | `return 1` | 错误退出 |
+| L158 | `return 1` | 错误退出 |
+| L164 | `return 1` | 错误退出 |
+| L176 | `return 1` | 错误退出 |
+| L182 | `return 1` | 错误退出 |
+| L188 | `return 1` | 错误退出 |
+| L194 | `return 1` | 错误退出 |
+| L200 | `return 1` | 错误退出 |
+| L205 | `return 1` | 错误退出 |
+| L211 | `return 1` | 错误退出 |
+| L221 | `return 1` | 错误退出 |
+| L231 | `return 1` | 错误退出 |
+| L255 | `return 1` | 错误退出 |
+| L258 | `return code` | 返回值 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L168 | If no allocation provided, grab a random one from the job |
+| L171 | Group param cannot be empty if allocation is empty, |
+| L172 | since we'll need to get a random allocation from the group |
+

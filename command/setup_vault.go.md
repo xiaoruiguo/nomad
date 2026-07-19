@@ -164,3 +164,170 @@ type SetupVaultCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[setup_vault.go](file:///d:/claude/nomad/command/setup_vault.go)
+> Run 函数数量：1
+
+### 1. *SetupVaultCommand.Run
+
+**定义位置**：[L147-L419](file:///d:/claude/nomad/command/setup_vault.go#L147-L419)
+
+**函数签名**：
+
+```go
+func (*SetupVaultCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 9 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L151 | `destroy` | 命令行参数 |
+| L152 | `y` | 命令行参数 |
+| L153 | `jwks-url` | 命令行参数 |
+| L154 | `jwks-ca-file` | 命令行参数 |
+| L155 | `kv-path` | 命令行参数 |
+| L158 | `check` | 命令行参数 |
+| L159 | `json` | 命令行参数 |
+| L160 | `verbose` | 命令行参数 |
+| L161 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L149 | `s.Meta.FlagSet` | 创建 flag 解析器 |
+| L149 | `s.Name` | 业务调用 |
+| L150 | `s.Ui.Output` | 输出信息到用户 |
+| L150 | `s.Help` | 业务调用 |
+| L169 | `s.Ui.Error` | 输出错误信息 |
+| L170 | `s.Ui.Error` | 输出错误信息 |
+| L175 | `s.Ui.Error` | 输出错误信息 |
+| L176 | `s.Ui.Error` | 输出错误信息 |
+| L181 | `s.checkUpgrade` | 业务调用 |
+| L196 | `s.Ui.Error` | 输出错误信息 |
+| L198 | `english.OxfordWordSeries` | 业务调用 |
+| L199 | `english.PluralWord` | 业务调用 |
+| L201 | `s.Ui.Error` | 输出错误信息 |
+| L207 | `s.Ui.Error` | 输出错误信息 |
+| L212 | `s.Ui.Output` | 输出信息到用户 |
+| L221 | `api.DefaultConfig` | 业务调用 |
+| L223 | `s.askQuestion` | 业务调用 |
+| L224 | `s.Ui.Warn` | 输出警告信息 |
+| L232 | `api.NewClient` | 业务调用 |
+| L234 | `s.Ui.Error` | 输出错误信息 |
+| L237 | `s.vClient.Logical` | 业务调用 |
+| L243 | `s.vClient.Namespace` | 业务调用 |
+| L244 | `s.vClient.Logical().Read` | 业务调用 |
+| L244 | `s.vClient.Logical` | 业务调用 |
+| L252 | `s.askQuestion` | 业务调用 |
+| L253 | `s.Ui.Warn` | 输出警告信息 |
+| L262 | `s.vClient.SetNamespace` | 业务调用 |
+| L267 | `s.removeConfiguredComponents` | 业务调用 |
+| L278 | `s.namespaceExists` | 业务调用 |
+| L279 | `s.Ui.Info` | 输出信息到用户 |
+| L281 | `s.Ui.Output` | 输出信息到用户 |
+| L283 | `s.askQuestion` | 业务调用 |
+| L285 | `s.handleNo` | 业务调用 |
+| L288 | `s.createNamespace` | 业务调用 |
+| L290 | `s.Ui.Error` | 输出错误信息 |
+| L290 | `err.Error` | 输出错误信息 |
+| L299 | `s.Ui.Output` | 输出信息到用户 |
+| L304 | `s.authMethodExists` | 业务调用 |
+| L305 | `s.Ui.Info` | 输出信息到用户 |
+| L308 | `s.Ui.Output` | 输出信息到用户 |
+| L309 | `s.renderAuthMethod` | 业务调用 |
+| L311 | `s.Ui.Error` | 输出错误信息 |
+| L311 | `err.Error` | 输出错误信息 |
+| L314 | `json.MarshalIndent` | 业务调用 |
+| L316 | `s.Ui.Output` | 输出信息到用户 |
+| L318 | `s.askQuestion` | 业务调用 |
+| L319 | `s.handleNo` | 业务调用 |
+| L322 | `s.createAuthMethod` | 业务调用 |
+| L324 | `s.Ui.Error` | 输出错误信息 |
+| L324 | `err.Error` | 输出错误信息 |
+| L332 | `s.Ui.Output` | 输出信息到用户 |
+| L337 | `s.policyExists` | 业务调用 |
+| L338 | `s.Ui.Info` | 输出信息到用户 |
+| L340 | `s.Ui.Output` | 输出信息到用户 |
+| L346 | `s.renderPolicy` | 业务调用 |
+| L348 | `s.Ui.Error` | 输出错误信息 |
+| L348 | `err.Error` | 输出错误信息 |
+| L351 | `s.Ui.Output` | 输出信息到用户 |
+| L353 | `s.askQuestion` | 业务调用 |
+| L354 | `s.handleNo` | 业务调用 |
+| L357 | `s.createPolicy` | 业务调用 |
+| L359 | `s.Ui.Error` | 输出错误信息 |
+| L359 | `err.Error` | 输出错误信息 |
+| L364 | `s.roleExists` | 业务调用 |
+| L365 | `s.Ui.Info` | 输出信息到用户 |
+| L367 | `s.Ui.Output` | 输出信息到用户 |
+| L372 | `s.renderRole` | 业务调用 |
+| L374 | `s.Ui.Error` | 输出错误信息 |
+| L374 | `err.Error` | 输出错误信息 |
+| L378 | `json.MarshalIndent` | 业务调用 |
+| L379 | `s.Ui.Output` | 输出信息到用户 |
+| L381 | `s.askQuestion` | 业务调用 |
+| L382 | `s.handleNo` | 业务调用 |
+| L385 | `s.createRole` | 业务调用 |
+| L387 | `s.Ui.Error` | 输出错误信息 |
+| L387 | `err.Error` | 输出错误信息 |
+| L392 | `s.Ui.Output` | 输出信息到用户 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L164 | `return 1` | 错误退出 |
+| L171 | `return 1` | 错误退出 |
+| L177 | `return 1` | 错误退出 |
+| L181 | `return s.checkUpgrade()` | 返回值 |
+| L202 | `return 1` | 错误退出 |
+| L208 | `return 1` | 错误退出 |
+| L226 | `return 0` | 成功退出 |
+| L235 | `return 1` | 错误退出 |
+| L255 | `return 0` | 成功退出 |
+| L267 | `return s.removeConfiguredComponents()` | 返回值 |
+| L291 | `return 1` | 错误退出 |
+| L312 | `return 1` | 错误退出 |
+| L325 | `return 1` | 错误退出 |
+| L349 | `return 1` | 错误退出 |
+| L360 | `return 1` | 错误退出 |
+| L375 | `return 1` | 错误退出 |
+| L388 | `return 1` | 错误退出 |
+| L418 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L157 | Options for -check. |
+| L167 | Check that we got no arguments. |
+| L183 | Verify that -check flags are not set. |
+| L230 | Get the Vault client. |
+| L239 | ent check: if we're not in empty namespace or the license check returns |
+| L240 | non-nil (license checks will only ever work from default namespace), |
+| L241 | we're connected to ent |
+| L247 | Setup Vault client namespace. |
+| L250 | Confirm VAULT_NAMESPACE will be used. |
+| L260 | Set default namespace if VAULT_NAMESPACE is not defined. |
+

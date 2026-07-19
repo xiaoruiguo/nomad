@@ -105,3 +105,93 @@ type JobInitCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_init.go](file:///d:/claude/nomad/command/job_init.go)
+> Run 函数数量：1
+
+### 1. *JobInitCommand.Run
+
+**定义位置**：[L75-L199](file:///d:/claude/nomad/command/job_init.go#L75-L199)
+
+**函数签名**：
+
+```go
+func (*JobInitCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L83 | `short` | 命令行参数 |
+| L84 | `connect` | 命令行参数 |
+| L85 | `template` | 命令行参数 |
+| L86 | `list-templates` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L81 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L81 | `c.Name` | 业务调用 |
+| L82 | `c.Help` | 业务调用 |
+| L121 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L131 | `client.Variables().PrefixList` | 调用 Variables API |
+| L131 | `client.Variables` | 业务调用 |
+| L149 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L158 | `client.Variables().Read` | 调用 Variables API |
+| L158 | `client.Variables` | 业务调用 |
+| L160 | `err.Error` | 输出错误信息 |
+
+**涉及的 Nomad API 端点**：
+
+- `Variables API.PrefixList`
+- `Variables API.Read`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L89 | `return 1` | 错误退出 |
+| L98 | `return 1` | 错误退出 |
+| L110 | `return 1` | 错误退出 |
+| L114 | `return 1` | 错误退出 |
+| L124 | `return 1` | 错误退出 |
+| L134 | `return 1` | 错误退出 |
+| L139 | `return 1` | 错误退出 |
+| L146 | `return 0` | 成功退出 |
+| L152 | `return 1` | 错误退出 |
+| L162 | `return 1` | 错误退出 |
+| L165 | `return 1` | 错误退出 |
+| L173 | `return 1` | 错误退出 |
+| L193 | `return 1` | 错误退出 |
+| L198 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L92 | Check for misuse |
+| L93 | Check that we either got no filename or exactly one. |
+| L106 | Check if the file already exists |
+| L120 | Get the HTTP client |
+| L130 | Get and list all variables at nomad/job-templates |
+| L148 | Get the HTTP client |
+| L189 | Write out the example |
+| L196 | Success |
+

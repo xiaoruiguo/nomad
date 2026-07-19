@@ -99,3 +99,76 @@ type VolumeCreateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[volume_create.go](file:///d:/claude/nomad/command/volume_create.go)
+> Run 函数数量：1
+
+### 1. *VolumeCreateCommand.Run
+
+**定义位置**：[L80-L143](file:///d:/claude/nomad/command/volume_create.go#L80-L143)
+
+**函数签名**：
+
+```go
+func (*VolumeCreateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：出错返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L84 | `detach` | 命令行参数 |
+| L85 | `verbose` | 命令行参数 |
+| L86 | `policy-override` | 命令行参数 |
+| L87 | `id` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L83 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L83 | `c.Name` | 业务调用 |
+| L88 | `c.Help` | 业务调用 |
+| L108 | `io.ReadAll` | 业务调用 |
+| L121 | `parseVolumeType` | 业务调用 |
+| L128 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L136 | `c.csiCreate` | 业务调用 |
+| L138 | `c.hostVolumeCreate` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L92 | `return 1` | 错误退出 |
+| L100 | `return 1` | 错误退出 |
+| L111 | `return 1` | 错误退出 |
+| L117 | `return 1` | 错误退出 |
+| L124 | `return 1` | 错误退出 |
+| L131 | `return 1` | 错误退出 |
+| L136 | `return c.csiCreate(client, ast, override)` | 返回值 |
+| L138 | `return c.hostVolumeCreate(client, ast, detach, verbose, override, volID)` | 返回值 |
+| L141 | `return 1` | 错误退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L95 | Check that we get exactly one argument |
+| L103 | Read the file contents |
+| L127 | Get the HTTP client |
+

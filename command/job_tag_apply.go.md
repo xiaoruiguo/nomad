@@ -99,3 +99,83 @@ type JobTagApplyCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_tag_apply.go](file:///d:/claude/nomad/command/job_tag_apply.go)
+> Run 函数数量：1
+
+### 1. *JobTagApplyCommand.Run
+
+**定义位置**：[L75-L153](file:///d:/claude/nomad/command/job_tag_apply.go#L75-L153)
+
+**函数签名**：
+
+```go
+func (*JobTagApplyCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 3 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L80 | `name` | 命令行参数 |
+| L81 | `description` | 命令行参数 |
+| L82 | `version` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L78 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L78 | `c.Name` | 业务调用 |
+| L79 | `c.Help` | 业务调用 |
+| L109 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L117 | `c.JobIDByPrefix` | 业务调用 |
+| L119 | `err.Error` | 输出错误信息 |
+| L129 | `client.Jobs().Info` | 调用 Jobs API |
+| L129 | `client.Jobs` | 业务调用 |
+| L144 | `client.Jobs().TagVersion` | 调用 Jobs API |
+| L144 | `client.Jobs` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.Info`
+- `Jobs API.TagVersion`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L85 | `return 1` | 错误退出 |
+| L91 | `return 1` | 错误退出 |
+| L99 | `return 1` | 错误退出 |
+| L105 | `return 1` | 错误退出 |
+| L112 | `return 1` | 错误退出 |
+| L120 | `return 1` | 错误退出 |
+| L132 | `return 1` | 错误退出 |
+| L140 | `return 1` | 错误退出 |
+| L147 | `return 1` | 错误退出 |
+| L152 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L108 | Get the HTTP client |
+| L115 | Check if the job exists |
+| L123 | If the version is not provided, get the "active" version of the job |
+

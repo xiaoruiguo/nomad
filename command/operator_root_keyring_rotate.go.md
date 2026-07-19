@@ -99,3 +99,63 @@ type OperatorRootKeyringRotateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[operator_root_keyring_rotate.go](file:///d:/claude/nomad/command/operator_root_keyring_rotate.go)
+> Run 函数数量：1
+
+### 1. *OperatorRootKeyringRotateCommand.Run
+
+**定义位置**：[L81-L137](file:///d:/claude/nomad/command/operator_root_keyring_rotate.go#L81-L137)
+
+**函数签名**：
+
+```go
+func (*OperatorRootKeyringRotateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L87 | `full` | 命令行参数 |
+| L88 | `now` | 命令行参数 |
+| L89 | `verbose` | 命令行参数 |
+| L90 | `prepublish` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L85 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L86 | `c.Help` | 业务调用 |
+| L103 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L123 | `prepublishDuration.Nanoseconds` | 业务调用 |
+| L126 | `client.Keyring` | 业务调用 |
+| L135 | `renderVariablesKeysResponse` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L93 | `return 1` | 错误退出 |
+| L100 | `return 1` | 错误退出 |
+| L106 | `return 1` | 错误退出 |
+| L118 | `return 1` | 错误退出 |
+| L133 | `return 1` | 错误退出 |
+| L136 | `return 0` | 成功退出 |
+

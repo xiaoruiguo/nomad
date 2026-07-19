@@ -128,3 +128,112 @@ type ACLAuthMethodCreateCommand struct {
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 | [acl_auth_method_list.go](file:///d:/claude/nomad/command/acl_auth_method_list.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[acl_auth_method_create.go](file:///d:/claude/nomad/command/acl_auth_method_create.go)
+> Run 函数数量：1
+
+### 1. *ACLAuthMethodCreateCommand.Run
+
+**定义位置**：[L115-L212](file:///d:/claude/nomad/command/acl_auth_method_create.go#L115-L212)
+
+**函数签名**：
+
+```go
+func (*ACLAuthMethodCreateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 9 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L119 | `name` | 命令行参数 |
+| L120 | `type` | 命令行参数 |
+| L121 | `token-locality` | 命令行参数 |
+| L122 | `token-name-format` | 命令行参数 |
+| L123 | `max-token-ttl` | 命令行参数 |
+| L124 | `default` | 命令行参数 |
+| L125 | `config` | 命令行参数 |
+| L126 | `json` | 命令行参数 |
+| L127 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L117 | `a.Meta.FlagSet` | 创建 flag 解析器 |
+| L117 | `a.Name` | 业务调用 |
+| L118 | `a.Ui.Output` | 输出信息到用户 |
+| L118 | `a.Help` | 业务调用 |
+| L134 | `a.Ui.Error` | 输出错误信息 |
+| L135 | `a.Ui.Error` | 输出错误信息 |
+| L141 | `a.Ui.Error` | 输出错误信息 |
+| L144 | `slices.Contains` | 业务调用 |
+| L145 | `a.Ui.Error` | 输出错误信息 |
+| L149 | `a.Ui.Error` | 输出错误信息 |
+| L152 | `slices.Contains` | 业务调用 |
+| L153 | `a.Ui.Error` | 输出错误信息 |
+| L157 | `a.Ui.Error` | 输出错误信息 |
+| L163 | `a.Ui.Error` | 输出错误信息 |
+| L168 | `json.Unmarshal` | 业务调用 |
+| L170 | `a.Ui.Error` | 输出错误信息 |
+| L186 | `a.Meta.Client` | 获取 Nomad API 客户端 |
+| L188 | `a.Ui.Error` | 输出错误信息 |
+| L193 | `client.ACLAuthMethods().Create` | 业务调用 |
+| L193 | `client.ACLAuthMethods` | 业务调用 |
+| L195 | `a.Ui.Error` | 输出错误信息 |
+| L202 | `a.Ui.Error` | 输出错误信息 |
+| L202 | `err.Error` | 输出错误信息 |
+| L206 | `a.Ui.Output` | 输出信息到用户 |
+
+**涉及的 Nomad API 端点**：
+
+- `ACL AuthMethods API.Create`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L129 | `return 1` | 错误退出 |
+| L136 | `return 1` | 错误退出 |
+| L142 | `return 1` | 错误退出 |
+| L146 | `return 1` | 错误退出 |
+| L150 | `return 1` | 错误退出 |
+| L154 | `return 1` | 错误退出 |
+| L158 | `return 1` | 错误退出 |
+| L164 | `return 1` | 错误退出 |
+| L171 | `return 1` | 错误退出 |
+| L189 | `return 1` | 错误退出 |
+| L196 | `return 1` | 错误退出 |
+| L203 | `return 1` | 错误退出 |
+| L207 | `return 0` | 成功退出 |
+| L211 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L132 | Check that we got no arguments. |
+| L139 | Perform some basic validation |
+| L174 | Set up the auth method with the passed parameters. |
+| L185 | Get the HTTP client. |
+| L192 | Create the auth method via the API. |
+

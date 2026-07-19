@@ -146,3 +146,129 @@ type VarPutCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[var_put.go](file:///d:/claude/nomad/command/var_put.go)
+> Run 函数数量：1
+
+### 1. *VarPutCommand.Run
+
+**定义位置**：[L134-L405](file:///d:/claude/nomad/command/var_put.go#L134-L405)
+
+**函数签名**：
+
+```go
+func (*VarPutCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 8 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L143 | `force` | 命令行参数 |
+| L144 | `verbose` | 命令行参数 |
+| L145 | `check-index` | 命令行参数 |
+| L146 | `in` | 命令行参数 |
+| L147 | `template` | 命令行参数 |
+| L148 | `ui` | 命令行参数 |
+| L150 | `out` | 命令行参数 |
+| L152 | `out` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L140 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L140 | `c.Name` | 业务调用 |
+| L141 | `c.Help` | 业务调用 |
+| L149 | `fileInfo.Mode` | 业务调用 |
+| L200 | `c.validateInputFlag` | 业务调用 |
+| L201 | `err.Error` | 输出错误信息 |
+| L206 | `c.validateOutputFlag` | 业务调用 |
+| L207 | `err.Error` | 输出错误信息 |
+| L219 | `stat.Mode` | 业务调用 |
+| L220 | `io.ReadAll` | 业务调用 |
+| L232 | `c.setParserForFileArg` | 业务调用 |
+| L234 | `err.Error` | 输出错误信息 |
+| L256 | `stat.Mode` | 业务调用 |
+| L257 | `io.ReadAll` | 业务调用 |
+| L267 | `c.setParserForFileArg` | 业务调用 |
+| L269 | `err.Error` | 输出错误信息 |
+| L284 | `c.makeVariable` | 业务调用 |
+| L310 | `multierror.Append` | 业务调用 |
+| L316 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L327 | `client.Variables().Update` | 调用 Variables API |
+| L327 | `client.Variables` | 业务调用 |
+| L329 | `client.Variables().CheckedUpdate` | 调用 Variables API |
+| L329 | `client.Variables` | 业务调用 |
+| L343 | `c.FormatWarnings` | 业务调用 |
+| L345 | `helper.MergeMultierrorWarnings` | 业务调用 |
+| L352 | `sv.AsPrettyJSON` | 业务调用 |
+| L357 | `err.Error` | 输出错误信息 |
+| L364 | `c.Meta.showUIPath` | 业务调用 |
+| L378 | `c.Meta.showUIPath` | 业务调用 |
+| L393 | `c.Meta.showUIPath` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Variables API.Update`
+- `Variables API.CheckedUpdate`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L157 | `return 1` | 错误退出 |
+| L175 | `return 1` | 错误退出 |
+| L180 | `return 1` | 错误退出 |
+| L193 | `return 1` | 错误退出 |
+| L197 | `return 1` | 错误退出 |
+| L203 | `return 1` | 错误退出 |
+| L209 | `return 1` | 错误退出 |
+| L223 | `return 1` | 错误退出 |
+| L235 | `return 1` | 错误退出 |
+| L241 | `return 1` | 错误退出 |
+| L260 | `return 1` | 错误退出 |
+| L270 | `return 1` | 错误退出 |
+| L277 | `return 1` | 错误退出 |
+| L287 | `return 1` | 错误退出 |
+| L295 | `return 1` | 错误退出 |
+| L319 | `return 1` | 错误退出 |
+| L333 | `return 1` | 错误退出 |
+| L336 | `return 1` | 错误退出 |
+| L358 | `return 1` | 错误退出 |
+| L375 | `return 0` | 成功退出 |
+| L389 | `return 0` | 成功退出 |
+| L404 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L162 | Manage verbose output |
+| L171 | Parse the check-index |
+| L183 | Pull our fake stdin if needed |
+| L214 | Handle first argument: can be -, @file, «var path» |
+| L217 | read the specification into memory from stdin |
+| L229 | ArgFileRefs start with "@" so we need to peel that off |
+| L230 | detect format based on file extension |
+| L250 | Handle second argument: can be -, @file, or kv |
+| L252 | no-op |
+| L281 | no-op - should be KV arg |
+| L315 | Get the HTTP client |
+| L361 | the renderSVAsUiTable func writes directly to the ui and doesn't error. |
+

@@ -98,3 +98,69 @@ type NamespaceInspectCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[namespace_inspect.go](file:///d:/claude/nomad/command/namespace_inspect.go)
+> Run 函数数量：1
+
+### 1. *NamespaceInspectCommand.Run
+
+**定义位置**：[L56-L103](file:///d:/claude/nomad/command/namespace_inspect.go#L56-L103)
+
+**函数签名**：
+
+```go
+func (*NamespaceInspectCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 1 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L60 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L58 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L58 | `c.Name` | 业务调用 |
+| L59 | `c.Help` | 业务调用 |
+| L77 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L84 | `client.Namespaces` | 业务调用 |
+| L97 | `err.Error` | 输出错误信息 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L63 | `return 1` | 错误退出 |
+| L71 | `return 1` | 错误退出 |
+| L80 | `return 1` | 错误退出 |
+| L87 | `return 1` | 错误退出 |
+| L92 | `return 1` | 错误退出 |
+| L98 | `return 1` | 错误退出 |
+| L102 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L66 | Check that we got one arguments |
+| L76 | Get the HTTP client |
+| L83 | Do a prefix lookup |
+

@@ -179,3 +179,74 @@ type taskState struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[operator_client_state.go](file:///d:/claude/nomad/command/operator_client_state.go)
+> Run 函数数量：1
+
+### 1. *OperatorClientStateCommand.Run
+
+**定义位置**：[L42-L156](file:///d:/claude/nomad/command/operator_client_state.go#L42-L156)
+
+**函数签名**：
+
+```go
+func (*OperatorClientStateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L50 | `hclog.L` | 业务调用 |
+| L51 | `state.NewBoltStateDB` | 业务调用 |
+| L56 | `db.Close` | 业务调用 |
+| L58 | `db.GetAllAllocations` | 业务调用 |
+| L67 | `db.GetDeploymentStatus` | 业务调用 |
+| L73 | `db.GetAllocIdentities` | 业务调用 |
+| L79 | `db.GetNetworkStatus` | 业务调用 |
+| L85 | `db.GetAllocVolumes` | 业务调用 |
+| L92 | `alloc.Job.LookupTaskGroup` | 业务调用 |
+| L94 | `db.GetTaskRunnerState` | 业务调用 |
+| L113 | `ls.TaskHandle.GetDriverState` | 业务调用 |
+| L138 | `db.GetNodeIdentity` | 业务调用 |
+| L148 | `json.Marshal` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L47 | `return 1` | 错误退出 |
+| L54 | `return 1` | 错误退出 |
+| L61 | `return 1` | 错误退出 |
+| L70 | `return 1` | 错误退出 |
+| L76 | `return 1` | 错误退出 |
+| L82 | `return 1` | 错误退出 |
+| L88 | `return 1` | 错误退出 |
+| L106 | `return 1` | 错误退出 |
+| L116 | `return 1` | 错误退出 |
+| L141 | `return 1` | 错误退出 |
+| L151 | `return 1` | 错误退出 |
+| L155 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L136 | Get the node identity state, which is useful when debugging to see the |
+| L137 | real and current identity the node is using. |
+

@@ -115,3 +115,100 @@ type VarListCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[var_list.go](file:///d:/claude/nomad/command/var_list.go)
+> Run 函数数量：1
+
+### 1. *VarListCommand.Run
+
+**定义位置**：[L94-L242](file:///d:/claude/nomad/command/var_list.go#L94-L242)
+
+**函数签名**：
+
+```go
+func (*VarListCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 7 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L101 | `template` | 命令行参数 |
+| L103 | `per-page` | 命令行参数 |
+| L104 | `page-token` | 命令行参数 |
+| L105 | `filter` | 命令行参数 |
+| L106 | `ui` | 命令行参数 |
+| L109 | `out` | 命令行参数 |
+| L111 | `out` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L99 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L99 | `c.Name` | 业务调用 |
+| L100 | `c.Help` | 业务调用 |
+| L108 | `fileInfo.Mode` | 业务调用 |
+| L130 | `c.validateOutputFlag` | 业务调用 |
+| L131 | `err.Error` | 输出错误信息 |
+| L137 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L154 | `client.Variables().PrefixList` | 调用 Variables API |
+| L154 | `client.Variables` | 业务调用 |
+| L186 | `err.Error` | 输出错误信息 |
+| L204 | `err.Error` | 输出错误信息 |
+| L221 | `c.Meta.showUIPath` | 业务调用 |
+| L232 | `c.Meta.showUIPath` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Variables API.PrefixList`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L115 | `return 1` | 错误退出 |
+| L123 | `return 1` | 错误退出 |
+| L133 | `return 1` | 错误退出 |
+| L140 | `return 1` | 错误退出 |
+| L157 | `return 1` | 错误退出 |
+| L187 | `return 1` | 错误退出 |
+| L194 | `return 0` | 成功退出 |
+| L205 | `return 1` | 错误退出 |
+| L241 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L118 | Check that we got no arguments |
+| L136 | Get the HTTP client |
+| L162 | obj and items enable us to rework the output before sending it |
+| L163 | to the Format method for transformation into JSON. |
+| L168 | If the response is paginated, we need to provide a means for the |
+| L169 | caller to get to the pagination information. Wrapping the list |
+| L170 | in a struct for the special case allows this extra data without |
+| L171 | adding unnecessary structure in the non-paginated case. |
+| L182 | By this point, the output is ready to be transformed to JSON via |
+| L183 | the Format func. |
+| L192 | Since the JSON formatting deals with the pagination information |
+| L193 | itself, exit the command here so that it doesn't double print. |
+| L214 | This uses Ui.Warn to output the next page token to stderr |
+| L215 | so that scripts consuming paths from stdout will not have |
+| L216 | to special case the output. |
+

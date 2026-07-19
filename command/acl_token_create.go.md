@@ -109,3 +109,109 @@ type ACLTokenCreateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[acl_token_create.go](file:///d:/claude/nomad/command/acl_token_create.go)
+> Run 函数数量：1
+
+### 1. *ACLTokenCreateCommand.Run
+
+**定义位置**：[L112-L255](file:///d:/claude/nomad/command/acl_token_create.go#L112-L255)
+
+**函数签名**：
+
+```go
+func (*ACLTokenCreateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 10 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 3 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L118 | `name` | 命令行参数 |
+| L119 | `type` | 命令行参数 |
+| L120 | `global` | 命令行参数 |
+| L121 | `ttl` | 命令行参数 |
+| L122 | `json` | 命令行参数 |
+| L123 | `t` | 命令行参数 |
+| L124 | `accessor` | 命令行参数 |
+| L125 | `policy` | 命令行参数 |
+| L129 | `role-name` | 命令行参数 |
+| L133 | `role-id` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L116 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L116 | `c.Name` | 业务调用 |
+| L117 | `c.Help` | 业务调用 |
+| L161 | `helper.IsUUID` | 业务调用 |
+| L173 | `io.ReadAll` | 业务调用 |
+| L182 | `helper.IsUUID` | 业务调用 |
+| L194 | `generateACLTokenRoleLinks` | 业务调用 |
+| L210 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L218 | `client.ACLPolicies().Info` | 输出信息到用户 |
+| L218 | `client.ACLPolicies` | 业务调用 |
+| L229 | `client.ACLTokens().Upload` | 业务调用 |
+| L229 | `client.ACLTokens` | 业务调用 |
+| L235 | `client.ACLTokens().Create` | 业务调用 |
+| L235 | `client.ACLTokens` | 业务调用 |
+| L245 | `err.Error` | 输出错误信息 |
+| L253 | `outputACLToken` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `ACL Policies API.Info`
+- `ACL Tokens API.Upload`
+- `ACL Tokens API.Create`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L127 | `return nil` | 返回值 |
+| L131 | `return nil` | 返回值 |
+| L135 | `return nil` | 返回值 |
+| L138 | `return 1` | 错误退出 |
+| L145 | `return 1` | 错误退出 |
+| L153 | `return 1` | 错误退出 |
+| L158 | `return 1` | 错误退出 |
+| L164 | `return 1` | 错误退出 |
+| L179 | `return 1` | 错误退出 |
+| L185 | `return 1` | 错误退出 |
+| L204 | `return 1` | 错误退出 |
+| L213 | `return 1` | 错误退出 |
+| L232 | `return 1` | 错误退出 |
+| L238 | `return 1` | 错误退出 |
+| L246 | `return 1` | 错误退出 |
+| L250 | `return 0` | 成功退出 |
+| L254 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L148 | If -accessor is set, the caller must also supply the SecretID via a file |
+| L149 | or stdin (positional argument). |
+| L189 | Set up the token. |
+| L198 | If the user set a TTL flag value, convert this to a time duration and |
+| L199 | add it to our token request object. |
+| L209 | Get the HTTP client |
+| L216 | Show warning if policy doesn't exist |
+| L252 | Format the output |
+

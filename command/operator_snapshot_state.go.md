@@ -103,3 +103,72 @@ type OperatorSnapshotStateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[operator_snapshot_state.go](file:///d:/claude/nomad/command/operator_snapshot_state.go)
+> Run 函数数量：1
+
+### 1. *OperatorSnapshotStateCommand.Run
+
+**定义位置**：[L55-L105](file:///d:/claude/nomad/command/operator_snapshot_state.go#L55-L105)
+
+**函数签名**：
+
+```go
+func (*OperatorSnapshotStateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 1 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L61 | `filter` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L58 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L58 | `c.Name` | 业务调用 |
+| L59 | `c.Help` | 业务调用 |
+| L67 | `nomad.NewFSMFilter` | 业务调用 |
+| L67 | `filterExpr.String` | 业务调用 |
+| L86 | `f.Close` | 业务调用 |
+| L88 | `raftutil.RestoreFromArchive` | 业务调用 |
+| L94 | `raftutil.StateAsMap` | 业务调用 |
+| L97 | `json.NewEncoder` | 业务调用 |
+| L98 | `enc.SetIndent` | 业务调用 |
+| L99 | `enc.Encode` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L64 | `return 1` | 错误退出 |
+| L70 | `return 1` | 错误退出 |
+| L77 | `return 1` | 错误退出 |
+| L84 | `return 1` | 错误退出 |
+| L91 | `return 1` | 错误退出 |
+| L101 | `return 1` | 错误退出 |
+| L104 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L73 | Check that we either got no filename or exactly one. |
+

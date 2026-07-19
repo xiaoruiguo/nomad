@@ -103,3 +103,84 @@ type EvalListCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[eval_list.go](file:///d:/claude/nomad/command/eval_list.go)
+> Run 函数数量：1
+
+### 1. *EvalListCommand.Run
+
+**定义位置**：[L99-L189](file:///d:/claude/nomad/command/eval_list.go#L99-L189)
+
+**函数签名**：
+
+```go
+func (*EvalListCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 9 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L106 | `verbose` | 命令行参数 |
+| L107 | `json` | 命令行参数 |
+| L108 | `t` | 命令行参数 |
+| L109 | `ui` | 命令行参数 |
+| L110 | `per-page` | 命令行参数 |
+| L111 | `page-token` | 命令行参数 |
+| L112 | `filter` | 命令行参数 |
+| L113 | `job` | 命令行参数 |
+| L114 | `status` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L104 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L104 | `c.Name` | 业务调用 |
+| L105 | `c.Help` | 业务调用 |
+| L128 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L147 | `client.Evaluations().List` | 调用 Evaluations API |
+| L147 | `client.Evaluations` | 业务调用 |
+| L158 | `err.Error` | 输出错误信息 |
+| L180 | `c.Meta.showUIPath` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Evaluations API.List`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L117 | `return 1` | 错误退出 |
+| L125 | `return 1` | 错误退出 |
+| L131 | `return 1` | 错误退出 |
+| L150 | `return 1` | 错误退出 |
+| L159 | `return 1` | 错误退出 |
+| L163 | `return 0` | 成功退出 |
+| L168 | `return 0` | 成功退出 |
+| L188 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L120 | Check that we got no arguments |
+| L153 | If args not specified but output format is specified, format |
+| L154 | and output the evaluations data list |
+

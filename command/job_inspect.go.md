@@ -103,3 +103,97 @@ type JobInspectCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_inspect.go](file:///d:/claude/nomad/command/job_inspect.go)
+> Run 函数数量：1
+
+### 1. *JobInspectCommand.Run
+
+**定义位置**：[L76-L206](file:///d:/claude/nomad/command/job_inspect.go#L76-L206)
+
+**函数签名**：
+
+```go
+func (*JobInspectCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 5 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L82 | `json` | 命令行参数 |
+| L83 | `hcl` | 命令行参数 |
+| L84 | `with-vars` | 命令行参数 |
+| L85 | `t` | 命令行参数 |
+| L86 | `version` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L80 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L80 | `c.Name` | 业务调用 |
+| L81 | `c.Help` | 业务调用 |
+| L103 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L111 | `client.Jobs().List` | 调用 Jobs API |
+| L111 | `client.Jobs` | 业务调用 |
+| L119 | `err.Error` | 输出错误信息 |
+| L136 | `c.JobIDByPrefix` | 业务调用 |
+| L138 | `err.Error` | 输出错误信息 |
+| L179 | `err.Error` | 输出错误信息 |
+| L199 | `f.TransformData` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.List`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L89 | `return 1` | 错误退出 |
+| L95 | `return 1` | 错误退出 |
+| L99 | `return 1` | 错误退出 |
+| L106 | `return 1` | 错误退出 |
+| L114 | `return 1` | 错误退出 |
+| L120 | `return 1` | 错误退出 |
+| L124 | `return 0` | 成功退出 |
+| L131 | `return 1` | 错误退出 |
+| L139 | `return 1` | 错误退出 |
+| L147 | `return 1` | 错误退出 |
+| L157 | `return 1` | 错误退出 |
+| L165 | `return 0` | 成功退出 |
+| L172 | `return 1` | 错误退出 |
+| L180 | `return 1` | 错误退出 |
+| L184 | `return 0` | 成功退出 |
+| L196 | `return 1` | 错误退出 |
+| L202 | `return 1` | 错误退出 |
+| L205 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L102 | Get the HTTP client |
+| L109 | If args not specified but output format is specified, format and output the jobs data list |
+| L127 | Check that we got exactly one job |
+| L134 | Check if the job exists |
+| L168 | Prefix lookup matched a single job |
+| L175 | If output format is specified, format and output the data |
+| L187 | Print the contents of the job |
+

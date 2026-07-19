@@ -112,3 +112,106 @@ type ServiceInfoCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[service_info.go](file:///d:/claude/nomad/command/service_info.go)
+> Run 函数数量：1
+
+### 1. *ServiceInfoCommand.Run
+
+**定义位置**：[L85-L198](file:///d:/claude/nomad/command/service_info.go#L85-L198)
+
+**函数签名**：
+
+```go
+func (*ServiceInfoCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 6 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L94 | `json` | 命令行参数 |
+| L95 | `verbose` | 命令行参数 |
+| L96 | `t` | 命令行参数 |
+| L97 | `filter` | 命令行参数 |
+| L98 | `per-page` | 命令行参数 |
+| L99 | `page-token` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L92 | `s.Meta.FlagSet` | 创建 flag 解析器 |
+| L92 | `s.Name` | 业务调用 |
+| L93 | `s.Ui.Output` | 输出信息到用户 |
+| L93 | `s.Help` | 业务调用 |
+| L106 | `s.Ui.Error` | 输出错误信息 |
+| L107 | `s.Ui.Error` | 输出错误信息 |
+| L111 | `s.Meta.Client` | 获取 Nomad API 客户端 |
+| L113 | `s.Ui.Error` | 输出错误信息 |
+| L127 | `getServiceByPrefix` | 业务调用 |
+| L127 | `client.Services` | 业务调用 |
+| L129 | `s.Ui.Error` | 输出错误信息 |
+| L133 | `s.Ui.Error` | 输出错误信息 |
+| L134 | `formatServiceListOutput` | 业务调用 |
+| L146 | `client.Services().Get` | 调用 Services API |
+| L146 | `client.Services` | 业务调用 |
+| L148 | `s.Ui.Error` | 输出错误信息 |
+| L153 | `s.Ui.Output` | 输出信息到用户 |
+| L160 | `s.Ui.Error` | 输出错误信息 |
+| L160 | `err.Error` | 输出错误信息 |
+| L163 | `s.Ui.Output` | 输出信息到用户 |
+| L187 | `s.formatVerboseOutput` | 业务调用 |
+| L189 | `s.formatOutput` | 格式化输出内容 |
+| L193 | `s.Ui.Output` | 输出信息到用户 |
+
+**涉及的 Nomad API 端点**：
+
+- `Services API.Get`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L101 | `return 1` | 错误退出 |
+| L108 | `return 1` | 错误退出 |
+| L114 | `return 1` | 错误退出 |
+| L130 | `return 1` | 错误退出 |
+| L135 | `return 1` | 错误退出 |
+| L149 | `return 1` | 错误退出 |
+| L154 | `return 0` | 成功退出 |
+| L161 | `return 1` | 错误退出 |
+| L164 | `return 0` | 成功退出 |
+| L197 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L120 | Set up the options to capture any filter passed. |
+| L138 | Set up the options to capture any filter passed. |
+| L167 | It is possible for multiple jobs to register a service with the same |
+| L168 | name. In order to provide consistency, sort the output by job ID. |
+| L172 | Populate the objects, ensuring we do not add duplicate job IDs to the |
+| L173 | array which will be sorted. |
+| L183 | Sort the jobIDs. |
+

@@ -233,3 +233,152 @@ type AllocationListStubWithJob struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_restart.go](file:///d:/claude/nomad/command/job_restart.go)
+> Run 函数数量：1
+
+### 1. *JobRestartCommand.Run
+
+**定义位置**：[L240-L495](file:///d:/claude/nomad/command/job_restart.go#L240-L495)
+
+**函数签名**：
+
+```go
+func (*JobRestartCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L242 | `c.parseAndValidate` | 业务调用 |
+| L244 | `err.Error` | 输出错误信息 |
+| L252 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L259 | `c.JobByPrefix` | 业务调用 |
+| L261 | `err.Error` | 输出错误信息 |
+| L267 | `c.client.SetNamespace` | 业务调用 |
+| L276 | `signal.Notify` | 业务调用 |
+| L277 | `signal.Stop` | 业务调用 |
+| L279 | `c.handleSignal` | 业务调用 |
+| L292 | `job.IsMultiregion` | 业务调用 |
+| L292 | `c.shouldRestartMultiregion` | 业务调用 |
+| L299 | `c.client.Jobs().Versions` | 调用 Jobs API |
+| L299 | `c.client.Jobs` | 业务调用 |
+| L313 | `c.client.Jobs().Allocations` | 调用 Jobs API |
+| L313 | `c.client.Jobs` | 业务调用 |
+| L325 | `c.filterAllocs` | 业务调用 |
+| L336 | `math.Ceil` | 业务调用 |
+| L339 | `c.Colorize` | 业务调用 |
+| L342 | `english.Plural` | 业务调用 |
+| L357 | `c.ensureNoActiveDeployment` | 业务调用 |
+| L359 | `multierror.Append` | 业务调用 |
+| L370 | `c.Colorize` | 业务调用 |
+| L373 | `humanize.Ordinal` | 业务调用 |
+| L381 | `batch.Go` | 业务调用 |
+| L383 | `c.handleAlloc` | 业务调用 |
+| L398 | `batch.Wait` | 业务调用 |
+| L399 | `multierror.Append` | 业务调用 |
+| L400 | `c.errorFormat` | 业务调用 |
+| L401 | `batchMerr.ErrorOrNil` | 输出错误信息 |
+| L417 | `c.Colorize` | 业务调用 |
+| L425 | `c.isErrorRecoverable` | 业务调用 |
+| L426 | `c.Colorize` | 业务调用 |
+| L441 | `c.Colorize` | 业务调用 |
+| L447 | `c.shouldProceed` | 业务调用 |
+| L448 | `c.Colorize` | 业务调用 |
+| L460 | `c.Colorize` | 业务调用 |
+| L475 | `c.Colorize` | 业务调用 |
+| L481 | `c.errorFormat` | 业务调用 |
+| L487 | `c.Colorize` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.Versions`
+- `Jobs API.Allocations`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L246 | `return code` | 返回值 |
+| L249 | `return code` | 返回值 |
+| L255 | `return 1` | 错误退出 |
+| L262 | `return 1` | 错误退出 |
+| L287 | `return 1` | 错误退出 |
+| L294 | `return 0` | 成功退出 |
+| L302 | `return 1` | 错误退出 |
+| L316 | `return 1` | 错误退出 |
+| L330 | `return 0` | 成功退出 |
+| L382 | `return func() error {` | 返回值 |
+| L383 | `return c.handleAlloc(allocStubWithJob)` | 返回值 |
+| L483 | `return 1` | 错误退出 |
+| L494 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L241 | Parse and validate command line arguments. |
+| L258 | Use prefix matching to find job. |
+| L270 | Handle SIGINT to prevent accidental cancellations of the long-lived |
+| L271 | restart loop. activeCh is blocked while a signal is being handled to |
+| L272 | prevent new work from starting while the user is deciding if they want |
+| L273 | to cancel the command or not. |
+| L281 | Verify job type can be rescheduled. |
+| L291 | Confirm that we should restart a multi-region job in a single region. |
+| L297 | Retrieve the job history so we can properly determine if a group or task |
+| L298 | exists in the specific allocation job version. |
+| L305 | Index jobs by version. |
+| L311 | Fetch all allocations for the job and filter out the ones that are not |
+| L312 | eligible for restart. |
+| L327 | Exit early if there's nothing to do. |
+| L333 | Calculate absolute batch size based on the number of eligible |
+| L334 | allocations. Round values up to increase parallelism. |
+| L345 | restartErr accumulates the errors that happen in each batch. |
+| L348 | Restart allocations in batches. |
+| L351 | Block and wait before each iteration if the command is handling an |
+| L352 | interrupt signal. |
+| L355 | Make sure there are not active deployments to prevent the restart |
+| L356 | process from interfering with it. |
+| L363 | Print new batch header every time we restart a multiple of the batch |
+| L364 | size which indicates that we're starting a new batch. |
+| L365 | Skip batch header if batch size is one because it's redundant. |
+| L378 | Restart allocation. Wrap the callback function to capture the |
+| L379 | allocID loop variable and prevent it from changing inside the |
+| L380 | goroutine at each iteration. |
+| L387 | Check if we restarted enough allocations to complete a batch or if |
+| L388 | we restarted the last allocation. |
+| L393 | Block and wait for the batch to finish. Handle the |
+| L394 | *mutierror.Error response to add the custom formatting and to |
+| L395 | convert it to an error to avoid problems where an empty |
+| L396 | *multierror.Error is not considered a nil error. |
+| L404 | Block if the command is handling an interrupt signal. |
+| L407 | Exit loop before sleeping or asking for user input if we just |
+| L408 | finished the last batch. |
+| L413 | Handle errors that happened in this batch. |
+| L415 | Exit early if -on-error is 'fail'. |
+| L424 | Exit early if -yes but error is not recoverable. |
+| L434 | Check if we need to ask the user how to proceed. This is needed |
+| L435 | in case -yes is not set and -batch-wait is 'ask' or an error |
+| L436 | happened and -on-error is 'ask'. |
+| L440 | Print errors so user can decide what to below. |
+| L446 | Exit early if user provides a negative answer. |
+| L457 | Sleep if -batch-wait is set or if -batch-wait is 'ask' and user |
+| L458 | responded with a new interval above. |
+| L468 | Start a new batch. |
+

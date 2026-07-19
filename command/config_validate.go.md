@@ -98,3 +98,60 @@ type ConfigValidateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[config_validate.go](file:///d:/claude/nomad/command/config_validate.go)
+> Run 函数数量：1
+
+### 1. *ConfigValidateCommand.Run
+
+**定义位置**：[L49-L92](file:///d:/claude/nomad/command/config_validate.go#L49-L92)
+
+**函数签名**：
+
+```go
+func (*ConfigValidateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L51 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L51 | `c.Name` | 业务调用 |
+| L52 | `c.Help` | 业务调用 |
+| L54 | `err.Error` | 输出错误信息 |
+| L64 | `agent.DefaultConfig` | 业务调用 |
+| L67 | `agent.LoadConfig` | 业务调用 |
+| L69 | `multierror.Append` | 业务调用 |
+| L73 | `reflect.DeepEqual` | 业务调用 |
+| L77 | `config.Merge` | 业务调用 |
+| L79 | `mErr.ErrorOrNil` | 输出错误信息 |
+| L80 | `err.Error` | 输出错误信息 |
+| L84 | `cmd.IsValidConfig` | 业务调用 |
+| L84 | `agent.DefaultConfig` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L55 | `return 1` | 错误退出 |
+| L61 | `return 1` | 错误退出 |
+| L81 | `return 1` | 错误退出 |
+| L87 | `return 1` | 错误退出 |
+| L91 | `return 0` | 成功退出 |
+

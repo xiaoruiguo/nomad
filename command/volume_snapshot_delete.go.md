@@ -100,3 +100,71 @@ type VolumeSnapshotDeleteCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[volume_snapshot_delete.go](file:///d:/claude/nomad/command/volume_snapshot_delete.go)
+> Run 函数数量：1
+
+### 1. *VolumeSnapshotDeleteCommand.Run
+
+**定义位置**：[L71-L119](file:///d:/claude/nomad/command/volume_snapshot_delete.go#L71-L119)
+
+**函数签名**：
+
+```go
+func (*VolumeSnapshotDeleteCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 1 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L75 | `secret` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L73 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L73 | `c.Name` | 业务调用 |
+| L74 | `c.Help` | 业务调用 |
+| L92 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L108 | `client.CSIVolumes().DeleteSnapshot` | 调用 Volumes API |
+| L108 | `client.CSIVolumes` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `CSI Volumes API.DeleteSnapshot`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L79 | `return 1` | 错误退出 |
+| L86 | `return 1` | 错误退出 |
+| L95 | `return 1` | 错误退出 |
+| L104 | `return 1` | 错误退出 |
+| L115 | `return 1` | 错误退出 |
+| L118 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L81 | Check that we get exactly two arguments |
+| L91 | Get the HTTP client |
+

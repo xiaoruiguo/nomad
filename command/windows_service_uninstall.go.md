@@ -103,3 +103,62 @@ type WindowsServiceUninstallCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[windows_service_uninstall.go](file:///d:/claude/nomad/command/windows_service_uninstall.go)
+> Run 函数数量：1
+
+### 1. *WindowsServiceUninstallCommand.Run
+
+**定义位置**：[L42-L86](file:///d:/claude/nomad/command/windows_service_uninstall.go#L42-L86)
+
+**函数签名**：
+
+```go
+func (*WindowsServiceUninstallCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L43 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L43 | `c.Name` | 业务调用 |
+| L44 | `c.Help` | 业务调用 |
+| L65 | `c.privilegedCheckFn` | 业务调用 |
+| L72 | `c.serviceManagerFn` | 业务调用 |
+| L77 | `m.Close` | 业务调用 |
+| L79 | `c.performUninstall` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L47 | `return 1` | 错误退出 |
+| L53 | `return 1` | 错误退出 |
+| L67 | `return 1` | 错误退出 |
+| L75 | `return 1` | 错误退出 |
+| L81 | `return 1` | 错误退出 |
+| L85 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L56 | Set helper functions to default if unset |
+| L64 | Check that command is being run with elevated permissions |
+

@@ -111,3 +111,91 @@ type QuotaStatusCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[quota_status.go](file:///d:/claude/nomad/command/quota_status.go)
+> Run 函数数量：1
+
+### 1. *QuotaStatusCommand.Run
+
+**定义位置**：[L65-L149](file:///d:/claude/nomad/command/quota_status.go#L65-L149)
+
+**函数签名**：
+
+```go
+func (*QuotaStatusCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 2 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L71 | `json` | 命令行参数 |
+| L72 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L69 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L69 | `c.Name` | 业务调用 |
+| L70 | `c.Help` | 业务调用 |
+| L89 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L95 | `client.Quotas` | 业务调用 |
+| L96 | `getQuotaByPrefix` | 业务调用 |
+| L102 | `formatQuotaSpecs` | 业务调用 |
+| L109 | `err.Error` | 输出错误信息 |
+| L118 | `formatQuotaSpecBasics` | 业务调用 |
+| L124 | `c.Colorize` | 业务调用 |
+| L125 | `formatQuotaLimits` | 业务调用 |
+| L128 | `slices.ContainsFunc` | 业务调用 |
+| L129 | `c.Colorize` | 业务调用 |
+| L130 | `formatQuotaNodePools` | 业务调用 |
+| L134 | `slices.ContainsFunc` | 业务调用 |
+| L135 | `c.Colorize` | 业务调用 |
+| L136 | `formatQuotaDevices` | 业务调用 |
+| L141 | `c.Colorize` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L75 | `return 1` | 错误退出 |
+| L83 | `return 1` | 错误退出 |
+| L92 | `return 1` | 错误退出 |
+| L99 | `return 1` | 错误退出 |
+| L103 | `return 1` | 错误退出 |
+| L110 | `return 1` | 错误退出 |
+| L114 | `return 0` | 成功退出 |
+| L128 | `if slices.ContainsFunc(spec.Limits, func(l *api.QuotaLimit) bool { return l.R...` | 返回值 |
+| L134 | `if slices.ContainsFunc(spec.Limits, func(l *api.QuotaLimit) bool { return l.R...` | 返回值 |
+| L144 | `return 1` | 错误退出 |
+| L148 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L78 | Check that we got one arguments |
+| L88 | Get the HTTP client |
+| L117 | Format the basics |
+| L120 | Get the quota usages |
+| L123 | Format the limits |
+| L127 | If quota has limits on node pools, format them separately |
+| L133 | If quota has limits on devices, format them separately |
+| L139 | Display any failures |
+

@@ -130,3 +130,101 @@ type recommendationList struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[recommendation_list.go](file:///d:/claude/nomad/command/recommendation_list.go)
+> Run 函数数量：1
+
+### 1. *RecommendationListCommand.Run
+
+**定义位置**：[L81-L182](file:///d:/claude/nomad/command/recommendation_list.go#L81-L182)
+
+**函数签名**：
+
+```go
+func (*RecommendationListCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 5 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L87 | `json` | 命令行参数 |
+| L88 | `t` | 命令行参数 |
+| L89 | `job` | 命令行参数 |
+| L90 | `group` | 命令行参数 |
+| L91 | `task` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L85 | `r.Meta.FlagSet` | 创建 flag 解析器 |
+| L85 | `r.Name` | 业务调用 |
+| L86 | `r.Ui.Output` | 输出信息到用户 |
+| L86 | `r.Help` | 业务调用 |
+| L97 | `r.Ui.Error` | 输出错误信息 |
+| L98 | `r.Ui.Error` | 输出错误信息 |
+| L102 | `r.Meta.Client` | 获取 Nomad API 客户端 |
+| L104 | `r.Ui.Error` | 输出错误信息 |
+| L111 | `r.Ui.Error` | 输出错误信息 |
+| L116 | `r.Ui.Error` | 输出错误信息 |
+| L134 | `client.Recommendations().List` | 调用 Recommendations API |
+| L134 | `client.Recommendations` | 调用 Recommendations API |
+| L136 | `r.Ui.Error` | 输出错误信息 |
+| L141 | `r.Ui.Output` | 输出信息到用户 |
+| L148 | `r.Ui.Error` | 输出错误信息 |
+| L148 | `err.Error` | 输出错误信息 |
+| L151 | `r.Ui.Output` | 输出信息到用户 |
+| L180 | `r.Ui.Output` | 输出信息到用户 |
+
+**涉及的 Nomad API 端点**：
+
+- `Recommendations API.List`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L93 | `return 1` | 错误退出 |
+| L105 | `return 1` | 错误退出 |
+| L112 | `return 1` | 错误退出 |
+| L117 | `return 1` | 错误退出 |
+| L137 | `return 1` | 错误退出 |
+| L142 | `return 0` | 成功退出 |
+| L149 | `return 1` | 错误退出 |
+| L152 | `return 0` | 成功退出 |
+| L181 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L101 | Get the HTTP client. |
+| L108 | Validate the input flags. This is done by the HTTP API anyway, but there |
+| L109 | is no harm doing it here to avoid calls that we know wont succeed. |
+| L120 | Setup the query params. |
+| L155 | Create the output table header. |
+| L158 | If the operator is using the namespace wildcard option, add this header. |
+| L164 | Sort the list of recommendations based on their job, group and task. |
+| L168 | Iterate the recommendations and add to the output. |
+| L179 | Output. |
+

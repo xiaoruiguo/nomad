@@ -97,3 +97,75 @@ type JobTagUnsetCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_tag_unset.go](file:///d:/claude/nomad/command/job_tag_unset.go)
+> Run 函数数量：1
+
+### 1. *JobTagUnsetCommand.Run
+
+**定义位置**：[L53-L112](file:///d:/claude/nomad/command/job_tag_unset.go#L53-L112)
+
+**函数签名**：
+
+```go
+func (*JobTagUnsetCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 1 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L58 | `name` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L56 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L56 | `c.Name` | 业务调用 |
+| L57 | `c.Help` | 业务调用 |
+| L89 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L97 | `c.JobIDByPrefix` | 业务调用 |
+| L99 | `err.Error` | 输出错误信息 |
+| L103 | `client.Jobs().UntagVersion` | 调用 Jobs API |
+| L103 | `client.Jobs` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.UntagVersion`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L61 | `return 1` | 错误退出 |
+| L67 | `return 1` | 错误退出 |
+| L77 | `return 1` | 错误退出 |
+| L85 | `return 1` | 错误退出 |
+| L92 | `return 1` | 错误退出 |
+| L100 | `return 1` | 错误退出 |
+| L106 | `return 1` | 错误退出 |
+| L111 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L88 | Get the HTTP client |
+| L95 | Check if the job exists |
+

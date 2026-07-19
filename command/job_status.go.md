@@ -184,3 +184,124 @@ type JobJson struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_status.go](file:///d:/claude/nomad/command/job_status.go)
+> Run 函数数量：1
+
+### 1. *JobStatusCommand.Run
+
+**定义位置**：[L113-L336](file:///d:/claude/nomad/command/job_status.go#L113-L336)
+
+**函数签名**：
+
+```go
+func (*JobStatusCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 7 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L118 | `short` | 命令行参数 |
+| L119 | `evals` | 命令行参数 |
+| L120 | `all-allocs` | 命令行参数 |
+| L121 | `json` | 命令行参数 |
+| L122 | `t` | 命令行参数 |
+| L123 | `verbose` | 命令行参数 |
+| L124 | `ui` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L116 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L116 | `c.Name` | 业务调用 |
+| L117 | `c.Help` | 业务调用 |
+| L145 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L151 | `c.allNamespaces` | 业务调用 |
+| L155 | `client.Jobs().ListOptions` | 调用 Jobs API |
+| L155 | `client.Jobs` | 业务调用 |
+| L165 | `c.Meta.showUIPath` | 业务调用 |
+| L180 | `createJsonJobsOutput` | 业务调用 |
+| L182 | `err.Error` | 输出错误信息 |
+| L188 | `err.Error` | 输出错误信息 |
+| L194 | `createStatusListOutput` | 业务调用 |
+| L195 | `c.Meta.showUIPath` | 业务调用 |
+| L209 | `c.JobIDByPrefix` | 业务调用 |
+| L211 | `err.Error` | 输出错误信息 |
+| L217 | `client.Jobs().Info` | 调用 Jobs API |
+| L217 | `client.Jobs` | 业务调用 |
+| L223 | `job.IsPeriodic` | 业务调用 |
+| L224 | `job.IsParameterized` | 业务调用 |
+| L232 | `createJsonJobsOutput` | 业务调用 |
+| L236 | `err.Error` | 输出错误信息 |
+| L242 | `err.Error` | 输出错误信息 |
+| L261 | `getStatusString` | 业务调用 |
+| L274 | `job.Periodic.GetLocation` | 业务调用 |
+| L277 | `job.Periodic.Next` | 业务调用 |
+| L291 | `c.Meta.showUIPath` | 业务调用 |
+| L307 | `c.outputPeriodicInfo` | 业务调用 |
+| L308 | `err.Error` | 输出错误信息 |
+| L312 | `c.outputParameterizedInfo` | 业务调用 |
+| L313 | `err.Error` | 输出错误信息 |
+| L317 | `c.outputJobInfo` | 业务调用 |
+| L318 | `err.Error` | 输出错误信息 |
+| L323 | `c.Meta.showUIPath` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.ListOptions`
+- `Jobs API.Info`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L127 | `return 1` | 错误退出 |
+| L135 | `return 1` | 错误退出 |
+| L148 | `return 1` | 错误退出 |
+| L159 | `return 1` | 错误退出 |
+| L183 | `return 1` | 错误退出 |
+| L189 | `return 1` | 错误退出 |
+| L204 | `return 0` | 成功退出 |
+| L212 | `return 1` | 错误退出 |
+| L220 | `return 1` | 错误退出 |
+| L237 | `return 1` | 错误退出 |
+| L243 | `return 1` | 错误退出 |
+| L248 | `return 0` | 成功退出 |
+| L302 | `return 0` | 成功退出 |
+| L309 | `return 1` | 错误退出 |
+| L314 | `return 1` | 错误退出 |
+| L319 | `return 1` | 错误退出 |
+| L335 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L130 | Check that we either got no jobs or exactly one. |
+| L138 | Truncate the id unless full length is requested |
+| L144 | Get the HTTP client |
+| L153 | Invoke list mode if no job ID. |
+| L163 | No output if we have no jobs |
+| L207 | Try querying the job |
+| L215 | Prefix lookup matched a single job |
+| L251 | Format the job info |
+| L289 | Exit early |
+| L305 | Print periodic job information |
+

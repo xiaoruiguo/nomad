@@ -98,3 +98,62 @@ type SentinelDeleteCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[sentinel_delete.go](file:///d:/claude/nomad/command/sentinel_delete.go)
+> Run 函数数量：1
+
+### 1. *SentinelDeleteCommand.Run
+
+**定义位置**：[L49-L84](file:///d:/claude/nomad/command/sentinel_delete.go#L49-L84)
+
+**函数签名**：
+
+```go
+func (*SentinelDeleteCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L50 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L50 | `c.Name` | 业务调用 |
+| L51 | `c.Help` | 业务调用 |
+| L68 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L75 | `client.SentinelPolicies().Delete` | 业务调用 |
+| L75 | `client.SentinelPolicies` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L53 | `return 1` | 错误退出 |
+| L61 | `return 1` | 错误退出 |
+| L71 | `return 1` | 错误退出 |
+| L78 | `return 1` | 错误退出 |
+| L83 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L56 | Check that we got exactly one arguments |
+| L64 | Get the name and file |
+| L67 | Get the HTTP client |
+| L74 | Get the list of policies |
+

@@ -98,3 +98,73 @@ type OperatorMetricsCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[metrics.go](file:///d:/claude/nomad/command/metrics.go)
+> Run 函数数量：1
+
+### 1. *OperatorMetricsCommand.Run
+
+**定义位置**：[L63-L133](file:///d:/claude/nomad/command/metrics.go#L63-L133)
+
+**函数签名**：
+
+```go
+func (*OperatorMetricsCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L69 | `pretty` | 命令行参数 |
+| L70 | `format` | 命令行参数 |
+| L71 | `json` | 命令行参数 |
+| L72 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L67 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L67 | `c.Name` | 业务调用 |
+| L68 | `c.Help` | 业务调用 |
+| L86 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L107 | `client.Operator().MetricsSummary` | 调用 Operator API |
+| L107 | `client.Operator` | 业务调用 |
+| L115 | `err.Error` | 输出错误信息 |
+| L122 | `client.Operator().Metrics` | 调用 Operator API |
+| L122 | `client.Operator` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Operator API.MetricsSummary`
+- `Operator API.Metrics`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L76 | `return 1` | 错误退出 |
+| L83 | `return 1` | 错误退出 |
+| L89 | `return 1` | 错误退出 |
+| L110 | `return 1` | 错误退出 |
+| L116 | `return 1` | 错误退出 |
+| L120 | `return 0` | 成功退出 |
+| L125 | `return 1` | 错误退出 |
+| L132 | `return 0` | 成功退出 |
+

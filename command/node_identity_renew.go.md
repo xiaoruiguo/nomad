@@ -98,3 +98,74 @@ type NodeIdentityRenewCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[node_identity_renew.go](file:///d:/claude/nomad/command/node_identity_renew.go)
+> Run 函数数量：1
+
+### 1. *NodeIdentityRenewCommand.Run
+
+**定义位置**：[L36-L80](file:///d:/claude/nomad/command/node_identity_renew.go#L36-L80)
+
+**函数签名**：
+
+```go
+func (*NodeIdentityRenewCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L38 | `n.Meta.FlagSet` | 创建 flag 解析器 |
+| L38 | `n.Name` | 业务调用 |
+| L39 | `n.Ui.Output` | 输出信息到用户 |
+| L39 | `n.Help` | 业务调用 |
+| L47 | `n.Ui.Error` | 输出错误信息 |
+| L48 | `n.Ui.Error` | 输出错误信息 |
+| L53 | `n.Meta.Client` | 获取 Nomad API 客户端 |
+| L55 | `n.Ui.Error` | 输出错误信息 |
+| L63 | `client.Nodes` | 业务调用 |
+| L65 | `n.Ui.Error` | 输出错误信息 |
+| L65 | `err.Error` | 输出错误信息 |
+| L74 | `client.Nodes().Identity().Renew` | 调用 Nodes API |
+| L74 | `client.Nodes().Identity` | 调用 Nodes API |
+| L74 | `client.Nodes` | 业务调用 |
+| L75 | `n.Ui.Error` | 输出错误信息 |
+
+**涉及的 Nomad API 端点**：
+
+- `Nodes API.Identity`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L42 | `return 1` | 错误退出 |
+| L49 | `return 1` | 错误退出 |
+| L56 | `return 1` | 错误退出 |
+| L66 | `return 1` | 错误退出 |
+| L76 | `return 1` | 错误退出 |
+| L79 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L52 | Get the HTTP client |
+| L61 | Lookup nodeID |
+

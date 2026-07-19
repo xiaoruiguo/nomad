@@ -107,3 +107,84 @@ type VolumeSnapshotListCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[volume_snapshot_list.go](file:///d:/claude/nomad/command/volume_snapshot_list.go)
+> Run 函数数量：1
+
+### 1. *VolumeSnapshotListCommand.Run
+
+**定义位置**：[L88-L185](file:///d:/claude/nomad/command/volume_snapshot_list.go#L88-L185)
+
+**函数签名**：
+
+```go
+func (*VolumeSnapshotListCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 5 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L97 | `plugin` | 命令行参数 |
+| L98 | `verbose` | 命令行参数 |
+| L99 | `secret` | 命令行参数 |
+| L100 | `per-page` | 命令行参数 |
+| L101 | `page-token` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L95 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L95 | `c.Name` | 业务调用 |
+| L96 | `c.Help` | 业务调用 |
+| L116 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L122 | `client.CSIPlugins().List` | 调用 Plugins API |
+| L122 | `client.CSIPlugins` | 业务调用 |
+| L133 | `c.csiFormatPlugins` | 业务调用 |
+| L164 | `client.CSIVolumes().ListSnapshotsOpts` | 调用 CSI Volumes API |
+| L164 | `client.CSIVolumes` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `CSI Volumes API.ListSnapshotsOpts`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L105 | `return 1` | 错误退出 |
+| L112 | `return 1` | 错误退出 |
+| L119 | `return 1` | 错误退出 |
+| L125 | `return 1` | 错误退出 |
+| L129 | `return 1` | 错误退出 |
+| L136 | `return 1` | 错误退出 |
+| L139 | `return 1` | 错误退出 |
+| L150 | `return 1` | 错误退出 |
+| L168 | `return 1` | 错误退出 |
+| L173 | `return 0` | 成功退出 |
+| L184 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L115 | Get the HTTP client |
+| L171 | several plugins return EOF once you hit the end of the page, |
+| L172 | rather than an empty list |
+

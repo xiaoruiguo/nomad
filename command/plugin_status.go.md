@@ -109,3 +109,74 @@ type PluginStatusCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[plugin_status.go](file:///d:/claude/nomad/command/plugin_status.go)
+> Run 函数数量：1
+
+### 1. *PluginStatusCommand.Run
+
+**定义位置**：[L89-L150](file:///d:/claude/nomad/command/plugin_status.go#L89-L150)
+
+**函数签名**：
+
+```go
+func (*PluginStatusCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 5 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L94 | `type` | 命令行参数 |
+| L95 | `short` | 命令行参数 |
+| L96 | `verbose` | 命令行参数 |
+| L97 | `json` | 命令行参数 |
+| L98 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L92 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L92 | `c.Name` | 业务调用 |
+| L93 | `c.Help` | 业务调用 |
+| L131 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L142 | `c.csiStatus` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L102 | `return 1` | 错误退出 |
+| L110 | `return 1` | 错误退出 |
+| L121 | `return 1` | 错误退出 |
+| L134 | `return 1` | 错误退出 |
+| L144 | `return code` | 返回值 |
+| L149 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L105 | Check that we either got no arguments or exactly one. |
+| L115 | Check that the plugin type flag is supported. Empty implies we are |
+| L116 | querying all plugins, otherwise we currently only support "csi". |
+| L124 | Truncate the id unless full length is requested |
+| L130 | Get the HTTP client |
+| L147 | Extend this section with other plugin implementations |
+

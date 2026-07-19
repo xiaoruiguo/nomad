@@ -101,3 +101,84 @@ type ACLPolicyApplyCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[acl_policy_apply.go](file:///d:/claude/nomad/command/acl_policy_apply.go)
+> Run 函数数量：1
+
+### 1. *ACLPolicyApplyCommand.Run
+
+**定义位置**：[L76-L169](file:///d:/claude/nomad/command/acl_policy_apply.go#L76-L169)
+
+**函数签名**：
+
+```go
+func (*ACLPolicyApplyCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L82 | `description` | 命令行参数 |
+| L84 | `job` | 命令行参数 |
+| L85 | `group` | 命令行参数 |
+| L86 | `task` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L80 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L80 | `c.Name` | 业务调用 |
+| L81 | `c.Help` | 业务调用 |
+| L108 | `io.ReadAll` | 业务调用 |
+| L122 | `f.Value.String` | 业务调用 |
+| L153 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L160 | `client.ACLPolicies().Upsert` | 业务调用 |
+| L160 | `client.ACLPolicies` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `ACL Policies API.Upsert`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L89 | `return 1` | 错误退出 |
+| L97 | `return 1` | 错误退出 |
+| L111 | `return 1` | 错误退出 |
+| L117 | `return 1` | 错误退出 |
+| L126 | `return 1` | 错误退出 |
+| L130 | `return 1` | 错误退出 |
+| L134 | `return 1` | 错误退出 |
+| L156 | `return 1` | 错误退出 |
+| L163 | `return 1` | 错误退出 |
+| L168 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L92 | Check that we got two arguments |
+| L100 | Get the policy name |
+| L103 | Read the file contents |
+| L137 | Construct the policy |
+| L152 | Get the HTTP client |
+| L159 | Upsert the policy |
+

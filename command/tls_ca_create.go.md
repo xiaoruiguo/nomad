@@ -126,3 +126,104 @@ type TLSCACreateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[tls_ca_create.go](file:///d:/claude/nomad/command/tls_ca_create.go)
+> Run 函数数量：1
+
+### 1. *TLSCACreateCommand.Run
+
+**定义位置**：[L145-L257](file:///d:/claude/nomad/command/tls_ca_create.go#L145-L257)
+
+**函数签名**：
+
+```go
+func (*TLSCACreateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 12 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L149 | `additional-domain` | 命令行参数 |
+| L150 | `days` | 命令行参数 |
+| L151 | `name-constraint` | 命令行参数 |
+| L152 | `domain` | 命令行参数 |
+| L153 | `common-name` | 命令行参数 |
+| L154 | `country` | 命令行参数 |
+| L155 | `postal-code` | 命令行参数 |
+| L156 | `province` | 命令行参数 |
+| L157 | `locality` | 命令行参数 |
+| L158 | `street-address` | 命令行参数 |
+| L159 | `organization` | 命令行参数 |
+| L160 | `organizational-unit` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L147 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L147 | `c.Name` | 业务调用 |
+| L148 | `c.Help` | 业务调用 |
+| L149 | `flagSet.Var` | 业务调用 |
+| L150 | `flagSet.IntVar` | 业务调用 |
+| L151 | `flagSet.BoolVar` | 业务调用 |
+| L152 | `flagSet.StringVar` | 业务调用 |
+| L153 | `flagSet.StringVar` | 业务调用 |
+| L154 | `flagSet.StringVar` | 业务调用 |
+| L155 | `flagSet.StringVar` | 业务调用 |
+| L156 | `flagSet.StringVar` | 业务调用 |
+| L157 | `flagSet.StringVar` | 业务调用 |
+| L158 | `flagSet.StringVar` | 业务调用 |
+| L159 | `flagSet.StringVar` | 业务调用 |
+| L160 | `flagSet.StringVar` | 业务调用 |
+| L161 | `flagSet.Parse` | 业务调用 |
+| L166 | `flagSet.Args` | 业务调用 |
+| L172 | `c.IsCustom` | 业务调用 |
+| L227 | `tlsutil.GenerateCA` | 业务调用 |
+| L240 | `err.Error` | 输出错误信息 |
+| L244 | `file.WriteAtomicWithPerms` | 业务调用 |
+| L245 | `err.Error` | 输出错误信息 |
+| L250 | `file.WriteAtomicWithPerms` | 业务调用 |
+| L251 | `err.Error` | 输出错误信息 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L162 | `return 1` | 错误退出 |
+| L170 | `return 1` | 错误退出 |
+| L176 | `return 1` | 错误退出 |
+| L181 | `return 1` | 错误退出 |
+| L187 | `return 1` | 错误退出 |
+| L193 | `return 1` | 错误退出 |
+| L198 | `return 1` | 错误退出 |
+| L202 | `return 1` | 错误退出 |
+| L206 | `return 1` | 错误退出 |
+| L214 | `return 1` | 错误退出 |
+| L218 | `return 1` | 错误退出 |
+| L241 | `return 1` | 错误退出 |
+| L246 | `return 1` | 错误退出 |
+| L252 | `return 1` | 错误退出 |
+| L256 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L165 | Check that we got no arguments |
+

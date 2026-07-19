@@ -369,3 +369,205 @@ type external struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[operator_debug.go](file:///d:/claude/nomad/command/operator_debug.go)
+> Run 函数数量：1
+
+### 1. *OperatorDebugCommand.Run
+
+**定义位置**：[L388-L741](file:///d:/claude/nomad/command/operator_debug.go#L388-L741)
+
+**函数签名**：
+
+```go
+func (*OperatorDebugCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 31 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 4 个不同的 API 端点
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L396 | `duration` | 命令行参数 |
+| L397 | `event-index` | 命令行参数 |
+| L398 | `event-topic` | 命令行参数 |
+| L399 | `interval` | 命令行参数 |
+| L400 | `log-level` | 命令行参数 |
+| L401 | `log-include-location` | 命令行参数 |
+| L402 | `log-lookback` | 命令行参数 |
+| L403 | `log-file-export` | 命令行参数 |
+| L404 | `max-nodes` | 命令行参数 |
+| L405 | `node-class` | 命令行参数 |
+| L406 | `node-id` | 命令行参数 |
+| L407 | `server-id` | 命令行参数 |
+| L408 | `stale` | 命令行参数 |
+| L409 | `output` | 命令行参数 |
+| L410 | `pprof-duration` | 命令行参数 |
+| L411 | `pprof-interval` | 命令行参数 |
+| L412 | `verbose` | 命令行参数 |
+| L415 | `consul-http-addr` | 命令行参数 |
+| L418 | `consul-auth` | 命令行参数 |
+| L419 | `consul-token` | 命令行参数 |
+| L420 | `consul-token-file` | 命令行参数 |
+| L421 | `consul-client-cert` | 命令行参数 |
+| L422 | `consul-client-key` | 命令行参数 |
+| L423 | `consul-ca-cert` | 命令行参数 |
+| L424 | `consul-ca-path` | 命令行参数 |
+| L427 | `vault-address` | 命令行参数 |
+| L428 | `vault-token` | 命令行参数 |
+| L429 | `vault-ca-cert` | 命令行参数 |
+| L430 | `vault-ca-path` | 命令行参数 |
+| L431 | `vault-client-cert` | 命令行参数 |
+| L432 | `vault-client-key` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L389 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L389 | `c.Name` | 业务调用 |
+| L390 | `c.Help` | 业务调用 |
+| L442 | `err.Error` | 输出错误信息 |
+| L455 | `err.Error` | 输出错误信息 |
+| L463 | `err.Error` | 输出错误信息 |
+| L469 | `i.Seconds` | 业务调用 |
+| L469 | `d.Seconds` | 业务调用 |
+| L477 | `err.Error` | 输出错误信息 |
+| L480 | `pd.Seconds` | 业务调用 |
+| L480 | `d.Seconds` | 业务调用 |
+| L488 | `err.Error` | 输出错误信息 |
+| L491 | `pi.Seconds` | 业务调用 |
+| L491 | `pd.Seconds` | 业务调用 |
+| L521 | `context.WithCancel` | 业务调用 |
+| L521 | `context.Background` | 业务调用 |
+| L524 | `c.trap` | 业务调用 |
+| L545 | `err.Error` | 输出错误信息 |
+| L554 | `c.writeFlags` | 业务调用 |
+| L557 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L559 | `err.Error` | 输出错误信息 |
+| L569 | `client.Nodes().List` | 调用 Nodes API |
+| L569 | `client.Nodes` | 业务调用 |
+| L569 | `c.queryOpts` | 业务调用 |
+| L576 | `c.reportErr` | 业务调用 |
+| L576 | `c.newFile` | 业务调用 |
+| L596 | `client.Nodes().PrefixListOpts` | 调用 Nodes API |
+| L596 | `client.Nodes` | 业务调用 |
+| L596 | `c.queryOpts` | 业务调用 |
+| L641 | `client.Agent().MembersOpts` | 调用 Agent API |
+| L641 | `client.Agent` | 业务调用 |
+| L641 | `c.queryOpts` | 业务调用 |
+| L648 | `c.reportErr` | 业务调用 |
+| L648 | `c.newFile` | 业务调用 |
+| L654 | `client.Status().Leader` | 调用 Status API |
+| L654 | `client.Status` | 业务调用 |
+| L659 | `c.reportErr` | 业务调用 |
+| L659 | `c.newFile` | 业务调用 |
+| L663 | `filterServerMembers` | 业务调用 |
+| L663 | `c.Meta.Region` | 业务调用 |
+| L688 | `version.GetVersion` | 业务调用 |
+| L689 | `c.Meta.Region` | 业务调用 |
+| L690 | `c.Meta.Namespace` | 业务调用 |
+| L705 | `c.pprofDuration.Seconds` | 业务调用 |
+| L715 | `c.collect` | 业务调用 |
+| L717 | `err.Error` | 输出错误信息 |
+| L722 | `c.writeManifest` | 业务调用 |
+| L734 | `err.Error` | 输出错误信息 |
+
+**涉及的 Nomad API 端点**：
+
+- `Nodes API.List`
+- `Nodes API.PrefixListOpts`
+- `Agent API.MembersOpts`
+- `Status API.Leader`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L436 | `return 1` | 错误退出 |
+| L443 | `return 1` | 错误退出 |
+| L449 | `return 1` | 错误退出 |
+| L456 | `return 1` | 错误退出 |
+| L464 | `return 1` | 错误退出 |
+| L471 | `return 1` | 错误退出 |
+| L478 | `return 1` | 错误退出 |
+| L489 | `return 1` | 错误退出 |
+| L500 | `return 1` | 错误退出 |
+| L507 | `return 1` | 错误退出 |
+| L516 | `return 1` | 错误退出 |
+| L539 | `return 2` | 返回值 |
+| L546 | `return 2` | 返回值 |
+| L560 | `return 1` | 错误退出 |
+| L572 | `return 1` | 错误退出 |
+| L599 | `return 1` | 错误退出 |
+| L636 | `return 1` | 错误退出 |
+| L644 | `return 1` | 错误退出 |
+| L666 | `return 1` | 错误退出 |
+| L682 | `return 1` | 错误退出 |
+| L718 | `return 2` | 返回值 |
+| L727 | `return 0` | 成功退出 |
+| L735 | `return 2` | 返回值 |
+| L740 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L439 | Parse the logLookback duration |
+| L452 | Parse the capture duration |
+| L460 | Parse the capture interval |
+| L468 | Validate interval |
+| L474 | Parse and clamp the pprof capture duration |
+| L485 | Parse and clamp the pprof capture interval |
+| L496 | Parse event stream topic filter |
+| L504 | Validate and set initial event stream index |
+| L511 | Verify there are no extra arguments |
+| L519 | Initialize capture variables and structs |
+| L526 | Generate timestamped file name |
+| L531 | Create the output directory |
+| L534 | User specified output directory |
+| L542 | Generate temp directory |
+| L553 | Write CLI flags to JSON file |
+| L556 | Create an instance of the API client |
+| L568 | Get complete list of client nodes |
+| L575 | Write nodes to file |
+| L578 | Search all nodes If a node class is specified without a list of node id prefixes |
+| L583 | Resolve client node id prefixes |
+| L590 | Capture from all nodes using empty prefix filter |
+| L593 | Capture from nodes starting with prefix id |
+| L602 | Increment fail count if no nodes are found |
+| L611 | Apply constraints to nodes found |
+| L613 | Ignore nodes that do not match specified class |
+| L618 | Add node to capture list |
+| L622 | Stop looping when we reach the max |
+| L629 | Return error if nodes were specified but none were found |
+| L632 | It's okay to have zero clients for default "all" |
+| L640 | Resolve servers |
+| L647 | Write complete list of server members to file |
+| L650 | Get leader and write to file; there's no option for AllowStale |
+| L651 | on this API and a stale result wouldn't even be meaningful, so |
+| L652 | only warn if we fail so that we don't stop the rest of the |
+| L653 | debugging |
+| L662 | Filter for servers matching criteria |
+| L679 | Return error if servers were specified but not found |
+| L685 | Display general info about the capture |
+| L714 | Start collecting data |
+| L721 | Write index json/html manifest files |
+| L724 | Exit before archive if output directory was specified |
+| L730 | Create archive tarball |
+| L738 | Final output with name of tarball |
+

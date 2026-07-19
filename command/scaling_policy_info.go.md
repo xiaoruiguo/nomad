@@ -105,3 +105,122 @@ type ScalingPolicyInfoCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[scaling_policy_info.go](file:///d:/claude/nomad/command/scaling_policy_info.go)
+> Run 函数数量：1
+
+### 1. *ScalingPolicyInfoCommand.Run
+
+**定义位置**：[L86-L205](file:///d:/claude/nomad/command/scaling_policy_info.go#L86-L205)
+
+**函数签名**：
+
+```go
+func (*ScalingPolicyInfoCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 3 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 2 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L92 | `verbose` | 命令行参数 |
+| L93 | `json` | 命令行参数 |
+| L94 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L90 | `s.Meta.FlagSet` | 创建 flag 解析器 |
+| L90 | `s.Name` | 业务调用 |
+| L91 | `s.Ui.Output` | 输出信息到用户 |
+| L91 | `s.Help` | 业务调用 |
+| L106 | `s.Meta.Client` | 获取 Nomad API 客户端 |
+| L108 | `s.Ui.Error` | 输出错误信息 |
+| L116 | `client.Scaling().ListPolicies` | 调用 Scaling API |
+| L116 | `client.Scaling` | 业务调用 |
+| L118 | `s.Ui.Error` | 输出错误信息 |
+| L123 | `s.Ui.Error` | 输出错误信息 |
+| L123 | `err.Error` | 输出错误信息 |
+| L126 | `s.Ui.Output` | 输出信息到用户 |
+| L131 | `s.Ui.Error` | 输出错误信息 |
+| L132 | `s.Ui.Error` | 输出错误信息 |
+| L133 | `s.Ui.Error` | 输出错误信息 |
+| L134 | `s.Ui.Error` | 输出错误信息 |
+| L139 | `s.Ui.Error` | 输出错误信息 |
+| L147 | `getByPrefix[api.ScalingPolicyListStub]` | 业务调用 |
+| L148 | `client.Scaling` | 业务调用 |
+| L154 | `s.Ui.Error` | 输出错误信息 |
+| L158 | `formatScalingPolicies` | 业务调用 |
+| L159 | `s.Ui.Error` | 输出错误信息 |
+| L164 | `client.Scaling().GetPolicy` | 调用 Scaling API |
+| L164 | `client.Scaling` | 业务调用 |
+| L166 | `s.Ui.Error` | 输出错误信息 |
+| L173 | `s.Ui.Error` | 输出错误信息 |
+| L173 | `err.Error` | 输出错误信息 |
+| L177 | `s.Ui.Output` | 输出信息到用户 |
+| L189 | `s.Ui.Error` | 输出错误信息 |
+| L189 | `err.Error` | 输出错误信息 |
+| L197 | `formatScalingPolicyTarget` | 业务调用 |
+| L201 | `s.Ui.Output` | 输出信息到用户 |
+| L202 | `s.Ui.Output` | 输出信息到用户 |
+| L203 | `s.Ui.Output` | 输出信息到用户 |
+
+**涉及的 Nomad API 端点**：
+
+- `Scaling API.ListPolicies`
+- `Scaling API.GetPolicy`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L96 | `return 1` | 错误退出 |
+| L109 | `return 1` | 错误退出 |
+| L119 | `return 1` | 错误退出 |
+| L124 | `return 1` | 错误退出 |
+| L127 | `return 0` | 成功退出 |
+| L135 | `return 1` | 错误退出 |
+| L140 | `return 1` | 错误退出 |
+| L149 | `func(policy *api.ScalingPolicyListStub, prefix string) bool { return policy.I...` | 返回值 |
+| L155 | `return 1` | 错误退出 |
+| L160 | `return 1` | 错误退出 |
+| L167 | `return 1` | 错误退出 |
+| L174 | `return 1` | 错误退出 |
+| L178 | `return 0` | 成功退出 |
+| L190 | `return 1` | 错误退出 |
+| L204 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L99 | Truncate the id unless full length is requested |
+| L105 | Get the HTTP client. |
+| L114 | Formatted list mode if no policy ID |
+| L145 | get a policy that matches the given prefix or a list of all matches if an |
+| L146 | exact match is not found. |
+| L181 | Format the policy document which is a freeform map[string]interface{} |
+| L182 | and therefore can only be made pretty to a certain extent. Do this |
+| L183 | before the rest of the formatting so any errors are clearly passed back |
+| L184 | to the CLI. |
+

@@ -94,3 +94,38 @@ type NodeIdentityCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[node_identity.go](file:///d:/claude/nomad/command/node_identity.go)
+> Run 函数数量：1
+
+### 1. *NodeIdentityCommand.Run
+
+**定义位置**：[L32-L34](file:///d:/claude/nomad/command/node_identity.go#L32-L34)
+
+**函数签名**：
+
+```go
+func (*NodeIdentityCommand) Run(_ []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：无显式错误退出
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：根据业务逻辑返回退出码
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L33 | `return cli.RunResultHelp` | 返回值 |
+

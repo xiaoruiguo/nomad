@@ -101,3 +101,90 @@ type AllocPauseCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[alloc_pause.go](file:///d:/claude/nomad/command/alloc_pause.go)
+> Run 函数数量：1
+
+### 1. *AllocPauseCommand.Run
+
+**定义位置**：[L59-L175](file:///d:/claude/nomad/command/alloc_pause.go#L59-L175)
+
+**函数签名**：
+
+```go
+func (*AllocPauseCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 4 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L65 | `verbose` | 命令行参数 |
+| L66 | `state` | 命令行参数 |
+| L67 | `status` | 命令行参数 |
+| L68 | `task` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L63 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L63 | `c.Name` | 业务调用 |
+| L64 | `c.Help` | 业务调用 |
+| L92 | `slices.Contains` | 业务调用 |
+| L108 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L114 | `client.Allocations` | 业务调用 |
+| L133 | `client.Allocations` | 业务调用 |
+| L148 | `err.Error` | 输出错误信息 |
+| L158 | `client.Allocations` | 业务调用 |
+| L168 | `client.Allocations` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L71 | `return 1` | 错误退出 |
+| L79 | `return 1` | 错误退出 |
+| L96 | `return 1` | 错误退出 |
+| L102 | `return 1` | 错误退出 |
+| L111 | `return 1` | 错误退出 |
+| L117 | `return 1` | 错误退出 |
+| L122 | `return 1` | 错误退出 |
+| L128 | `return 1` | 错误退出 |
+| L136 | `return 1` | 错误退出 |
+| L149 | `return 1` | 错误退出 |
+| L161 | `return 1` | 错误退出 |
+| L164 | `return 0` | 成功退出 |
+| L171 | `return 1` | 错误退出 |
+| L174 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L74 | Check that we got exactly one alloc |
+| L84 | Truncate the id unless full length is required |
+| L90 | Ensure the specified action is valid |
+| L99 | Query the allocation info |
+| L107 | Get the HTTP Client |
+| L131 | Prefix lookup matched a single allocation, yay |
+| L139 | If -task is not provided then fallback to reading the task name from args |
+| L144 | Ensure the task (if specified) exists in the allocation |
+| L153 | If this is a -status request, fetch & print the status, then exit |
+| L167 | Send the pause state |
+

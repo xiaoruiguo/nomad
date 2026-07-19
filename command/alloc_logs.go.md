@@ -120,3 +120,120 @@ type AllocLogsCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[alloc_logs.go](file:///d:/claude/nomad/command/alloc_logs.go)
+> Run 函数数量：1
+
+### 1. *AllocLogsCommand.Run
+
+**定义位置**：[L131-L271](file:///d:/claude/nomad/command/alloc_logs.go#L131-L271)
+
+**函数签名**：
+
+```go
+func (*AllocLogsCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 10 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L135 | `verbose` | 命令行参数 |
+| L136 | `job` | 命令行参数 |
+| L137 | `tail` | 命令行参数 |
+| L138 | `f` | 命令行参数 |
+| L139 | `stderr` | 命令行参数 |
+| L140 | `stdout` | 命令行参数 |
+| L141 | `n` | 命令行参数 |
+| L142 | `c` | 命令行参数 |
+| L143 | `task` | 命令行参数 |
+| L144 | `group` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L133 | `l.Meta.FlagSet` | 创建 flag 解析器 |
+| L133 | `l.Name` | 业务调用 |
+| L134 | `l.Ui.Output` | 输出信息到用户 |
+| L134 | `l.Help` | 业务调用 |
+| L153 | `l.Ui.Error` | 输出错误信息 |
+| L155 | `l.Ui.Error` | 输出错误信息 |
+| L158 | `l.Ui.Error` | 输出错误信息 |
+| L161 | `l.Ui.Error` | 输出错误信息 |
+| L162 | `l.Ui.Error` | 输出错误信息 |
+| L166 | `l.Meta.Client` | 获取 Nomad API 客户端 |
+| L168 | `l.Ui.Error` | 输出错误信息 |
+| L175 | `l.JobIDByPrefix` | 业务调用 |
+| L177 | `l.Ui.Error` | 输出错误信息 |
+| L177 | `err.Error` | 输出错误信息 |
+| L183 | `l.Ui.Error` | 输出错误信息 |
+| L195 | `l.Ui.Error` | 输出错误信息 |
+| L200 | `client.Allocations` | 业务调用 |
+| L202 | `l.Ui.Error` | 输出错误信息 |
+| L206 | `l.Ui.Error` | 输出错误信息 |
+| L212 | `l.Ui.Error` | 输出错误信息 |
+| L217 | `client.Allocations` | 业务调用 |
+| L219 | `l.Ui.Error` | 输出错误信息 |
+| L231 | `l.Ui.Error` | 输出错误信息 |
+| L239 | `l.Ui.Error` | 输出错误信息 |
+| L247 | `l.tailMultipleFiles` | 业务调用 |
+| L248 | `l.Ui.Error` | 输出错误信息 |
+| L256 | `l.Ui.Error` | 输出错误信息 |
+| L264 | `l.handleSingleFile` | 业务调用 |
+| L265 | `l.Ui.Error` | 输出错误信息 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L147 | `return 1` | 错误退出 |
+| L159 | `return 1` | 错误退出 |
+| L163 | `return 1` | 错误退出 |
+| L169 | `return 1` | 错误退出 |
+| L178 | `return 1` | 错误退出 |
+| L184 | `return 1` | 错误退出 |
+| L196 | `return 1` | 错误退出 |
+| L203 | `return 1` | 错误退出 |
+| L207 | `return 1` | 错误退出 |
+| L213 | `return 1` | 错误退出 |
+| L220 | `return 1` | 错误退出 |
+| L232 | `return 1` | 错误退出 |
+| L240 | `return 1` | 错误退出 |
+| L249 | `return 1` | 错误退出 |
+| L257 | `return 1` | 错误退出 |
+| L266 | `return 1` | 错误退出 |
+| L270 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L172 | If -job is specified, use random allocation, otherwise use provided allocation |
+| L188 | Truncate the id unless full length is requested |
+| L193 | Query the allocation info |
+| L210 | Format the allocs |
+| L215 | Prefix lookup matched a single allocation |
+| L223 | If -task isn't provided fallback to reading the task name |
+| L224 | from args. |
+| L243 | In order to run the mixed log output, we can only follow the files from |
+| L244 | their current positions. There is no way to interleave previous log |
+| L245 | lines as there is no timestamp references. |
+| L253 | If we are not strictly following the two files, we cannot support |
+| L254 | specifying both are targets. |
+

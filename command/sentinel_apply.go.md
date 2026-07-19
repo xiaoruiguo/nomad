@@ -101,3 +101,77 @@ type SentinelApplyCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[sentinel_apply.go](file:///d:/claude/nomad/command/sentinel_apply.go)
+> Run 函数数量：1
+
+### 1. *SentinelApplyCommand.Run
+
+**定义位置**：[L71-L147](file:///d:/claude/nomad/command/sentinel_apply.go#L71-L147)
+
+**函数签名**：
+
+```go
+func (*SentinelApplyCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 3 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L76 | `description` | 命令行参数 |
+| L77 | `scope` | 命令行参数 |
+| L78 | `level` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L74 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L74 | `c.Name` | 业务调用 |
+| L75 | `c.Help` | 业务调用 |
+| L98 | `io.ReadAll` | 业务调用 |
+| L131 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L138 | `client.SentinelPolicies().Upsert` | 业务调用 |
+| L138 | `client.SentinelPolicies` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L80 | `return 1` | 错误退出 |
+| L88 | `return 1` | 错误退出 |
+| L101 | `return 1` | 错误退出 |
+| L107 | `return 1` | 错误退出 |
+| L115 | `return 1` | 错误退出 |
+| L118 | `return 1` | 错误退出 |
+| L134 | `return 1` | 错误退出 |
+| L141 | `return 1` | 错误退出 |
+| L146 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L83 | Check that we got exactly two arguments |
+| L91 | Get the name and file |
+| L94 | Read the file contents |
+| L121 | Construct the policy |
+| L130 | Get the HTTP client |
+| L137 | Get the list of policies |
+

@@ -99,3 +99,88 @@ type VolumeDeregisterCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[volume_deregister.go](file:///d:/claude/nomad/command/volume_deregister.go)
+> Run 函数数量：1
+
+### 1. *VolumeDeregisterCommand.Run
+
+**定义位置**：[L70-L153](file:///d:/claude/nomad/command/volume_deregister.go#L70-L153)
+
+**函数签名**：
+
+```go
+func (*VolumeDeregisterCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 1 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L74 | `force` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L72 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L72 | `c.Name` | 业务调用 |
+| L73 | `c.Help` | 业务调用 |
+| L91 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L99 | `getByPrefix[api.CSIVolumeListStub]` | 业务调用 |
+| L99 | `client.CSIVolumes` | 业务调用 |
+| L110 | `csiFormatVolumes` | 业务调用 |
+| L145 | `client.CSIVolumes().Deregister` | 调用 Volumes API |
+| L145 | `client.CSIVolumes` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `CSI Volumes API.Deregister`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L78 | `return 1` | 错误退出 |
+| L86 | `return 1` | 错误退出 |
+| L94 | `return 1` | 错误退出 |
+| L100 | `func(vol *api.CSIVolumeListStub, prefix string) bool { return vol.ID == prefi...` | 返回值 |
+| L107 | `return 1` | 错误退出 |
+| L113 | `return 1` | 错误退出 |
+| L116 | `return 1` | 错误退出 |
+| L126 | `return 1` | 错误退出 |
+| L132 | `return 0` | 成功退出 |
+| L136 | `return 0` | 成功退出 |
+| L139 | `return 1` | 错误退出 |
+| L148 | `return 1` | 错误退出 |
+| L152 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L81 | Check that we get exactly one argument |
+| L90 | Get the HTTP client |
+| L97 | get a CSI volume that matches the given prefix or a list of all matches if an |
+| L98 | exact match is not found. |
+| L120 | Confirm the -force flag |
+| L130 | No case |
+| L134 | Non exact match yes |
+| L143 | Deregister only works on CSI volumes, but could be extended to support other |
+| L144 | network interfaces or host volumes |
+

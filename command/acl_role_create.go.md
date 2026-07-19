@@ -114,3 +114,99 @@ type ACLRoleCreateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[acl_role_create.go](file:///d:/claude/nomad/command/acl_role_create.go)
+> Run 函数数量：1
+
+### 1. *ACLRoleCreateCommand.Run
+
+**定义位置**：[L83-L151](file:///d:/claude/nomad/command/acl_role_create.go#L83-L151)
+
+**函数签名**：
+
+```go
+func (*ACLRoleCreateCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**函数注释**：
+
+- Run satisfies the cli.Command Run function.
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 5 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：调用 API 获取数据后，通过 `Ui.Output()` / `Ui.Info()` 输出结果
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L87 | `name` | 命令行参数 |
+| L88 | `description` | 命令行参数 |
+| L89 | `policy` | 命令行参数 |
+| L93 | `json` | 命令行参数 |
+| L94 | `t` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L85 | `a.Meta.FlagSet` | 创建 flag 解析器 |
+| L85 | `a.Name` | 业务调用 |
+| L86 | `a.Ui.Output` | 输出信息到用户 |
+| L86 | `a.Help` | 业务调用 |
+| L101 | `a.Ui.Error` | 输出错误信息 |
+| L102 | `a.Ui.Error` | 输出错误信息 |
+| L109 | `a.Ui.Error` | 输出错误信息 |
+| L113 | `a.Ui.Error` | 输出错误信息 |
+| L125 | `a.Meta.Client` | 获取 Nomad API 客户端 |
+| L127 | `a.Ui.Error` | 输出错误信息 |
+| L132 | `client.ACLRoles().Create` | 业务调用 |
+| L132 | `client.ACLRoles` | 业务调用 |
+| L134 | `a.Ui.Error` | 输出错误信息 |
+| L141 | `a.Ui.Error` | 输出错误信息 |
+| L141 | `err.Error` | 输出错误信息 |
+| L145 | `a.Ui.Output` | 输出信息到用户 |
+| L149 | `a.Ui.Output` | 输出信息到用户 |
+| L149 | `formatACLRole` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `ACL Roles API.Create`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L91 | `return nil` | 返回值 |
+| L96 | `return 1` | 错误退出 |
+| L103 | `return 1` | 错误退出 |
+| L110 | `return 1` | 错误退出 |
+| L114 | `return 1` | 错误退出 |
+| L128 | `return 1` | 错误退出 |
+| L135 | `return 1` | 错误退出 |
+| L142 | `return 1` | 错误退出 |
+| L146 | `return 0` | 成功退出 |
+| L150 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L99 | Check that we got no arguments. |
+| L106 | Perform some basic validation on the submitted role information to avoid |
+| L107 | sending API and RPC requests which will fail basic validation. |
+| L117 | Set up the ACL with the passed parameters. |
+| L124 | Get the HTTP client. |
+| L131 | Create the ACL role via the API. |
+

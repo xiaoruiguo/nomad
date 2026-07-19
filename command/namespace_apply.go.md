@@ -110,3 +110,85 @@ type NamespaceApplyCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[namespace_apply.go](file:///d:/claude/nomad/command/namespace_apply.go)
+> Run 函数数量：1
+
+### 1. *NamespaceApplyCommand.Run
+
+**定义位置**：[L82-L196](file:///d:/claude/nomad/command/namespace_apply.go#L82-L196)
+
+**函数签名**：
+
+```go
+func (*NamespaceApplyCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 3 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：主要通过 `Ui.Error()` 输出错误信息
+5. **退出处理**：成功返回 0，失败返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L88 | `description` | 命令行参数 |
+| L92 | `quota` | 命令行参数 |
+| L96 | `json` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L86 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L86 | `c.Name` | 业务调用 |
+| L87 | `c.Help` | 业务调用 |
+| L116 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L122 | `fi.IsDir` | 业务调用 |
+| L128 | `io.ReadAll` | 业务调用 |
+| L142 | `json.NewDecoder` | 业务调用 |
+| L142 | `bytes.NewBuffer` | 业务调用 |
+| L143 | `dec.Decode` | 业务调用 |
+| L167 | `client.Namespaces` | 业务调用 |
+| L168 | `err.Error` | 输出错误信息 |
+| L187 | `client.Namespaces` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L90 | `return nil` | 返回值 |
+| L94 | `return nil` | 返回值 |
+| L99 | `return 1` | 错误退出 |
+| L107 | `return 1` | 错误退出 |
+| L119 | `return 1` | 错误退出 |
+| L131 | `return 1` | 错误退出 |
+| L137 | `return 1` | 错误退出 |
+| L145 | `return 1` | 错误退出 |
+| L152 | `return 1` | 错误退出 |
+| L163 | `return 1` | 错误退出 |
+| L170 | `return 1` | 错误退出 |
+| L190 | `return 1` | 错误退出 |
+| L195 | `return 0` | 成功退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L102 | Check that we get exactly one argument |
+| L115 | Get the HTTP client |
+| L160 | Validate we have at-least a name |
+| L166 | Lookup the given namespace |
+| L179 | Add what is set |
+

@@ -96,3 +96,47 @@ type OperatorGossipKeyringGenerateCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[operator_gossip_keyring_generate.go](file:///d:/claude/nomad/command/operator_gossip_keyring_generate.go)
+> Run 函数数量：1
+
+### 1. *OperatorGossipKeyringGenerateCommand.Run
+
+**定义位置**：[L38-L52](file:///d:/claude/nomad/command/operator_gossip_keyring_generate.go#L38-L52)
+
+**函数签名**：
+
+```go
+func (*OperatorGossipKeyringGenerateCommand) Run(_ []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：无 flag 解析（直接使用位置参数）
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：成功返回 0，失败返回 1
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L40 | `rand.Reader.Read` | 业务调用 |
+| L50 | `base64.StdEncoding.EncodeToString` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L43 | `return 1` | 错误退出 |
+| L47 | `return 1` | 错误退出 |
+| L51 | `return 0` | 成功退出 |
+

@@ -150,3 +150,114 @@ nomad ...` | — |
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[job_plan.go](file:///d:/claude/nomad/command/job_plan.go)
+> Run 函数数量：1
+
+### 1. *JobPlanCommand.Run
+
+**定义位置**：[L139-L244](file:///d:/claude/nomad/command/job_plan.go#L139-L244)
+
+**函数签名**：
+
+```go
+func (*JobPlanCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 8 个命令行 flag
+2. **参数校验**：无显式错误退出
+3. **API 客户端初始化**：通过 `Meta.Client()` 获取 Nomad API 客户端，调用 1 个不同的 API 端点
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：根据业务逻辑返回退出码
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L145 | `diff` | 命令行参数 |
+| L146 | `policy-override` | 命令行参数 |
+| L147 | `verbose` | 命令行参数 |
+| L148 | `json` | 命令行参数 |
+| L149 | `hcl2-strict` | 命令行参数 |
+| L150 | `vault-namespace` | 命令行参数 |
+| L151 | `var` | 命令行参数 |
+| L152 | `var-file` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L143 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L143 | `c.Name` | 业务调用 |
+| L144 | `c.Help` | 业务调用 |
+| L145 | `flagSet.BoolVar` | 业务调用 |
+| L146 | `flagSet.BoolVar` | 业务调用 |
+| L147 | `flagSet.BoolVar` | 业务调用 |
+| L148 | `flagSet.BoolVar` | 业务调用 |
+| L149 | `flagSet.BoolVar` | 业务调用 |
+| L150 | `flagSet.StringVar` | 业务调用 |
+| L151 | `flagSet.Var` | 业务调用 |
+| L152 | `flagSet.Var` | 业务调用 |
+| L154 | `flagSet.Parse` | 业务调用 |
+| L159 | `flagSet.Args` | 业务调用 |
+| L166 | `c.JobGetter.Validate` | 业务调用 |
+| L173 | `c.JobGetter.Get` | 业务调用 |
+| L180 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L188 | `client.SetRegion` | 业务调用 |
+| L193 | `client.SetNamespace` | 业务调用 |
+| L198 | `pointer.Of` | 业务调用 |
+| L210 | `job.IsMultiregion` | 业务调用 |
+| L211 | `c.multiregionPlan` | 业务调用 |
+| L215 | `client.Jobs().PlanOpts` | 调用 Jobs API |
+| L215 | `client.Jobs` | 业务调用 |
+| L223 | `runArgs.WriteString` | 业务调用 |
+| L227 | `runArgs.WriteString` | 业务调用 |
+| L231 | `runArgs.WriteString` | 业务调用 |
+| L238 | `runArgs.WriteString` | 业务调用 |
+| L241 | `c.outputPlannedJob` | 业务调用 |
+| L242 | `c.Colorize` | 业务调用 |
+| L242 | `runArgs.String` | 业务调用 |
+
+**涉及的 Nomad API 端点**：
+
+- `Jobs API.PlanOpts`
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L155 | `return 255` | 返回值 |
+| L163 | `return 255` | 返回值 |
+| L168 | `return 255` | 返回值 |
+| L176 | `return 255` | 返回值 |
+| L183 | `return 255` | 返回值 |
+| L211 | `return c.multiregionPlan(client, job, opts, diff, verbose)` | 返回值 |
+| L218 | `return 255` | 返回值 |
+| L243 | `return exitCode` | 返回值 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L158 | Check that we got exactly one job |
+| L172 | Get Job struct from Jobfile |
+| L179 | Get the HTTP client |
+| L186 | Force the region to be that of the job. |
+| L191 | Force the namespace to be that of the job. |
+| L196 | Set the vault namespace. |
+| L201 | Setup the options |
+| L203 | Always request the diff so we can tell if there are changes. |
+| L214 | Submit the job |
+| L234 | -hcl2-strict defaults to true. If the user opted out for plan, the |
+| L235 | follow-up `nomad job run -check-index ...` invocation needs the same |
+| L236 | flag or the parser will reject the file again. |
+

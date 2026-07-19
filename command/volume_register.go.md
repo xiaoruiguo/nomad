@@ -103,3 +103,74 @@ type VolumeRegisterCommand struct {
 | [acl_auth_method_delete.go](file:///d:/claude/nomad/command/acl_auth_method_delete.go) | 同目录源文件 |
 | [acl_auth_method_info.go](file:///d:/claude/nomad/command/acl_auth_method_info.go) | 同目录源文件 |
 
+
+
+---
+
+## Run 函数业务逻辑深度分析
+
+> 分析文件：[volume_register.go](file:///d:/claude/nomad/command/volume_register.go)
+> Run 函数数量：1
+
+### 1. *VolumeRegisterCommand.Run
+
+**定义位置**：[L70-L132](file:///d:/claude/nomad/command/volume_register.go#L70-L132)
+
+**函数签名**：
+
+```go
+func (*VolumeRegisterCommand) Run(args []string) (int) {
+    // ...
+}
+```
+
+**业务逻辑要点**：
+
+1. **命令行参数解析**：通过 `flags.Parse()` 解析 2 个命令行 flag
+2. **参数校验**：存在错误退出路径，对输入参数进行校验，校验失败返回 1
+3. **API 客户端初始化**：无 API 调用（可能为本地操作或帮助命令）
+4. **业务处理**：执行业务逻辑处理
+5. **退出处理**：出错返回 1
+
+**命令行 Flag 解析**：
+
+| 行号 | Flag名 | 说明 |
+|------|--------|------|
+| L74 | `policy-override` | 命令行参数 |
+| L75 | `id` | 命令行参数 |
+
+**关键调用链**：
+
+| 行号 | 调用 | 说明 |
+|------|------|------|
+| L73 | `c.Meta.FlagSet` | 创建 flag 解析器 |
+| L73 | `c.Name` | 业务调用 |
+| L76 | `c.Help` | 业务调用 |
+| L96 | `io.ReadAll` | 业务调用 |
+| L109 | `parseVolumeType` | 业务调用 |
+| L117 | `c.Meta.Client` | 获取 Nomad API 客户端 |
+| L125 | `c.csiRegister` | 业务调用 |
+| L127 | `c.hostVolumeRegister` | 业务调用 |
+
+**退出点分析**：
+
+| 行号 | 退出代码 | 退出原因 |
+|------|---------|---------|
+| L80 | `return 1` | 错误退出 |
+| L88 | `return 1` | 错误退出 |
+| L99 | `return 1` | 错误退出 |
+| L105 | `return 1` | 错误退出 |
+| L112 | `return 1` | 错误退出 |
+| L120 | `return 1` | 错误退出 |
+| L125 | `return c.csiRegister(client, ast, override)` | 返回值 |
+| L127 | `return c.hostVolumeRegister(client, ast, override, volID)` | 返回值 |
+| L130 | `return 1` | 错误退出 |
+
+**关键注释说明**：
+
+| 行号 | 注释内容 |
+|------|---------|
+| L83 | Check that we get exactly one argument |
+| L91 | Read the file contents |
+| L116 | Get the HTTP client |
+
