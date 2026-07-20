@@ -93,6 +93,7 @@ rkt-*
 /ui/dist
 /ui/tmp
 .tmp/
+/tmp
 
 # dependencies
 /node_modules/
