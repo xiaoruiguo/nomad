@@ -13,7 +13,7 @@ case $(arch) in
 esac
 
 VERSION="1.15.1"
-DOWNLOAD=https://releases.hashicorp.com/consul/${VERSION}/consul_${VERSION}_linux_${ARCH}.zip
+# DOWNLOAD=https://releases.hashicorp.com/consul/${VERSION}/consul_${VERSION}_linux_${ARCH}.zip
 
 function install_consul() {
 	if [[ -e /usr/bin/consul ]] ; then
@@ -22,7 +22,8 @@ function install_consul() {
 		fi
 	fi
 
-	curl -sSL --fail -o /tmp/consul.zip ${DOWNLOAD}
+	# curl -sSL --fail -o /tmp/consul.zip ${DOWNLOAD}
+	cp /vagrant/tmp/consul_${VERSION}_linux_${ARCH}.zip /tmp/consul.zip
 
 	unzip -d /tmp /tmp/consul.zip
 	mv /tmp/consul /usr/bin/consul

@@ -24,6 +24,9 @@ Vagrant.configure(2) do |config|
 		vmCfg.vm.network :forwarded_port, guest: 8500, host: 8500, auto_correct: true, host_ip: "127.0.0.1"
 
 		vmCfg.vm.synced_folder '.',
+			'/vagrant'
+			
+		vmCfg.vm.synced_folder '.',
 			'/opt/gopath/src/github.com/hashicorp/nomad'
 
 		vmCfg.vm.provision "shell",

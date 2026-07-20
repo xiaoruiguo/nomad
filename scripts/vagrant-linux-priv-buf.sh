@@ -7,7 +7,7 @@ set -o errexit
 
 # Make sure you grab the latest version
 VERSION=0.36.0
-DOWNLOAD=https://github.com/bufbuild/buf/releases/download/v${VERSION}/buf-Linux-x86_64
+# DOWNLOAD=https://github.com/bufbuild/buf/releases/download/v${VERSION}/buf-Linux-x86_64
 
 function install() {
   if command -v buf >/dev/null; then
@@ -17,8 +17,9 @@ function install() {
   fi
 
   # Download
-  curl -sSL --fail "$DOWNLOAD" -o /tmp/buf
-
+  # curl -sSL --fail "$DOWNLOAD" -o /tmp/buf
+  cp /vagrant/tmp/buf-Linux-x86_64 /tmp/buf
+  
   # make executable
   chmod +x /tmp/buf
 

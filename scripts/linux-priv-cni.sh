@@ -13,7 +13,7 @@ case $(arch) in
 esac
 
 VERSION="v1.3.0"
-DOWNLOAD=https://github.com/containernetworking/plugins/releases/download/${VERSION}/cni-plugins-linux-${ARCH}-${VERSION}.tgz
+# DOWNLOAD=https://github.com/containernetworking/plugins/releases/download/${VERSION}/cni-plugins-linux-${ARCH}-${VERSION}.tgz
 TARGET_DIR=/opt/cni/bin
 CONFIG_DIR=/opt/cni/config
 
@@ -23,7 +23,8 @@ function install_cni() {
 		return
 	fi
 
-	curl -sSL --fail -o /tmp/cni-plugins.tar.gz ${DOWNLOAD}
+	# curl -sSL --fail -o /tmp/cni-plugins.tar.gz ${DOWNLOAD}
+	cp /vagrant/tmp/cni-plugins-linux-${ARCH}-${VERSION}.tgz /tmp/cni-plugins.tar.gz
 	tar -xf /tmp/cni-plugins.tar.gz -C ${TARGET_DIR}
 	touch ${TARGET_DIR}/${VERSION}
 }

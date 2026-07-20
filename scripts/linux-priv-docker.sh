@@ -19,12 +19,16 @@ case $(whoami) in
 esac
 
 # Add the Docker repository
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+# sudo add-apt-repository -y \
+# 	  "deb [arch=${ARCH}] https://download.docker.com/linux/ubuntu \
+# 	$(lsb_release -cs) \
+# 	stable"
 sudo add-apt-repository -y \
-	  "deb [arch=${ARCH}] https://download.docker.com/linux/ubuntu \
+	  "deb [arch=${ARCH}] http://mirrors.aliyun.com/docker-ce/linux/ubuntu \
 	$(lsb_release -cs) \
 	stable"
-
 # Update with i386, Go and Docker
 sudo apt-get update
 

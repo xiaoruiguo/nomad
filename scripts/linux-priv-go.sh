@@ -22,7 +22,7 @@ esac
 # https://golang.google.cn/dl/go1.26.5.linux-amd64.tar.gz
 function install_go() {
 	local go_version="1.26.4"
-	local download="https://golang.google.cn/dl/go${go_version}.linux-${ARCH}.tar.gz"
+#	local download="https://golang.google.cn/dl/go${go_version}.linux-${ARCH}.tar.gz"
 
 	if go version 2>&1 | grep -q "${go_version}"; then
 		return
@@ -36,9 +36,10 @@ function install_go() {
 	fi
 
 	# retry downloading on spurious failure
-	curl -sSL --fail -o /tmp/go.tar.gz \
-		--retry 5 --retry-connrefused \
-		"${download}"
+	# curl -sSL --fail -o /tmp/go.tar.gz \
+	# 	--retry 5 --retry-connrefused \
+	# 	"${download}"
+	cp /vagrant/tmp/go${go_version}.linux-${ARCH}.tar.gz /tmp/go.tar.gz
 
 	tar -C /tmp -xf /tmp/go.tar.gz
 	sudo mv /tmp/go /usr/local

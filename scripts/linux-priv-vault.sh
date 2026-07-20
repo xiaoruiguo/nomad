@@ -13,7 +13,7 @@ case $(arch) in
 esac
 
 VERSION=1.13.0
-DOWNLOAD=https://releases.hashicorp.com/vault/${VERSION}/vault_${VERSION}_linux_${ARCH}.zip
+# DOWNLOAD=https://releases.hashicorp.com/vault/${VERSION}/vault_${VERSION}_linux_${ARCH}.zip
 
 function install_vault() {
 	if [[ -e /usr/bin/vault ]] ; then
@@ -22,7 +22,8 @@ function install_vault() {
 		fi
 	fi
 	
-	curl -sSL --fail -o /tmp/vault.zip ${DOWNLOAD}
+	# curl -sSL --fail -o /tmp/vault.zip ${DOWNLOAD}
+	cp /vagrant/tmp/vault_${VERSION}_linux_${ARCH}.zip /tmp/vault.zip
 
 	unzip -d /tmp /tmp/vault.zip
 	mv /tmp/vault /usr/bin/vault
