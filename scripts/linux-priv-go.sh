@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Copyright IBM Corp. 2015, 2026
 # SPDX-License-Identifier: BUSL-1.1
+# $ go env |grep proxy
+# GOPROXY='https://proxy.golang.org,direct'
 
 
 set -o errexit
@@ -44,6 +46,8 @@ function install_go() {
 	tar -C /tmp -xf /tmp/go.tar.gz
 	sudo mv /tmp/go /usr/local
 	sudo chown -R root:root /usr/local/go
+	# set GOPROXY to https://goproxy.cn,direct
+	go env -w GOPROXY=https://goproxy.cn,direct
 }
 
 install_go
