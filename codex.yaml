@@ -1,4 +1,6 @@
 approval_mode: full-auto
+#stream: false
+openai_timeout: 300
 model: gemma4:12b
 model_provider: openai
 openai_api_base: http://localhost:11434/v1   # 按你的实际地址修改
